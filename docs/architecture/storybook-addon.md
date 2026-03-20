@@ -43,11 +43,11 @@ Both panels are dev-only tools. In production Storybook builds (where the Vite d
 
 The addon registers via `src/preset.ts`, which exports three hooks:
 
-| Hook                | Purpose                                          |
-| ------------------- | ------------------------------------------------ |
-| `managerEntries()`  | Loads `manager.ts` into the manager iframe        |
-| `previewAnnotations()` | Loads `preview.ts` into the preview iframe     |
-| `viteFinal()`       | Injects the API middleware Vite plugin            |
+| Hook                   | Purpose                                    |
+| ---------------------- | ------------------------------------------ |
+| `managerEntries()`     | Loads `manager.ts` into the manager iframe |
+| `previewAnnotations()` | Loads `preview.ts` into the preview iframe |
+| `viteFinal()`          | Injects the API middleware Vite plugin     |
 
 `src/manager.ts` registers two panels under addon ID `perimeterchurch/style-addon`:
 
@@ -58,10 +58,10 @@ The addon registers via `src/preset.ts`, which exports three hooks:
 
 Defined in `src/constants.ts`:
 
-| Event                                          | Direction            | Payload                            |
-| ---------------------------------------------- | -------------------- | ---------------------------------- |
-| `perimeterchurch/style-addon/token-changed`    | Manager -> Preview   | `{ name: string, value: string }`  |
-| `perimeterchurch/style-addon/tokens-reset`     | Manager -> Preview   | (none)                             |
+| Event                                       | Direction          | Payload                           |
+| ------------------------------------------- | ------------------ | --------------------------------- |
+| `perimeterchurch/style-addon/token-changed` | Manager -> Preview | `{ name: string, value: string }` |
+| `perimeterchurch/style-addon/tokens-reset`  | Manager -> Preview | (none)                            |
 
 The preview listener (`src/preview.ts`) applies token overrides as inline `style` properties on `document.documentElement` for instant visual feedback. On reset, it removes all overrides.
 
@@ -96,14 +96,14 @@ User clicks Save
 
 Each token category maps to a specialized editor widget:
 
-| Category     | Editor        | Controls                              |
-| ------------ | ------------- | ------------------------------------- |
-| Colors       | `ColorEditor` | Color picker + hex text input + swatch |
-| Spacing      | `SpacingEditor` | Range slider (0-10rem) + text input  |
-| Shadows      | `ShadowEditor` | Text input + live shadow preview box  |
-| Typography   | `TextEditor`  | Plain text input                      |
-| Radii        | `TextEditor`  | Plain text input                      |
-| Transitions  | `TextEditor`  | Plain text input                      |
+| Category    | Editor          | Controls                               |
+| ----------- | --------------- | -------------------------------------- |
+| Colors      | `ColorEditor`   | Color picker + hex text input + swatch |
+| Spacing     | `SpacingEditor` | Range slider (0-10rem) + text input    |
+| Shadows     | `ShadowEditor`  | Text input + live shadow preview box   |
+| Typography  | `TextEditor`    | Plain text input                       |
+| Radii       | `TextEditor`    | Plain text input                       |
+| Transitions | `TextEditor`    | Plain text input                       |
 
 ## Variant Creator
 
@@ -149,14 +149,14 @@ The `resolveVariantsPath()` function in `readVariants.ts` handles this mapping.
 
 All endpoints are served under `/api/style-addon/` by the Vite plugin created in `src/server/middleware.ts`.
 
-| Endpoint           | Method | Description                                      |
-| ------------------ | ------ | ------------------------------------------------ |
-| `read-tokens`      | GET    | Parse `tokens.css` and return flat + categorized  |
-| `write-tokens`     | POST   | Update token values in `tokens.css`               |
-| `write-theme`      | POST   | Create a new theme CSS file + update `base.css`   |
-| `read-variants`    | GET    | Parse a component's `.variants.ts` file           |
-| `write-variant`    | POST   | Add or update a variant in `.variants.ts`         |
-| `delete-variant`   | DELETE | Remove a variant from `.variants.ts`              |
+| Endpoint         | Method | Description                                      |
+| ---------------- | ------ | ------------------------------------------------ |
+| `read-tokens`    | GET    | Parse `tokens.css` and return flat + categorized |
+| `write-tokens`   | POST   | Update token values in `tokens.css`              |
+| `write-theme`    | POST   | Create a new theme CSS file + update `base.css`  |
+| `read-variants`  | GET    | Parse a component's `.variants.ts` file          |
+| `write-variant`  | POST   | Add or update a variant in `.variants.ts`        |
+| `delete-variant` | DELETE | Remove a variant from `.variants.ts`             |
 
 ### File Write Safety
 
@@ -168,13 +168,13 @@ All file mutations follow the same safety pattern:
 
 ### Server Modules
 
-| Module             | Responsibility                                              |
-| ------------------ | ----------------------------------------------------------- |
-| `readTokens.ts`    | Parse `@theme` and `:root` blocks from CSS, categorize tokens |
-| `writeTokens.ts`   | Update CSS custom property values in place                   |
-| `writeTheme.ts`    | Generate theme CSS files, manage `@import` in `base.css`     |
-| `readVariants.ts`  | Parse `.variants.ts` files (extract object literals via brace-counting) |
-| `writeVariant.ts`  | Add, update, or remove variant entries in `.variants.ts`     |
+| Module            | Responsibility                                                          |
+| ----------------- | ----------------------------------------------------------------------- |
+| `readTokens.ts`   | Parse `@theme` and `:root` blocks from CSS, categorize tokens           |
+| `writeTokens.ts`  | Update CSS custom property values in place                              |
+| `writeTheme.ts`   | Generate theme CSS files, manage `@import` in `base.css`                |
+| `readVariants.ts` | Parse `.variants.ts` files (extract object literals via brace-counting) |
+| `writeVariant.ts` | Add, update, or remove variant entries in `.variants.ts`                |
 
 ## Read-Only Mode
 
