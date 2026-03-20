@@ -6,6 +6,7 @@ import type {
     SizeDefinition,
     ParsedVariantsFile,
 } from '../../server/readVariants.ts';
+import { useAddonTheme } from '../useAddonTheme.ts';
 import { VariantList } from './VariantList.tsx';
 import { VariantEditor } from './VariantEditor.tsx';
 
@@ -41,6 +42,7 @@ function extractComponentTitle(storyTitle: string | undefined): string | null {
 }
 
 export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
+    const theme = useAddonTheme();
     const state = useStorybookState();
     const [data, setData] = useState<ParsedVariantsFile | null>(null);
     const [tokens, setTokens] = useState<Array<{ name: string; value: string }>>([]);
@@ -237,7 +239,7 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
 
     if (!componentTitle) {
         return (
-            <div style={{ padding: 16, color: '#6b7280', fontSize: 13 }}>
+            <div style={{ padding: 16, color: theme.color.mediumdark, fontSize: 13 }}>
                 No variants available for this view
             </div>
         );
@@ -245,14 +247,18 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
 
     if (error && !data) {
         return (
-            <div style={{ padding: 16, color: '#991b1b', fontSize: 13 }}>
+            <div style={{ padding: 16, color: theme.color.negative, fontSize: 13 }}>
                 Error loading variants: {error}
             </div>
         );
     }
 
     if (!data) {
-        return <div style={{ padding: 16, fontSize: 13 }}>Loading variants...</div>;
+        return (
+            <div style={{ padding: 16, fontSize: 13, color: theme.color.defaultText }}>
+                Loading variants...
+            </div>
+        );
     }
 
     return (
@@ -265,9 +271,9 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
                     role="status"
                     style={{
                         padding: '8px 12px',
-                        backgroundColor: '#fefce8',
-                        color: '#854d0e',
-                        borderBottom: '1px solid #fde68a',
+                        backgroundColor: theme.color.warning + '22',
+                        color: theme.color.warning,
+                        borderBottom: `1px solid ${theme.color.warning}44`,
                         fontSize: 12,
                     }}
                 >
@@ -281,9 +287,9 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
                     role="alert"
                     style={{
                         padding: '8px 12px',
-                        backgroundColor: '#fef2f2',
-                        color: '#991b1b',
-                        borderBottom: '1px solid #fca5a5',
+                        backgroundColor: theme.color.negative + '22',
+                        color: theme.color.negative,
+                        borderBottom: `1px solid ${theme.color.negative}44`,
                         fontSize: 13,
                     }}
                 >
@@ -296,12 +302,13 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
                 <div
                     style={{
                         padding: '8px 12px',
-                        backgroundColor: '#fef2f2',
-                        borderBottom: '1px solid #fca5a5',
+                        backgroundColor: theme.color.negative + '22',
+                        borderBottom: `1px solid ${theme.color.negative}44`,
                         display: 'flex',
                         gap: 8,
                         alignItems: 'center',
                         fontSize: 12,
+                        color: theme.color.defaultText,
                     }}
                 >
                     <span>Delete "{deleteConfirm}"?</span>
@@ -311,9 +318,9 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
                             padding: '2px 8px',
                             fontSize: 11,
                             borderRadius: 4,
-                            border: '1px solid #dc2626',
-                            backgroundColor: '#dc2626',
-                            color: '#fff',
+                            border: `1px solid ${theme.color.negative}`,
+                            backgroundColor: theme.color.negative,
+                            color: theme.color.lightest,
                             cursor: 'pointer',
                         }}
                     >
@@ -325,8 +332,9 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
                             padding: '2px 8px',
                             fontSize: 11,
                             borderRadius: 4,
-                            border: '1px solid #d1d5db',
-                            backgroundColor: '#fff',
+                            border: `1px solid ${theme.appBorderColor}`,
+                            backgroundColor: theme.barBg,
+                            color: theme.color.defaultText,
                             cursor: 'pointer',
                         }}
                     >

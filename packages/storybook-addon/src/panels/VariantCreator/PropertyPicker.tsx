@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useAddonTheme } from '../useAddonTheme.ts';
 
 export interface PropertyPickerProps {
     stateKey: string;
@@ -37,10 +38,10 @@ const STATE_PREFIX: Record<string, string> = {
  * Generate a Tailwind arbitrary value class from a token, stateKey, and propertyType.
  *
  * Examples:
- *   base + background + --color-primary       → bg-[var(--color-primary)]
- *   hover + background + --color-primary      → hover:bg-[var(--color-primary)]
- *   focus + ring + --color-primary            → focus-visible:ring-[var(--color-primary)]
- *   active + text + --color-primary           → active:text-[var(--color-primary)]
+ *   base + background + --color-primary       -> bg-[var(--color-primary)]
+ *   hover + background + --color-primary      -> hover:bg-[var(--color-primary)]
+ *   focus + ring + --color-primary            -> focus-visible:ring-[var(--color-primary)]
+ *   active + text + --color-primary           -> active:text-[var(--color-primary)]
  */
 export function buildTailwindClass(
     stateKey: string,
@@ -51,7 +52,7 @@ export function buildTailwindClass(
     const utilityPrefix = UTILITY_PREFIX[propertyType];
 
     if (!utilityPrefix) {
-        // 'other' type — just return the var reference with state prefix
+        // 'other' type -- just return the var reference with state prefix
         return `${statePrefix}[var(${tokenName})]`;
     }
 
@@ -72,6 +73,7 @@ export function PropertyPicker({
     onChange,
     onSaveAsToken,
 }: PropertyPickerProps) {
+    const theme = useAddonTheme();
     const [mode, setMode] = useState<PickerMode>('token');
     const [customValue, setCustomValue] = useState('');
     const [saveAsToken, setSaveAsToken] = useState(false);
@@ -101,7 +103,14 @@ export function PropertyPicker({
 
     return (
         <div style={{ marginBottom: 8 }}>
-            <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', marginBottom: 4 }}>
+            <div
+                style={{
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: theme.color.mediumdark,
+                    marginBottom: 4,
+                }}
+            >
                 {label}
             </div>
 
@@ -115,8 +124,10 @@ export function PropertyPicker({
                             flex: 1,
                             padding: '4px 8px',
                             fontSize: 12,
-                            border: '1px solid #d1d5db',
-                            borderRadius: 4,
+                            border: `1px solid ${theme.input.border}`,
+                            borderRadius: theme.input.borderRadius,
+                            backgroundColor: theme.input.background,
+                            color: theme.input.color,
                         }}
                     >
                         <option value="">Select token...</option>
@@ -132,7 +143,7 @@ export function PropertyPicker({
                             style={{
                                 fontSize: 11,
                                 fontFamily: 'monospace',
-                                color: '#374151',
+                                color: theme.color.defaultText,
                                 maxWidth: 200,
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
@@ -158,8 +169,8 @@ export function PropertyPicker({
                                 style={{
                                     width: 32,
                                     height: 28,
-                                    border: '1px solid #d1d5db',
-                                    borderRadius: 4,
+                                    border: `1px solid ${theme.input.border}`,
+                                    borderRadius: theme.input.borderRadius,
                                 }}
                             />
                         )}
@@ -173,15 +184,23 @@ export function PropertyPicker({
                                 flex: 1,
                                 padding: '4px 8px',
                                 fontSize: 12,
-                                border: '1px solid #d1d5db',
-                                borderRadius: 4,
+                                border: `1px solid ${theme.input.border}`,
+                                borderRadius: theme.input.borderRadius,
+                                backgroundColor: theme.input.background,
+                                color: theme.input.color,
                             }}
                         />
                     </div>
 
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                         <label
-                            style={{ fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}
+                            style={{
+                                fontSize: 11,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 4,
+                                color: theme.color.defaultText,
+                            }}
                         >
                             <input
                                 type="checkbox"
@@ -201,8 +220,10 @@ export function PropertyPicker({
                                     flex: 1,
                                     padding: '2px 6px',
                                     fontSize: 11,
-                                    border: '1px solid #d1d5db',
-                                    borderRadius: 4,
+                                    border: `1px solid ${theme.input.border}`,
+                                    borderRadius: theme.input.borderRadius,
+                                    backgroundColor: theme.input.background,
+                                    color: theme.input.color,
                                 }}
                             />
                         )}
@@ -215,9 +236,9 @@ export function PropertyPicker({
                                 padding: '4px 12px',
                                 fontSize: 11,
                                 borderRadius: 4,
-                                border: '1px solid #3b82f6',
-                                backgroundColor: '#3b82f6',
-                                color: '#fff',
+                                border: `1px solid ${theme.barSelectedColor}`,
+                                backgroundColor: theme.barSelectedColor,
+                                color: theme.color.lightest,
                                 cursor: 'pointer',
                             }}
                         >
@@ -229,8 +250,9 @@ export function PropertyPicker({
                                 padding: '4px 12px',
                                 fontSize: 11,
                                 borderRadius: 4,
-                                border: '1px solid #d1d5db',
-                                backgroundColor: '#fff',
+                                border: `1px solid ${theme.appBorderColor}`,
+                                backgroundColor: theme.barBg,
+                                color: theme.color.defaultText,
                                 cursor: 'pointer',
                             }}
                         >

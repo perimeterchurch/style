@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import type { CategorizedTokens, TokenRecord } from '../../server/readTokens.ts';
 import { EVENTS } from '../../constants.ts';
+import { useAddonTheme } from '../useAddonTheme.ts';
 import { CategoryTabs, type TokenCategory } from './CategoryTabs.tsx';
 import { TokenSearch } from './TokenSearch.tsx';
 import { TokenGroup } from './TokenGroup.tsx';
@@ -40,7 +41,7 @@ function flattenCategory(
         if (typeof val === 'string') {
             result.push({ name: key, value: val });
         } else {
-            // Sub-grouped (e.g. Colors → Primary → tokens)
+            // Sub-grouped (e.g. Colors -> Primary -> tokens)
             for (const [innerKey, innerVal] of Object.entries(val)) {
                 result.push({ name: innerKey, value: innerVal as string });
             }
@@ -99,6 +100,7 @@ export interface TokenEditorPanelProps {
 }
 
 export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
+    const theme = useAddonTheme();
     const [data, setData] = useState<FetchedTokenData | null>(null);
     const [dirty, setDirty] = useState<Record<string, string>>({});
     const [activeTab, setActiveTab] = useState('');
@@ -229,7 +231,11 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
     // ---------------------------------------------------------------------------
 
     if (!data) {
-        return <div style={{ padding: 16 }}>{error ? `Error: ${error}` : 'Loading tokens...'}</div>;
+        return (
+            <div style={{ padding: 16, color: theme.color.defaultText }}>
+                {error ? `Error: ${error}` : 'Loading tokens...'}
+            </div>
+        );
     }
 
     const categories = buildCategories(data.categorized);
@@ -269,9 +275,9 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                     role="status"
                     style={{
                         padding: '8px 12px',
-                        backgroundColor: '#fefce8',
-                        color: '#854d0e',
-                        borderBottom: '1px solid #fde68a',
+                        backgroundColor: theme.color.warning + '22',
+                        color: theme.color.warning,
+                        borderBottom: `1px solid ${theme.color.warning}44`,
                         fontSize: 12,
                     }}
                 >
@@ -285,9 +291,9 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                     role="alert"
                     style={{
                         padding: '8px 12px',
-                        backgroundColor: '#fef2f2',
-                        color: '#991b1b',
-                        borderBottom: '1px solid #fca5a5',
+                        backgroundColor: theme.color.negative + '22',
+                        color: theme.color.negative,
+                        borderBottom: `1px solid ${theme.color.negative}44`,
                         fontSize: 13,
                     }}
                 >
@@ -302,7 +308,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                         display: 'flex',
                         gap: 4,
                         padding: '8px',
-                        borderBottom: '1px solid #e5e7eb',
+                        borderBottom: `1px solid ${theme.appBorderColor}`,
                         alignItems: 'center',
                     }}
                 >
@@ -313,9 +319,11 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                             padding: '4px 12px',
                             fontSize: 12,
                             borderRadius: 4,
-                            border: '1px solid #3b82f6',
-                            backgroundColor: hasDirtyTokens ? '#3b82f6' : '#e5e7eb',
-                            color: hasDirtyTokens ? '#fff' : '#9ca3af',
+                            border: `1px solid ${theme.barSelectedColor}`,
+                            backgroundColor: hasDirtyTokens
+                                ? theme.barSelectedColor
+                                : theme.appBorderColor,
+                            color: hasDirtyTokens ? theme.color.lightest : theme.color.mediumdark,
                             cursor: hasDirtyTokens ? 'pointer' : 'default',
                         }}
                     >
@@ -327,8 +335,9 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                             padding: '4px 12px',
                             fontSize: 12,
                             borderRadius: 4,
-                            border: '1px solid #d1d5db',
-                            backgroundColor: '#fff',
+                            border: `1px solid ${theme.appBorderColor}`,
+                            backgroundColor: theme.barBg,
+                            color: theme.color.defaultText,
                             cursor: 'pointer',
                         }}
                     >
@@ -341,16 +350,22 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                             padding: '4px 12px',
                             fontSize: 12,
                             borderRadius: 4,
-                            border: '1px solid #d1d5db',
-                            backgroundColor: '#fff',
-                            color: hasDirtyTokens ? '#dc2626' : '#9ca3af',
+                            border: `1px solid ${theme.appBorderColor}`,
+                            backgroundColor: theme.barBg,
+                            color: hasDirtyTokens ? theme.color.negative : theme.color.mediumdark,
                             cursor: hasDirtyTokens ? 'pointer' : 'default',
                         }}
                     >
                         Reset
                     </button>
                     {hasDirtyTokens && (
-                        <span style={{ fontSize: 11, color: '#6b7280', marginLeft: 'auto' }}>
+                        <span
+                            style={{
+                                fontSize: 11,
+                                color: theme.color.mediumdark,
+                                marginLeft: 'auto',
+                            }}
+                        >
                             {Object.keys(dirty).length} modified
                         </span>
                     )}
@@ -362,8 +377,8 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                 <div
                     style={{
                         padding: 12,
-                        borderBottom: '1px solid #e5e7eb',
-                        backgroundColor: '#f9fafb',
+                        borderBottom: `1px solid ${theme.appBorderColor}`,
+                        backgroundColor: theme.background.app,
                         display: 'flex',
                         gap: 8,
                         alignItems: 'center',
@@ -378,9 +393,11 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                         style={{
                             flex: 1,
                             padding: '4px 8px',
-                            border: '1px solid #d1d5db',
-                            borderRadius: 4,
+                            border: `1px solid ${theme.input.border}`,
+                            borderRadius: theme.input.borderRadius,
                             fontSize: 13,
+                            backgroundColor: theme.input.background,
+                            color: theme.input.color,
                         }}
                     />
                     <button
@@ -390,9 +407,9 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                             padding: '4px 12px',
                             fontSize: 12,
                             borderRadius: 4,
-                            border: '1px solid #3b82f6',
-                            backgroundColor: '#3b82f6',
-                            color: '#fff',
+                            border: `1px solid ${theme.barSelectedColor}`,
+                            backgroundColor: theme.barSelectedColor,
+                            color: theme.color.lightest,
                             cursor: 'pointer',
                         }}
                     >
@@ -407,8 +424,9 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                             padding: '4px 12px',
                             fontSize: 12,
                             borderRadius: 4,
-                            border: '1px solid #d1d5db',
-                            backgroundColor: '#fff',
+                            border: `1px solid ${theme.appBorderColor}`,
+                            backgroundColor: theme.barBg,
+                            color: theme.color.defaultText,
                             cursor: 'pointer',
                         }}
                     >
@@ -433,7 +451,13 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
             <div style={{ flex: 1, overflow: 'auto', padding: '8px' }}>
                 {isSearching ? (
                     searchResults.length === 0 ? (
-                        <div style={{ padding: 16, color: '#6b7280', textAlign: 'center' }}>
+                        <div
+                            style={{
+                                padding: 16,
+                                color: theme.color.mediumdark,
+                                textAlign: 'center',
+                            }}
+                        >
                             No tokens matching "{search}"
                         </div>
                     ) : (

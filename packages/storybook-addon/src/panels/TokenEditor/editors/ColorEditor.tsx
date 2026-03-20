@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useAddonTheme } from '../../useAddonTheme.ts';
 
 export interface TokenEditorProps {
     name: string;
@@ -17,12 +18,20 @@ function normalizeHex(raw: string): string {
 }
 
 export function ColorEditor({ name, value, onChange }: TokenEditorProps) {
+    const theme = useAddonTheme();
     const hexValue = normalizeHex(value);
     const isValidHex = /^#[0-9a-fA-F]{6}$/.test(hexValue);
 
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
-            <label style={{ flex: '0 0 220px', fontFamily: 'monospace', fontSize: 12 }}>
+            <label
+                style={{
+                    flex: '0 0 220px',
+                    fontFamily: 'monospace',
+                    fontSize: 12,
+                    color: theme.color.defaultText,
+                }}
+            >
                 {name}
             </label>
             <input
@@ -42,8 +51,10 @@ export function ColorEditor({ name, value, onChange }: TokenEditorProps) {
                     fontSize: 12,
                     padding: '4px 6px',
                     width: 100,
-                    border: '1px solid #ccc',
-                    borderRadius: 4,
+                    border: `1px solid ${theme.input.border}`,
+                    borderRadius: theme.input.borderRadius,
+                    backgroundColor: theme.input.background,
+                    color: theme.input.color,
                 }}
             />
             <div
@@ -53,7 +64,7 @@ export function ColorEditor({ name, value, onChange }: TokenEditorProps) {
                     height: 24,
                     borderRadius: 4,
                     backgroundColor: value,
-                    border: '1px solid #ccc',
+                    border: `1px solid ${theme.appBorderColor}`,
                 }}
             />
         </div>

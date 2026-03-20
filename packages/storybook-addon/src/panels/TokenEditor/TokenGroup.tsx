@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useAddonTheme } from '../useAddonTheme.ts';
 import { ColorEditor, SpacingEditor, ShadowEditor, TextEditor } from './editors/index.ts';
 
 export interface TokenGroupProps {
@@ -32,6 +33,7 @@ export function TokenGroup({
     onToggle,
 }: TokenGroupProps) {
     const Editor = editorForType(editorType);
+    const theme = useAddonTheme();
 
     return (
         <div style={{ marginBottom: 8 }}>
@@ -45,7 +47,8 @@ export function TokenGroup({
                     width: '100%',
                     padding: '6px 8px',
                     border: 'none',
-                    backgroundColor: '#f3f4f6',
+                    backgroundColor: theme.background.app,
+                    color: theme.color.defaultText,
                     borderRadius: 4,
                     cursor: 'pointer',
                     fontSize: 13,
@@ -62,7 +65,14 @@ export function TokenGroup({
                     ▾
                 </span>
                 {name}
-                <span style={{ color: '#888', fontWeight: 400, fontSize: 11, marginLeft: 'auto' }}>
+                <span
+                    style={{
+                        color: theme.color.mediumdark,
+                        fontWeight: 400,
+                        fontSize: 11,
+                        marginLeft: 'auto',
+                    }}
+                >
                     {tokens.length}
                 </span>
             </button>

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useAddonTheme } from '../useAddonTheme.ts';
 
 export interface TokenCategory {
     name: string;
@@ -12,13 +13,15 @@ export interface CategoryTabsProps {
 }
 
 export function CategoryTabs({ categories, activeTab, onTabChange }: CategoryTabsProps) {
+    const theme = useAddonTheme();
+
     return (
         <div
             role="tablist"
             style={{
                 display: 'flex',
                 gap: 2,
-                borderBottom: '1px solid #e5e7eb',
+                borderBottom: `1px solid ${theme.appBorderColor}`,
                 padding: '0 8px',
                 overflowX: 'auto',
             }}
@@ -33,12 +36,14 @@ export function CategoryTabs({ categories, activeTab, onTabChange }: CategoryTab
                         padding: '6px 12px',
                         border: 'none',
                         borderBottom:
-                            activeTab === cat.name ? '2px solid #3b82f6' : '2px solid transparent',
+                            activeTab === cat.name
+                                ? `2px solid ${theme.barSelectedColor}`
+                                : '2px solid transparent',
                         backgroundColor: 'transparent',
                         cursor: 'pointer',
                         fontSize: 12,
                         fontWeight: activeTab === cat.name ? 600 : 400,
-                        color: activeTab === cat.name ? '#1d4ed8' : '#6b7280',
+                        color: activeTab === cat.name ? theme.barSelectedColor : theme.barTextColor,
                         whiteSpace: 'nowrap',
                     }}
                 >

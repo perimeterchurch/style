@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useAddonTheme } from '../useAddonTheme.ts';
 
 export interface TokenSearchProps {
     value: string;
@@ -6,6 +7,8 @@ export interface TokenSearchProps {
 }
 
 export function TokenSearch({ value, onChange }: TokenSearchProps) {
+    const theme = useAddonTheme();
+
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '8px' }}>
             <input
@@ -17,10 +20,12 @@ export function TokenSearch({ value, onChange }: TokenSearchProps) {
                 style={{
                     flex: 1,
                     padding: '6px 8px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: 4,
+                    border: `1px solid ${theme.input.border}`,
+                    borderRadius: theme.input.borderRadius,
                     fontSize: 13,
                     fontFamily: 'monospace',
+                    backgroundColor: theme.input.background,
+                    color: theme.input.color,
                 }}
             />
             {value && (
@@ -32,7 +37,7 @@ export function TokenSearch({ value, onChange }: TokenSearchProps) {
                         background: 'none',
                         cursor: 'pointer',
                         fontSize: 16,
-                        color: '#6b7280',
+                        color: theme.barTextColor,
                         padding: '4px 6px',
                     }}
                 >

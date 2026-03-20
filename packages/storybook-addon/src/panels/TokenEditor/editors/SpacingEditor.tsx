@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useAddonTheme } from '../../useAddonTheme.ts';
 import type { TokenEditorProps } from './ColorEditor.tsx';
 
 /** Extract numeric rem value from a string like "1.5rem". Returns 0 if unparseable. */
@@ -8,11 +9,19 @@ function parseRem(value: string): number {
 }
 
 export function SpacingEditor({ name, value, onChange }: TokenEditorProps) {
+    const theme = useAddonTheme();
     const numericValue = parseRem(value);
 
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
-            <label style={{ flex: '0 0 220px', fontFamily: 'monospace', fontSize: 12 }}>
+            <label
+                style={{
+                    flex: '0 0 220px',
+                    fontFamily: 'monospace',
+                    fontSize: 12,
+                    color: theme.color.defaultText,
+                }}
+            >
                 {name}
             </label>
             <input
@@ -35,8 +44,10 @@ export function SpacingEditor({ name, value, onChange }: TokenEditorProps) {
                     fontSize: 12,
                     padding: '4px 6px',
                     width: 80,
-                    border: '1px solid #ccc',
-                    borderRadius: 4,
+                    border: `1px solid ${theme.input.border}`,
+                    borderRadius: theme.input.borderRadius,
+                    backgroundColor: theme.input.background,
+                    color: theme.input.color,
                 }}
             />
             <div
@@ -44,7 +55,7 @@ export function SpacingEditor({ name, value, onChange }: TokenEditorProps) {
                 style={{
                     width: value,
                     height: value,
-                    backgroundColor: '#6b7280',
+                    backgroundColor: theme.color.mediumdark,
                     borderRadius: 2,
                     minWidth: 4,
                     minHeight: 4,

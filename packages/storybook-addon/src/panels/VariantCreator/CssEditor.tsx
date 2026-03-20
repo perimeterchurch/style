@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useAddonTheme } from '../useAddonTheme.ts';
 
 export interface CssEditorProps {
     value: string;
@@ -8,12 +9,14 @@ export interface CssEditorProps {
 
 /** Freeform textarea for entering Tailwind classes. */
 export function CssEditor({ value, onChange, label }: CssEditorProps) {
+    const theme = useAddonTheme();
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {label && (
                 <label
                     htmlFor={`css-editor-${label}`}
-                    style={{ fontSize: 11, fontWeight: 600, color: '#6b7280' }}
+                    style={{ fontSize: 11, fontWeight: 600, color: theme.color.mediumdark }}
                 >
                     {label}
                 </label>
@@ -29,8 +32,10 @@ export function CssEditor({ value, onChange, label }: CssEditorProps) {
                     fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, monospace',
                     fontSize: 12,
                     padding: '6px 8px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: 4,
+                    border: `1px solid ${theme.input.border}`,
+                    borderRadius: theme.input.borderRadius,
+                    backgroundColor: theme.input.background,
+                    color: theme.input.color,
                     resize: 'vertical',
                     lineHeight: 1.5,
                 }}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { VariantDefinition, SizeDefinition } from '../../server/readVariants.ts';
+import { useAddonTheme } from '../useAddonTheme.ts';
 
 export interface VariantListProps {
     variants: Record<string, VariantDefinition>;
@@ -9,21 +10,6 @@ export interface VariantListProps {
     onDelete: (name: string, type: 'variant' | 'size') => void;
     readOnly?: boolean;
 }
-
-const buttonStyle: React.CSSProperties = {
-    padding: '2px 8px',
-    fontSize: 11,
-    borderRadius: 4,
-    border: '1px solid #d1d5db',
-    backgroundColor: '#fff',
-    cursor: 'pointer',
-};
-
-const deleteButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    color: '#dc2626',
-    borderColor: '#fca5a5',
-};
 
 function EntryRow({
     name,
@@ -42,6 +28,24 @@ function EntryRow({
     onDelete: (name: string, type: 'variant' | 'size') => void;
     readOnly?: boolean;
 }) {
+    const theme = useAddonTheme();
+
+    const buttonStyle: React.CSSProperties = {
+        padding: '2px 8px',
+        fontSize: 11,
+        borderRadius: 4,
+        border: `1px solid ${theme.appBorderColor}`,
+        backgroundColor: theme.barBg,
+        color: theme.color.defaultText,
+        cursor: 'pointer',
+    };
+
+    const deleteButtonStyle: React.CSSProperties = {
+        ...buttonStyle,
+        color: theme.color.negative,
+        borderColor: theme.color.negative + '66',
+    };
+
     return (
         <div
             style={{
@@ -49,10 +53,12 @@ function EntryRow({
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '6px 0',
-                borderBottom: '1px solid #f3f4f6',
+                borderBottom: `1px solid ${theme.appBorderColor}33`,
             }}
         >
-            <span style={{ fontSize: 13, fontWeight: 500 }}>{name}</span>
+            <span style={{ fontSize: 13, fontWeight: 500, color: theme.color.defaultText }}>
+                {name}
+            </span>
             {!readOnly && (
                 <div style={{ display: 'flex', gap: 4 }}>
                     <button style={buttonStyle} onClick={() => onEdit(name, type)}>
@@ -80,15 +86,25 @@ export function VariantList({
     onDelete,
     readOnly,
 }: VariantListProps) {
+    const theme = useAddonTheme();
     const variantNames = Object.keys(variants);
     const sizeNames = Object.keys(sizes);
 
     return (
         <div style={{ padding: 12 }}>
             {/* Variants section */}
-            <h3 style={{ margin: '0 0 8px', fontSize: 14, fontWeight: 600 }}>Variants</h3>
+            <h3
+                style={{
+                    margin: '0 0 8px',
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: theme.color.defaultText,
+                }}
+            >
+                Variants
+            </h3>
             {variantNames.length === 0 ? (
-                <div style={{ fontSize: 12, color: '#6b7280', padding: '8px 0' }}>
+                <div style={{ fontSize: 12, color: theme.color.mediumdark, padding: '8px 0' }}>
                     No variants defined
                 </div>
             ) : (
@@ -109,7 +125,16 @@ export function VariantList({
             {/* Sizes section */}
             {sizeNames.length > 0 && (
                 <>
-                    <h3 style={{ margin: '16px 0 8px', fontSize: 14, fontWeight: 600 }}>Sizes</h3>
+                    <h3
+                        style={{
+                            margin: '16px 0 8px',
+                            fontSize: 14,
+                            fontWeight: 600,
+                            color: theme.color.defaultText,
+                        }}
+                    >
+                        Sizes
+                    </h3>
                     {sizeNames.map((name) => (
                         <EntryRow
                             key={name}
