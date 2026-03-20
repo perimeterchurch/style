@@ -79,6 +79,7 @@ Shared design system for Perimeter Church. Published as `@perimeterchurch/style`
 | Token names and values                | `docs/reference/design-tokens.md`     |
 | Component props and APIs              | `docs/reference/component-catalog.md` |
 | Variant file structure                | `docs/reference/variant-api.md`       |
+| Storybook addon (token editor/variant creator) | `docs/architecture/storybook-addon.md` |
 | Unknown area                          | `docs/README.md`                      |
 
 ## Code Philosophy
