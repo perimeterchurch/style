@@ -1,0 +1,26 @@
+{
+  "name": "@perimeterchurch/style-storybook-addon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "prettier": "^3.8.1"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19",
+    "storybook": "^10"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "storybook": "^10.2.19",
+    "typescript": "^5.9.3",
+    "vitest": "^3"
+  }
+}
