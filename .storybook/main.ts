@@ -7,6 +7,7 @@ const config: StorybookConfig = {
         '../packages/motion/src/**/*.stories.@(ts|tsx)',
         '../packages/icons/src/**/*.stories.@(ts|tsx)',
     ],
+    addons: ['../packages/storybook-addon/src/preset.ts'],
     framework: {
         name: '@storybook/react-vite',
         options: {},
