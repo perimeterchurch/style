@@ -8,16 +8,16 @@ export const chipVariants: Record<string, VariantDefinition> = {
         base: 'bg-[var(--color-stone-100)] text-[var(--color-stone-700)] dark:bg-[var(--color-stone-800)] dark:text-[var(--color-stone-300)]',
     },
     success: {
-        base: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+        base: 'bg-[var(--color-success)]/10 text-[var(--color-success)] dark:bg-[var(--color-success)]/10 dark:text-[var(--color-success)]',
     },
     warning: {
-        base: 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
+        base: 'bg-[var(--color-warning)]/10 text-[var(--color-warning)] dark:bg-[var(--color-warning)]/10 dark:text-[var(--color-warning)]',
     },
     error: {
-        base: 'bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400',
+        base: 'bg-[var(--color-error)]/10 text-[var(--color-error)] dark:bg-[var(--color-error)]/10 dark:text-[var(--color-error)]',
     },
     info: {
-        base: 'bg-sky-50 text-sky-700 dark:bg-sky-500/10 dark:text-sky-400',
+        base: 'bg-[var(--color-info)]/10 text-[var(--color-info)] dark:bg-[var(--color-info)]/10 dark:text-[var(--color-info)]',
     },
     ghost: {
         base: 'bg-transparent text-[var(--color-stone-600)] dark:text-[var(--color-stone-400)] border border-[var(--color-stone-200)] dark:border-[var(--color-stone-700)]',

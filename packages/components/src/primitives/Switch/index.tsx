@@ -41,7 +41,7 @@ export const Switch = forwardRef<SwitchElement, SwitchProps>(
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50 focus-visible:ring-offset-2',
                     'disabled:cursor-not-allowed disabled:opacity-50',
                     'before:content-[""] before:absolute before:top-[2px] before:left-[2px]',
-                    'before:rounded-full before:bg-white',
+                    'before:rounded-full before:bg-[var(--color-background)]',
                     'before:transition-transform before:duration-200',
                     'before:shadow-sm',
                     sizeConfig.knob,

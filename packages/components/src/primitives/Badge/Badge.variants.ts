@@ -11,24 +11,24 @@ export const badgeVariants: Record<string, VariantDefinition> = {
             'border border-[var(--color-stone-300)] text-[var(--color-stone-700)] bg-transparent dark:border-[var(--color-stone-600)] dark:text-[var(--color-stone-300)]',
     },
     success: {
-        base: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+        base: 'bg-[var(--color-success)]/10 text-[var(--color-success)] dark:bg-[var(--color-success)]/10 dark:text-[var(--color-success)]',
         outline:
-            'border border-emerald-300 text-emerald-700 bg-transparent dark:border-emerald-600 dark:text-emerald-400',
+            'border border-[var(--color-success)] text-[var(--color-success)] bg-transparent dark:border-[var(--color-success)] dark:text-[var(--color-success)]',
     },
     warning: {
-        base: 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
+        base: 'bg-[var(--color-warning)]/10 text-[var(--color-warning)] dark:bg-[var(--color-warning)]/10 dark:text-[var(--color-warning)]',
         outline:
-            'border border-amber-300 text-amber-700 bg-transparent dark:border-amber-600 dark:text-amber-400',
+            'border border-[var(--color-warning)] text-[var(--color-warning)] bg-transparent dark:border-[var(--color-warning)] dark:text-[var(--color-warning)]',
     },
     error: {
-        base: 'bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400',
+        base: 'bg-[var(--color-error)]/10 text-[var(--color-error)] dark:bg-[var(--color-error)]/10 dark:text-[var(--color-error)]',
         outline:
-            'border border-rose-300 text-rose-700 bg-transparent dark:border-rose-600 dark:text-rose-400',
+            'border border-[var(--color-error)] text-[var(--color-error)] bg-transparent dark:border-[var(--color-error)] dark:text-[var(--color-error)]',
     },
     info: {
-        base: 'bg-sky-50 text-sky-700 dark:bg-sky-500/10 dark:text-sky-400',
+        base: 'bg-[var(--color-info)]/10 text-[var(--color-info)] dark:bg-[var(--color-info)]/10 dark:text-[var(--color-info)]',
         outline:
-            'border border-sky-300 text-sky-700 bg-transparent dark:border-sky-600 dark:text-sky-400',
+            'border border-[var(--color-info)] text-[var(--color-info)] bg-transparent dark:border-[var(--color-info)] dark:text-[var(--color-info)]',
     },
     ghost: {
         base: 'bg-transparent text-[var(--color-stone-600)] dark:text-[var(--color-stone-400)]',
@@ -40,10 +40,10 @@ export const badgeVariants: Record<string, VariantDefinition> = {
 export const badgeDotColors: Record<string, string> = {
     primary: 'bg-[var(--color-primary)]',
     secondary: 'bg-[var(--color-stone-400)] dark:bg-[var(--color-stone-500)]',
-    success: 'bg-emerald-500',
-    warning: 'bg-amber-500',
-    error: 'bg-rose-500',
-    info: 'bg-sky-500',
+    success: 'bg-[var(--color-success)]',
+    warning: 'bg-[var(--color-warning)]',
+    error: 'bg-[var(--color-error)]',
+    info: 'bg-[var(--color-info)]',
     ghost: 'bg-[var(--color-stone-400)] dark:bg-[var(--color-stone-500)]',
 };
 

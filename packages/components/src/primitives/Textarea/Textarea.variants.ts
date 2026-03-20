@@ -5,7 +5,7 @@ import type { SizeDefinition } from '../../utils/types';
  */
 
 export const textareaBaseClasses = [
-    'flex rounded-lg border bg-white',
+    'flex rounded-lg border bg-[var(--color-background)]',
     'transition-all duration-200',
     'dark:bg-[var(--color-stone-900)] dark:text-[var(--color-stone-100)]',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50 focus-visible:ring-offset-2',
