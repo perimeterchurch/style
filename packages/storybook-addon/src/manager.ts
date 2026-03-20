@@ -19,7 +19,6 @@ addons.register(ADDON_ID, (api) => {
     addons.add(VARIANT_CREATOR_PANEL_ID, {
         type: types.PANEL,
         title: 'Variant Creator',
-        render: ({ active }) =>
-            React.createElement(VariantCreator, { active: active ?? false }),
+        render: ({ active }) => React.createElement(VariantCreator, { active: active ?? false }),
     });
 });

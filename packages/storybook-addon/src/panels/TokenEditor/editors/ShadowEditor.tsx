@@ -1,4 +1,3 @@
-import React from 'react';
 import type { TokenEditorProps } from './ColorEditor';
 
 export function ShadowEditor({ name, value, onChange }: TokenEditorProps) {

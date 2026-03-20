@@ -1,4 +1,3 @@
-import React from 'react';
 import type { TokenEditorProps } from './ColorEditor';
 
 export function TextEditor({ name, value, onChange }: TokenEditorProps) {
@@ -21,9 +20,7 @@ export function TextEditor({ name, value, onChange }: TokenEditorProps) {
                     borderRadius: 4,
                 }}
             />
-            <span
-                style={{ fontFamily: 'monospace', fontSize: 11, color: '#888', minWidth: 60 }}
-            >
+            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#888', minWidth: 60 }}>
                 {value}
             </span>
         </div>

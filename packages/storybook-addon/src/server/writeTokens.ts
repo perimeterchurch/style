@@ -79,7 +79,8 @@ export function updateTokensInCss(css: string, updates: Record<string, string>):
             }
         }
 
-        result = result.slice(0, bounds.contentStart) + blockContent + result.slice(bounds.contentEnd);
+        result =
+            result.slice(0, bounds.contentStart) + blockContent + result.slice(bounds.contentEnd);
     }
 
     return result;

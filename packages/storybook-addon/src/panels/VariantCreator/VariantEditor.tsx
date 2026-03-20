@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { VariantDefinition, SizeDefinition } from '../../server/readVariants';
 import { PropertyPicker } from './PropertyPicker';
 import { CssEditor } from './CssEditor';

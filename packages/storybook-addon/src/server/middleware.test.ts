@@ -21,7 +21,10 @@ describe('parseRoute', () => {
     });
 
     it('parses DELETE delete-variant with multiple params', () => {
-        const result = parseRoute('DELETE', '/api/style-addon/delete-variant?component=Button&variant=accent');
+        const result = parseRoute(
+            'DELETE',
+            '/api/style-addon/delete-variant?component=Button&variant=accent',
+        );
         expect(result).toEqual({
             handler: 'delete-variant',
             method: 'DELETE',

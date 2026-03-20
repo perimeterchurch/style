@@ -14,15 +14,8 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { parseTokensFromCss, categorizeTokens } from './readTokens';
 import { updateTokensInCss } from './writeTokens';
 import { generateThemeCss, generateBaseImport } from './writeTheme';
-import {
-    parseVariantsFile,
-    resolveVariantsPath,
-} from './readVariants';
-import {
-    updateVariantInFile,
-    addVariantToFile,
-    removeVariantFromFile,
-} from './writeVariant';
+import { parseVariantsFile, resolveVariantsPath } from './readVariants';
+import { updateVariantInFile, addVariantToFile, removeVariantFromFile } from './writeVariant';
 
 // ---------------------------------------------------------------------------
 // Route parsing
@@ -125,120 +118,139 @@ export function createStyleAddonMiddleware(rootDir: string): Plugin {
     return {
         name: 'style-addon-middleware',
         configureServer(server: ViteDevServer) {
-            server.middlewares.use(async (req: IncomingMessage, res: ServerResponse, next: () => void) => {
-                const route = parseRoute(req.method ?? 'GET', req.url ?? '');
-                if (!route) return next();
+            server.middlewares.use(
+                async (req: IncomingMessage, res: ServerResponse, next: () => void) => {
+                    const route = parseRoute(req.method ?? 'GET', req.url ?? '');
+                    if (!route) return next();
 
-                try {
-                    switch (route.handler) {
-                        // ----- read-tokens -----
-                        case 'read-tokens': {
-                            const css = await readFile(tokensPath, 'utf-8');
-                            const flat = parseTokensFromCss(css);
-                            const categorized = categorizeTokens(flat);
-                            sendJson(res, 200, { tokens: flat, categorized });
-                            break;
-                        }
-
-                        // ----- write-tokens -----
-                        case 'write-tokens': {
-                            const body = JSON.parse(await readBody(req)) as { updates: Record<string, string> };
-                            const css = await readFile(tokensPath, 'utf-8');
-                            const updated = updateTokensInCss(css, body.updates);
-                            const formatted = await formatWithPrettier(updated, tokensPath);
-                            await atomicWrite(tokensPath, formatted);
-                            sendJson(res, 200, { ok: true });
-                            break;
-                        }
-
-                        // ----- write-theme -----
-                        case 'write-theme': {
-                            const body = JSON.parse(await readBody(req)) as {
-                                name: string;
-                                tokens: Record<string, string>;
-                            };
-                            const themeCss = generateThemeCss(body.name, body.tokens);
-                            const themeFilePath = join(themesDir, `theme-${body.name}.css`);
-                            const formatted = await formatWithPrettier(themeCss, themeFilePath);
-                            await atomicWrite(themeFilePath, formatted);
-
-                            // Update base.css with import
-                            const baseCss = await readFile(basePath, 'utf-8');
-                            const updatedBase = generateBaseImport(baseCss, body.name);
-                            if (updatedBase !== baseCss) {
-                                const formattedBase = await formatWithPrettier(updatedBase, basePath);
-                                await atomicWrite(basePath, formattedBase);
-                            }
-
-                            sendJson(res, 200, { ok: true, path: themeFilePath });
-                            break;
-                        }
-
-                        // ----- read-variants -----
-                        case 'read-variants': {
-                            const component = route.params.component;
-                            if (!component) {
-                                sendJson(res, 400, { error: 'Missing component param' });
+                    try {
+                        switch (route.handler) {
+                            // ----- read-tokens -----
+                            case 'read-tokens': {
+                                const css = await readFile(tokensPath, 'utf-8');
+                                const flat = parseTokensFromCss(css);
+                                const categorized = categorizeTokens(flat);
+                                sendJson(res, 200, { tokens: flat, categorized });
                                 break;
                             }
-                            const relPath = resolveVariantsPath(component);
-                            const fullPath = join(rootDir, relPath);
-                            const content = await readFile(fullPath, 'utf-8');
-                            const parsed = parseVariantsFile(content);
-                            sendJson(res, 200, parsed);
-                            break;
-                        }
 
-                        // ----- write-variant -----
-                        case 'write-variant': {
-                            const body = JSON.parse(await readBody(req)) as {
-                                component: string;
-                                suffix: string;
-                                name: string;
-                                definition: Record<string, unknown>;
-                                mode: 'add' | 'update';
-                            };
-                            const relPath = resolveVariantsPath(body.component);
-                            const fullPath = join(rootDir, relPath);
-                            const content = await readFile(fullPath, 'utf-8');
-
-                            const updated =
-                                body.mode === 'add'
-                                    ? addVariantToFile(content, body.suffix, body.name, body.definition as never)
-                                    : updateVariantInFile(content, body.suffix, body.name, body.definition as never);
-
-                            const formatted = await formatWithPrettier(updated, fullPath);
-                            await atomicWrite(fullPath, formatted);
-                            sendJson(res, 200, { ok: true });
-                            break;
-                        }
-
-                        // ----- delete-variant -----
-                        case 'delete-variant': {
-                            const component = route.params.component;
-                            const variant = route.params.variant;
-                            if (!component || !variant) {
-                                sendJson(res, 400, { error: 'Missing component or variant param' });
+                            // ----- write-tokens -----
+                            case 'write-tokens': {
+                                const body = JSON.parse(await readBody(req)) as {
+                                    updates: Record<string, string>;
+                                };
+                                const css = await readFile(tokensPath, 'utf-8');
+                                const updated = updateTokensInCss(css, body.updates);
+                                const formatted = await formatWithPrettier(updated, tokensPath);
+                                await atomicWrite(tokensPath, formatted);
+                                sendJson(res, 200, { ok: true });
                                 break;
                             }
-                            const relPath = resolveVariantsPath(component);
-                            const fullPath = join(rootDir, relPath);
-                            const content = await readFile(fullPath, 'utf-8');
-                            const updated = removeVariantFromFile(content, 'Variants', variant);
-                            const formatted = await formatWithPrettier(updated, fullPath);
-                            await atomicWrite(fullPath, formatted);
-                            sendJson(res, 200, { ok: true });
-                            break;
-                        }
 
-                        default:
-                            sendJson(res, 404, { error: `Unknown handler: ${route.handler}` });
+                            // ----- write-theme -----
+                            case 'write-theme': {
+                                const body = JSON.parse(await readBody(req)) as {
+                                    name: string;
+                                    tokens: Record<string, string>;
+                                };
+                                const themeCss = generateThemeCss(body.name, body.tokens);
+                                const themeFilePath = join(themesDir, `theme-${body.name}.css`);
+                                const formatted = await formatWithPrettier(themeCss, themeFilePath);
+                                await atomicWrite(themeFilePath, formatted);
+
+                                // Update base.css with import
+                                const baseCss = await readFile(basePath, 'utf-8');
+                                const updatedBase = generateBaseImport(baseCss, body.name);
+                                if (updatedBase !== baseCss) {
+                                    const formattedBase = await formatWithPrettier(
+                                        updatedBase,
+                                        basePath,
+                                    );
+                                    await atomicWrite(basePath, formattedBase);
+                                }
+
+                                sendJson(res, 200, { ok: true, path: themeFilePath });
+                                break;
+                            }
+
+                            // ----- read-variants -----
+                            case 'read-variants': {
+                                const component = route.params.component;
+                                if (!component) {
+                                    sendJson(res, 400, { error: 'Missing component param' });
+                                    break;
+                                }
+                                const relPath = resolveVariantsPath(component);
+                                const fullPath = join(rootDir, relPath);
+                                const content = await readFile(fullPath, 'utf-8');
+                                const parsed = parseVariantsFile(content);
+                                sendJson(res, 200, parsed);
+                                break;
+                            }
+
+                            // ----- write-variant -----
+                            case 'write-variant': {
+                                const body = JSON.parse(await readBody(req)) as {
+                                    component: string;
+                                    suffix: string;
+                                    name: string;
+                                    definition: Record<string, unknown>;
+                                    mode: 'add' | 'update';
+                                };
+                                const relPath = resolveVariantsPath(body.component);
+                                const fullPath = join(rootDir, relPath);
+                                const content = await readFile(fullPath, 'utf-8');
+
+                                const updated =
+                                    body.mode === 'add'
+                                        ? addVariantToFile(
+                                              content,
+                                              body.suffix,
+                                              body.name,
+                                              body.definition as never,
+                                          )
+                                        : updateVariantInFile(
+                                              content,
+                                              body.suffix,
+                                              body.name,
+                                              body.definition as never,
+                                          );
+
+                                const formatted = await formatWithPrettier(updated, fullPath);
+                                await atomicWrite(fullPath, formatted);
+                                sendJson(res, 200, { ok: true });
+                                break;
+                            }
+
+                            // ----- delete-variant -----
+                            case 'delete-variant': {
+                                const component = route.params.component;
+                                const variant = route.params.variant;
+                                if (!component || !variant) {
+                                    sendJson(res, 400, {
+                                        error: 'Missing component or variant param',
+                                    });
+                                    break;
+                                }
+                                const relPath = resolveVariantsPath(component);
+                                const fullPath = join(rootDir, relPath);
+                                const content = await readFile(fullPath, 'utf-8');
+                                const updated = removeVariantFromFile(content, 'Variants', variant);
+                                const formatted = await formatWithPrettier(updated, fullPath);
+                                await atomicWrite(fullPath, formatted);
+                                sendJson(res, 200, { ok: true });
+                                break;
+                            }
+
+                            default:
+                                sendJson(res, 404, { error: `Unknown handler: ${route.handler}` });
+                        }
+                    } catch (err) {
+                        const message = err instanceof Error ? err.message : String(err);
+                        sendJson(res, 500, { error: message });
                     }
-                } catch (err) {
-                    const message = err instanceof Error ? err.message : String(err);
-                    sendJson(res, 500, { error: message });
-                }
-            });
+                },
+            );
         },
     };
 }

@@ -154,7 +154,12 @@ export function PropertyPicker({
                                 aria-label={`${label} color picker`}
                                 value={customValue.startsWith('#') ? customValue : '#000000'}
                                 onChange={(e) => setCustomValue(e.target.value)}
-                                style={{ width: 32, height: 28, border: '1px solid #d1d5db', borderRadius: 4 }}
+                                style={{
+                                    width: 32,
+                                    height: 28,
+                                    border: '1px solid #d1d5db',
+                                    borderRadius: 4,
+                                }}
                             />
                         )}
                         <input
@@ -174,7 +179,9 @@ export function PropertyPicker({
                     </div>
 
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                        <label style={{ fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <label
+                            style={{ fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}
+                        >
                             <input
                                 type="checkbox"
                                 checked={saveAsToken}

@@ -1,4 +1,3 @@
-import React from 'react';
 import { ColorEditor, SpacingEditor, ShadowEditor, TextEditor } from './editors';
 
 export interface TokenGroupProps {
@@ -53,7 +52,12 @@ export function TokenGroup({
                     textAlign: 'left',
                 }}
             >
-                <span style={{ transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0)', transition: 'transform 0.15s' }}>
+                <span
+                    style={{
+                        transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0)',
+                        transition: 'transform 0.15s',
+                    }}
+                >
                     ▾
                 </span>
                 {name}

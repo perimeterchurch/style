@@ -1,6 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useStorybookState } from 'storybook/manager-api';
-import type { VariantDefinition, SizeDefinition, ParsedVariantsFile } from '../../server/readVariants';
+import type {
+    VariantDefinition,
+    SizeDefinition,
+    ParsedVariantsFile,
+} from '../../server/readVariants';
 import { VariantList } from './VariantList';
 import { VariantEditor } from './VariantEditor';
 
@@ -11,8 +15,18 @@ export interface VariantCreatorProps {
 
 type EditState =
     | { mode: 'list' }
-    | { mode: 'edit'; name: string; type: 'variant' | 'size'; definition: VariantDefinition | SizeDefinition }
-    | { mode: 'clone'; name: string; type: 'variant' | 'size'; definition: VariantDefinition | SizeDefinition };
+    | {
+          mode: 'edit';
+          name: string;
+          type: 'variant' | 'size';
+          definition: VariantDefinition | SizeDefinition;
+      }
+    | {
+          mode: 'clone';
+          name: string;
+          type: 'variant' | 'size';
+          definition: VariantDefinition | SizeDefinition;
+      };
 
 /**
  * Extract the component story title from Storybook state.
@@ -36,7 +50,8 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
 
     // Resolve the current component title from the active story
     const storyEntry = state.storyId ? state.index?.[state.storyId] : undefined;
-    const storyTitle = storyEntry && 'title' in storyEntry ? (storyEntry as { title: string }).title : undefined;
+    const storyTitle =
+        storyEntry && 'title' in storyEntry ? (storyEntry as { title: string }).title : undefined;
     const componentTitle = extractComponentTitle(storyTitle);
 
     // Fetch variants when the component changes
@@ -48,7 +63,9 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
 
         let cancelled = false;
 
-        fetch(`${apiBase}/api/style-addon/read-variants?component=${encodeURIComponent(componentTitle)}`)
+        fetch(
+            `${apiBase}/api/style-addon/read-variants?component=${encodeURIComponent(componentTitle)}`,
+        )
             .then((r) => {
                 if (!r.ok) throw new Error(`HTTP ${r.status}`);
                 return r.json();
@@ -84,7 +101,10 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
             })
             .then((json: { tokens: Record<string, string> }) => {
                 if (!cancelled) {
-                    const list = Object.entries(json.tokens).map(([name, value]) => ({ name, value }));
+                    const list = Object.entries(json.tokens).map(([name, value]) => ({
+                        name,
+                        value,
+                    }));
                     setTokens(list);
                     setReadOnly(false);
                 }
@@ -149,7 +169,8 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
                 // Refresh
                 setData((prev) => {
                     if (!prev) return prev;
-                    const { [name]: _removed, ...rest } = prev.variants;
+                    const { [name]: _, ...rest } = prev.variants;
+                    void _;
                     return { ...prev, variants: rest };
                 });
             } catch (err) {
@@ -165,7 +186,8 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
             setError(null);
 
             const isNew = editState.mode === 'clone';
-            const suffix = editState.mode !== 'list' && editState.type === 'size' ? 'Sizes' : 'Variants';
+            const suffix =
+                editState.mode !== 'list' && editState.type === 'size' ? 'Sizes' : 'Variants';
 
             try {
                 const res = await fetch(`${apiBase}/api/style-addon/write-variant`, {
@@ -233,7 +255,9 @@ export function VariantCreator({ active, apiBase = '' }: VariantCreatorProps) {
     }
 
     return (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div
+            style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+        >
             {/* Read-only banner */}
             {readOnly && (
                 <div

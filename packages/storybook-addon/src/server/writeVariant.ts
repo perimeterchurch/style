@@ -158,7 +158,10 @@ export function updateVariantInFile(
     // Detect indentation from the original entry
     const beforeEntry = content.slice(0, entryStart);
     const lastNewline = beforeEntry.lastIndexOf('\n');
-    const indent = lastNewline >= 0 ? content.slice(lastNewline + 1, entryStart).match(/^(\s*)/)?.[1] ?? '    ' : '    ';
+    const indent =
+        lastNewline >= 0
+            ? (content.slice(lastNewline + 1, entryStart).match(/^(\s*)/)?.[1] ?? '    ')
+            : '    ';
 
     const serialized = `\n${indent}${name}: ${serializeDefinition(definition, indent)},`;
     return content.slice(0, entryStart) + serialized + content.slice(entryEnd);

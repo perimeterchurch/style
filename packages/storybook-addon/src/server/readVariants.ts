@@ -45,7 +45,7 @@ function extractRecordObject(content: string, exportName: string): string | null
     if (idx === -1) return null;
 
     // Find the first { after the marker, skipping the type annotation
-    let searchStart = idx + marker.length;
+    const searchStart = idx + marker.length;
     // Skip past the `= {` — we need the `=` first
     const eqIdx = content.indexOf('=', searchStart);
     if (eqIdx === -1) return null;
@@ -81,7 +81,6 @@ function extractRecordObject(content: string, exportName: string): string | null
 /** Safely evaluate an object literal string to a JS object. */
 function evaluateObjectLiteral(objStr: string): Record<string, unknown> {
     try {
-        // eslint-disable-next-line @typescript-eslint/no-implied-eval
         return new Function('return (' + objStr + ')')() as Record<string, unknown>;
     } catch {
         return {};

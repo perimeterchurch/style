@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
-import React from 'react';
 
 import { CategoryTabs, type TokenCategory } from './CategoryTabs';
 import { TokenSearch } from './TokenSearch';
@@ -22,9 +21,7 @@ describe('CategoryTabs', () => {
     ];
 
     it('renders all tab names with counts', () => {
-        render(
-            <CategoryTabs categories={categories} activeTab="Colors" onTabChange={() => {}} />,
-        );
+        render(<CategoryTabs categories={categories} activeTab="Colors" onTabChange={() => {}} />);
 
         expect(screen.getByRole('tab', { name: /Colors \(12\)/ })).toBeInTheDocument();
         expect(screen.getByRole('tab', { name: /Spacing \(5\)/ })).toBeInTheDocument();
@@ -32,9 +29,7 @@ describe('CategoryTabs', () => {
     });
 
     it('marks the active tab as selected', () => {
-        render(
-            <CategoryTabs categories={categories} activeTab="Spacing" onTabChange={() => {}} />,
-        );
+        render(<CategoryTabs categories={categories} activeTab="Spacing" onTabChange={() => {}} />);
 
         expect(screen.getByRole('tab', { name: /Spacing/ })).toHaveAttribute(
             'aria-selected',

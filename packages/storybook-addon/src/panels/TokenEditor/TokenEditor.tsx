@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import type { CategorizedTokens, TokenRecord } from '../../server/readTokens';
 import { EVENTS } from '../../constants';
 import { CategoryTabs, type TokenCategory } from './CategoryTabs';
@@ -41,7 +41,7 @@ function flattenCategory(
         } else {
             // Sub-grouped (e.g. Colors → Primary → tokens)
             for (const [innerKey, innerVal] of Object.entries(val)) {
-                result.push({ name: innerKey, value: innerVal });
+                result.push({ name: innerKey, value: innerVal as string });
             }
         }
     }
@@ -130,7 +130,11 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                 if (cancelled) return;
                 // Network error means middleware is not available (production build)
                 const message = String(err);
-                if (message.includes('fetch') || message.includes('network') || message.includes('Failed')) {
+                if (
+                    message.includes('fetch') ||
+                    message.includes('network') ||
+                    message.includes('Failed')
+                ) {
                     setReadOnly(true);
                 }
                 setError(message);
@@ -232,7 +236,9 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
 
     /** Merge dirty values into a token list. */
     function applyDirty(tokens: Array<{ name: string; value: string }>) {
-        return tokens.map((t) => (dirty[t.name] !== undefined ? { ...t, value: dirty[t.name] } : t));
+        return tokens.map((t) =>
+            dirty[t.name] !== undefined ? { ...t, value: dirty[t.name] } : t,
+        );
     }
 
     // Search mode: flat list across all categories
@@ -249,13 +255,13 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
 
     // Active category data
     const activeCatData = data.categorized[activeTab as keyof CategorizedTokens];
-    const subGroups = activeCatData
-        ? buildSubGroups(activeCatData as Record<string, string>)
-        : [];
+    const subGroups = activeCatData ? buildSubGroups(activeCatData as Record<string, string>) : [];
     const editorType = CATEGORY_EDITOR_MAP[activeTab] ?? 'text';
 
     return (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div
+            style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+        >
             {/* Read-only banner */}
             {readOnly && (
                 <div

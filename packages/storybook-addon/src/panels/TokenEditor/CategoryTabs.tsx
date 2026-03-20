@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface TokenCategory {
     name: string;
     count: number;
@@ -32,7 +30,8 @@ export function CategoryTabs({ categories, activeTab, onTabChange }: CategoryTab
                     style={{
                         padding: '6px 12px',
                         border: 'none',
-                        borderBottom: activeTab === cat.name ? '2px solid #3b82f6' : '2px solid transparent',
+                        borderBottom:
+                            activeTab === cat.name ? '2px solid #3b82f6' : '2px solid transparent',
                         backgroundColor: 'transparent',
                         cursor: 'pointer',
                         fontSize: 12,

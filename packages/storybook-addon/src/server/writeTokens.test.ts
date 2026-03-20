@@ -76,15 +76,15 @@ describe('updateTokensInCss', () => {
     });
 
     it('throws on invalid token name', () => {
-        expect(() =>
-            updateTokensInCss(SAMPLE_CSS, { 'color-primary': '#ff0000' }),
-        ).toThrowError(/invalid token name/i);
+        expect(() => updateTokensInCss(SAMPLE_CSS, { 'color-primary': '#ff0000' })).toThrowError(
+            /invalid token name/i,
+        );
     });
 
     it('throws on uppercase token name', () => {
-        expect(() =>
-            updateTokensInCss(SAMPLE_CSS, { '--Color-Primary': '#ff0000' }),
-        ).toThrowError(/invalid token name/i);
+        expect(() => updateTokensInCss(SAMPLE_CSS, { '--Color-Primary': '#ff0000' })).toThrowError(
+            /invalid token name/i,
+        );
     });
 
     it('handles multiple updates at once', () => {
