@@ -107,22 +107,33 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
     const [saving, setSaving] = useState(false);
     const [showThemeDialog, setShowThemeDialog] = useState(false);
     const [themeName, setThemeName] = useState('');
+    const [readOnly, setReadOnly] = useState(false);
 
-    // Fetch tokens on mount
+    // Fetch tokens on mount — detect read-only mode if middleware is unavailable
     useEffect(() => {
         let cancelled = false;
         fetch(`${apiBase}/api/style-addon/read-tokens`)
-            .then((r) => r.json())
+            .then((r) => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                return r.json();
+            })
             .then((json: FetchedTokenData) => {
                 if (cancelled) return;
                 setData(json);
+                setReadOnly(false);
                 const cats = buildCategories(json.categorized);
                 if (cats.length > 0 && !activeTab) {
                     setActiveTab(cats[0].name);
                 }
             })
             .catch((err) => {
-                if (!cancelled) setError(String(err));
+                if (cancelled) return;
+                // Network error means middleware is not available (production build)
+                const message = String(err);
+                if (message.includes('fetch') || message.includes('network') || message.includes('Failed')) {
+                    setReadOnly(true);
+                }
+                setError(message);
             });
         return () => {
             cancelled = true;
@@ -245,8 +256,24 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
 
     return (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            {/* Read-only banner */}
+            {readOnly && (
+                <div
+                    role="status"
+                    style={{
+                        padding: '8px 12px',
+                        backgroundColor: '#fefce8',
+                        color: '#854d0e',
+                        borderBottom: '1px solid #fde68a',
+                        fontSize: 12,
+                    }}
+                >
+                    Read-only — run pnpm dev locally to edit
+                </div>
+            )}
+
             {/* Error banner */}
-            {error && (
+            {error && !readOnly && (
                 <div
                     role="alert"
                     style={{
@@ -261,65 +288,67 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                 </div>
             )}
 
-            {/* Toolbar */}
-            <div
-                style={{
-                    display: 'flex',
-                    gap: 4,
-                    padding: '8px',
-                    borderBottom: '1px solid #e5e7eb',
-                    alignItems: 'center',
-                }}
-            >
-                <button
-                    onClick={handleSave}
-                    disabled={!hasDirtyTokens || saving}
+            {/* Toolbar — hidden in read-only mode */}
+            {!readOnly && (
+                <div
                     style={{
-                        padding: '4px 12px',
-                        fontSize: 12,
-                        borderRadius: 4,
-                        border: '1px solid #3b82f6',
-                        backgroundColor: hasDirtyTokens ? '#3b82f6' : '#e5e7eb',
-                        color: hasDirtyTokens ? '#fff' : '#9ca3af',
-                        cursor: hasDirtyTokens ? 'pointer' : 'default',
+                        display: 'flex',
+                        gap: 4,
+                        padding: '8px',
+                        borderBottom: '1px solid #e5e7eb',
+                        alignItems: 'center',
                     }}
                 >
-                    {saving ? 'Saving...' : 'Save'}
-                </button>
-                <button
-                    onClick={() => setShowThemeDialog(true)}
-                    style={{
-                        padding: '4px 12px',
-                        fontSize: 12,
-                        borderRadius: 4,
-                        border: '1px solid #d1d5db',
-                        backgroundColor: '#fff',
-                        cursor: 'pointer',
-                    }}
-                >
-                    Save as Theme
-                </button>
-                <button
-                    onClick={handleReset}
-                    disabled={!hasDirtyTokens}
-                    style={{
-                        padding: '4px 12px',
-                        fontSize: 12,
-                        borderRadius: 4,
-                        border: '1px solid #d1d5db',
-                        backgroundColor: '#fff',
-                        color: hasDirtyTokens ? '#dc2626' : '#9ca3af',
-                        cursor: hasDirtyTokens ? 'pointer' : 'default',
-                    }}
-                >
-                    Reset
-                </button>
-                {hasDirtyTokens && (
-                    <span style={{ fontSize: 11, color: '#6b7280', marginLeft: 'auto' }}>
-                        {Object.keys(dirty).length} modified
-                    </span>
-                )}
-            </div>
+                    <button
+                        onClick={handleSave}
+                        disabled={!hasDirtyTokens || saving}
+                        style={{
+                            padding: '4px 12px',
+                            fontSize: 12,
+                            borderRadius: 4,
+                            border: '1px solid #3b82f6',
+                            backgroundColor: hasDirtyTokens ? '#3b82f6' : '#e5e7eb',
+                            color: hasDirtyTokens ? '#fff' : '#9ca3af',
+                            cursor: hasDirtyTokens ? 'pointer' : 'default',
+                        }}
+                    >
+                        {saving ? 'Saving...' : 'Save'}
+                    </button>
+                    <button
+                        onClick={() => setShowThemeDialog(true)}
+                        style={{
+                            padding: '4px 12px',
+                            fontSize: 12,
+                            borderRadius: 4,
+                            border: '1px solid #d1d5db',
+                            backgroundColor: '#fff',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        Save as Theme
+                    </button>
+                    <button
+                        onClick={handleReset}
+                        disabled={!hasDirtyTokens}
+                        style={{
+                            padding: '4px 12px',
+                            fontSize: 12,
+                            borderRadius: 4,
+                            border: '1px solid #d1d5db',
+                            backgroundColor: '#fff',
+                            color: hasDirtyTokens ? '#dc2626' : '#9ca3af',
+                            cursor: hasDirtyTokens ? 'pointer' : 'default',
+                        }}
+                    >
+                        Reset
+                    </button>
+                    {hasDirtyTokens && (
+                        <span style={{ fontSize: 11, color: '#6b7280', marginLeft: 'auto' }}>
+                            {Object.keys(dirty).length} modified
+                        </span>
+                    )}
+                </div>
+            )}
 
             {/* Theme dialog */}
             {showThemeDialog && (
