@@ -1,10 +1,4 @@
-import {
-    forwardRef,
-    createContext,
-    type ComponentPropsWithoutRef,
-    type ElementRef,
-    type ReactNode,
-} from 'react';
+import { forwardRef, type ComponentPropsWithoutRef, type ElementRef, type ReactNode } from 'react';
 import type { InteractiveProps, WidthProps } from '../../utils/types';
 import { resolveVariant } from '../../utils/types';
 import { cn } from '../../utils/cn';
@@ -121,34 +115,28 @@ SimpleButton.displayName = 'Button';
 
 // --- Compound API ---
 
-interface ButtonContextValue {
-    variant: ButtonVariant;
-    size: ButtonSize;
-}
+const ButtonRoot = forwardRef<ButtonElement, ButtonProps>(
+    (
+        {
+            variant = 'primary',
+            size = 'md',
+            type = 'button',
+            outline = false,
+            fullWidth = false,
+            disabled = false,
+            isLoading = false,
+            className,
+            children,
+            'aria-label': ariaLabel,
+            ...props
+        },
+        ref,
+    ) => {
+        const isDisabled = disabled || isLoading;
 
-const ButtonContext = createContext<ButtonContextValue>({
-    variant: 'primary',
-    size: 'md',
-});
-
-function ButtonRoot({
-    variant = 'primary',
-    size = 'md',
-    type = 'button',
-    outline = false,
-    fullWidth = false,
-    disabled = false,
-    isLoading = false,
-    className,
-    children,
-    'aria-label': ariaLabel,
-    ...props
-}: ButtonProps) {
-    const isDisabled = disabled || isLoading;
-
-    return (
-        <ButtonContext.Provider value={{ variant, size }}>
+        return (
             <button
+                ref={ref}
                 type={type}
                 disabled={isDisabled}
                 aria-label={ariaLabel}
@@ -159,9 +147,9 @@ function ButtonRoot({
                 {isLoading && <LoadingSpinner />}
                 {children}
             </button>
-        </ButtonContext.Provider>
-    );
-}
+        );
+    },
+);
 
 ButtonRoot.displayName = 'Button.Root';
 

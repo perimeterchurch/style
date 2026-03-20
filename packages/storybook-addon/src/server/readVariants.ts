@@ -1,6 +1,10 @@
 /**
  * Parses variant files (.variants.ts) to extract variant and size records.
- * Uses brace-counting + new Function() evaluation for safe object literal parsing.
+ * Uses brace-counting + new Function() evaluation for object literal parsing.
+ *
+ * Dev-only evaluation of local .variants.ts object literals.
+ * Acceptable because: files are trusted local source, addon only runs in pnpm dev, not in production.
+ * NOT safe for untrusted input — do not use this pattern in production code.
  */
 
 import path from 'node:path';

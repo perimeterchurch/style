@@ -4,7 +4,7 @@
  * Compound API: ComboSelect.Root, ComboSelect.Input, ComboSelect.Options, ComboSelect.Option
  */
 
-import { useState, useMemo, createContext, useContext, type ReactNode } from 'react';
+import { useState, useMemo, createContext, useContext, forwardRef, type ReactNode } from 'react';
 import {
     Combobox,
     ComboboxButton,
@@ -295,9 +295,9 @@ function useComboSelectContext() {
     return useContext(ComboSelectContext);
 }
 
-export interface ComboSelectRootProps<T extends string | number = string> {
-    value: T | T[] | '';
-    onChange: (value: T | T[] | '') => void;
+export interface ComboSelectRootProps {
+    value: string | number | (string | number)[] | '';
+    onChange: (value: string | number | (string | number)[] | '') => void;
     multiple?: boolean;
     disabled?: boolean;
     loading?: boolean;
@@ -306,35 +306,42 @@ export interface ComboSelectRootProps<T extends string | number = string> {
     className?: string;
 }
 
-function ComboSelectRoot<T extends string | number = string>({
-    value,
-    onChange,
-    multiple = false,
-    disabled = false,
-    loading = false,
-    placeholderIcon,
-    children,
-    className,
-}: ComboSelectRootProps<T>) {
-    const [query, setQuery] = useState('');
+const ComboSelectRoot = forwardRef<HTMLDivElement, ComboSelectRootProps>(
+    (
+        {
+            value,
+            onChange,
+            multiple = false,
+            disabled = false,
+            loading = false,
+            placeholderIcon,
+            children,
+            className,
+        },
+        ref,
+    ) => {
+        const [query, setQuery] = useState('');
 
-    return (
-        <ComboSelectContext.Provider value={{ query, setQuery, loading, placeholderIcon }}>
-            <Combobox
-                value={value as string}
-                onChange={(val: string | string[] | null) => {
-                    onChange((val ?? '') as T | T[] | '');
-                    setQuery('');
-                }}
-                multiple={multiple as false}
-                immediate
-                disabled={disabled || loading}
-            >
-                <div className={cn('relative min-w-0', className)}>{children}</div>
-            </Combobox>
-        </ComboSelectContext.Provider>
-    );
-}
+        return (
+            <ComboSelectContext.Provider value={{ query, setQuery, loading, placeholderIcon }}>
+                <Combobox
+                    value={value as string}
+                    onChange={(val: string | string[] | null) => {
+                        onChange((val ?? '') as string | number | (string | number)[] | '');
+                        setQuery('');
+                    }}
+                    multiple={multiple as false}
+                    immediate
+                    disabled={disabled || loading}
+                >
+                    <div ref={ref} className={cn('relative min-w-0', className)}>
+                        {children}
+                    </div>
+                </Combobox>
+            </ComboSelectContext.Provider>
+        );
+    },
+);
 
 ComboSelectRoot.displayName = 'ComboSelect.Root';
 

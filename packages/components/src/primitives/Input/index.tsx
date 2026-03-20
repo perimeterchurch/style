@@ -93,23 +93,24 @@ export interface InputRootProps extends BaseComponentProps, WidthProps {
     className?: string;
 }
 
-function InputRoot({
-    size = 'md',
-    error,
-    fullWidth = false,
-    disabled = false,
-    className,
-    children,
-    ...props
-}: InputRootProps) {
-    return (
-        <InputContext.Provider value={{ size, error, fullWidth, disabled }}>
-            <div className={cn('flex flex-col gap-1', fullWidth && 'w-full', className)} {...props}>
-                {children}
-            </div>
-        </InputContext.Provider>
-    );
-}
+const InputRoot = forwardRef<HTMLDivElement, InputRootProps>(
+    (
+        { size = 'md', error, fullWidth = false, disabled = false, className, children, ...props },
+        ref,
+    ) => {
+        return (
+            <InputContext.Provider value={{ size, error, fullWidth, disabled }}>
+                <div
+                    ref={ref}
+                    className={cn('flex flex-col gap-1', fullWidth && 'w-full', className)}
+                    {...props}
+                >
+                    {children}
+                </div>
+            </InputContext.Provider>
+        );
+    },
+);
 
 InputRoot.displayName = 'Input.Root';
 

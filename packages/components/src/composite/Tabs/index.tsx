@@ -4,7 +4,7 @@
  * Compound API: Tabs.Root, Tabs.List, Tabs.Tab, Tabs.Panels, Tabs.Panel
  */
 
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, forwardRef, type ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 import {
     tabsListClasses,
@@ -117,13 +117,17 @@ export interface TabsRootProps {
     className?: string;
 }
 
-function TabsRoot({ activeTab, onChange, children, className }: TabsRootProps) {
-    return (
-        <TabsContext.Provider value={{ activeTab, onChange }}>
-            <div className={className}>{children}</div>
-        </TabsContext.Provider>
-    );
-}
+const TabsRoot = forwardRef<HTMLDivElement, TabsRootProps>(
+    ({ activeTab, onChange, children, className }, ref) => {
+        return (
+            <TabsContext.Provider value={{ activeTab, onChange }}>
+                <div ref={ref} className={className}>
+                    {children}
+                </div>
+            </TabsContext.Provider>
+        );
+    },
+);
 
 TabsRoot.displayName = 'Tabs.Root';
 

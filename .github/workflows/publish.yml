@@ -40,7 +40,7 @@ jobs:
 
                   if echo "$COMMITS" | grep -qi "BREAKING CHANGE"; then
                     echo "bump=major" >> $GITHUB_OUTPUT
-                  elif echo "$COMMITS" | grep -qi "^feat"; then
+                  elif echo "$COMMITS" | grep -qi "feat:"; then
                     echo "bump=minor" >> $GITHUB_OUTPUT
                   else
                     echo "bump=patch" >> $GITHUB_OUTPUT

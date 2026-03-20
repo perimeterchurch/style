@@ -143,23 +143,32 @@ export interface SelectRootProps extends BaseComponentProps, WidthProps {
     className?: string;
 }
 
-function SelectRoot({
-    size = 'md',
-    error = false,
-    fullWidth = false,
-    disabled = false,
-    className,
-    children,
-    ...props
-}: SelectRootProps) {
-    return (
-        <SelectContext.Provider value={{ size, error, fullWidth, disabled }}>
-            <div className={cn('flex flex-col gap-1', fullWidth && 'w-full', className)} {...props}>
-                {children}
-            </div>
-        </SelectContext.Provider>
-    );
-}
+const SelectRoot = forwardRef<HTMLDivElement, SelectRootProps>(
+    (
+        {
+            size = 'md',
+            error = false,
+            fullWidth = false,
+            disabled = false,
+            className,
+            children,
+            ...props
+        },
+        ref,
+    ) => {
+        return (
+            <SelectContext.Provider value={{ size, error, fullWidth, disabled }}>
+                <div
+                    ref={ref}
+                    className={cn('flex flex-col gap-1', fullWidth && 'w-full', className)}
+                    {...props}
+                >
+                    {children}
+                </div>
+            </SelectContext.Provider>
+        );
+    },
+);
 
 SelectRoot.displayName = 'Select.Root';
 
