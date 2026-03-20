@@ -127,15 +127,22 @@ export function parseVariantsFile(content: string): ParsedVariantsFile {
  * Map a Storybook story title to a variants file path.
  * e.g. "Components/Primitives/Button" -> "src/primitives/Button/Button.variants.ts"
  */
-export function resolveVariantsPath(storyTitle: string): string {
+export function resolveVariantsPath(storyTitle: string): string | null {
     const parts = storyTitle.split('/');
-    // Expected: ["Components", "Primitives"|"Composite", "Button"]
-    if (parts.length < 3) {
-        throw new Error(`Cannot resolve variants path from title: "${storyTitle}"`);
+    // Expected: ["Components", "Primitives"|"Composite", "ComponentName"]
+    if (parts.length < 3 || parts[0] !== 'Components') {
+        return null;
     }
 
     const category = parts[1].toLowerCase(); // "primitives" or "composite"
     const componentName = parts[2]; // "Button"
 
-    return path.join('src', category, componentName, `${componentName}.variants.ts`);
+    return path.join(
+        'packages',
+        'components',
+        'src',
+        category,
+        componentName,
+        `${componentName}.variants.ts`,
+    );
 }

@@ -181,6 +181,12 @@ export function createStyleAddonMiddleware(rootDir: string): Plugin {
                                     break;
                                 }
                                 const relPath = resolveVariantsPath(component);
+                                if (!relPath) {
+                                    sendJson(res, 400, {
+                                        error: `Cannot resolve variants for: "${component}"`,
+                                    });
+                                    break;
+                                }
                                 const fullPath = join(rootDir, relPath);
                                 const content = await readFile(fullPath, 'utf-8');
                                 const parsed = parseVariantsFile(content);
@@ -198,6 +204,12 @@ export function createStyleAddonMiddleware(rootDir: string): Plugin {
                                     mode: 'add' | 'update';
                                 };
                                 const relPath = resolveVariantsPath(body.component);
+                                if (!relPath) {
+                                    sendJson(res, 400, {
+                                        error: `Cannot resolve variants for: "${body.component}"`,
+                                    });
+                                    break;
+                                }
                                 const fullPath = join(rootDir, relPath);
                                 const content = await readFile(fullPath, 'utf-8');
 
@@ -233,6 +245,12 @@ export function createStyleAddonMiddleware(rootDir: string): Plugin {
                                     break;
                                 }
                                 const relPath = resolveVariantsPath(component);
+                                if (!relPath) {
+                                    sendJson(res, 400, {
+                                        error: `Cannot resolve variants for: "${component}"`,
+                                    });
+                                    break;
+                                }
                                 const fullPath = join(rootDir, relPath);
                                 const content = await readFile(fullPath, 'utf-8');
                                 const updated = removeVariantFromFile(content, 'Variants', variant);

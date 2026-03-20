@@ -74,14 +74,20 @@ describe('parseVariantsFile', () => {
 });
 
 describe('resolveVariantsPath', () => {
-    it('maps Components/Primitives/Button to file path', () => {
+    it('maps Components/Primitives/Button to full file path', () => {
         const path = resolveVariantsPath('Components/Primitives/Button');
-        expect(path).toContain('primitives/Button/Button.variants.ts');
+        expect(path).toContain('packages/components/src/primitives/Button/Button.variants.ts');
     });
 
-    it('maps Components/Composite/Tabs to file path', () => {
+    it('maps Components/Composite/Tabs to full file path', () => {
         const path = resolveVariantsPath('Components/Composite/Tabs');
-        expect(path).toContain('composite/Tabs/Tabs.variants.ts');
+        expect(path).toContain('packages/components/src/composite/Tabs/Tabs.variants.ts');
+    });
+
+    it('returns null for non-component stories', () => {
+        expect(resolveVariantsPath('Foundation/Colors')).toBeNull();
+        expect(resolveVariantsPath('Patterns/FormLayout')).toBeNull();
+        expect(resolveVariantsPath('short')).toBeNull();
     });
 });
 
