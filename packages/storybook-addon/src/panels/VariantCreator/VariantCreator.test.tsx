@@ -2,10 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 
-import { buildTailwindClass, PropertyPicker } from './PropertyPicker';
-import { VariantList } from './VariantList';
-import { CssEditor } from './CssEditor';
-import type { VariantDefinition, SizeDefinition } from '../../server/readVariants';
+import { buildTailwindClass, PropertyPicker } from './PropertyPicker.tsx';
+import { VariantList } from './VariantList.tsx';
+import { CssEditor } from './CssEditor.tsx';
+import type { VariantDefinition, SizeDefinition } from '../../server/readVariants.ts';
 
 // ---------------------------------------------------------------------------
 // buildTailwindClass — pure function TDD

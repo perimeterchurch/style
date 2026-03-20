@@ -1,5 +1,5 @@
-export { ColorEditor } from './ColorEditor';
-export { SpacingEditor } from './SpacingEditor';
-export { ShadowEditor } from './ShadowEditor';
-export { TextEditor } from './TextEditor';
-export type { TokenEditorProps } from './ColorEditor';
+export { ColorEditor } from './ColorEditor.tsx';
+export { SpacingEditor } from './SpacingEditor.tsx';
+export { ShadowEditor } from './ShadowEditor.tsx';
+export { TextEditor } from './TextEditor.tsx';
+export type { TokenEditorProps } from './ColorEditor.tsx';

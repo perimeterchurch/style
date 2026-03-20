@@ -1,7 +1,8 @@
+import * as React from 'react';
 import { useState } from 'react';
-import type { VariantDefinition, SizeDefinition } from '../../server/readVariants';
-import { PropertyPicker } from './PropertyPicker';
-import { CssEditor } from './CssEditor';
+import type { VariantDefinition, SizeDefinition } from '../../server/readVariants.ts';
+import { PropertyPicker } from './PropertyPicker.tsx';
+import { CssEditor } from './CssEditor.tsx';
 
 export interface VariantEditorProps {
     variant: VariantDefinition | SizeDefinition;

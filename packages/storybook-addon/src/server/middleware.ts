@@ -11,11 +11,11 @@ import { readFile, writeFile, rename, copyFile } from 'node:fs/promises';
 import type { Plugin, ViteDevServer } from 'vite';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import { parseTokensFromCss, categorizeTokens } from './readTokens';
-import { updateTokensInCss } from './writeTokens';
-import { generateThemeCss, generateBaseImport } from './writeTheme';
-import { parseVariantsFile, resolveVariantsPath } from './readVariants';
-import { updateVariantInFile, addVariantToFile, removeVariantFromFile } from './writeVariant';
+import { parseTokensFromCss, categorizeTokens } from './readTokens.ts';
+import { updateTokensInCss } from './writeTokens.ts';
+import { generateThemeCss, generateBaseImport } from './writeTheme.ts';
+import { parseVariantsFile, resolveVariantsPath } from './readVariants.ts';
+import { updateVariantInFile, addVariantToFile, removeVariantFromFile } from './writeVariant.ts';
 
 // ---------------------------------------------------------------------------
 // Route parsing

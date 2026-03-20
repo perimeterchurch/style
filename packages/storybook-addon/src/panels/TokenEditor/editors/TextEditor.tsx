@@ -1,4 +1,5 @@
-import type { TokenEditorProps } from './ColorEditor';
+import * as React from 'react';
+import type { TokenEditorProps } from './ColorEditor.tsx';
 
 export function TextEditor({ name, value, onChange }: TokenEditorProps) {
     return (

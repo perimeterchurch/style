@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseRoute } from './middleware';
+import { parseRoute } from './middleware.ts';
 
 describe('parseRoute', () => {
     it('parses GET read-tokens', () => {

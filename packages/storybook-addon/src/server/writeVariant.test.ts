@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { updateVariantInFile, addVariantToFile, removeVariantFromFile } from './writeVariant';
+import { updateVariantInFile, addVariantToFile, removeVariantFromFile } from './writeVariant.ts';
 
 const SAMPLE_FILE = `import type { VariantDefinition, SizeDefinition } from '../../utils/types';
 

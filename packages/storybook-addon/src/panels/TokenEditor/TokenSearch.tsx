@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export interface TokenSearchProps {
     value: string;
     onChange: (value: string) => void;

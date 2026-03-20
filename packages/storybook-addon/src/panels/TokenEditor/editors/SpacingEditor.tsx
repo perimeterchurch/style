@@ -1,4 +1,5 @@
-import type { TokenEditorProps } from './ColorEditor';
+import * as React from 'react';
+import type { TokenEditorProps } from './ColorEditor.tsx';
 
 /** Extract numeric rem value from a string like "1.5rem". Returns 0 if unparseable. */
 function parseRem(value: string): number {

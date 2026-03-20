@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateThemeCss, generateBaseImport } from './writeTheme';
+import { generateThemeCss, generateBaseImport } from './writeTheme.ts';
 
 describe('generateThemeCss', () => {
     it('generates a data-theme selector block', () => {

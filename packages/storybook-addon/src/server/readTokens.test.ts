@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseTokensFromCss, categorizeTokens } from './readTokens';
+import { parseTokensFromCss, categorizeTokens } from './readTokens.ts';
 
 const SAMPLE_CSS = `
 @theme {

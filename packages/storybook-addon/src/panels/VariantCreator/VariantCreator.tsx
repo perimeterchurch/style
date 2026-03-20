@@ -1,12 +1,13 @@
+import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import { useStorybookState } from 'storybook/manager-api';
 import type {
     VariantDefinition,
     SizeDefinition,
     ParsedVariantsFile,
-} from '../../server/readVariants';
-import { VariantList } from './VariantList';
-import { VariantEditor } from './VariantEditor';
+} from '../../server/readVariants.ts';
+import { VariantList } from './VariantList.tsx';
+import { VariantEditor } from './VariantEditor.tsx';
 
 export interface VariantCreatorProps {
     active: boolean;

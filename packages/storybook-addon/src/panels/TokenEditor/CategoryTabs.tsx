@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export interface TokenCategory {
     name: string;
     count: number;

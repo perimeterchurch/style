@@ -4,7 +4,7 @@
  * without breaking strings that contain special characters like colons.
  */
 
-import type { VariantDefinition, SizeDefinition } from './readVariants';
+import type { VariantDefinition, SizeDefinition } from './readVariants.ts';
 
 type VariantOrSize = VariantDefinition | SizeDefinition;
 

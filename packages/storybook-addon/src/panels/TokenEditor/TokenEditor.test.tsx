@@ -2,12 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 
-import { CategoryTabs, type TokenCategory } from './CategoryTabs';
-import { TokenSearch } from './TokenSearch';
-import { ColorEditor } from './editors/ColorEditor';
-import { SpacingEditor } from './editors/SpacingEditor';
-import { ShadowEditor } from './editors/ShadowEditor';
-import { TextEditor } from './editors/TextEditor';
+import { CategoryTabs, type TokenCategory } from './CategoryTabs.tsx';
+import { TokenSearch } from './TokenSearch.tsx';
+import { ColorEditor } from './editors/ColorEditor.tsx';
+import { SpacingEditor } from './editors/SpacingEditor.tsx';
+import { ShadowEditor } from './editors/ShadowEditor.tsx';
+import { TextEditor } from './editors/TextEditor.tsx';
 
 // ---------------------------------------------------------------------------
 // CategoryTabs

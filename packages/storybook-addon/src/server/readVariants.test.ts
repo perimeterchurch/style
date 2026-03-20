@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseVariantsFile, resolveVariantsPath, validateVariantName } from './readVariants';
+import { parseVariantsFile, resolveVariantsPath, validateVariantName } from './readVariants.ts';
 
 const SAMPLE_VARIANTS_FILE = `import type { VariantDefinition, SizeDefinition } from '../../utils/types';
 

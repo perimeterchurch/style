@@ -1,5 +1,5 @@
-import React from 'react';
-import type { VariantDefinition, SizeDefinition } from '../../server/readVariants';
+import * as React from 'react';
+import type { VariantDefinition, SizeDefinition } from '../../server/readVariants.ts';
 
 export interface VariantListProps {
     variants: Record<string, VariantDefinition>;

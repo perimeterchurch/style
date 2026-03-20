@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export interface TokenEditorProps {
     name: string;
     value: string;

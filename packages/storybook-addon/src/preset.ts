@@ -1,7 +1,7 @@
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Plugin } from 'vite';
-import { createStyleAddonMiddleware } from './server/middleware';
+import { createStyleAddonMiddleware } from './server/middleware.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

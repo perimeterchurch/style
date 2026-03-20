@@ -1,4 +1,5 @@
-import { ColorEditor, SpacingEditor, ShadowEditor, TextEditor } from './editors';
+import * as React from 'react';
+import { ColorEditor, SpacingEditor, ShadowEditor, TextEditor } from './editors/index.ts';
 
 export interface TokenGroupProps {
     name: string;

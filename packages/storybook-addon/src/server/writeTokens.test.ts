@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateTokenName, updateTokensInCss } from './writeTokens';
+import { validateTokenName, updateTokensInCss } from './writeTokens.ts';
 
 describe('validateTokenName', () => {
     it('accepts valid token names', () => {

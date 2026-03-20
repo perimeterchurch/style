@@ -1,5 +1,5 @@
 import { addons } from 'storybook/preview-api';
-import { EVENTS } from './constants';
+import { EVENTS } from './constants.ts';
 
 /** Applied style overrides, tracked so we can remove them on reset. */
 const appliedOverrides = new Set<string>();

@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import { addons, types } from 'storybook/manager-api';
-import { ADDON_ID, TOKEN_EDITOR_PANEL_ID, VARIANT_CREATOR_PANEL_ID } from './constants';
-import { TokenEditor } from './panels/TokenEditor';
-import { VariantCreator } from './panels/VariantCreator';
+import { ADDON_ID, TOKEN_EDITOR_PANEL_ID, VARIANT_CREATOR_PANEL_ID } from './constants.ts';
+import { TokenEditor } from './panels/TokenEditor/index.ts';
+import { VariantCreator } from './panels/VariantCreator/index.ts';
 
 addons.register(ADDON_ID, (api) => {
     const channel = api.getChannel();

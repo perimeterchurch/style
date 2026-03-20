@@ -1,10 +1,11 @@
+import * as React from 'react';
 import { useEffect, useState, useCallback } from 'react';
-import type { CategorizedTokens, TokenRecord } from '../../server/readTokens';
-import { EVENTS } from '../../constants';
-import { CategoryTabs, type TokenCategory } from './CategoryTabs';
-import { TokenSearch } from './TokenSearch';
-import { TokenGroup } from './TokenGroup';
-import { TextEditor } from './editors';
+import type { CategorizedTokens, TokenRecord } from '../../server/readTokens.ts';
+import { EVENTS } from '../../constants.ts';
+import { CategoryTabs, type TokenCategory } from './CategoryTabs.tsx';
+import { TokenSearch } from './TokenSearch.tsx';
+import { TokenGroup } from './TokenGroup.tsx';
+import { TextEditor } from './editors/index.ts';
 
 // ---------------------------------------------------------------------------
 // Types
