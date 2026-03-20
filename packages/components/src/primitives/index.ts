@@ -1,2 +1,1 @@
-// Primitives will be added in subsequent tasks
-export {};
+export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from './Button';
