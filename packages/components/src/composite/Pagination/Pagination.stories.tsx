@@ -14,9 +14,22 @@ const meta: Meta<typeof Pagination> = {
 export default meta;
 type Story = StoryObj<typeof Pagination>;
 
-function PaginationDemo({ totalPages = 10, maxButtons = 7 }: { totalPages?: number; maxButtons?: number }) {
+function PaginationDemo({
+    totalPages = 10,
+    maxButtons = 7,
+}: {
+    totalPages?: number;
+    maxButtons?: number;
+}) {
     const [page, setPage] = useState(1);
-    return <Pagination page={page} totalPages={totalPages} onChange={setPage} maxButtons={maxButtons} />;
+    return (
+        <Pagination
+            page={page}
+            totalPages={totalPages}
+            onChange={setPage}
+            maxButtons={maxButtons}
+        />
+    );
 }
 
 export const Default: Story = {

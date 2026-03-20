@@ -30,7 +30,13 @@ function MultiIconSelectDemo() {
                 onChange={setValue}
                 placeholder="Select days..."
             />
-            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+            <p
+                style={{
+                    fontSize: '0.75rem',
+                    color: 'var(--color-text-muted)',
+                    marginTop: '0.5rem',
+                }}
+            >
                 Selected: {value.length > 0 ? value.join(', ') : '(none)'}
             </p>
         </div>

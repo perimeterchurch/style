@@ -69,11 +69,7 @@ export interface PaginationProps {
 
 // --- Helpers ---
 
-function getPageNumbers(
-    current: number,
-    total: number,
-    max: number,
-): (number | 'ellipsis')[] {
+function getPageNumbers(current: number, total: number, max: number): (number | 'ellipsis')[] {
     if (total <= max) return Array.from({ length: total }, (_, i) => i + 1);
     const pages: (number | 'ellipsis')[] = [];
     const sideCount = Math.floor((max - 3) / 2);
@@ -104,10 +100,7 @@ export function Pagination({
     if (totalPages <= 1) return null;
 
     return (
-        <nav
-            aria-label="Pagination"
-            className={cn(paginationNavClasses, className)}
-        >
+        <nav aria-label="Pagination" className={cn(paginationNavClasses, className)}>
             <button
                 type="button"
                 onClick={() => onChange(page - 1)}

@@ -15,7 +15,14 @@ interface SwatchProps {
 
 function Swatch({ name, variable, hex }: SwatchProps) {
     return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                marginBottom: '0.5rem',
+            }}
+        >
             <div
                 style={{
                     width: 48,
@@ -28,8 +35,16 @@ function Swatch({ name, variable, hex }: SwatchProps) {
             />
             <div>
                 <div style={{ fontWeight: 600, fontSize: '0.875rem' }}>{name}</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{variable}</div>
-                <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--color-text-secondary)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+                    {variable}
+                </div>
+                <div
+                    style={{
+                        fontSize: '0.75rem',
+                        fontFamily: 'var(--font-mono)',
+                        color: 'var(--color-text-secondary)',
+                    }}
+                >
                     {hex}
                 </div>
             </div>
@@ -40,10 +55,24 @@ function Swatch({ name, variable, hex }: SwatchProps) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
     return (
         <div style={{ marginBottom: '2rem' }}>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.5rem' }}>
+            <h3
+                style={{
+                    fontSize: '1.125rem',
+                    fontWeight: 600,
+                    marginBottom: '1rem',
+                    borderBottom: '1px solid var(--color-border)',
+                    paddingBottom: '0.5rem',
+                }}
+            >
                 {title}
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.5rem' }}>
+            <div
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                    gap: '0.5rem',
+                }}
+            >
                 {children}
             </div>
         </div>
@@ -57,19 +86,31 @@ export const SemanticColors: Story = {
                 <Swatch name="Primary" variable="--color-primary" hex="#5b5bd6" />
                 <Swatch name="Primary Hover" variable="--color-primary-hover" hex="#4e4eca" />
                 <Swatch name="Primary Active" variable="--color-primary-active" hex="#4242b8" />
-                <Swatch name="Primary Foreground" variable="--color-primary-foreground" hex="#ffffff" />
+                <Swatch
+                    name="Primary Foreground"
+                    variable="--color-primary-foreground"
+                    hex="#ffffff"
+                />
             </Section>
             <Section title="Success">
                 <Swatch name="Success" variable="--color-success" hex="#46a758" />
                 <Swatch name="Success Hover" variable="--color-success-hover" hex="#3d9b4f" />
                 <Swatch name="Success Active" variable="--color-success-active" hex="#348746" />
-                <Swatch name="Success Foreground" variable="--color-success-foreground" hex="#ffffff" />
+                <Swatch
+                    name="Success Foreground"
+                    variable="--color-success-foreground"
+                    hex="#ffffff"
+                />
             </Section>
             <Section title="Warning">
                 <Swatch name="Warning" variable="--color-warning" hex="#f5a623" />
                 <Swatch name="Warning Hover" variable="--color-warning-hover" hex="#e09918" />
                 <Swatch name="Warning Active" variable="--color-warning-active" hex="#c88a14" />
-                <Swatch name="Warning Foreground" variable="--color-warning-foreground" hex="#ffffff" />
+                <Swatch
+                    name="Warning Foreground"
+                    variable="--color-warning-foreground"
+                    hex="#ffffff"
+                />
             </Section>
             <Section title="Error">
                 <Swatch name="Error" variable="--color-error" hex="#e54666" />
@@ -125,26 +166,58 @@ export const LightVsDark: Story = {
     name: 'Light vs Dark Comparison',
     render: () => {
         const tokens = [
-            { name: 'Background', variable: '--color-background', light: '#ffffff', dark: '#0c0a09' },
-            { name: 'Foreground', variable: '--color-foreground', light: '#1c1917', dark: '#fafaf9' },
+            {
+                name: 'Background',
+                variable: '--color-background',
+                light: '#ffffff',
+                dark: '#0c0a09',
+            },
+            {
+                name: 'Foreground',
+                variable: '--color-foreground',
+                light: '#1c1917',
+                dark: '#fafaf9',
+            },
             { name: 'Card', variable: '--color-card', light: '#ffffff', dark: '#1c1917' },
             { name: 'Muted', variable: '--color-muted', light: '#f5f5f4', dark: '#292524' },
             { name: 'Border', variable: '--color-border', light: '#d6d3d1', dark: '#44403c' },
             { name: 'Text', variable: '--color-text', light: '#1c1917', dark: '#fafaf9' },
-            { name: 'Text Muted', variable: '--color-text-muted', light: '#a8a29e', dark: '#78716c' },
+            {
+                name: 'Text Muted',
+                variable: '--color-text-muted',
+                light: '#a8a29e',
+                dark: '#78716c',
+            },
         ];
         return (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
                 <div>
                     <h3 style={{ fontWeight: 600, marginBottom: '1rem' }}>Light Theme</h3>
                     {tokens.map((t) => (
-                        <Swatch key={`light-${t.name}`} name={t.name} variable={t.variable} hex={t.light} />
+                        <Swatch
+                            key={`light-${t.name}`}
+                            name={t.name}
+                            variable={t.variable}
+                            hex={t.light}
+                        />
                     ))}
                 </div>
-                <div style={{ backgroundColor: '#0c0a09', padding: '1rem', borderRadius: 12, color: '#fafaf9' }}>
+                <div
+                    style={{
+                        backgroundColor: '#0c0a09',
+                        padding: '1rem',
+                        borderRadius: 12,
+                        color: '#fafaf9',
+                    }}
+                >
                     <h3 style={{ fontWeight: 600, marginBottom: '1rem' }}>Dark Theme</h3>
                     {tokens.map((t) => (
-                        <Swatch key={`dark-${t.name}`} name={t.name} variable={t.variable} hex={t.dark} />
+                        <Swatch
+                            key={`dark-${t.name}`}
+                            name={t.name}
+                            variable={t.variable}
+                            hex={t.dark}
+                        />
                     ))}
                 </div>
             </div>

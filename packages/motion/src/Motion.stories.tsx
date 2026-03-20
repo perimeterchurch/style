@@ -28,7 +28,16 @@ export const Fade: Story = {
             const [key, setKey] = useState(0);
             return (
                 <div>
-                    <button onClick={() => setKey((k) => k + 1)} style={{ marginBottom: '1rem', padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid var(--color-border)', cursor: 'pointer' }}>
+                    <button
+                        onClick={() => setKey((k) => k + 1)}
+                        style={{
+                            marginBottom: '1rem',
+                            padding: '0.5rem 1rem',
+                            borderRadius: 8,
+                            border: '1px solid var(--color-border)',
+                            cursor: 'pointer',
+                        }}
+                    >
                         Replay
                     </button>
                     <FadeIn key={key}>
@@ -48,7 +57,16 @@ export const Slide: Story = {
             const [key, setKey] = useState(0);
             return (
                 <div>
-                    <button onClick={() => setKey((k) => k + 1)} style={{ marginBottom: '1rem', padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid var(--color-border)', cursor: 'pointer' }}>
+                    <button
+                        onClick={() => setKey((k) => k + 1)}
+                        style={{
+                            marginBottom: '1rem',
+                            padding: '0.5rem 1rem',
+                            borderRadius: 8,
+                            border: '1px solid var(--color-border)',
+                            cursor: 'pointer',
+                        }}
+                    >
                         Replay
                     </button>
                     <SlideUp key={key}>
@@ -68,7 +86,16 @@ export const Scale: Story = {
             const [key, setKey] = useState(0);
             return (
                 <div>
-                    <button onClick={() => setKey((k) => k + 1)} style={{ marginBottom: '1rem', padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid var(--color-border)', cursor: 'pointer' }}>
+                    <button
+                        onClick={() => setKey((k) => k + 1)}
+                        style={{
+                            marginBottom: '1rem',
+                            padding: '0.5rem 1rem',
+                            borderRadius: 8,
+                            border: '1px solid var(--color-border)',
+                            cursor: 'pointer',
+                        }}
+                    >
                         Replay
                     </button>
                     <ScaleIn key={key}>
@@ -88,12 +115,26 @@ export const List: Story = {
             const [key, setKey] = useState(0);
             return (
                 <div>
-                    <button onClick={() => setKey((k) => k + 1)} style={{ marginBottom: '1rem', padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid var(--color-border)', cursor: 'pointer' }}>
+                    <button
+                        onClick={() => setKey((k) => k + 1)}
+                        style={{
+                            marginBottom: '1rem',
+                            padding: '0.5rem 1rem',
+                            borderRadius: 8,
+                            border: '1px solid var(--color-border)',
+                            cursor: 'pointer',
+                        }}
+                    >
                         Replay
                     </button>
-                    <AnimatedList key={key} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <AnimatedList
+                        key={key}
+                        style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+                    >
                         {['Item 1', 'Item 2', 'Item 3', 'Item 4'].map((item) => (
-                            <div key={item} style={{ ...boxStyle, padding: '0.75rem' }}>{item}</div>
+                            <div key={item} style={{ ...boxStyle, padding: '0.75rem' }}>
+                                {item}
+                            </div>
                         ))}
                     </AnimatedList>
                 </div>
@@ -114,10 +155,50 @@ export const Counter: Story = {
                         <CountUp value={value} />
                     </div>
                     <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
-                        <button onClick={() => setValue(42)} style={{ padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid var(--color-border)', cursor: 'pointer' }}>42</button>
-                        <button onClick={() => setValue(1000)} style={{ padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid var(--color-border)', cursor: 'pointer' }}>1,000</button>
-                        <button onClick={() => setValue(99999)} style={{ padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid var(--color-border)', cursor: 'pointer' }}>99,999</button>
-                        <button onClick={() => setValue(0)} style={{ padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid var(--color-border)', cursor: 'pointer' }}>Reset</button>
+                        <button
+                            onClick={() => setValue(42)}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                borderRadius: 8,
+                                border: '1px solid var(--color-border)',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            42
+                        </button>
+                        <button
+                            onClick={() => setValue(1000)}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                borderRadius: 8,
+                                border: '1px solid var(--color-border)',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            1,000
+                        </button>
+                        <button
+                            onClick={() => setValue(99999)}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                borderRadius: 8,
+                                border: '1px solid var(--color-border)',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            99,999
+                        </button>
+                        <button
+                            onClick={() => setValue(0)}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                borderRadius: 8,
+                                border: '1px solid var(--color-border)',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            Reset
+                        </button>
                     </div>
                 </div>
             );
@@ -133,16 +214,48 @@ export const SkeletonToContent: Story = {
             const [isLoading, setIsLoading] = useState(true);
             return (
                 <div style={{ maxWidth: 300 }}>
-                    <button onClick={() => setIsLoading((l) => !l)} style={{ marginBottom: '1rem', padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid var(--color-border)', cursor: 'pointer' }}>
+                    <button
+                        onClick={() => setIsLoading((l) => !l)}
+                        style={{
+                            marginBottom: '1rem',
+                            padding: '0.5rem 1rem',
+                            borderRadius: 8,
+                            border: '1px solid var(--color-border)',
+                            cursor: 'pointer',
+                        }}
+                    >
                         Toggle Loading: {isLoading ? 'ON' : 'OFF'}
                     </button>
                     <SkeletonTransition
                         isLoading={isLoading}
                         skeleton={
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <div style={{ height: 16, width: '80%', borderRadius: 8, backgroundColor: 'var(--color-bg-muted)' }} />
-                                <div style={{ height: 16, width: '60%', borderRadius: 8, backgroundColor: 'var(--color-bg-muted)' }} />
-                                <div style={{ height: 16, width: '70%', borderRadius: 8, backgroundColor: 'var(--color-bg-muted)' }} />
+                            <div
+                                style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+                            >
+                                <div
+                                    style={{
+                                        height: 16,
+                                        width: '80%',
+                                        borderRadius: 8,
+                                        backgroundColor: 'var(--color-bg-muted)',
+                                    }}
+                                />
+                                <div
+                                    style={{
+                                        height: 16,
+                                        width: '60%',
+                                        borderRadius: 8,
+                                        backgroundColor: 'var(--color-bg-muted)',
+                                    }}
+                                />
+                                <div
+                                    style={{
+                                        height: 16,
+                                        width: '70%',
+                                        borderRadius: 8,
+                                        backgroundColor: 'var(--color-bg-muted)',
+                                    }}
+                                />
                             </div>
                         }
                     >

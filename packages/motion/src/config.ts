@@ -224,9 +224,7 @@ export const modalPanelVariants: Variants = {
  * Creates a stagger container variant.
  * Children using `staggerItemVariants` will animate in sequence.
  */
-export function staggerContainer(
-    staggerDelay: number = staggers.base,
-): Variants {
+export function staggerContainer(staggerDelay: number = staggers.base): Variants {
     return {
         hidden: {},
         visible: {

@@ -11,24 +11,18 @@ const tabs = [
 
 describe('Tabs (props API)', () => {
     it('renders all tabs', () => {
-        render(
-            <Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />,
-        );
+        render(<Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />);
         expect(screen.getAllByRole('tab')).toHaveLength(3);
     });
 
     it('marks active tab with aria-selected', () => {
-        render(
-            <Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />,
-        );
+        render(<Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />);
         const activeTab = screen.getByRole('tab', { name: 'Overview' });
         expect(activeTab).toHaveAttribute('aria-selected', 'true');
     });
 
     it('marks inactive tabs with aria-selected=false', () => {
-        render(
-            <Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />,
-        );
+        render(<Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />);
         const inactive = screen.getByRole('tab', { name: 'Details' });
         expect(inactive).toHaveAttribute('aria-selected', 'false');
     });
@@ -36,9 +30,7 @@ describe('Tabs (props API)', () => {
     it('calls onChange when tab is clicked', async () => {
         const user = userEvent.setup();
         const handleChange = vi.fn();
-        render(
-            <Tabs tabs={tabs} activeTab="overview" onChange={handleChange} />,
-        );
+        render(<Tabs tabs={tabs} activeTab="overview" onChange={handleChange} />);
         await user.click(screen.getByRole('tab', { name: 'Details' }));
         expect(handleChange).toHaveBeenCalledWith('details');
     });
@@ -46,9 +38,7 @@ describe('Tabs (props API)', () => {
     it('does not call onChange for disabled tab', async () => {
         const user = userEvent.setup();
         const handleChange = vi.fn();
-        render(
-            <Tabs tabs={tabs} activeTab="overview" onChange={handleChange} />,
-        );
+        render(<Tabs tabs={tabs} activeTab="overview" onChange={handleChange} />);
         await user.click(screen.getByRole('tab', { name: 'Settings' }));
         expect(handleChange).not.toHaveBeenCalled();
     });
@@ -57,18 +47,14 @@ describe('Tabs (props API)', () => {
         const tabsWithBadge = [
             { id: 'a', label: 'Tab A', badge: <span data-testid="badge">5</span> },
         ];
-        render(
-            <Tabs tabs={tabsWithBadge} activeTab="a" onChange={() => {}} />,
-        );
+        render(<Tabs tabs={tabsWithBadge} activeTab="a" onChange={() => {}} />);
         expect(screen.getByTestId('badge')).toBeInTheDocument();
     });
 
     it('supports keyboard navigation (ArrowRight)', async () => {
         const user = userEvent.setup();
         const handleChange = vi.fn();
-        render(
-            <Tabs tabs={tabs} activeTab="overview" onChange={handleChange} />,
-        );
+        render(<Tabs tabs={tabs} activeTab="overview" onChange={handleChange} />);
         const firstTab = screen.getByRole('tab', { name: 'Overview' });
         firstTab.focus();
         await user.keyboard('{ArrowRight}');
@@ -76,16 +62,12 @@ describe('Tabs (props API)', () => {
     });
 
     it('renders tablist role', () => {
-        render(
-            <Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />,
-        );
+        render(<Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />);
         expect(screen.getByRole('tablist')).toBeInTheDocument();
     });
 
     it('shows active indicator on active tab', () => {
-        render(
-            <Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />,
-        );
+        render(<Tabs tabs={tabs} activeTab="overview" onChange={() => {}} />);
         const activeTab = screen.getByRole('tab', { name: 'Overview' });
         // The indicator is a child span
         const indicator = activeTab.querySelector('span:last-child');

@@ -30,6 +30,7 @@ A `Record<string, LucideIcon>` of 32 commonly-used icons with kebab-case names:
 A `Record<string, CustomIcon>` that starts empty. Custom icons are registered at runtime via `registerIcon()`.
 
 Type for custom icons:
+
 ```ts
 type CustomIcon = ComponentType<SVGProps<SVGSVGElement> & { ref?: React.Ref<SVGSVGElement> }>;
 ```
@@ -43,22 +44,24 @@ type CustomIcon = ComponentType<SVGProps<SVGSVGElement> & { ref?: React.Ref<SVGS
 ```
 
 Props:
+
 - `name: IconName` — Registry key (lucide name or custom name)
 - `size?: number` — Width and height in pixels (default: 16)
 - All standard SVG props
 
 Behavior:
+
 - Looks up the icon in the registry via `getIcon(name)`
 - If not found, logs a warning in development and returns `null`
 - Forwards ref to the underlying SVG element
 
 ## Exported Functions
 
-| Function | Signature | Purpose |
-| --- | --- | --- |
-| `getIcon` | `(name: string) => LucideIcon \| CustomIcon \| undefined` | Look up an icon by name |
-| `registerIcon` | `(name: string, icon: CustomIcon) => void` | Register a custom SVG icon |
-| `getIconNames` | `() => string[]` | Get all registered icon names (lucide + custom) |
+| Function       | Signature                                                 | Purpose                                         |
+| -------------- | --------------------------------------------------------- | ----------------------------------------------- |
+| `getIcon`      | `(name: string) => LucideIcon \| CustomIcon \| undefined` | Look up an icon by name                         |
+| `registerIcon` | `(name: string, icon: CustomIcon) => void`                | Register a custom SVG icon                      |
+| `getIconNames` | `() => string[]`                                          | Get all registered icon names (lucide + custom) |
 
 ## IconName Type
 
@@ -72,13 +75,13 @@ This provides autocomplete for built-in names while allowing arbitrary strings f
 
 1. Open `packages/icons/src/registry.ts`
 2. Add the import from `lucide-react`:
-   ```ts
-   import { /* existing */, NewIcon } from 'lucide-react';
-   ```
+    ```ts
+    import { /* existing */, NewIcon } from 'lucide-react';
+    ```
 3. Add the entry to `lucideIcons`:
-   ```ts
-   'new-icon': NewIcon,
-   ```
+    ```ts
+    'new-icon': NewIcon,
+    ```
 4. Run `pnpm build` and `pnpm test` in the icons package
 
 ## Adding a Custom SVG Icon
@@ -89,16 +92,14 @@ At runtime in the consuming application:
 import { registerIcon } from '@perimeterchurch/style/icons';
 import { forwardRef } from 'react';
 
-const PerimeterLogo = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
-    (props, ref) => (
-        <svg ref={ref} viewBox="0 0 24 24" {...props}>
-            {/* SVG paths */}
-        </svg>
-    ),
-);
+const PerimeterLogo = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>((props, ref) => (
+    <svg ref={ref} viewBox="0 0 24 24" {...props}>
+        {/* SVG paths */}
+    </svg>
+));
 
 registerIcon('perimeter-logo', PerimeterLogo);
 
 // Now usable:
-<Icon name="perimeter-logo" size={24} />
+<Icon name="perimeter-logo" size={24} />;
 ```

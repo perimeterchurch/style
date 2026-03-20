@@ -15,9 +15,7 @@ describe('Button', () => {
     it('renders all variants without crashing', () => {
         for (const variant of Object.keys(buttonVariants)) {
             const { unmount } = render(
-                <Button variant={variant as keyof typeof buttonVariants}>
-                    {variant}
-                </Button>,
+                <Button variant={variant as keyof typeof buttonVariants}>{variant}</Button>,
             );
             expect(screen.getByRole('button')).toBeInTheDocument();
             unmount();
@@ -94,7 +92,9 @@ describe('Button Compound API', () => {
     it('renders with compound parts', () => {
         render(
             <Button.Root>
-                <Button.Icon><span>icon</span></Button.Icon>
+                <Button.Icon>
+                    <span>icon</span>
+                </Button.Icon>
                 <Button.Label>Label</Button.Label>
             </Button.Root>,
         );
@@ -106,7 +106,9 @@ describe('Button Compound API', () => {
     it('compound Icon has aria-hidden', () => {
         render(
             <Button.Root>
-                <Button.Icon><span data-testid="icon">i</span></Button.Icon>
+                <Button.Icon>
+                    <span data-testid="icon">i</span>
+                </Button.Icon>
                 <Button.Label>Text</Button.Label>
             </Button.Root>,
         );

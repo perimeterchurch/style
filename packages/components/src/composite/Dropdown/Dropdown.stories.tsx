@@ -15,7 +15,9 @@ export const Default: Story = {
             <Dropdown.Item onClick={() => {}}>Edit</Dropdown.Item>
             <Dropdown.Item onClick={() => {}}>Duplicate</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={() => {}} destructive>Delete</Dropdown.Item>
+            <Dropdown.Item onClick={() => {}} destructive>
+                Delete
+            </Dropdown.Item>
         </Dropdown>
     ),
 };
@@ -27,7 +29,9 @@ export const WithDisabledItem: Story = {
             <Dropdown.Item onClick={() => {}}>Edit</Dropdown.Item>
             <Dropdown.Item disabled>Archive (unavailable)</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={() => {}} destructive>Delete</Dropdown.Item>
+            <Dropdown.Item onClick={() => {}} destructive>
+                Delete
+            </Dropdown.Item>
         </Dropdown>
     ),
 };

@@ -4,12 +4,7 @@
  * Icons are provided via ReactNode props (no lucide-react dependency).
  */
 
-import {
-    Listbox,
-    ListboxButton,
-    ListboxOption,
-    ListboxOptions,
-} from '@headlessui/react';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
 import type { ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 import {
@@ -91,17 +86,12 @@ export function IconSelect<T extends string | number = string>({
         <Listbox value={value} onChange={onChange}>
             <div className={cn('relative', fullWidth && 'w-full', className)}>
                 <ListboxButton
-                    className={cn(
-                        iconSelectButtonClasses,
-                        fullWidth ? 'w-full' : 'w-auto',
-                    )}
+                    className={cn(iconSelectButtonClasses, fullWidth ? 'w-full' : 'w-auto')}
                 >
                     {selected ? (
                         <>
                             {selected.icon && (
-                                <span className="flex shrink-0 items-center">
-                                    {selected.icon}
-                                </span>
+                                <span className="flex shrink-0 items-center">{selected.icon}</span>
                             )}
                             <span className="flex-1 truncate text-left text-[var(--color-foreground)]">
                                 {selected.label}

@@ -21,14 +21,7 @@ export interface LabelProps extends ComponentPropsWithoutRef<'label'>, BaseCompo
 
 export const Label = forwardRef<LabelElement, LabelProps>(
     (
-        {
-            className,
-            children,
-            required = false,
-            disabled = false,
-            variant = 'default',
-            ...props
-        },
+        { className, children, required = false, disabled = false, variant = 'default', ...props },
         ref,
     ) => {
         return (

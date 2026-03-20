@@ -30,12 +30,12 @@ Each internal package builds independently via tsup into its own `packages/<name
 
 The collect script maps:
 
-| Source | Destination |
-| --- | --- |
-| `packages/tokens/dist/` | `dist/tokens/` |
+| Source                      | Destination        |
+| --------------------------- | ------------------ |
+| `packages/tokens/dist/`     | `dist/tokens/`     |
 | `packages/components/dist/` | `dist/components/` |
-| `packages/motion/dist/` | `dist/motion/` |
-| `packages/icons/dist/` | `dist/icons/` |
+| `packages/motion/dist/`     | `dist/motion/`     |
+| `packages/icons/dist/`      | `dist/icons/`      |
 
 The root `package.json` declares `"files": ["dist"]` so only the collected output is published.
 
@@ -43,15 +43,15 @@ The root `package.json` declares `"files": ["dist"]` so only the collected outpu
 
 The root `package.json` `exports` field maps published entry points to collected dist files:
 
-| Import path | Maps to | Contents |
-| --- | --- | --- |
-| `@perimeterchurch/style` | `dist/tokens/index.js` | Token utilities, TOKEN_VERSION |
-| `@perimeterchurch/style/components` | `dist/components/index.js` | All primitive components + utilities |
-| `@perimeterchurch/style/composite` | `dist/components/composite/index.js` | Complex components (Headless UI) |
-| `@perimeterchurch/style/motion` | `dist/motion/index.js` | Framer Motion wrappers |
-| `@perimeterchurch/style/icons` | `dist/icons/index.js` | Icon component + registry |
-| `@perimeterchurch/style/css` | `dist/tokens/base.css` | Base CSS (tokens + resets + dark mode) |
-| `@perimeterchurch/style/tailwind` | `dist/tokens/preset.css` | Tailwind v4 preset (tokens only) |
+| Import path                         | Maps to                              | Contents                               |
+| ----------------------------------- | ------------------------------------ | -------------------------------------- |
+| `@perimeterchurch/style`            | `dist/tokens/index.js`               | Token utilities, TOKEN_VERSION         |
+| `@perimeterchurch/style/components` | `dist/components/index.js`           | All primitive components + utilities   |
+| `@perimeterchurch/style/composite`  | `dist/components/composite/index.js` | Complex components (Headless UI)       |
+| `@perimeterchurch/style/motion`     | `dist/motion/index.js`               | Framer Motion wrappers                 |
+| `@perimeterchurch/style/icons`      | `dist/icons/index.js`                | Icon component + registry              |
+| `@perimeterchurch/style/css`        | `dist/tokens/base.css`               | Base CSS (tokens + resets + dark mode) |
+| `@perimeterchurch/style/tailwind`   | `dist/tokens/preset.css`             | Tailwind v4 preset (tokens only)       |
 
 ## Build Pipeline Per Package
 
@@ -68,6 +68,7 @@ cp -r src/themes dist/    # themes/light.css, themes/dark.css
 ### components
 
 Two tsup entries:
+
 - `src/index.ts` → `dist/index.js` (primitives + utils)
 - `src/composite/index.ts` → `dist/composite/index.js` (composite components)
 
@@ -89,24 +90,24 @@ External: `react`, `react-dom`, `lucide-react`
 
 Defined in `turbo.json`:
 
-| Task | Dependencies | Outputs | Cache |
-| --- | --- | --- | --- |
-| `build` | `^build` (topological) | `dist/**` | Yes |
-| `test` | `^build` | — | Yes |
-| `lint` | — | — | Yes |
-| `typecheck` | — | — | Yes |
-| `dev` | — | — | No (persistent) |
+| Task        | Dependencies           | Outputs   | Cache           |
+| ----------- | ---------------------- | --------- | --------------- |
+| `build`     | `^build` (topological) | `dist/**` | Yes             |
+| `test`      | `^build`               | —         | Yes             |
+| `lint`      | —                      | —         | Yes             |
+| `typecheck` | —                      | —         | Yes             |
+| `dev`       | —                      | —         | No (persistent) |
 
 ## Root Commands
 
-| Command | What it does |
-| --- | --- |
-| `pnpm dev` | Start Storybook on port 6006 |
-| `pnpm build` | `turbo build` + `collect-dist.js` |
-| `pnpm test` | Run all tests via Turborepo |
-| `pnpm lint` | ESLint across all packages |
-| `pnpm typecheck` | TypeScript checking across all packages |
-| `pnpm format` | Prettier format all files |
-| `pnpm format:check` | Prettier check (CI mode) |
-| `pnpm quality` | All checks: typecheck + lint + format:check + test |
-| `pnpm storybook:build` | Static Storybook build |
+| Command                | What it does                                       |
+| ---------------------- | -------------------------------------------------- |
+| `pnpm dev`             | Start Storybook on port 6006                       |
+| `pnpm build`           | `turbo build` + `collect-dist.js`                  |
+| `pnpm test`            | Run all tests via Turborepo                        |
+| `pnpm lint`            | ESLint across all packages                         |
+| `pnpm typecheck`       | TypeScript checking across all packages            |
+| `pnpm format`          | Prettier format all files                          |
+| `pnpm format:check`    | Prettier check (CI mode)                           |
+| `pnpm quality`         | All checks: typecheck + lint + format:check + test |
+| `pnpm storybook:build` | Static Storybook build                             |

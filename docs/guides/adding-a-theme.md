@@ -37,7 +37,7 @@ Open `packages/tokens/src/base.css` and add an import for the new theme after th
 @import 'tailwindcss';
 @import './tokens.css';
 @import './themes/dark.css';
-@import './themes/<name>.css';    /* Add this line */
+@import './themes/<name>.css'; /* Add this line */
 ```
 
 ## Step 3: Build and Verify
@@ -71,11 +71,11 @@ Or start Storybook (`pnpm dev`) and manually add `data-theme="<name>"` to the pr
 ```html
 <!-- Entire page -->
 <html data-theme="<name>">
-
-<!-- Scoped section -->
-<div data-theme="<name>">
-    <Card>Themed content</Card>
-</div>
+    <!-- Scoped section -->
+    <div data-theme="<name>">
+        <Card>Themed content</Card>
+    </div>
+</html>
 ```
 
 ## Tokens Available for Override

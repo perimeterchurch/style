@@ -20,7 +20,9 @@ Sub-components for full layout control:
 
 ```tsx
 <Button.Root variant="primary" size="md">
-    <Button.Icon><SearchIcon /></Button.Icon>
+    <Button.Icon>
+        <SearchIcon />
+    </Button.Icon>
     <Button.Label>Search</Button.Label>
 </Button.Root>
 ```
@@ -43,15 +45,15 @@ This means `Button` works as both `<Button>` (simple) and `<Button.Root>` (compo
 
 ### Components with Compound API
 
-| Component | Simple | Compound Parts |
-| --- | --- | --- |
-| Button | `<Button>` | `Button.Root`, `Button.Icon`, `Button.Label` |
-| Card | `<Card>` | `Card.Header`, `Card.Body`, `Card.Footer` |
-| Input | `<Input>` | `Input.Root`, `Input.Addon` |
-| Select | `<Select>` | `Select.Root`, `Select.Option` |
-| Tabs | `<Tabs>` | `Tabs.Root`, `Tabs.List`, `Tabs.Tab`, `Tabs.Panels`, `Tabs.Panel` |
-| ComboSelect | `<ComboSelect>` | — (uses Headless UI internally) |
-| Dropdown | `<Dropdown>` | — (uses Headless UI internally) |
+| Component   | Simple          | Compound Parts                                                    |
+| ----------- | --------------- | ----------------------------------------------------------------- |
+| Button      | `<Button>`      | `Button.Root`, `Button.Icon`, `Button.Label`                      |
+| Card        | `<Card>`        | `Card.Header`, `Card.Body`, `Card.Footer`                         |
+| Input       | `<Input>`       | `Input.Root`, `Input.Addon`                                       |
+| Select      | `<Select>`      | `Select.Root`, `Select.Option`                                    |
+| Tabs        | `<Tabs>`        | `Tabs.Root`, `Tabs.List`, `Tabs.Tab`, `Tabs.Panels`, `Tabs.Panel` |
+| ComboSelect | `<ComboSelect>` | — (uses Headless UI internally)                                   |
+| Dropdown    | `<Dropdown>`    | — (uses Headless UI internally)                                   |
 
 ### React Context for Shared State
 
@@ -122,10 +124,10 @@ export const buttonSizes: Record<string, SizeDefinition> = {
 The `resolveVariant` function in `packages/components/src/utils/types.ts` builds a className from a `VariantDefinition`:
 
 ```ts
-resolveVariant(definition, { outline: false })
+resolveVariant(definition, { outline: false });
 // → concatenates: base + hover + active + focus + disabled
 
-resolveVariant(definition, { outline: true })
+resolveVariant(definition, { outline: true });
 // → concatenates: outline + hover + active + focus + disabled
 ```
 
@@ -158,8 +160,8 @@ Composite components live in `packages/components/src/composite/<Name>/` with th
 Components are re-exported through barrel files:
 
 1. Each category has an `index.ts`:
-   - `packages/components/src/primitives/index.ts` — exports all primitives
-   - `packages/components/src/composite/index.ts` — exports all composites
+    - `packages/components/src/primitives/index.ts` — exports all primitives
+    - `packages/components/src/composite/index.ts` — exports all composites
 
 2. The package root `packages/components/src/index.ts` re-exports primitives + utilities
 

@@ -2,10 +2,7 @@ import { AnimatePresence, motion, type HTMLMotionProps } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 import { slideRightVariants, transitions } from '../config';
 
-export interface AnimatedPanelProps extends Omit<
-    HTMLMotionProps<'div'>,
-    'children'
-> {
+export interface AnimatedPanelProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
     /** Whether the panel is open */
     open: boolean;
     /** Callback when the panel should close */
@@ -55,24 +52,24 @@ export function AnimatedPanel({
                 <>
                     {backdrop && (
                         <motion.div
-                            key='panel-backdrop'
+                            key="panel-backdrop"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={transitions.fast}
                             className={
-                                backdropClassName
-                                || 'fixed inset-0 z-[var(--z-modal-backdrop,1040)] bg-black/30'
+                                backdropClassName ||
+                                'fixed inset-0 z-[var(--z-modal-backdrop,1040)] bg-black/30'
                             }
                             onClick={onClose}
                         />
                     )}
                     <motion.div
-                        key='panel-content'
+                        key="panel-content"
                         variants={slideRightVariants}
-                        initial='hidden'
-                        animate='visible'
-                        exit='exit'
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
                         className={className}
                         style={{
                             position: 'fixed',

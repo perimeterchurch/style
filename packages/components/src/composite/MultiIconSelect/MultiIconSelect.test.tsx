@@ -11,13 +11,7 @@ const options = [
 
 describe('MultiIconSelect', () => {
     it('renders with default props', () => {
-        render(
-            <MultiIconSelect
-                value={[]}
-                onChange={() => {}}
-                options={options}
-            />,
-        );
+        render(<MultiIconSelect value={[]} onChange={() => {}} options={options} />);
         expect(screen.getByRole('button')).toBeInTheDocument();
     });
 
@@ -47,13 +41,7 @@ describe('MultiIconSelect', () => {
 
     it('shows options on click', async () => {
         const user = userEvent.setup();
-        render(
-            <MultiIconSelect
-                value={[]}
-                onChange={() => {}}
-                options={options}
-            />,
-        );
+        render(<MultiIconSelect value={[]} onChange={() => {}} options={options} />);
         await user.click(screen.getByRole('button'));
         expect(screen.getByRole('option', { name: /Alpha/ })).toBeInTheDocument();
         expect(screen.getByRole('option', { name: /Beta/ })).toBeInTheDocument();
@@ -73,12 +61,7 @@ describe('MultiIconSelect', () => {
 
     it('applies fullWidth class', () => {
         const { container } = render(
-            <MultiIconSelect
-                value={[]}
-                onChange={() => {}}
-                options={options}
-                fullWidth
-            />,
+            <MultiIconSelect value={[]} onChange={() => {}} options={options} fullWidth />,
         );
         const wrapper = container.firstElementChild?.firstElementChild;
         expect(wrapper?.className).toContain('w-full');

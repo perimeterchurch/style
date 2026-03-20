@@ -10,9 +10,9 @@ export function FadeIn({ delay, transition, ...props }: FadeInProps) {
     return (
         <motion.div
             variants={fadeVariants}
-            initial='hidden'
-            animate='visible'
-            exit='exit'
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             transition={delay ? { ...transition, delay } : transition}
             {...props}
         />

@@ -18,9 +18,7 @@ import {
 type ButtonElement = ElementRef<'button'>;
 
 export interface ButtonProps
-    extends Omit<ComponentPropsWithoutRef<'button'>, 'disabled'>,
-        InteractiveProps,
-        WidthProps {
+    extends Omit<ComponentPropsWithoutRef<'button'>, 'disabled'>, InteractiveProps, WidthProps {
     variant?: ButtonVariant;
     size?: ButtonSize;
     type?: 'button' | 'submit' | 'reset';

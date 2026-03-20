@@ -1,20 +1,8 @@
-import {
-    AnimatePresence,
-    motion,
-    type HTMLMotionProps,
-    type Variants,
-} from 'framer-motion';
+import { AnimatePresence, motion, type HTMLMotionProps, type Variants } from 'framer-motion';
 import { Children, useMemo, type ReactNode } from 'react';
-import {
-    staggerItemVariants,
-    staggers,
-    transitions,
-} from '../config';
+import { staggerItemVariants, staggers, transitions } from '../config';
 
-export interface AnimatedListProps extends Omit<
-    HTMLMotionProps<'div'>,
-    'children'
-> {
+export interface AnimatedListProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
     children: ReactNode;
     /** Delay between each child animation (seconds) */
     staggerDelay?: number;
@@ -49,18 +37,15 @@ export function AnimatedList({
         [staggerDelay],
     );
 
-    const Container =
-        Tag === 'ul' ? motion.ul
-        : Tag === 'ol' ? motion.ol
-        : motion.div;
+    const Container = Tag === 'ul' ? motion.ul : Tag === 'ol' ? motion.ol : motion.div;
     const Item = Tag === 'ul' || Tag === 'ol' ? motion.li : motion.div;
 
     return (
         <Container
             variants={containerVariants}
-            initial='hidden'
-            animate='visible'
-            exit='exit'
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             {...(props as Record<string, unknown>)}
         >
             <AnimatePresence>
@@ -68,10 +53,7 @@ export function AnimatedList({
                     if (!child) return null;
                     return (
                         <Item
-                            key={
-                                (child as React.ReactElement)?.key
-                                ?? `item-${index}`
-                            }
+                            key={(child as React.ReactElement)?.key ?? `item-${index}`}
                             variants={itemVariants}
                             transition={{
                                 ...transitions.base,

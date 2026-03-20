@@ -16,9 +16,7 @@ import {
 type TextareaElement = ElementRef<'textarea'>;
 
 export interface TextareaProps
-    extends ComponentPropsWithoutRef<'textarea'>,
-        BaseComponentProps,
-        WidthProps {
+    extends ComponentPropsWithoutRef<'textarea'>, BaseComponentProps, WidthProps {
     /** Input size */
     size?: TextareaSize;
     /** Show error state */
@@ -27,15 +25,7 @@ export interface TextareaProps
 
 export const Textarea = forwardRef<TextareaElement, TextareaProps>(
     (
-        {
-            className,
-            size = 'md',
-            error = false,
-            fullWidth = false,
-            disabled,
-            onKeyDown,
-            ...props
-        },
+        { className, size = 'md', error = false, fullWidth = false, disabled, onKeyDown, ...props },
         ref,
     ) => {
         return (

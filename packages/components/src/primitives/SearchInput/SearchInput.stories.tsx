@@ -14,12 +14,29 @@ const meta: Meta<typeof SearchInput> = {
 export default meta;
 type Story = StoryObj<typeof SearchInput>;
 
-function SearchInputDemo({ placeholder = 'Search...', debounce = 300 }: { placeholder?: string; debounce?: number }) {
+function SearchInputDemo({
+    placeholder = 'Search...',
+    debounce = 300,
+}: {
+    placeholder?: string;
+    debounce?: number;
+}) {
     const [value, setValue] = useState('');
     return (
         <div style={{ maxWidth: 400 }}>
-            <SearchInput value={value} onChange={setValue} placeholder={placeholder} debounce={debounce} />
-            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+            <SearchInput
+                value={value}
+                onChange={setValue}
+                placeholder={placeholder}
+                debounce={debounce}
+            />
+            <p
+                style={{
+                    fontSize: '0.75rem',
+                    color: 'var(--color-text-muted)',
+                    marginTop: '0.5rem',
+                }}
+            >
                 Value: &quot;{value}&quot;
             </p>
         </div>

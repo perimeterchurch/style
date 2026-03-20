@@ -1,4 +1,4 @@
-import { forwardRef, type SVGProps } from 'react';
+import { createElement, forwardRef, type SVGProps } from 'react';
 import { getIcon, type IconName } from './registry';
 
 export interface IconProps extends SVGProps<SVGSVGElement> {
@@ -8,24 +8,22 @@ export interface IconProps extends SVGProps<SVGSVGElement> {
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(
     ({ name, size = 16, className, ...props }, ref) => {
-        const IconComponent = getIcon(name);
+        const resolved = getIcon(name);
 
-        if (!IconComponent) {
+        if (!resolved) {
             if (process.env.NODE_ENV === 'development') {
                 console.warn(`[style/icons] Unknown icon: "${name}"`);
             }
             return null;
         }
 
-        return (
-            <IconComponent
-                ref={ref}
-                width={size}
-                height={size}
-                className={className}
-                {...props}
-            />
-        );
+        return createElement(resolved, {
+            ref,
+            width: size,
+            height: size,
+            className,
+            ...props,
+        });
     },
 );
 

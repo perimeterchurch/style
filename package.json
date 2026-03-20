@@ -1,100 +1,102 @@
 {
-  "name": "@perimeterchurch/style",
-  "version": "0.1.0",
-  "private": false,
-  "type": "module",
-  "description": "Shared design system for Perimeter Church projects",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/perimeterchurch/style.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/tokens/index.js",
-      "require": "./dist/tokens/index.cjs",
-      "types": "./dist/tokens/index.d.ts"
+    "name": "@perimeterchurch/style",
+    "version": "0.1.0",
+    "private": false,
+    "type": "module",
+    "description": "Shared design system for Perimeter Church projects",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/perimeterchurch/style.git"
     },
-    "./components": {
-      "import": "./dist/components/index.js",
-      "require": "./dist/components/index.cjs",
-      "types": "./dist/components/index.d.ts"
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
     },
-    "./composite": {
-      "import": "./dist/components/composite/index.js",
-      "require": "./dist/components/composite/index.cjs",
-      "types": "./dist/components/composite/index.d.ts"
+    "exports": {
+        ".": {
+            "types": "./dist/tokens/index.d.ts",
+            "import": "./dist/tokens/index.js",
+            "require": "./dist/tokens/index.cjs"
+        },
+        "./components": {
+            "types": "./dist/components/index.d.ts",
+            "import": "./dist/components/index.js",
+            "require": "./dist/components/index.cjs"
+        },
+        "./composite": {
+            "types": "./dist/components/composite/index.d.ts",
+            "import": "./dist/components/composite/index.js",
+            "require": "./dist/components/composite/index.cjs"
+        },
+        "./motion": {
+            "types": "./dist/motion/index.d.ts",
+            "import": "./dist/motion/index.js",
+            "require": "./dist/motion/index.cjs"
+        },
+        "./icons": {
+            "types": "./dist/icons/index.d.ts",
+            "import": "./dist/icons/index.js",
+            "require": "./dist/icons/index.cjs"
+        },
+        "./tailwind": "./dist/tokens/preset.css",
+        "./css": "./dist/tokens/base.css"
     },
-    "./motion": {
-      "import": "./dist/motion/index.js",
-      "require": "./dist/motion/index.cjs",
-      "types": "./dist/motion/index.d.ts"
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "dev": "storybook dev -p 6006",
+        "build": "turbo build && node scripts/collect-dist.js",
+        "test": "turbo test",
+        "lint": "turbo lint",
+        "typecheck": "turbo typecheck",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "quality": "turbo typecheck lint test && prettier --check .",
+        "storybook:build": "storybook build"
     },
-    "./icons": {
-      "import": "./dist/icons/index.js",
-      "require": "./dist/icons/index.cjs",
-      "types": "./dist/icons/index.d.ts"
+    "peerDependencies": {
+        "react": "^19",
+        "react-dom": "^19"
     },
-    "./tailwind": "./dist/tokens/preset.css",
-    "./css": "./dist/tokens/base.css"
-  },
-  "files": ["dist"],
-  "scripts": {
-    "dev": "storybook dev -p 6006",
-    "build": "turbo build && node scripts/collect-dist.js",
-    "test": "turbo test",
-    "lint": "turbo lint",
-    "typecheck": "turbo typecheck",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "quality": "turbo typecheck lint test && prettier --check .",
-    "storybook:build": "storybook build"
-  },
-  "peerDependencies": {
-    "react": "^19",
-    "react-dom": "^19"
-  },
-  "peerDependenciesMeta": {
-    "@headlessui/react": {
-      "optional": true
+    "peerDependenciesMeta": {
+        "@headlessui/react": {
+            "optional": true
+        },
+        "framer-motion": {
+            "optional": true
+        },
+        "lucide-react": {
+            "optional": true
+        }
     },
-    "framer-motion": {
-      "optional": true
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@storybook/react": "^10.2.19",
+        "@storybook/react-vite": "^10.2.19",
+        "@tailwindcss/vite": "^4",
+        "@testing-library/jest-dom": "^6",
+        "@testing-library/react": "^16",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "@vitejs/plugin-react": "^4",
+        "eslint": "^10.0.3",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-react": "^7.37.5",
+        "eslint-plugin-react-hooks": "^7.0.1",
+        "jsdom": "^26",
+        "prettier": "^3.8.1",
+        "react": "^19",
+        "react-dom": "^19",
+        "storybook": "^10.2.19",
+        "tailwindcss": "^4",
+        "tsup": "^8",
+        "turbo": "^2.8.20",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.57.1",
+        "vitest": "^3"
     },
-    "lucide-react": {
-      "optional": true
+    "packageManager": "pnpm@10.32.1",
+    "engines": {
+        "node": ">=20"
     }
-  },
-  "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@storybook/react": "^10.2.19",
-    "@storybook/react-vite": "^10.2.19",
-    "@tailwindcss/vite": "^4",
-    "@testing-library/jest-dom": "^6",
-    "@testing-library/react": "^16",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^4",
-    "eslint": "^10.0.3",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "jsdom": "^26",
-    "prettier": "^3.8.1",
-    "react": "^19",
-    "react-dom": "^19",
-    "storybook": "^10.2.19",
-    "tailwindcss": "^4",
-    "tsup": "^8",
-    "turbo": "^2.8.20",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.1",
-    "vitest": "^3"
-  },
-  "packageManager": "pnpm@10.32.1",
-  "engines": {
-    "node": ">=20"
-  }
 }

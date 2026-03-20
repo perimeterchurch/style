@@ -13,10 +13,7 @@ describe('FilterChip', () => {
     it('renders all variants without crashing', () => {
         for (const variant of Object.keys(chipVariants)) {
             const { unmount } = render(
-                <FilterChip
-                    label={variant}
-                    variant={variant as keyof typeof chipVariants}
-                />,
+                <FilterChip label={variant} variant={variant as keyof typeof chipVariants} />,
             );
             expect(screen.getByText(variant)).toBeInTheDocument();
             unmount();
@@ -53,8 +50,6 @@ describe('FilterChip', () => {
 
     it('has accessible remove button label', () => {
         render(<FilterChip label="Status: Active" onRemove={() => {}} />);
-        expect(
-            screen.getByRole('button', { name: 'Remove Status: Active' }),
-        ).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Remove Status: Active' })).toBeInTheDocument();
     });
 });

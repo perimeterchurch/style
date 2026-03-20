@@ -43,16 +43,16 @@ In your app's root CSS file (or layout component):
 
 ```css
 /* Import base CSS (tokens + resets + dark mode) */
-@import "@perimeterchurch/style/css";
+@import '@perimeterchurch/style/css';
 ```
 
 Or for Tailwind v4 integration:
 
 ```css
 /* Import Tailwind preset (tokens as Tailwind theme values) */
-@import "tailwindcss";
-@import "@perimeterchurch/style/tailwind";
-@import "@perimeterchurch/style/css";
+@import 'tailwindcss';
+@import '@perimeterchurch/style/tailwind';
+@import '@perimeterchurch/style/css';
 ```
 
 ## Import Patterns
@@ -99,7 +99,12 @@ Requires: `lucide-react@^0.400`
 
 ```tsx
 import { cn, resolveVariant } from '@perimeterchurch/style/components';
-import type { VariantDefinition, SizeDefinition, BaseVariant, BaseSize } from '@perimeterchurch/style/components';
+import type {
+    VariantDefinition,
+    SizeDefinition,
+    BaseVariant,
+    BaseSize,
+} from '@perimeterchurch/style/components';
 ```
 
 ### Tokens (JS)
@@ -114,8 +119,8 @@ If you use Tailwind v4, import the preset to get all design token utility classe
 
 ```css
 /* app.css */
-@import "tailwindcss";
-@import "@perimeterchurch/style/tailwind";
+@import 'tailwindcss';
+@import '@perimeterchurch/style/tailwind';
 ```
 
 This gives you classes like `bg-primary`, `text-error`, `rounded-lg`, `shadow-md`, etc.
@@ -164,22 +169,19 @@ Override individual tokens for a section:
 ### Per-Component Override (Inline)
 
 ```tsx
-<Button
-    variant="primary"
-    style={{ '--color-primary': '#e11d48' } as React.CSSProperties}
->
+<Button variant="primary" style={{ '--color-primary': '#e11d48' } as React.CSSProperties}>
     Custom Color
 </Button>
 ```
 
 ## Peer Dependency Matrix
 
-| Entry Point | Peer Deps |
-| --- | --- |
-| `@perimeterchurch/style` | — |
-| `@perimeterchurch/style/css` | — |
-| `@perimeterchurch/style/tailwind` | — |
-| `@perimeterchurch/style/components` | `react@^19` |
-| `@perimeterchurch/style/composite` | `react@^19`, `@headlessui/react@^2` |
-| `@perimeterchurch/style/motion` | `react@^19`, `framer-motion@^11` |
-| `@perimeterchurch/style/icons` | `react@^19`, `lucide-react@^0.400` |
+| Entry Point                         | Peer Deps                           |
+| ----------------------------------- | ----------------------------------- |
+| `@perimeterchurch/style`            | —                                   |
+| `@perimeterchurch/style/css`        | —                                   |
+| `@perimeterchurch/style/tailwind`   | —                                   |
+| `@perimeterchurch/style/components` | `react@^19`                         |
+| `@perimeterchurch/style/composite`  | `react@^19`, `@headlessui/react@^2` |
+| `@perimeterchurch/style/motion`     | `react@^19`, `framer-motion@^11`    |
+| `@perimeterchurch/style/icons`      | `react@^19`, `lucide-react@^0.400`  |

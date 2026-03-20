@@ -35,8 +35,19 @@ export const FontSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             {fontSizes.map((size) => (
-                <div key={size.name} style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
-                    <div style={{ width: 80, textAlign: 'right', fontSize: '0.75rem', color: 'var(--color-text-muted)', flexShrink: 0 }}>
+                <div
+                    key={size.name}
+                    style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}
+                >
+                    <div
+                        style={{
+                            width: 80,
+                            textAlign: 'right',
+                            fontSize: '0.75rem',
+                            color: 'var(--color-text-muted)',
+                            flexShrink: 0,
+                        }}
+                    >
                         <div style={{ fontWeight: 600 }}>{size.name}</div>
                         <div>{size.value}</div>
                     </div>
@@ -53,8 +64,19 @@ export const FontWeights: Story = {
     render: () => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             {fontWeights.map((weight) => (
-                <div key={weight.name} style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
-                    <div style={{ width: 100, textAlign: 'right', fontSize: '0.75rem', color: 'var(--color-text-muted)', flexShrink: 0 }}>
+                <div
+                    key={weight.name}
+                    style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}
+                >
+                    <div
+                        style={{
+                            width: 100,
+                            textAlign: 'right',
+                            fontSize: '0.75rem',
+                            color: 'var(--color-text-muted)',
+                            flexShrink: 0,
+                        }}
+                    >
                         <div style={{ fontWeight: 600 }}>{weight.name}</div>
                         <div>{weight.value}</div>
                     </div>
@@ -72,12 +94,30 @@ export const LineHeights: Story = {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {lineHeights.map((lh) => (
                 <div key={lh.name} style={{ display: 'flex', gap: '1.5rem' }}>
-                    <div style={{ width: 100, textAlign: 'right', fontSize: '0.75rem', color: 'var(--color-text-muted)', flexShrink: 0, paddingTop: '0.25rem' }}>
+                    <div
+                        style={{
+                            width: 100,
+                            textAlign: 'right',
+                            fontSize: '0.75rem',
+                            color: 'var(--color-text-muted)',
+                            flexShrink: 0,
+                            paddingTop: '0.25rem',
+                        }}
+                    >
                         <div style={{ fontWeight: 600 }}>{lh.name}</div>
                         <div>{lh.value}</div>
                     </div>
-                    <div style={{ lineHeight: lh.value, maxWidth: 400, padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 8 }}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                    <div
+                        style={{
+                            lineHeight: lh.value,
+                            maxWidth: 400,
+                            padding: '0.5rem',
+                            border: '1px solid var(--color-border)',
+                            borderRadius: 8,
+                        }}
+                    >
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                     </div>
                 </div>
             ))}
@@ -89,7 +129,14 @@ export const FontFamilies: Story = {
     render: () => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', fontWeight: 600, marginBottom: '0.5rem' }}>
+                <div
+                    style={{
+                        fontSize: '0.75rem',
+                        color: 'var(--color-text-muted)',
+                        fontWeight: 600,
+                        marginBottom: '0.5rem',
+                    }}
+                >
                     Sans (--font-sans)
                 </div>
                 <div style={{ fontFamily: 'var(--font-sans)', fontSize: '1.25rem' }}>
@@ -97,7 +144,14 @@ export const FontFamilies: Story = {
                 </div>
             </div>
             <div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', fontWeight: 600, marginBottom: '0.5rem' }}>
+                <div
+                    style={{
+                        fontSize: '0.75rem',
+                        color: 'var(--color-text-muted)',
+                        fontWeight: 600,
+                        marginBottom: '0.5rem',
+                    }}
+                >
                     Mono (--font-mono)
                 </div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.25rem' }}>

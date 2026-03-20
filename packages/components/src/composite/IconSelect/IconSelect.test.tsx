@@ -11,35 +11,17 @@ const options = [
 
 describe('IconSelect', () => {
     it('renders with default props', () => {
-        render(
-            <IconSelect
-                value="red"
-                onChange={() => {}}
-                options={options}
-            />,
-        );
+        render(<IconSelect value="red" onChange={() => {}} options={options} />);
         expect(screen.getByRole('button')).toBeInTheDocument();
     });
 
     it('displays selected option label', () => {
-        render(
-            <IconSelect
-                value="red"
-                onChange={() => {}}
-                options={options}
-            />,
-        );
+        render(<IconSelect value="red" onChange={() => {}} options={options} />);
         expect(screen.getByText('Red')).toBeInTheDocument();
     });
 
     it('displays selected option icon', () => {
-        render(
-            <IconSelect
-                value="red"
-                onChange={() => {}}
-                options={options}
-            />,
-        );
+        render(<IconSelect value="red" onChange={() => {}} options={options} />);
         expect(screen.getByTestId('icon-red')).toBeInTheDocument();
     });
 
@@ -57,13 +39,7 @@ describe('IconSelect', () => {
 
     it('shows options on click', async () => {
         const user = userEvent.setup();
-        render(
-            <IconSelect
-                value="red"
-                onChange={() => {}}
-                options={options}
-            />,
-        );
+        render(<IconSelect value="red" onChange={() => {}} options={options} />);
         await user.click(screen.getByRole('button'));
         expect(screen.getByRole('option', { name: /Blue/ })).toBeInTheDocument();
         expect(screen.getByRole('option', { name: /Green/ })).toBeInTheDocument();
@@ -72,13 +48,7 @@ describe('IconSelect', () => {
     it('calls onChange when option is selected', async () => {
         const user = userEvent.setup();
         const handleChange = vi.fn();
-        render(
-            <IconSelect
-                value="red"
-                onChange={handleChange}
-                options={options}
-            />,
-        );
+        render(<IconSelect value="red" onChange={handleChange} options={options} />);
         await user.click(screen.getByRole('button'));
         await user.click(screen.getByRole('option', { name: /Blue/ }));
         expect(handleChange).toHaveBeenCalledWith('blue');
@@ -86,12 +56,7 @@ describe('IconSelect', () => {
 
     it('applies fullWidth class', () => {
         const { container } = render(
-            <IconSelect
-                value="red"
-                onChange={() => {}}
-                options={options}
-                fullWidth
-            />,
+            <IconSelect value="red" onChange={() => {}} options={options} fullWidth />,
         );
         const wrapper = container.firstElementChild?.firstElementChild;
         expect(wrapper?.className).toContain('w-full');
@@ -99,13 +64,7 @@ describe('IconSelect', () => {
 
     it('renders options without icons', async () => {
         const user = userEvent.setup();
-        render(
-            <IconSelect
-                value="green"
-                onChange={() => {}}
-                options={options}
-            />,
-        );
+        render(<IconSelect value="green" onChange={() => {}} options={options} />);
         await user.click(screen.getByRole('button'));
         expect(screen.getByRole('option', { name: /Green/ })).toBeInTheDocument();
     });

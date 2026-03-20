@@ -10,9 +10,7 @@ import { spinnerSizeClasses, type SpinnerSize } from './LoadingSpinner.variants'
 
 type SpinnerElement = ElementRef<'div'>;
 
-export interface LoadingSpinnerProps
-    extends ComponentPropsWithoutRef<'div'>,
-        BaseComponentProps {
+export interface LoadingSpinnerProps extends ComponentPropsWithoutRef<'div'>, BaseComponentProps {
     /** Spinner size */
     size?: SpinnerSize;
     /** Optional label for screen readers */
@@ -41,16 +39,7 @@ function SpinnerIcon({ className }: { className?: string }) {
 }
 
 export const LoadingSpinner = forwardRef<SpinnerElement, LoadingSpinnerProps>(
-    (
-        {
-            size = 'md',
-            label = 'Loading',
-            className,
-            'aria-label': ariaLabel,
-            ...props
-        },
-        ref,
-    ) => {
+    ({ size = 'md', label = 'Loading', className, 'aria-label': ariaLabel, ...props }, ref) => {
         return (
             <div
                 ref={ref}

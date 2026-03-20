@@ -19,7 +19,14 @@ const radii = [
 
 export const AllRadii: Story = {
     render: () => (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '2rem', padding: '1rem' }}>
+        <div
+            style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+                gap: '2rem',
+                padding: '1rem',
+            }}
+        >
             {radii.map((radius) => (
                 <div key={radius.name} style={{ textAlign: 'center' }}>
                     <div
@@ -36,7 +43,13 @@ export const AllRadii: Story = {
                     <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
                         {radius.value}
                     </div>
-                    <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--color-text-secondary)' }}>
+                    <div
+                        style={{
+                            fontSize: '0.75rem',
+                            fontFamily: 'var(--font-mono)',
+                            color: 'var(--color-text-secondary)',
+                        }}
+                    >
                         {radius.variable}
                     </div>
                 </div>

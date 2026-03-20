@@ -29,7 +29,11 @@ export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: 300 }}>
             {Object.keys(inputSizeClasses).map((size) => (
-                <Input key={size} size={size as keyof typeof inputSizeClasses} placeholder={`Size: ${size}`} />
+                <Input
+                    key={size}
+                    size={size as keyof typeof inputSizeClasses}
+                    placeholder={`Size: ${size}`}
+                />
             ))}
         </div>
     ),

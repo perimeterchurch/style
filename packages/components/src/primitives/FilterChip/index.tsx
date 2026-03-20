@@ -17,8 +17,7 @@ import {
 type FilterChipElement = ElementRef<'span'>;
 
 export interface FilterChipProps
-    extends Omit<ComponentPropsWithoutRef<'span'>, 'children'>,
-        BaseComponentProps {
+    extends Omit<ComponentPropsWithoutRef<'span'>, 'children'>, BaseComponentProps {
     /** Chip label text */
     label: string;
     /** Callback when remove button is clicked */

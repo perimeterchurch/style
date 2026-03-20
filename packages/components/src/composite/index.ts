@@ -1,8 +1,4 @@
-export {
-    ComboSelect,
-    type ComboSelectOption,
-    type ComboSelectProps,
-} from './ComboSelect';
+export { ComboSelect, type ComboSelectOption, type ComboSelectProps } from './ComboSelect';
 
 export {
     Dropdown,
@@ -12,11 +8,7 @@ export {
     type DropdownItemProps,
 } from './Dropdown';
 
-export {
-    IconSelect,
-    type IconSelectOption,
-    type IconSelectProps,
-} from './IconSelect';
+export { IconSelect, type IconSelectOption, type IconSelectProps } from './IconSelect';
 
 export {
     MultiIconSelect,
@@ -35,12 +27,6 @@ export {
     type TabsPanelProps,
 } from './Tabs';
 
-export {
-    Pagination,
-    type PaginationProps,
-} from './Pagination';
+export { Pagination, type PaginationProps } from './Pagination';
 
-export {
-    DateRangePicker,
-    type DateRangePickerProps,
-} from './DateRangePicker';
+export { DateRangePicker, type DateRangePickerProps } from './DateRangePicker';

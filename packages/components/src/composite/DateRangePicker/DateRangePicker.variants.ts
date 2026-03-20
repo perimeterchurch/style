@@ -14,8 +14,7 @@ export const dateRangePickerInputClasses = [
     'focus-visible:border-[var(--color-primary)]',
 ].join(' ');
 
-export const dateRangePickerSeparatorClasses =
-    'text-sm text-[var(--color-text-muted)]';
+export const dateRangePickerSeparatorClasses = 'text-sm text-[var(--color-text-muted)]';
 
 export const dateRangePickerIconClasses =
     'pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--color-text-muted)]';

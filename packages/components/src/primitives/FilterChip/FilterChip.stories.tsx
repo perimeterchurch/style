@@ -47,11 +47,7 @@ export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             {Object.keys(chipSizes).map((size) => (
-                <FilterChip
-                    key={size}
-                    label={size}
-                    size={size as keyof typeof chipSizes}
-                />
+                <FilterChip key={size} label={size} size={size as keyof typeof chipSizes} />
             ))}
         </div>
     ),

@@ -102,15 +102,17 @@ interface ComboSelectBaseProps<T extends string | number = string> {
     className?: string;
 }
 
-interface ComboSelectSingleProps<T extends string | number = string>
-    extends ComboSelectBaseProps<T> {
+interface ComboSelectSingleProps<
+    T extends string | number = string,
+> extends ComboSelectBaseProps<T> {
     multiple?: false;
     value: T | '';
     onChange: (value: T | '') => void;
 }
 
-interface ComboSelectMultipleProps<T extends string | number = string>
-    extends ComboSelectBaseProps<T> {
+interface ComboSelectMultipleProps<
+    T extends string | number = string,
+> extends ComboSelectBaseProps<T> {
     multiple: true;
     value: T[];
     onChange: (value: T[]) => void;
@@ -122,9 +124,7 @@ export type ComboSelectProps<T extends string | number = string> =
 
 // --- Simple (props-only) API ---
 
-function ComboSelectSimple<T extends string | number = string>(
-    props: ComboSelectProps<T>,
-) {
+function ComboSelectSimple<T extends string | number = string>(props: ComboSelectProps<T>) {
     const {
         options,
         placeholder = 'Select...',
@@ -386,10 +386,7 @@ export interface ComboSelectOptionsProps {
     className?: string;
 }
 
-function ComboSelectOptionsWrapper({
-    children,
-    className,
-}: ComboSelectOptionsProps) {
+function ComboSelectOptionsWrapper({ children, className }: ComboSelectOptionsProps) {
     return (
         <ComboboxOptions transition className={cn(comboSelectPopoverClasses, className)}>
             {children}
@@ -411,10 +408,7 @@ function ComboSelectOptionItem<T extends string | number = string>({
     className,
 }: ComboSelectOptionItemProps<T>) {
     return (
-        <ComboboxOption
-            value={value}
-            className={cn(comboSelectOptionClasses, className)}
-        >
+        <ComboboxOption value={value} className={cn(comboSelectOptionClasses, className)}>
             {children}
         </ComboboxOption>
     );

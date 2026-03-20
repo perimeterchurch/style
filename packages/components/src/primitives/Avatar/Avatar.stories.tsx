@@ -31,7 +31,15 @@ export const AllSizes: Story = {
             {Object.keys(avatarSizeClasses).map((size) => (
                 <div key={size} style={{ textAlign: 'center' }}>
                     <Avatar size={size as keyof typeof avatarSizeClasses} fallback="PC" />
-                    <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.25rem' }}>{size}</p>
+                    <p
+                        style={{
+                            fontSize: '0.75rem',
+                            color: 'var(--color-text-muted)',
+                            marginTop: '0.25rem',
+                        }}
+                    >
+                        {size}
+                    </p>
                 </div>
             ))}
         </div>

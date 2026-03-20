@@ -11,16 +11,12 @@ export interface SkeletonTransitionProps {
     children: ReactNode;
 }
 
-export function SkeletonTransition({
-    isLoading,
-    skeleton,
-    children,
-}: SkeletonTransitionProps) {
+export function SkeletonTransition({ isLoading, skeleton, children }: SkeletonTransitionProps) {
     return (
-        <AnimatePresence mode='wait'>
-            {isLoading ?
+        <AnimatePresence mode="wait">
+            {isLoading ? (
                 <motion.div
-                    key='skeleton'
+                    key="skeleton"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -28,8 +24,9 @@ export function SkeletonTransition({
                 >
                     {skeleton}
                 </motion.div>
-            :   <motion.div
-                    key='content'
+            ) : (
+                <motion.div
+                    key="content"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -37,7 +34,7 @@ export function SkeletonTransition({
                 >
                     {children}
                 </motion.div>
-            }
+            )}
         </AnimatePresence>
     );
 }

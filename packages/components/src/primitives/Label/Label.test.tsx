@@ -21,7 +21,11 @@ describe('Label', () => {
     });
 
     it('applies disabled styles', () => {
-        render(<Label disabled data-testid="label">Disabled</Label>);
+        render(
+            <Label disabled data-testid="label">
+                Disabled
+            </Label>,
+        );
         expect(screen.getByTestId('label').className).toContain('opacity-70');
     });
 
@@ -31,7 +35,11 @@ describe('Label', () => {
     });
 
     it('merges custom className', () => {
-        render(<Label className="custom" data-testid="label">Label</Label>);
+        render(
+            <Label className="custom" data-testid="label">
+                Label
+            </Label>,
+        );
         expect(screen.getByTestId('label').className).toContain('custom');
     });
 });

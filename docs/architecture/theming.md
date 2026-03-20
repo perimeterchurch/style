@@ -20,6 +20,7 @@ Light values are the defaults defined in `:root` in `packages/tokens/src/tokens.
 Dark overrides are in `packages/tokens/src/themes/dark.css`. It overrides surface colors, base scale, and shadows under `[data-theme='dark']`.
 
 Key dark mode changes:
+
 - Background inverts: `#ffffff` becomes `#0c0a09`
 - Text inverts: `#1c1917` becomes `#fafaf9`
 - Borders lighten: `#d6d3d1` becomes `#44403c`
@@ -32,11 +33,11 @@ Themes activate by setting `data-theme` on any DOM element:
 ```html
 <!-- Entire page dark -->
 <html data-theme="dark">
-
-<!-- Scoped dark section -->
-<div data-theme="dark">
-    <Card>This card and all children use dark tokens</Card>
-</div>
+    <!-- Scoped dark section -->
+    <div data-theme="dark">
+        <Card>This card and all children use dark tokens</Card>
+    </div>
+</html>
 ```
 
 Because tokens use CSS custom properties via `var()`, any child element under a `[data-theme]` ancestor automatically picks up the overridden values. No JavaScript is required.
@@ -77,7 +78,7 @@ Apply it the same way:
 
 ```html
 <div data-theme="christmas">
-    <Button>Festive Button</Button>
+    <button>Festive Button</button>
 </div>
 ```
 
@@ -87,9 +88,9 @@ Apply it the same way:
 2. Use the `[data-theme='<name>']` selector
 3. Override only the tokens you want to change — all others inherit from `:root`
 4. Import the theme in `packages/tokens/src/base.css`:
-   ```css
-   @import './themes/<name>.css';
-   ```
+    ```css
+    @import './themes/<name>.css';
+    ```
 5. Run `pnpm build` to verify the CSS is included in the output
 6. Consumers apply the theme with `data-theme="<name>"` on any element
 

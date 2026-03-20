@@ -30,9 +30,7 @@ export interface SelectOption {
 }
 
 export interface SelectProps
-    extends Omit<ComponentPropsWithoutRef<'select'>, 'size'>,
-        BaseComponentProps,
-        WidthProps {
+    extends Omit<ComponentPropsWithoutRef<'select'>, 'size'>, BaseComponentProps, WidthProps {
     /** Predefined options (alternative to children) */
     options?: SelectOption[];
     /** Input size */
@@ -156,10 +154,7 @@ function SelectRoot({
 }: SelectRootProps) {
     return (
         <SelectContext.Provider value={{ size, error, fullWidth, disabled }}>
-            <div
-                className={cn('flex flex-col gap-1', fullWidth && 'w-full', className)}
-                {...props}
-            >
+            <div className={cn('flex flex-col gap-1', fullWidth && 'w-full', className)} {...props}>
                 {children}
             </div>
         </SelectContext.Provider>
@@ -170,7 +165,8 @@ SelectRoot.displayName = 'Select.Root';
 
 const SelectField = forwardRef<
     SelectElement,
-    Omit<ComponentPropsWithoutRef<'select'>, 'size'> & BaseComponentProps & { options?: SelectOption[] }
+    Omit<ComponentPropsWithoutRef<'select'>, 'size'> &
+        BaseComponentProps & { options?: SelectOption[] }
 >(({ className, options, children, onKeyDown, disabled: disabledProp, ...props }, ref) => {
     const ctx = useContext(SelectContext);
     const isDisabled = disabledProp ?? ctx.disabled;

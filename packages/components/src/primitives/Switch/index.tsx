@@ -6,17 +6,12 @@
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import {
-    switchSizeClasses,
-    switchLabelSizeClasses,
-    type SwitchSize,
-} from './Switch.variants';
+import { switchSizeClasses, switchLabelSizeClasses, type SwitchSize } from './Switch.variants';
 
 type SwitchElement = ElementRef<'input'>;
 
 export interface SwitchProps
-    extends Omit<ComponentPropsWithoutRef<'input'>, 'type' | 'size'>,
-        BaseComponentProps {
+    extends Omit<ComponentPropsWithoutRef<'input'>, 'type' | 'size'>, BaseComponentProps {
     /** Associated label text */
     label?: string;
     /** Switch size */
@@ -26,8 +21,7 @@ export interface SwitchProps
 export const Switch = forwardRef<SwitchElement, SwitchProps>(
     ({ className, label, size = 'md', disabled, id, ...props }, ref) => {
         const switchId =
-            id ||
-            (label ? `switch-${label.replace(/\s+/g, '-').toLowerCase()}` : undefined);
+            id || (label ? `switch-${label.replace(/\s+/g, '-').toLowerCase()}` : undefined);
         const sizeConfig = switchSizeClasses[size];
 
         const switchInput = (

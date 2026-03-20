@@ -10,9 +10,9 @@ export function ScaleIn({ delay, transition, ...props }: ScaleInProps) {
     return (
         <motion.div
             variants={scaleInVariants}
-            initial='hidden'
-            animate='visible'
-            exit='exit'
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             transition={delay ? { ...transition, delay } : transition}
             {...props}
         />

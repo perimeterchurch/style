@@ -21,7 +21,10 @@ export const AllSpacing: Story = {
     render: () => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {spacingTokens.map((token) => (
-                <div key={token.name} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div
+                    key={token.name}
+                    style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+                >
                     <div style={{ width: 80, textAlign: 'right', flexShrink: 0 }}>
                         <div style={{ fontWeight: 600, fontSize: '0.875rem' }}>{token.name}</div>
                         <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
@@ -37,7 +40,13 @@ export const AllSpacing: Story = {
                             opacity: 0.8,
                         }}
                     />
-                    <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--color-text-secondary)' }}>
+                    <div
+                        style={{
+                            fontSize: '0.75rem',
+                            fontFamily: 'var(--font-mono)',
+                            color: 'var(--color-text-secondary)',
+                        }}
+                    >
                         --spacing-{token.name}
                     </div>
                 </div>

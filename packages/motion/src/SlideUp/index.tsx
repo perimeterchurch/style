@@ -10,9 +10,9 @@ export function SlideUp({ delay, transition, ...props }: SlideUpProps) {
     return (
         <motion.div
             variants={slideUpVariants}
-            initial='hidden'
-            animate='visible'
-            exit='exit'
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             transition={delay ? { ...transition, delay } : transition}
             {...props}
         />

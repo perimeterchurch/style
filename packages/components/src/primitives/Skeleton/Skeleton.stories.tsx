@@ -29,15 +29,39 @@ export const AllVariants: Story = {
         <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
             <div style={{ textAlign: 'center' }}>
                 <Skeleton variant="line" width={200} height={16} />
-                <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>line</p>
+                <p
+                    style={{
+                        fontSize: '0.75rem',
+                        color: 'var(--color-text-muted)',
+                        marginTop: '0.5rem',
+                    }}
+                >
+                    line
+                </p>
             </div>
             <div style={{ textAlign: 'center' }}>
                 <Skeleton variant="circle" width={48} height={48} />
-                <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>circle</p>
+                <p
+                    style={{
+                        fontSize: '0.75rem',
+                        color: 'var(--color-text-muted)',
+                        marginTop: '0.5rem',
+                    }}
+                >
+                    circle
+                </p>
             </div>
             <div style={{ textAlign: 'center' }}>
                 <Skeleton variant="card" width={200} height={100} />
-                <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>card</p>
+                <p
+                    style={{
+                        fontSize: '0.75rem',
+                        color: 'var(--color-text-muted)',
+                        marginTop: '0.5rem',
+                    }}
+                >
+                    card
+                </p>
             </div>
         </div>
     ),

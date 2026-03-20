@@ -30,19 +30,31 @@ describe('Badge', () => {
     });
 
     it('renders dot indicator', () => {
-        render(<Badge dot data-testid="badge">Active</Badge>);
+        render(
+            <Badge dot data-testid="badge">
+                Active
+            </Badge>,
+        );
         const badge = screen.getByTestId('badge');
         const dot = badge.querySelector('[aria-hidden="true"]');
         expect(dot).toBeInTheDocument();
     });
 
     it('applies outline variant classes', () => {
-        render(<Badge outline data-testid="badge">Outlined</Badge>);
+        render(
+            <Badge outline data-testid="badge">
+                Outlined
+            </Badge>,
+        );
         expect(screen.getByTestId('badge').className).toContain('border');
     });
 
     it('merges custom className', () => {
-        render(<Badge className="custom-class" data-testid="badge">Custom</Badge>);
+        render(
+            <Badge className="custom-class" data-testid="badge">
+                Custom
+            </Badge>,
+        );
         expect(screen.getByTestId('badge').className).toContain('custom-class');
     });
 });

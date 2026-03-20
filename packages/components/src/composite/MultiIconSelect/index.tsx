@@ -4,12 +4,7 @@
  * Icons are provided via ReactNode props (no lucide-react dependency).
  */
 
-import {
-    Listbox,
-    ListboxButton,
-    ListboxOption,
-    ListboxOptions,
-} from '@headlessui/react';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
 import type { ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 import type { IconSelectOption } from '../IconSelect';
@@ -95,10 +90,7 @@ export function MultiIconSelect<T extends string | number = string>({
         <Listbox value={value} onChange={onChange} multiple>
             <div className={cn('relative', fullWidth && 'w-full', className)}>
                 <ListboxButton
-                    className={cn(
-                        multiIconSelectButtonClasses,
-                        fullWidth ? 'w-full' : 'w-auto',
-                    )}
+                    className={cn(multiIconSelectButtonClasses, fullWidth ? 'w-full' : 'w-auto')}
                 >
                     {placeholderIcon && (
                         <span className="flex shrink-0 items-center text-[var(--color-text-muted)]">
@@ -113,9 +105,7 @@ export function MultiIconSelect<T extends string | number = string>({
                                 : 'text-[var(--color-foreground)]',
                         )}
                     >
-                        {value.length === 0
-                            ? placeholder
-                            : `${placeholder} (${value.length})`}
+                        {value.length === 0 ? placeholder : `${placeholder} (${value.length})`}
                     </span>
                     <ChevronDownIcon className="h-3.5 w-3.5 shrink-0 text-[var(--color-text-muted)]" />
                 </ListboxButton>

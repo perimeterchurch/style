@@ -36,10 +36,7 @@ export interface TabsProps {
 
 function TabsSimple({ tabs, activeTab, onChange, className }: TabsProps) {
     return (
-        <div
-            className={cn(tabsListClasses, className)}
-            role="tablist"
-        >
+        <div className={cn(tabsListClasses, className)} role="tablist">
             {tabs.map((tab) => {
                 const isActive = tab.id === activeTab;
                 return (
@@ -56,36 +53,29 @@ function TabsSimple({ tabs, activeTab, onChange, className }: TabsProps) {
                         }}
                         onKeyDown={(e) => {
                             const enabledTabs = tabs.filter((t) => !t.disabled);
-                            const currentIndex = enabledTabs.findIndex(
-                                (t) => t.id === tab.id,
-                            );
+                            const currentIndex = enabledTabs.findIndex((t) => t.id === tab.id);
                             let nextIndex = -1;
 
                             if (e.key === 'ArrowRight') {
-                                nextIndex =
-                                    (currentIndex + 1) % enabledTabs.length;
+                                nextIndex = (currentIndex + 1) % enabledTabs.length;
                             } else if (e.key === 'ArrowLeft') {
                                 nextIndex =
-                                    (currentIndex - 1 + enabledTabs.length) %
-                                    enabledTabs.length;
+                                    (currentIndex - 1 + enabledTabs.length) % enabledTabs.length;
                             }
 
                             if (nextIndex >= 0 && enabledTabs[nextIndex]) {
                                 e.preventDefault();
                                 onChange(enabledTabs[nextIndex]!.id);
                                 const tabList = e.currentTarget.parentElement;
-                                const buttons =
-                                    tabList?.querySelectorAll<HTMLButtonElement>(
-                                        '[role="tab"]:not([disabled])',
-                                    );
+                                const buttons = tabList?.querySelectorAll<HTMLButtonElement>(
+                                    '[role="tab"]:not([disabled])',
+                                );
                                 buttons?.[nextIndex]?.focus();
                             }
                         }}
                         className={cn(
                             tabButtonBaseClasses,
-                            isActive
-                                ? tabButtonActiveClasses
-                                : tabButtonInactiveClasses,
+                            isActive ? tabButtonActiveClasses : tabButtonInactiveClasses,
                             !tab.disabled && !isActive && tabButtonHoverClasses,
                             tab.disabled && tabButtonDisabledClasses,
                         )}

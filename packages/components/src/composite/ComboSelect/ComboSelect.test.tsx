@@ -11,13 +11,7 @@ const options = [
 
 describe('ComboSelect', () => {
     it('renders with default props', () => {
-        render(
-            <ComboSelect
-                options={options}
-                value=""
-                onChange={() => {}}
-            />,
-        );
+        render(<ComboSelect options={options} value="" onChange={() => {}} />);
         const input = screen.getByRole('combobox');
         expect(input).toBeInTheDocument();
     });
@@ -50,13 +44,7 @@ describe('ComboSelect', () => {
 
     it('filters options by query', async () => {
         const user = userEvent.setup();
-        render(
-            <ComboSelect
-                options={options}
-                value=""
-                onChange={() => {}}
-            />,
-        );
+        render(<ComboSelect options={options} value="" onChange={() => {}} />);
         const input = screen.getByRole('combobox');
         await user.click(input);
         await user.type(input, 'ban');
@@ -68,12 +56,7 @@ describe('ComboSelect', () => {
     it('shows empty text when no results', async () => {
         const user = userEvent.setup();
         render(
-            <ComboSelect
-                options={options}
-                value=""
-                onChange={() => {}}
-                emptyText="Nothing here"
-            />,
+            <ComboSelect options={options} value="" onChange={() => {}} emptyText="Nothing here" />,
         );
         const input = screen.getByRole('combobox');
         await user.click(input);
@@ -84,13 +67,7 @@ describe('ComboSelect', () => {
     it('calls onChange when option is selected', async () => {
         const user = userEvent.setup();
         const handleChange = vi.fn();
-        render(
-            <ComboSelect
-                options={options}
-                value=""
-                onChange={handleChange}
-            />,
-        );
+        render(<ComboSelect options={options} value="" onChange={handleChange} />);
         const input = screen.getByRole('combobox');
         await user.click(input);
         const option = screen.getByRole('option', { name: 'Apple' });
@@ -99,27 +76,13 @@ describe('ComboSelect', () => {
     });
 
     it('is disabled when disabled prop is true', () => {
-        render(
-            <ComboSelect
-                options={options}
-                value=""
-                onChange={() => {}}
-                disabled
-            />,
-        );
+        render(<ComboSelect options={options} value="" onChange={() => {}} disabled />);
         const input = screen.getByRole('combobox');
         expect(input).toBeDisabled();
     });
 
     it('shows loading state', () => {
-        render(
-            <ComboSelect
-                options={options}
-                value=""
-                onChange={() => {}}
-                loading
-            />,
-        );
+        render(<ComboSelect options={options} value="" onChange={() => {}} loading />);
         const input = screen.getByRole('combobox');
         expect(input).toBeDisabled();
     });

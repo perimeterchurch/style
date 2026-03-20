@@ -30,15 +30,15 @@ export interface VariantDefinition {
 
 ### Field Details
 
-| Field | Required | Prefix Convention | Description |
-| --- | --- | --- | --- |
-| `base` | Yes | None | Always-applied classes. Background, text color, etc. |
-| `hover` | No | `hover:` | Classes applied on mouse hover |
-| `active` | No | `active:` | Classes applied on press/click |
-| `focus` | No | `focus-visible:` | Classes applied on keyboard focus |
-| `disabled` | No | `disabled:` | Classes applied when disabled. Example: `disabled:opacity-50` |
-| `outline` | No | None | Alternative appearance using borders instead of fills. When `resolveVariant` is called with `{ outline: true }`, this replaces `base` |
-| `_meta` | No | — | Metadata for programmatically cloned variants |
+| Field      | Required | Prefix Convention | Description                                                                                                                           |
+| ---------- | -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `base`     | Yes      | None              | Always-applied classes. Background, text color, etc.                                                                                  |
+| `hover`    | No       | `hover:`          | Classes applied on mouse hover                                                                                                        |
+| `active`   | No       | `active:`         | Classes applied on press/click                                                                                                        |
+| `focus`    | No       | `focus-visible:`  | Classes applied on keyboard focus                                                                                                     |
+| `disabled` | No       | `disabled:`       | Classes applied when disabled. Example: `disabled:opacity-50`                                                                         |
+| `outline`  | No       | None              | Alternative appearance using borders instead of fills. When `resolveVariant` is called with `{ outline: true }`, this replaces `base` |
+| `_meta`    | No       | —                 | Metadata for programmatically cloned variants                                                                                         |
 
 ### Example
 
@@ -50,7 +50,8 @@ const myVariants: Record<string, VariantDefinition> = {
         active: 'active:bg-[var(--color-primary-active)]',
         focus: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50 focus-visible:ring-offset-2',
         disabled: 'disabled:pointer-events-none disabled:opacity-50',
-        outline: 'border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-primary-foreground)]',
+        outline:
+            'border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-primary-foreground)]',
     },
 };
 ```
@@ -92,7 +93,7 @@ Helper function that builds a className string from a `VariantDefinition`.
 export function resolveVariant(
     definition: VariantDefinition,
     options?: { outline?: boolean },
-): string
+): string;
 ```
 
 ### Behavior
@@ -102,7 +103,7 @@ export function resolveVariant(
 Concatenates: `base` + `hover` + `active` + `focus` + `disabled`
 
 ```ts
-resolveVariant(buttonVariants.primary)
+resolveVariant(buttonVariants.primary);
 // → "bg-[var(--color-primary)] text-[var(--color-primary-foreground)] hover:bg-[var(--color-primary-hover)] active:bg-[var(--color-primary-active)] focus-visible:outline-none ..."
 ```
 
@@ -111,7 +112,7 @@ resolveVariant(buttonVariants.primary)
 Concatenates: `outline` + `hover` + `active` + `focus` + `disabled`
 
 ```ts
-resolveVariant(buttonVariants.primary, { outline: true })
+resolveVariant(buttonVariants.primary, { outline: true });
 // → "border-2 border-[var(--color-primary)] text-[var(--color-primary)] ... hover:bg-[var(--color-primary-hover)] ..."
 ```
 

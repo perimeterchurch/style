@@ -1,43 +1,43 @@
 name: Deploy Storybook
 
 on:
-  workflow_run:
-    workflows: [Publish]
-    types: [completed]
-    branches: [main]
+    workflow_run:
+        workflows: [Publish]
+        types: [completed]
+        branches: [main]
 
 permissions:
-  pages: write
-  id-token: write
+    pages: write
+    id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+    group: pages
+    cancel-in-progress: false
 
 jobs:
-  deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
+    deploy:
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        runs-on: ubuntu-latest
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+            - uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
+            - run: pnpm install --frozen-lockfile
 
-      - run: pnpm storybook:build
+            - run: pnpm storybook:build
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: storybook-static
+            - uses: actions/upload-pages-artifact@v3
+              with:
+                  path: storybook-static
 
-      - id: deployment
-        uses: actions/deploy-pages@v4
+            - id: deployment
+              uses: actions/deploy-pages@v4

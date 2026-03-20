@@ -15,8 +15,7 @@ import {
 type CheckboxElement = ElementRef<'input'>;
 
 export interface CheckboxProps
-    extends Omit<ComponentPropsWithoutRef<'input'>, 'type' | 'size'>,
-        BaseComponentProps {
+    extends Omit<ComponentPropsWithoutRef<'input'>, 'type' | 'size'>, BaseComponentProps {
     /** Show error state */
     error?: boolean;
     /** Associated label text */
@@ -32,8 +31,7 @@ const CHECKMARK_SVG =
 export const Checkbox = forwardRef<CheckboxElement, CheckboxProps>(
     ({ className, error = false, label, size = 'md', disabled, id, ...props }, ref) => {
         const checkboxId =
-            id ||
-            (label ? `checkbox-${label.replace(/\s+/g, '-').toLowerCase()}` : undefined);
+            id || (label ? `checkbox-${label.replace(/\s+/g, '-').toLowerCase()}` : undefined);
 
         const checkbox = (
             <input

@@ -46,9 +46,12 @@ describe('SearchInput', () => {
         await userEvent.type(input, 'hi');
 
         // Wait for debounce
-        await vi.waitFor(() => {
-            expect(handleChange).toHaveBeenCalled();
-        }, { timeout: 2000 });
+        await vi.waitFor(
+            () => {
+                expect(handleChange).toHaveBeenCalled();
+            },
+            { timeout: 2000 },
+        );
     });
 
     it('renders search icon', () => {

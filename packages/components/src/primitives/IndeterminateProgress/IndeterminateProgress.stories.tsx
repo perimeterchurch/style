@@ -27,7 +27,14 @@ export const Default: Story = {
 
 export const InCard: Story = {
     render: () => (
-        <div style={{ position: 'relative', border: '1px solid var(--color-border)', borderRadius: 12, overflow: 'hidden' }}>
+        <div
+            style={{
+                position: 'relative',
+                border: '1px solid var(--color-border)',
+                borderRadius: 12,
+                overflow: 'hidden',
+            }}
+        >
             <IndeterminateProgress visible />
             <div style={{ padding: '2rem', textAlign: 'center' }}>
                 <p style={{ color: 'var(--color-text-secondary)' }}>Loading content...</p>

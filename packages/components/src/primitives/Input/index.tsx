@@ -25,9 +25,7 @@ import {
 type InputElement = ElementRef<'input'>;
 
 export interface InputProps
-    extends Omit<ComponentPropsWithoutRef<'input'>, 'size'>,
-        BaseComponentProps,
-        WidthProps {
+    extends Omit<ComponentPropsWithoutRef<'input'>, 'size'>, BaseComponentProps, WidthProps {
     /** Input size */
     size?: InputSize;
     /** Error message (truthy value triggers error state) */
@@ -37,18 +35,7 @@ export interface InputProps
 // --- Simple API ---
 
 const SimpleInput = forwardRef<InputElement, InputProps>(
-    (
-        {
-            className,
-            size = 'md',
-            error,
-            fullWidth = false,
-            disabled,
-            onKeyDown,
-            ...props
-        },
-        ref,
-    ) => {
+    ({ className, size = 'md', error, fullWidth = false, disabled, onKeyDown, ...props }, ref) => {
         const hasError = Boolean(error);
 
         return (
@@ -117,10 +104,7 @@ function InputRoot({
 }: InputRootProps) {
     return (
         <InputContext.Provider value={{ size, error, fullWidth, disabled }}>
-            <div
-                className={cn('flex flex-col gap-1', fullWidth && 'w-full', className)}
-                {...props}
-            >
+            <div className={cn('flex flex-col gap-1', fullWidth && 'w-full', className)} {...props}>
                 {children}
             </div>
         </InputContext.Provider>

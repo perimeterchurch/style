@@ -40,6 +40,7 @@ MyComponent.displayName = 'MyComponent';
 ```
 
 Key rules:
+
 - Always `forwardRef`
 - Default variant and size in destructuring
 - `cn()` for class merging (last arg is `className` for consumer overrides)
@@ -123,24 +124,26 @@ export const My = Object.assign(SimpleComponent, {
 ## When to Use Compound API
 
 Add a compound API when:
+
 - The component has multiple visual sections (Card: Header, Body, Footer)
 - Users need to insert icons or badges in specific positions (Button: Icon, Label)
 - The component has multiple interactive regions (Tabs: List, Tab, Panels, Panel)
 - An input has addons or decorations (Input: Root, Addon)
 
 Do NOT add a compound API when:
+
 - The component is a simple leaf element (Badge, Label, Skeleton)
 - There is no meaningful sub-structure to expose
 
 ## Existing Components with Compound API
 
-| Component | Sub-Parts |
-| --- | --- |
-| `Button` | `Root`, `Icon`, `Label` |
-| `Card` | `Header`, `Body`, `Footer` |
-| `Input` | `Root`, `Addon` |
-| `Select` | `Root`, `Option` |
-| `Tabs` | `Root`, `List`, `Tab`, `Panels`, `Panel` |
+| Component | Sub-Parts                                |
+| --------- | ---------------------------------------- |
+| `Button`  | `Root`, `Icon`, `Label`                  |
+| `Card`    | `Header`, `Body`, `Footer`               |
+| `Input`   | `Root`, `Addon`                          |
+| `Select`  | `Root`, `Option`                         |
+| `Tabs`    | `Root`, `List`, `Tab`, `Panels`, `Panel` |
 
 ## Token-Driven Styling
 

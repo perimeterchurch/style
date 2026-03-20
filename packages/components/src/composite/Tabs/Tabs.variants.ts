@@ -2,9 +2,7 @@
  * Tabs variant classes
  */
 
-export const tabsListClasses = [
-    'flex border-b border-[var(--color-border)]',
-].join(' ');
+export const tabsListClasses = ['flex border-b border-[var(--color-border)]'].join(' ');
 
 export const tabButtonBaseClasses = [
     'relative px-4 py-2.5 text-sm font-medium transition-colors',

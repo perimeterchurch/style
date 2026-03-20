@@ -11,7 +11,7 @@ Open `packages/icons/src/registry.ts`. Add the icon to the import statement from
 ```ts
 import {
     // ... existing imports ...
-    Bell,           // Add new icon import
+    Bell, // Add new icon import
 } from 'lucide-react';
 ```
 
@@ -41,6 +41,7 @@ The icon is now usable:
 ## Naming Convention
 
 Use kebab-case for all icon names:
+
 - `ChevronDown` from lucide becomes `chevron-down`
 - `AlertCircle` becomes `alert-circle`
 - `ExternalLink` becomes `external-link`
@@ -56,24 +57,22 @@ The component must accept standard SVG props and forward refs:
 ```tsx
 import { forwardRef, type SVGProps } from 'react';
 
-const PerimeterLogo = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
-    (props, ref) => (
-        <svg
-            ref={ref}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            {...props}
-        >
-            {/* SVG path data */}
-            <path d="M12 2L2 7l10 5 10-5-10-5z" />
-        </svg>
-    ),
-);
+const PerimeterLogo = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>((props, ref) => (
+    <svg
+        ref={ref}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        {...props}
+    >
+        {/* SVG path data */}
+        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+    </svg>
+));
 
 PerimeterLogo.displayName = 'PerimeterLogo';
 ```
@@ -92,7 +91,7 @@ registerIcon('perimeter-logo', PerimeterLogo);
 ```tsx
 import { Icon } from '@perimeterchurch/style/icons';
 
-<Icon name="perimeter-logo" size={24} className="text-primary" />
+<Icon name="perimeter-logo" size={24} className="text-primary" />;
 ```
 
 ## Available Icon Names

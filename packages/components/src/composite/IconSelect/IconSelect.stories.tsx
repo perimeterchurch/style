@@ -25,7 +25,13 @@ function IconSelectDemo() {
                 onChange={setValue}
                 placeholder="Select status..."
             />
-            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+            <p
+                style={{
+                    fontSize: '0.75rem',
+                    color: 'var(--color-text-muted)',
+                    marginTop: '0.5rem',
+                }}
+            >
                 Selected: {value}
             </p>
         </div>

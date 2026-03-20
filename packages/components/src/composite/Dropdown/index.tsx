@@ -4,13 +4,7 @@
  * Props-only API with Dropdown.Item and Dropdown.Divider subcomponents.
  */
 
-import {
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    type MenuItemsProps,
-} from '@headlessui/react';
+import { Menu, MenuButton, MenuItem, MenuItems, type MenuItemsProps } from '@headlessui/react';
 import { forwardRef, type ReactNode } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
@@ -50,25 +44,13 @@ export interface DropdownItemProps extends BaseComponentProps {
 }
 
 const DropdownBase = forwardRef<HTMLDivElement, DropdownProps>(
-    (
-        { trigger, children, align = 'right', anchor: anchorProp, className },
-        ref,
-    ) => {
-        const resolvedAnchor =
-            anchorProp ?? (align === 'right' ? 'bottom end' : 'bottom start');
+    ({ trigger, children, align = 'right', anchor: anchorProp, className }, ref) => {
+        const resolvedAnchor = anchorProp ?? (align === 'right' ? 'bottom end' : 'bottom start');
         return (
-            <Menu
-                as="div"
-                className={cn('relative inline-block text-left', className)}
-                ref={ref}
-            >
+            <Menu as="div" className={cn('relative inline-block text-left', className)} ref={ref}>
                 <MenuButton as="div">{trigger}</MenuButton>
 
-                <MenuItems
-                    transition
-                    anchor={resolvedAnchor}
-                    className={dropdownMenuClasses}
-                >
+                <MenuItems transition anchor={resolvedAnchor} className={dropdownMenuClasses}>
                     <div className="py-1">{children}</div>
                 </MenuItems>
             </Menu>
@@ -79,10 +61,7 @@ const DropdownBase = forwardRef<HTMLDivElement, DropdownProps>(
 DropdownBase.displayName = 'Dropdown';
 
 export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
-    (
-        { children, onClick, disabled = false, destructive = false, className },
-        ref,
-    ) => {
+    ({ children, onClick, disabled = false, destructive = false, className }, ref) => {
         return (
             <MenuItem disabled={disabled}>
                 {({ focus }) => (
@@ -92,9 +71,7 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
                         className={cn(
                             dropdownItemBaseClasses,
                             focus && !disabled && dropdownItemFocusClasses,
-                            disabled
-                                ? dropdownItemDisabledClasses
-                                : 'cursor-pointer',
+                            disabled ? dropdownItemDisabledClasses : 'cursor-pointer',
                             !disabled && !destructive && dropdownItemNormalClasses,
                             !disabled && destructive && dropdownItemDestructiveClasses,
                             className,
@@ -111,20 +88,14 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
 DropdownItem.displayName = 'Dropdown.Item';
 
 export function DropdownDivider() {
-    return (
-        <div
-            className="my-1 h-px bg-[var(--color-border)]"
-            role="separator"
-        />
-    );
+    return <div className="my-1 h-px bg-[var(--color-border)]" role="separator" />;
 }
 
 DropdownDivider.displayName = 'Dropdown.Divider';
 
-interface DropdownComponent
-    extends React.ForwardRefExoticComponent<
-        DropdownProps & React.RefAttributes<HTMLDivElement>
-    > {
+interface DropdownComponent extends React.ForwardRefExoticComponent<
+    DropdownProps & React.RefAttributes<HTMLDivElement>
+> {
     Item: typeof DropdownItem;
     Divider: typeof DropdownDivider;
 }

@@ -15,11 +15,8 @@ export const paginationButtonDefaultClasses = [
     'hover:bg-[var(--color-accent)]',
 ].join(' ');
 
-export const paginationButtonActiveClasses =
-    'bg-[var(--color-primary)] text-white';
+export const paginationButtonActiveClasses = 'bg-[var(--color-primary)] text-white';
 
-export const paginationButtonDisabledClasses =
-    'disabled:opacity-50 disabled:cursor-not-allowed';
+export const paginationButtonDisabledClasses = 'disabled:opacity-50 disabled:cursor-not-allowed';
 
-export const paginationEllipsisClasses =
-    'px-1 text-sm text-[var(--color-text-muted)]';
+export const paginationEllipsisClasses = 'px-1 text-sm text-[var(--color-text-muted)]';

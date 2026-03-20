@@ -28,7 +28,15 @@ export const AllSizes: Story = {
             {Object.keys(spinnerSizeClasses).map((size) => (
                 <div key={size} style={{ textAlign: 'center' }}>
                     <LoadingSpinner size={size as keyof typeof spinnerSizeClasses} />
-                    <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>{size}</p>
+                    <p
+                        style={{
+                            fontSize: '0.75rem',
+                            color: 'var(--color-text-muted)',
+                            marginTop: '0.5rem',
+                        }}
+                    >
+                        {size}
+                    </p>
                 </div>
             ))}
         </div>

@@ -3,8 +3,7 @@ import type { VariantDefinition, SizeDefinition } from '../../utils/types';
 export const badgeVariants: Record<string, VariantDefinition> = {
     primary: {
         base: 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]',
-        outline:
-            'border border-[var(--color-primary)] text-[var(--color-primary)] bg-transparent',
+        outline: 'border border-[var(--color-primary)] text-[var(--color-primary)] bg-transparent',
     },
     secondary: {
         base: 'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-300',

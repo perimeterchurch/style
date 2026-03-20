@@ -22,12 +22,20 @@ describe('Card', () => {
     });
 
     it('applies hover effect when hoverable', () => {
-        render(<Card hoverable data-testid="card">Hoverable</Card>);
+        render(
+            <Card hoverable data-testid="card">
+                Hoverable
+            </Card>,
+        );
         expect(screen.getByTestId('card').className).toContain('hover:shadow-md');
     });
 
     it('merges custom className', () => {
-        render(<Card className="custom-class" data-testid="card">Content</Card>);
+        render(
+            <Card className="custom-class" data-testid="card">
+                Content
+            </Card>,
+        );
         expect(screen.getByTestId('card').className).toContain('custom-class');
     });
 });

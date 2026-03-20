@@ -17,8 +17,7 @@ import { avatarSizeClasses, type AvatarSize } from './Avatar.variants';
 type AvatarElement = ElementRef<'div'>;
 
 export interface AvatarProps
-    extends Omit<ComponentPropsWithoutRef<'div'>, 'children'>,
-        BaseComponentProps {
+    extends Omit<ComponentPropsWithoutRef<'div'>, 'children'>, BaseComponentProps {
     /** Image source URL */
     src?: string;
     /** Alt text for image */

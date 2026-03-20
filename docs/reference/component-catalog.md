@@ -12,15 +12,15 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Button/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `ButtonVariant` | `'primary'` | Visual style |
-| `size` | `ButtonSize` | `'md'` | Size |
-| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | HTML button type |
-| `outline` | `boolean` | `false` | Border-only appearance |
-| `fullWidth` | `boolean` | `false` | Expand to full width |
-| `disabled` | `boolean` | `false` | Disable interaction |
-| `isLoading` | `boolean` | `false` | Show spinner, disable |
+| Prop        | Type                              | Default     | Description            |
+| ----------- | --------------------------------- | ----------- | ---------------------- |
+| `variant`   | `ButtonVariant`                   | `'primary'` | Visual style           |
+| `size`      | `ButtonSize`                      | `'md'`      | Size                   |
+| `type`      | `'button' \| 'submit' \| 'reset'` | `'button'`  | HTML button type       |
+| `outline`   | `boolean`                         | `false`     | Border-only appearance |
+| `fullWidth` | `boolean`                         | `false`     | Expand to full width   |
+| `disabled`  | `boolean`                         | `false`     | Disable interaction    |
+| `isLoading` | `boolean`                         | `false`     | Show spinner, disable  |
 
 **Variants**: `primary`, `secondary`, `success`, `warning`, `error`, `info`, `ghost`
 **Sizes**: `xs`, `sm`, `md`, `lg`, `xl`
@@ -32,10 +32,10 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Card/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `CardVariant` | `'default'` | Visual style |
-| `hoverable` | `boolean` | `false` | Shadow + lift on hover |
+| Prop        | Type          | Default     | Description            |
+| ----------- | ------------- | ----------- | ---------------------- |
+| `variant`   | `CardVariant` | `'default'` | Visual style           |
+| `hoverable` | `boolean`     | `false`     | Shadow + lift on hover |
 
 **Variants**: `default`
 **Compound**: `Card.Header`, `Card.Body`, `Card.Footer`
@@ -46,10 +46,10 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Badge/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `BadgeVariant` | — | Visual style |
-| `size` | `BadgeSize` | — | Size |
+| Prop      | Type           | Default | Description  |
+| --------- | -------------- | ------- | ------------ |
+| `variant` | `BadgeVariant` | —       | Visual style |
+| `size`    | `BadgeSize`    | —       | Size         |
 
 **Variants**: Record-keyed from `badgeVariants`
 **Sizes**: Record-keyed from `badgeSizes`
@@ -60,9 +60,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Input/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `InputSize` | — | Size |
+| Prop   | Type        | Default | Description |
+| ------ | ----------- | ------- | ----------- |
+| `size` | `InputSize` | —       | Size        |
 
 **Sizes**: Record-keyed from `inputSizes`
 **Compound**: `Input.Root`, `Input.Addon`
@@ -73,9 +73,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Label/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `LabelVariant` | — | Visual style |
+| Prop      | Type           | Default | Description  |
+| --------- | -------------- | ------- | ------------ |
+| `variant` | `LabelVariant` | —       | Visual style |
 
 **Variants**: Record-keyed from `labelVariants`
 
@@ -85,10 +85,10 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Select/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `SelectSize` | — | Size |
-| `options` | `SelectOption[]` | — | Available options |
+| Prop      | Type             | Default | Description       |
+| --------- | ---------------- | ------- | ----------------- |
+| `size`    | `SelectSize`     | —       | Size              |
+| `options` | `SelectOption[]` | —       | Available options |
 
 **Sizes**: Record-keyed from `selectSizes`
 **Compound**: `Select.Root`, `Select.Option`
@@ -99,9 +99,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Textarea/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `TextareaSize` | — | Size |
+| Prop   | Type           | Default | Description |
+| ------ | -------------- | ------- | ----------- |
+| `size` | `TextareaSize` | —       | Size        |
 
 **Sizes**: Record-keyed from `textareaSizes`
 
@@ -111,9 +111,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Checkbox/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `CheckboxSize` | — | Size |
+| Prop   | Type           | Default | Description |
+| ------ | -------------- | ------- | ----------- |
+| `size` | `CheckboxSize` | —       | Size        |
 
 **Sizes**: Record-keyed from `checkboxSizes`
 
@@ -123,9 +123,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Switch/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `SwitchSize` | — | Size |
+| Prop   | Type         | Default | Description |
+| ------ | ------------ | ------- | ----------- |
+| `size` | `SwitchSize` | —       | Size        |
 
 **Sizes**: Record-keyed from `switchSizes`
 
@@ -135,9 +135,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Avatar/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `AvatarSize` | — | Size |
+| Prop   | Type         | Default | Description |
+| ------ | ------------ | ------- | ----------- |
+| `size` | `AvatarSize` | —       | Size        |
 
 **Sizes**: Record-keyed from `avatarSizes`
 
@@ -147,9 +147,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/Skeleton/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `SkeletonVariant` | — | Shape variant |
+| Prop      | Type              | Default | Description   |
+| --------- | ----------------- | ------- | ------------- |
+| `variant` | `SkeletonVariant` | —       | Shape variant |
 
 **Variants**: Record-keyed from `skeletonVariants`
 
@@ -159,9 +159,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/LoadingSpinner/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `size` | `SpinnerSize` | — | Size |
+| Prop   | Type          | Default | Description |
+| ------ | ------------- | ------- | ----------- |
+| `size` | `SpinnerSize` | —       | Size        |
 
 **Sizes**: Record-keyed from `spinnerSizes`
 
@@ -171,10 +171,10 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/FilterChip/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `ChipVariant` | — | Visual style |
-| `size` | `ChipSize` | — | Size |
+| Prop      | Type          | Default | Description  |
+| --------- | ------------- | ------- | ------------ |
+| `variant` | `ChipVariant` | —       | Visual style |
+| `size`    | `ChipSize`    | —       | Size         |
 
 **Variants**: Record-keyed from `chipVariants`
 **Sizes**: Record-keyed from `chipSizes`
@@ -185,9 +185,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/EmptyState/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `EmptyStateVariant` | — | Visual style |
+| Prop      | Type                | Default | Description  |
+| --------- | ------------------- | ------- | ------------ |
+| `variant` | `EmptyStateVariant` | —       | Visual style |
 
 **Variants**: Record-keyed from `emptyStateVariants`
 
@@ -197,9 +197,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/IndeterminateProgress/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `ProgressVariant` | — | Color variant |
+| Prop      | Type              | Default | Description   |
+| --------- | ----------------- | ------- | ------------- |
+| `variant` | `ProgressVariant` | —       | Color variant |
 
 **Variants**: Record-keyed from `progressVariants`
 
@@ -209,9 +209,9 @@ Peer deps: `react@^19`
 
 **File**: `packages/components/src/primitives/SearchInput/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `variant` | `SearchInputVariant` | — | Visual style |
+| Prop      | Type                 | Default | Description  |
+| --------- | -------------------- | ------- | ------------ |
+| `variant` | `SearchInputVariant` | —       | Visual style |
 
 **Variants**: Record-keyed from `searchInputVariants`
 
@@ -227,11 +227,11 @@ Peer deps: `react@^19`, `@headlessui/react@^2`
 
 **File**: `packages/components/src/composite/ComboSelect/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `options` | `ComboSelectOption[]` | — | Searchable options |
-| `value` | `string` | — | Selected value |
-| `onChange` | `(value: string) => void` | — | Change handler |
+| Prop       | Type                      | Default | Description        |
+| ---------- | ------------------------- | ------- | ------------------ |
+| `options`  | `ComboSelectOption[]`     | —       | Searchable options |
+| `value`    | `string`                  | —       | Selected value     |
+| `onChange` | `(value: string) => void` | —       | Change handler     |
 
 Uses Headless UI `Combobox` internally.
 
@@ -241,11 +241,11 @@ Uses Headless UI `Combobox` internally.
 
 **File**: `packages/components/src/composite/Dropdown/`
 
-| Export | Description |
-| --- | --- |
-| `Dropdown` | Menu trigger + popover |
-| `DropdownItem` | Menu item |
-| `DropdownDivider` | Visual separator |
+| Export            | Description            |
+| ----------------- | ---------------------- |
+| `Dropdown`        | Menu trigger + popover |
+| `DropdownItem`    | Menu item              |
+| `DropdownDivider` | Visual separator       |
 
 Uses Headless UI `Menu` internally.
 
@@ -255,9 +255,9 @@ Uses Headless UI `Menu` internally.
 
 **File**: `packages/components/src/composite/IconSelect/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `options` | `IconSelectOption[]` | — | Options with icons |
+| Prop      | Type                 | Default | Description        |
+| --------- | -------------------- | ------- | ------------------ |
+| `options` | `IconSelectOption[]` | —       | Options with icons |
 
 Uses Headless UI `Listbox` internally.
 
@@ -267,9 +267,9 @@ Uses Headless UI `Listbox` internally.
 
 **File**: `packages/components/src/composite/MultiIconSelect/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `presets` | `MultiIconSelectPreset[]` | — | Preset options |
+| Prop      | Type                      | Default | Description    |
+| --------- | ------------------------- | ------- | -------------- |
+| `presets` | `MultiIconSelectPreset[]` | —       | Preset options |
 
 Multi-select variant of IconSelect.
 
@@ -279,11 +279,11 @@ Multi-select variant of IconSelect.
 
 **File**: `packages/components/src/composite/Tabs/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `tabs` | `Tab[]` | — | Tab definitions |
-| `activeTab` | `string` | — | Active tab ID |
-| `onChange` | `(tabId: string) => void` | — | Tab change handler |
+| Prop        | Type                      | Default | Description        |
+| ----------- | ------------------------- | ------- | ------------------ |
+| `tabs`      | `Tab[]`                   | —       | Tab definitions    |
+| `activeTab` | `string`                  | —       | Active tab ID      |
+| `onChange`  | `(tabId: string) => void` | —       | Tab change handler |
 
 **Compound**: `Tabs.Root`, `Tabs.List`, `Tabs.Tab`, `Tabs.Panels`, `Tabs.Panel`
 
@@ -295,9 +295,9 @@ Keyboard navigation: ArrowLeft/ArrowRight cycles through enabled tabs.
 
 **File**: `packages/components/src/composite/Pagination/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| Standard pagination props | — | — | Page navigation |
+| Prop                      | Type | Default | Description     |
+| ------------------------- | ---- | ------- | --------------- |
+| Standard pagination props | —    | —       | Page navigation |
 
 ---
 
@@ -305,9 +305,9 @@ Keyboard navigation: ArrowLeft/ArrowRight cycles through enabled tabs.
 
 **File**: `packages/components/src/composite/DateRangePicker/`
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| Standard date range props | — | — | Date range selection |
+| Prop                      | Type | Default | Description          |
+| ------------------------- | ---- | ------- | -------------------- |
+| Standard date range props | —    | —       | Date range selection |
 
 ---
 
@@ -317,36 +317,36 @@ Peer deps: `react@^19`, `framer-motion@^11`
 
 ### Components
 
-| Component | Props Interface | Description |
-| --- | --- | --- |
-| `FadeIn` | `FadeInProps` | Fade in on mount |
-| `SlideUp` | `SlideUpProps` | Slide up + fade in |
-| `ScaleIn` | `ScaleInProps` | Scale in + fade |
-| `AnimatedList` | `AnimatedListProps` | Staggered list animation |
-| `AnimatedPanel` | `AnimatedPanelProps` | Slide-in panel |
-| `CountUp` | `CountUpProps` | Animated number counter |
+| Component            | Props Interface           | Description                    |
+| -------------------- | ------------------------- | ------------------------------ |
+| `FadeIn`             | `FadeInProps`             | Fade in on mount               |
+| `SlideUp`            | `SlideUpProps`            | Slide up + fade in             |
+| `ScaleIn`            | `ScaleInProps`            | Scale in + fade                |
+| `AnimatedList`       | `AnimatedListProps`       | Staggered list animation       |
+| `AnimatedPanel`      | `AnimatedPanelProps`      | Slide-in panel                 |
+| `CountUp`            | `CountUpProps`            | Animated number counter        |
 | `SkeletonTransition` | `SkeletonTransitionProps` | Skeleton-to-content transition |
 
 ### Config Presets
 
-| Export | Type | Description |
-| --- | --- | --- |
-| `springs` | Object | `snappy`, `gentle`, `bouncy` spring configs |
-| `durations` | Object | `fast` (0.15s), `base` (0.2s), `slow` (0.3s), `entrance` (0.4s) |
-| `easings` | Object | `easeOut`, `easeInOut` cubic-bezier arrays |
-| `staggers` | Object | `fast` (0.03s), `base` (0.05s), `slow` (0.08s) |
-| `transitions` | Object | Combined presets: `fast`, `base`, `slow`, `entrance`, `snappy`, `gentle`, `bouncy` |
-| `fadeVariants` | Variants | `hidden`/`visible`/`exit` for opacity |
-| `slideUpVariants` | Variants | Opacity + y:6 slide |
-| `slideDownVariants` | Variants | Opacity + y:-6 slide |
-| `scaleInVariants` | Variants | Opacity + scale:0.97 |
-| `slideRightVariants` | Variants | x:100% slide |
-| `slideLeftVariants` | Variants | x:-100% slide |
-| `pageSlideVariants` | Variants | Directional page slide (custom=1/-1) |
-| `modalBackdropVariants` | Variants | Modal overlay fade |
-| `modalPanelVariants` | Variants | Modal panel scale+slide |
-| `staggerContainer` | Function | Creates stagger parent variant |
-| `staggerItemVariants` | Variants | Stagger child item variant |
+| Export                  | Type     | Description                                                                        |
+| ----------------------- | -------- | ---------------------------------------------------------------------------------- |
+| `springs`               | Object   | `snappy`, `gentle`, `bouncy` spring configs                                        |
+| `durations`             | Object   | `fast` (0.15s), `base` (0.2s), `slow` (0.3s), `entrance` (0.4s)                    |
+| `easings`               | Object   | `easeOut`, `easeInOut` cubic-bezier arrays                                         |
+| `staggers`              | Object   | `fast` (0.03s), `base` (0.05s), `slow` (0.08s)                                     |
+| `transitions`           | Object   | Combined presets: `fast`, `base`, `slow`, `entrance`, `snappy`, `gentle`, `bouncy` |
+| `fadeVariants`          | Variants | `hidden`/`visible`/`exit` for opacity                                              |
+| `slideUpVariants`       | Variants | Opacity + y:6 slide                                                                |
+| `slideDownVariants`     | Variants | Opacity + y:-6 slide                                                               |
+| `scaleInVariants`       | Variants | Opacity + scale:0.97                                                               |
+| `slideRightVariants`    | Variants | x:100% slide                                                                       |
+| `slideLeftVariants`     | Variants | x:-100% slide                                                                      |
+| `pageSlideVariants`     | Variants | Directional page slide (custom=1/-1)                                               |
+| `modalBackdropVariants` | Variants | Modal overlay fade                                                                 |
+| `modalPanelVariants`    | Variants | Modal panel scale+slide                                                            |
+| `staggerContainer`      | Function | Creates stagger parent variant                                                     |
+| `staggerItemVariants`   | Variants | Stagger child item variant                                                         |
 
 ---
 
@@ -356,16 +356,16 @@ Peer deps: `react@^19`, `lucide-react@^0.400`
 
 ### Icon Component
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `name` | `IconName` | — | Registry key |
-| `size` | `number` | `16` | Width/height in px |
-| + all SVG props | — | — | Forwarded to SVG |
+| Prop            | Type       | Default | Description        |
+| --------------- | ---------- | ------- | ------------------ |
+| `name`          | `IconName` | —       | Registry key       |
+| `size`          | `number`   | `16`    | Width/height in px |
+| + all SVG props | —          | —       | Forwarded to SVG   |
 
 ### Functions
 
-| Function | Description |
-| --- | --- |
-| `getIcon(name)` | Look up icon component by name |
-| `registerIcon(name, component)` | Register a custom SVG icon |
-| `getIconNames()` | Get all registered icon names |
+| Function                        | Description                    |
+| ------------------------------- | ------------------------------ |
+| `getIcon(name)`                 | Look up icon component by name |
+| `registerIcon(name, component)` | Register a custom SVG icon     |
+| `getIconNames()`                | Get all registered icon names  |

@@ -31,7 +31,13 @@ function SingleSelectDemo() {
                 placeholder="Select a fruit..."
                 showAllOption
             />
-            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+            <p
+                style={{
+                    fontSize: '0.75rem',
+                    color: 'var(--color-text-muted)',
+                    marginTop: '0.5rem',
+                }}
+            >
                 Selected: {value || '(none)'}
             </p>
         </div>
@@ -49,11 +55,18 @@ function MultiSelectDemo() {
             <ComboSelect
                 options={fruitOptions}
                 value={value}
-                onChange={setValue}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={setValue as any}
                 multiple
                 placeholder="Select fruits..."
             />
-            <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+            <p
+                style={{
+                    fontSize: '0.75rem',
+                    color: 'var(--color-text-muted)',
+                    marginTop: '0.5rem',
+                }}
+            >
                 Selected: {value.length > 0 ? value.join(', ') : '(none)'}
             </p>
         </div>
@@ -81,12 +94,7 @@ export const Loading: Story = {
 export const Disabled: Story = {
     render: () => (
         <div style={{ maxWidth: 300 }}>
-            <ComboSelect
-                options={fruitOptions}
-                value="apple"
-                onChange={() => {}}
-                disabled
-            />
+            <ComboSelect options={fruitOptions} value="apple" onChange={() => {}} disabled />
         </div>
     ),
 };

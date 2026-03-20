@@ -44,6 +44,7 @@ export type AlertSize = keyof typeof alertSizes;
 ```
 
 Rules for variant files:
+
 - Import types from `../../utils/types`
 - Use `var()` references for all semantic colors: `bg-[var(--color-primary)]`
 - Export the records, variant type, and size type
@@ -97,6 +98,7 @@ export { alertVariants, alertSizes, type AlertVariant, type AlertSize };
 ```
 
 Rules for component files:
+
 - Always use `forwardRef` with explicit element type
 - Set `displayName`
 - Default `variant` and `size` in destructuring
@@ -126,9 +128,7 @@ describe('Alert', () => {
     it('renders all variants without crashing', () => {
         for (const variant of Object.keys(alertVariants)) {
             const { unmount } = render(
-                <Alert variant={variant as keyof typeof alertVariants}>
-                    {variant}
-                </Alert>,
+                <Alert variant={variant as keyof typeof alertVariants}>{variant}</Alert>,
             );
             expect(screen.getByRole('alert')).toBeInTheDocument();
             unmount();
@@ -158,6 +158,7 @@ describe('Alert', () => {
 ```
 
 Required test coverage for every component:
+
 - Renders with default props
 - Renders all variants without crashing
 - Renders all sizes without crashing (if applicable)
@@ -234,6 +235,7 @@ export const Playground: Story = {
 ```
 
 Story conventions:
+
 - `title` follows `Components/Primitives/<Name>` or `Components/Composite/<Name>`
 - Always include `Default`, `AllVariants`, `AllSizes`, and `Playground` stories
 - Use `Object.keys()` on the variants/sizes records for DRY iteration

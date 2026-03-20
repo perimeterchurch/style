@@ -32,7 +32,9 @@ function ThemePreview({ label, themeAttr }: { label: string; themeAttr?: string 
                     <Button variant="secondary">Secondary</Button>
                     <Button variant="success">Success</Button>
                     <Button variant="error">Error</Button>
-                    <Button variant="primary" outline>Outline</Button>
+                    <Button variant="primary" outline>
+                        Outline
+                    </Button>
                 </div>
 
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -50,7 +52,13 @@ function ThemePreview({ label, themeAttr }: { label: string; themeAttr?: string 
                     </Card.Body>
                 </Card>
 
-                <div style={{ padding: '1rem', backgroundColor: 'var(--color-muted)', borderRadius: 8 }}>
+                <div
+                    style={{
+                        padding: '1rem',
+                        backgroundColor: 'var(--color-muted)',
+                        borderRadius: 8,
+                    }}
+                >
                     <p style={{ color: 'var(--color-muted-foreground)', fontSize: '0.875rem' }}>
                         Muted background area with muted foreground text
                     </p>

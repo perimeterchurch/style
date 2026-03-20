@@ -29,15 +29,15 @@ export const buttonVariants: Record<string, VariantDefinition> = {
 
 ### VariantDefinition Fields
 
-| Field | Required | Description |
-| --- | --- | --- |
-| `base` | Yes | Always-applied classes |
-| `hover` | No | `hover:` prefixed classes |
-| `active` | No | `active:` prefixed classes |
-| `focus` | No | `focus-visible:` prefixed classes |
-| `disabled` | No | `disabled:` prefixed classes |
-| `outline` | No | Alternate border-based appearance |
-| `_meta` | No | Metadata (clonedFrom, createdAt) |
+| Field      | Required | Description                       |
+| ---------- | -------- | --------------------------------- |
+| `base`     | Yes      | Always-applied classes            |
+| `hover`    | No       | `hover:` prefixed classes         |
+| `active`   | No       | `active:` prefixed classes        |
+| `focus`    | No       | `focus-visible:` prefixed classes |
+| `disabled` | No       | `disabled:` prefixed classes      |
+| `outline`  | No       | Alternate border-based appearance |
+| `_meta`    | No       | Metadata (clonedFrom, createdAt)  |
 
 ### Rules
 
@@ -85,9 +85,9 @@ export const buttonSizes: Record<string, SizeDefinition> = {
 
 ### SizeDefinition Fields
 
-| Field | Required | Description |
-| --- | --- | --- |
-| `padding` | Yes | Padding classes (e.g., `px-4 py-2`) |
-| `fontSize` | Yes | Font size class (e.g., `text-base`) |
-| `iconSize` | No | Icon size in pixels |
-| `radius` | No | Border radius class |
+| Field      | Required | Description                         |
+| ---------- | -------- | ----------------------------------- |
+| `padding`  | Yes      | Padding classes (e.g., `px-4 py-2`) |
+| `fontSize` | Yes      | Font size class (e.g., `text-base`) |
+| `iconSize` | No       | Icon size in pixels                 |
+| `radius`   | No       | Border radius class                 |

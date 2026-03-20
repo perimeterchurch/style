@@ -14,23 +14,13 @@ describe('EmptyState', () => {
     });
 
     it('renders icon with aria-hidden', () => {
-        render(
-            <EmptyState
-                title="No data"
-                icon={<span data-testid="icon">icon</span>}
-            />,
-        );
+        render(<EmptyState title="No data" icon={<span data-testid="icon">icon</span>} />);
         const icon = screen.getByTestId('icon');
         expect(icon.parentElement).toHaveAttribute('aria-hidden', 'true');
     });
 
     it('renders action slot', () => {
-        render(
-            <EmptyState
-                title="Empty"
-                action={<button>Create New</button>}
-            />,
-        );
+        render(<EmptyState title="Empty" action={<button>Create New</button>} />);
         expect(screen.getByRole('button', { name: 'Create New' })).toBeInTheDocument();
     });
 

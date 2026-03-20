@@ -77,9 +77,7 @@ describe('MyComponent', () => {
     it('renders all variants without crashing', () => {
         for (const variant of Object.keys(myVariants)) {
             const { unmount } = render(
-                <MyComponent variant={variant as keyof typeof myVariants}>
-                    {variant}
-                </MyComponent>,
+                <MyComponent variant={variant as keyof typeof myVariants}>{variant}</MyComponent>,
             );
             expect(screen.getByText(variant)).toBeInTheDocument();
             unmount();
@@ -89,9 +87,7 @@ describe('MyComponent', () => {
     it('renders all sizes without crashing', () => {
         for (const size of Object.keys(mySizes)) {
             const { unmount } = render(
-                <MyComponent size={size as keyof typeof mySizes}>
-                    {size}
-                </MyComponent>,
+                <MyComponent size={size as keyof typeof mySizes}>{size}</MyComponent>,
             );
             expect(screen.getByText(size)).toBeInTheDocument();
             unmount();
