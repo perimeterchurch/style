@@ -190,4 +190,3 @@ export {
     getInputBorderClasses,
     type InputSize,
 };
-export type { InputProps, InputRootProps };

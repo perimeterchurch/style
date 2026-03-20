@@ -1,7 +1,6 @@
 import {
     forwardRef,
     createContext,
-    useContext,
     type ComponentPropsWithoutRef,
     type ElementRef,
     type ReactNode,
@@ -192,4 +191,3 @@ export const Button = Object.assign(SimpleButton, {
 });
 
 export { buttonVariants, buttonSizes, type ButtonVariant, type ButtonSize };
-export type { ButtonProps };

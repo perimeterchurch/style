@@ -226,4 +226,3 @@ export {
     getSelectBorderClasses,
     type SelectSize,
 };
-export type { SelectProps, SelectOption, SelectRootProps };

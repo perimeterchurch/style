@@ -321,7 +321,7 @@ function ComboSelectRoot<T extends string | number = string>({
     return (
         <ComboSelectContext.Provider value={{ query, setQuery, loading, placeholderIcon }}>
             <Combobox
-                value={value as string | string[]}
+                value={value as string}
                 onChange={(val: string | string[] | null) => {
                     onChange((val ?? '') as T | T[] | '');
                     setQuery('');
