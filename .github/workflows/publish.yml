@@ -1,0 +1,69 @@
+name: Publish
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm quality
+
+      - name: Determine version bump
+        id: version
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            COMMITS=$(git log --oneline)
+          else
+            COMMITS=$(git log ${LAST_TAG}..HEAD --oneline)
+          fi
+
+          if echo "$COMMITS" | grep -qi "BREAKING CHANGE"; then
+            echo "bump=major" >> $GITHUB_OUTPUT
+          elif echo "$COMMITS" | grep -qi "^feat"; then
+            echo "bump=minor" >> $GITHUB_OUTPUT
+          else
+            echo "bump=patch" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump version
+        run: |
+          npm version ${{ steps.version.outputs.bump }} --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - run: pnpm build
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git commit -m "chore: release v${VERSION}"
+          git tag "v${VERSION}"
+          git push origin main --tags
