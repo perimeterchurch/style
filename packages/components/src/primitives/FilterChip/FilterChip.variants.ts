@@ -5,7 +5,7 @@ export const chipVariants: Record<string, VariantDefinition> = {
         base: 'bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)]',
     },
     secondary: {
-        base: 'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-300',
+        base: 'bg-[var(--color-stone-100)] text-[var(--color-stone-700)] dark:bg-[var(--color-stone-800)] dark:text-[var(--color-stone-300)]',
     },
     success: {
         base: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
@@ -20,7 +20,7 @@ export const chipVariants: Record<string, VariantDefinition> = {
         base: 'bg-sky-50 text-sky-700 dark:bg-sky-500/10 dark:text-sky-400',
     },
     ghost: {
-        base: 'bg-transparent text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700',
+        base: 'bg-transparent text-[var(--color-stone-600)] dark:text-[var(--color-stone-400)] border border-[var(--color-stone-200)] dark:border-[var(--color-stone-700)]',
     },
 };
 

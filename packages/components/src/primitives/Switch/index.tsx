@@ -36,8 +36,8 @@ export const Switch = forwardRef<SwitchElement, SwitchProps>(
                     'transition-colors duration-200 cursor-pointer',
                     'active:scale-95',
                     sizeConfig.track,
-                    'bg-stone-300 checked:bg-[var(--color-primary)]',
-                    'dark:bg-stone-600',
+                    'bg-[var(--color-stone-300)] checked:bg-[var(--color-primary)]',
+                    'dark:bg-[var(--color-stone-600)]',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50 focus-visible:ring-offset-2',
                     'disabled:cursor-not-allowed disabled:opacity-50',
                     'before:content-[""] before:absolute before:top-[2px] before:left-[2px]',
@@ -60,7 +60,7 @@ export const Switch = forwardRef<SwitchElement, SwitchProps>(
                         htmlFor={switchId}
                         className={cn(
                             'cursor-pointer select-none',
-                            'text-stone-700 dark:text-stone-300',
+                            'text-[var(--color-stone-700)] dark:text-[var(--color-stone-300)]',
                             switchLabelSizeClasses[size],
                             disabled && 'cursor-not-allowed opacity-50',
                         )}

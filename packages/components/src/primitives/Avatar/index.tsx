@@ -39,8 +39,8 @@ export const Avatar = forwardRef<AvatarElement, AvatarProps>(
                 className={cn(
                     'relative inline-flex items-center justify-center',
                     'rounded-full overflow-hidden',
-                    'bg-stone-200 text-stone-600',
-                    'dark:bg-stone-700 dark:text-stone-300',
+                    'bg-[var(--color-stone-200)] text-[var(--color-stone-600)]',
+                    'dark:bg-[var(--color-stone-700)] dark:text-[var(--color-stone-300)]',
                     'font-medium select-none shrink-0',
                     'transition-all duration-200',
                     avatarSizeClasses[size],

@@ -7,7 +7,7 @@ import type { SizeDefinition } from '../../utils/types';
 export const selectBaseClasses = [
     'flex rounded-lg border bg-white',
     'transition-all duration-200',
-    'dark:bg-stone-900 dark:text-stone-100',
+    'dark:bg-[var(--color-stone-900)] dark:text-[var(--color-stone-100)]',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50 focus-visible:ring-offset-2',
     'disabled:cursor-not-allowed disabled:opacity-50',
 ].join(' ');
@@ -39,7 +39,7 @@ export const selectSizes: Record<string, SizeDefinition> = {
 export function getSelectBorderClasses(hasError: boolean): string {
     return hasError
         ? 'border-[var(--color-error)] focus-visible:ring-[var(--color-error)]/50'
-        : 'border-stone-300 dark:border-stone-600';
+        : 'border-[var(--color-stone-300)] dark:border-[var(--color-stone-600)]';
 }
 
 export type SelectSize = keyof typeof selectSizes;

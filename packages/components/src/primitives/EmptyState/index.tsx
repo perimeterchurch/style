@@ -31,15 +31,18 @@ export const EmptyState = forwardRef<EmptyStateElement, EmptyStateProps>(
         return (
             <div ref={ref} className={cn(emptyStateVariants[variant].base, className)} {...props}>
                 {icon && (
-                    <div className="mb-4 text-stone-400 dark:text-stone-500" aria-hidden="true">
+                    <div
+                        className="mb-4 text-[var(--color-stone-400)] dark:text-[var(--color-stone-500)]"
+                        aria-hidden="true"
+                    >
                         {icon}
                     </div>
                 )}
-                <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-2">
+                <h3 className="text-lg font-semibold text-[var(--color-stone-900)] dark:text-[var(--color-stone-100)] mb-2">
                     {title}
                 </h3>
                 {description && (
-                    <p className="text-sm text-stone-500 dark:text-stone-400 mb-4 max-w-sm">
+                    <p className="text-sm text-[var(--color-stone-500)] dark:text-[var(--color-stone-400)] mb-4 max-w-sm">
                         {description}
                     </p>
                 )}

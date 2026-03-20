@@ -49,7 +49,7 @@ const SimpleInput = forwardRef<InputElement, InputProps>(
                 }}
                 className={cn(
                     inputBaseClasses,
-                    'placeholder:text-stone-400 dark:placeholder:text-stone-500',
+                    'placeholder:text-[var(--color-stone-400)] dark:placeholder:text-[var(--color-stone-500)]',
                     inputSizeClasses[size],
                     inputTextSizes[size],
                     getInputBorderClasses(hasError),
@@ -132,7 +132,7 @@ const InputField = forwardRef<
             }}
             className={cn(
                 inputBaseClasses,
-                'placeholder:text-stone-400 dark:placeholder:text-stone-500',
+                'placeholder:text-[var(--color-stone-400)] dark:placeholder:text-[var(--color-stone-500)]',
                 inputSizeClasses[ctx.size],
                 inputTextSizes[ctx.size],
                 getInputBorderClasses(hasError),

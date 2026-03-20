@@ -10,12 +10,12 @@ export const buttonVariants: Record<string, VariantDefinition> = {
             'border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-primary-foreground)]',
     },
     secondary: {
-        base: 'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-300',
-        hover: 'hover:bg-stone-200 dark:hover:bg-stone-700',
-        active: 'active:bg-stone-300',
+        base: 'bg-[var(--color-stone-100)] text-[var(--color-stone-700)] dark:bg-[var(--color-stone-800)] dark:text-[var(--color-stone-300)]',
+        hover: 'hover:bg-[var(--color-stone-200)] dark:hover:bg-[var(--color-stone-700)]',
+        active: 'active:bg-[var(--color-stone-300)]',
         focus: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50 focus-visible:ring-offset-2',
         outline:
-            'border-2 border-stone-300 text-stone-700 hover:bg-stone-100 dark:border-stone-600 dark:text-stone-300 dark:hover:bg-stone-800',
+            'border-2 border-[var(--color-stone-300)] text-[var(--color-stone-700)] hover:bg-[var(--color-stone-100)] dark:border-[var(--color-stone-600)] dark:text-[var(--color-stone-300)] dark:hover:bg-[var(--color-stone-800)]',
     },
     success: {
         base: 'bg-[var(--color-success)] text-[var(--color-success-foreground)]',
@@ -50,12 +50,12 @@ export const buttonVariants: Record<string, VariantDefinition> = {
             'border-2 border-[var(--color-info)] text-[var(--color-info)] hover:bg-[var(--color-info)] hover:text-[var(--color-info-foreground)]',
     },
     ghost: {
-        base: 'bg-transparent text-stone-700 dark:text-stone-300',
-        hover: 'hover:bg-stone-100 dark:hover:bg-stone-800',
-        active: 'active:bg-stone-200 dark:active:bg-stone-700',
+        base: 'bg-transparent text-[var(--color-stone-700)] dark:text-[var(--color-stone-300)]',
+        hover: 'hover:bg-[var(--color-stone-100)] dark:hover:bg-[var(--color-stone-800)]',
+        active: 'active:bg-[var(--color-stone-200)] dark:active:bg-[var(--color-stone-700)]',
         focus: 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50 focus-visible:ring-offset-2',
         outline:
-            'border-2 border-stone-200 text-stone-700 hover:bg-stone-100 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800',
+            'border-2 border-[var(--color-stone-200)] text-[var(--color-stone-700)] hover:bg-[var(--color-stone-100)] dark:border-[var(--color-stone-700)] dark:text-[var(--color-stone-300)] dark:hover:bg-[var(--color-stone-800)]',
     },
 };
 

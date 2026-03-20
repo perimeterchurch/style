@@ -6,9 +6,9 @@ export const badgeVariants: Record<string, VariantDefinition> = {
         outline: 'border border-[var(--color-primary)] text-[var(--color-primary)] bg-transparent',
     },
     secondary: {
-        base: 'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-300',
+        base: 'bg-[var(--color-stone-100)] text-[var(--color-stone-700)] dark:bg-[var(--color-stone-800)] dark:text-[var(--color-stone-300)]',
         outline:
-            'border border-stone-300 text-stone-700 bg-transparent dark:border-stone-600 dark:text-stone-300',
+            'border border-[var(--color-stone-300)] text-[var(--color-stone-700)] bg-transparent dark:border-[var(--color-stone-600)] dark:text-[var(--color-stone-300)]',
     },
     success: {
         base: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
@@ -31,20 +31,20 @@ export const badgeVariants: Record<string, VariantDefinition> = {
             'border border-sky-300 text-sky-700 bg-transparent dark:border-sky-600 dark:text-sky-400',
     },
     ghost: {
-        base: 'bg-transparent text-stone-600 dark:text-stone-400',
+        base: 'bg-transparent text-[var(--color-stone-600)] dark:text-[var(--color-stone-400)]',
         outline:
-            'border border-stone-200 text-stone-600 bg-transparent dark:border-stone-700 dark:text-stone-400',
+            'border border-[var(--color-stone-200)] text-[var(--color-stone-600)] bg-transparent dark:border-[var(--color-stone-700)] dark:text-[var(--color-stone-400)]',
     },
 };
 
 export const badgeDotColors: Record<string, string> = {
     primary: 'bg-[var(--color-primary)]',
-    secondary: 'bg-stone-400 dark:bg-stone-500',
+    secondary: 'bg-[var(--color-stone-400)] dark:bg-[var(--color-stone-500)]',
     success: 'bg-emerald-500',
     warning: 'bg-amber-500',
     error: 'bg-rose-500',
     info: 'bg-sky-500',
-    ghost: 'bg-stone-400 dark:bg-stone-500',
+    ghost: 'bg-[var(--color-stone-400)] dark:bg-[var(--color-stone-500)]',
 };
 
 export const badgeSizes: Record<string, SizeDefinition> = {

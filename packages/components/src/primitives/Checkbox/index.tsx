@@ -47,7 +47,7 @@ export const Checkbox = forwardRef<CheckboxElement, CheckboxProps>(
                     checkboxSizeClasses[size],
                     error
                         ? 'border-[var(--color-error)]'
-                        : 'border-stone-300 dark:border-stone-600',
+                        : 'border-[var(--color-stone-300)] dark:border-[var(--color-stone-600)]',
                     'checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)]',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50 focus-visible:ring-offset-2',
                     'disabled:cursor-not-allowed disabled:opacity-50',
@@ -68,7 +68,7 @@ export const Checkbox = forwardRef<CheckboxElement, CheckboxProps>(
                         htmlFor={checkboxId}
                         className={cn(
                             'cursor-pointer select-none',
-                            'text-stone-700 dark:text-stone-300',
+                            'text-[var(--color-stone-700)] dark:text-[var(--color-stone-300)]',
                             checkboxLabelSizeClasses[size],
                             disabled && 'cursor-not-allowed opacity-50',
                         )}

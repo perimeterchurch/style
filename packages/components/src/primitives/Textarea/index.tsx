@@ -40,7 +40,7 @@ export const Textarea = forwardRef<TextareaElement, TextareaProps>(
                 className={cn(
                     textareaBaseClasses,
                     'min-h-[80px] px-3 py-2',
-                    'placeholder:text-stone-400 dark:placeholder:text-stone-500',
+                    'placeholder:text-[var(--color-stone-400)] dark:placeholder:text-[var(--color-stone-500)]',
                     'resize-y',
                     textareaTextSizes[size],
                     getTextareaBorderClasses(error),
