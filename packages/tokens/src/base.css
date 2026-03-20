@@ -1,0 +1,83 @@
+@import 'tailwindcss';
+@import './tokens.css';
+@import './themes/dark.css';
+
+/* Dark mode via data-theme attribute */
+@custom-variant dark (&:where([data-theme="dark"] *, [data-theme="dark"]));
+
+/* ========================================
+   CSS Layer: style-tokens
+   ======================================== */
+@layer style-tokens {
+    :root {
+        font-family: var(--font-sans);
+        color: var(--color-foreground);
+        line-height: 1.5;
+    }
+
+    .storybook-root {
+        font-family: var(--font-sans);
+        color: var(--color-foreground);
+        background-color: var(--color-background);
+        line-height: 1.5;
+    }
+}
+
+/* ========================================
+   CSS Layer: style-base
+   ======================================== */
+@layer style-base {
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    button,
+    [role='button'] {
+        cursor: pointer;
+    }
+
+    button:disabled,
+    [role='button'][aria-disabled='true'] {
+        cursor: not-allowed;
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -1000px 0;
+        }
+        100% {
+            background-position: 1000px 0;
+        }
+    }
+
+    .animate-shimmer {
+        animation: shimmer 2s infinite linear;
+        background: linear-gradient(
+            to right,
+            rgb(245 245 244) 4%,
+            rgb(231 229 228) 25%,
+            rgb(245 245 244) 36%
+        );
+        background-size: 1000px 100%;
+    }
+
+    [data-theme='dark'] .animate-shimmer {
+        background: linear-gradient(
+            to right,
+            rgb(28 25 23) 4%,
+            rgb(41 37 36) 25%,
+            rgb(28 25 23) 36%
+        );
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+}
