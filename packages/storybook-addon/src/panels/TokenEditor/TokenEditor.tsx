@@ -363,6 +363,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                         onClick={handleSave}
                         disabled={!hasDirtyTokens || saving}
                         tooltip="Writes changes to tokens.css — Vite HMR will reload automatically"
+                        ariaLabel={false}
                     >
                         {saving ? 'Saving...' : 'Save'}
                     </Button>
@@ -371,6 +372,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                         variant="outline"
                         onClick={() => setShowThemeDialog(true)}
                         tooltip="Creates a new theme CSS file with all current token values"
+                        ariaLabel={false}
                     >
                         Save as Theme
                     </Button>
@@ -380,6 +382,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                         onClick={handleReset}
                         disabled={!hasDirtyTokens}
                         tooltip="Revert all unsaved changes"
+                        ariaLabel={false}
                     >
                         Reset
                     </Button>
@@ -420,6 +423,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                         variant="solid"
                         onClick={handleSaveAsTheme}
                         disabled={!themeName.trim() || saving}
+                        ariaLabel={false}
                     >
                         {saving ? 'Creating...' : 'Create'}
                     </Button>
@@ -430,6 +434,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                             setShowThemeDialog(false);
                             setThemeName('');
                         }}
+                        ariaLabel={false}
                     >
                         Cancel
                     </Button>

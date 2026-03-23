@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useCallback } from 'react';
-import { IconButton } from 'storybook/internal/components';
+import { Button } from 'storybook/internal/components';
 import { useAddonTheme } from '../useAddonTheme';
 
 const STORAGE_KEY = 'style-addon-hints-dismissed';
@@ -64,12 +64,14 @@ export function HintText({ hintId, children, forceShow }: HintTextProps) {
             }}
         >
             <span>{children}</span>
-            <IconButton
+            <Button
                 onClick={handleDismiss}
-                aria-label={`Dismiss hint: ${hintId}`}
+                ariaLabel={`Dismiss hint: ${hintId}`}
+                variant="ghost"
+                size="small"
             >
                 <span style={{ fontSize: 14, lineHeight: 1 }}>x</span>
-            </IconButton>
+            </Button>
         </div>
     );
 }

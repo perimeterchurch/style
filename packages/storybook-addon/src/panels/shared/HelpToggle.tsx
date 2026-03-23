@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IconButton } from 'storybook/internal/components';
+import { Button } from 'storybook/internal/components';
 import { resetDismissedHints } from './HintText.tsx';
 
 export interface HelpToggleProps {
@@ -13,12 +13,14 @@ export function HelpToggle({ onReset }: HelpToggleProps) {
     }
 
     return (
-        <IconButton
+        <Button
             onClick={handleClick}
             title="Show hints and help text"
-            aria-label="Show hints"
+            ariaLabel="Show hints and help text"
+            variant="ghost"
+            size="small"
         >
             <span style={{ fontSize: 12, fontWeight: 'bold' }}>?</span>
-        </IconButton>
+        </Button>
     );
 }
