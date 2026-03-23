@@ -50,13 +50,13 @@ describe('generateBaseImport', () => {
         const importIdx = lines.findIndex((l) => l.includes('theme-christmas'));
         const darkIdx = lines.findIndex((l) => l.includes('theme-dark'));
         expect(importIdx).toBeGreaterThan(darkIdx);
-        expect(lines[importIdx]).toBe("@import './theme-christmas.css';");
+        expect(lines[importIdx]).toBe("@import './themes/theme-christmas.css';");
     });
 
     it('does not duplicate an existing import', () => {
         const cssWithImport = `@import './tokens.css';
 @import './theme-dark.css';
-@import './theme-christmas.css';
+@import './themes/theme-christmas.css';
 
 :root {
     --color-primary: #5b5bd6;
@@ -85,6 +85,6 @@ describe('generateBaseImport', () => {
     --color-primary: #5b5bd6;
 }`;
         const result = generateBaseImport(noImportCss, 'warm');
-        expect(result).toContain("@import './theme-warm.css';");
+        expect(result).toContain("@import './themes/theme-warm.css';");
     });
 });

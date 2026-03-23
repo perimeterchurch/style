@@ -11,15 +11,24 @@ export function generateThemeCss(name: string, tokens: Record<string, string>): 
     return `[data-theme='${name}'] {\n${declarations}\n}\n`;
 }
 
+/** Slugify a theme name for use in filenames (lowercase, hyphens, no spaces). */
+export function slugifyThemeName(name: string): string {
+    return name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+}
+
 /**
  * Add a theme import line to a base CSS file.
  * Inserts after the last @import statement. Skips if already present.
  */
 export function generateBaseImport(baseCss: string, name: string): string {
-    const importLine = `@import './theme-${name}.css';`;
+    const slug = slugifyThemeName(name);
+    const importLine = `@import './themes/theme-${slug}.css';`;
 
     // Don't duplicate
-    if (baseCss.includes(`theme-${name}.css`)) {
+    if (baseCss.includes(`theme-${slug}.css`)) {
         return baseCss;
     }
 

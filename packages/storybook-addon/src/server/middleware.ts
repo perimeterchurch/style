@@ -219,7 +219,8 @@ export function createStyleAddonMiddleware(rootDir: string): Plugin {
                                     tokens: Record<string, string>;
                                 };
                                 const themeCss = generateThemeCss(body.name, body.tokens);
-                                const themeFilePath = join(themesDir, `theme-${body.name}.css`);
+                                const slug = body.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                                const themeFilePath = join(themesDir, `theme-${slug}.css`);
                                 const formatted = await formatWithPrettier(themeCss, themeFilePath);
                                 await atomicWrite(themeFilePath, formatted);
 
