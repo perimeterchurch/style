@@ -11,7 +11,6 @@ const config: StorybookConfig = {
     ],
     addons: [
         '@storybook/addon-themes',
-        'storybook-design-token',
         getAbsolutePath('../packages/storybook-addon/src/preset.ts'),
     ],
     framework: {
