@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FadeIn } from './FadeIn';
 import { SlideUp } from './SlideUp';
 import { ScaleIn } from './ScaleIn';

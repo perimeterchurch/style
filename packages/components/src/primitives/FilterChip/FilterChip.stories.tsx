@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FilterChip } from './index';
 import { chipVariants, chipSizes } from './FilterChip.variants';
 

@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 import type { StorybookConfig } from '@storybook/react-vite';
 import tailwindcss from '@tailwindcss/vite';
 
@@ -7,9 +9,9 @@ const config: StorybookConfig = {
         '../packages/motion/src/**/*.stories.@(ts|tsx)',
         '../packages/icons/src/**/*.stories.@(ts|tsx)',
     ],
-    addons: ['../packages/storybook-addon/src/preset.ts'],
+    addons: [getAbsolutePath('../packages/storybook-addon/src/preset.ts')],
     framework: {
-        name: '@storybook/react-vite',
+        name: getAbsolutePath('@storybook/react-vite'),
         options: {},
     },
     viteFinal(config) {
@@ -20,3 +22,7 @@ const config: StorybookConfig = {
 };
 
 export default config;
+
+function getAbsolutePath(value: string): any {
+    return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
+}

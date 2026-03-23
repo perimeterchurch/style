@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Skeleton } from '../../primitives/Skeleton';
 import { LoadingSpinner } from '../../primitives/LoadingSpinner';
 import { IndeterminateProgress } from '../../primitives/IndeterminateProgress';

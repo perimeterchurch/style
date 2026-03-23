@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../../primitives/Button';
 import { Input } from '../../primitives/Input';
 import { Label } from '../../primitives/Label';

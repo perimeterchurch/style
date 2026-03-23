@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Card } from '../../primitives/Card';
 import { Badge } from '../../primitives/Badge';
 import { Button } from '../../primitives/Button';
