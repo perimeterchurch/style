@@ -51,8 +51,10 @@ Peer deps: `react@^19`
 | `variant` | `BadgeVariant` | —       | Visual style |
 | `size`    | `BadgeSize`    | —       | Size         |
 
-**Variants**: Record-keyed from `badgeVariants`
-**Sizes**: Record-keyed from `badgeSizes`
+**Variants**: `primary`, `secondary`, `success`, `warning`, `error`, `info`, `ghost`
+**Sizes**: `sm`, `md`
+
+Each variant supports both a filled `base` style and an `outline` style (set via the `outline` prop on Badge).
 
 ---
 
@@ -65,7 +67,7 @@ Peer deps: `react@^19`
 | `size` | `InputSize` | —       | Size        |
 
 **Sizes**: Record-keyed from `inputSizes`
-**Compound**: `Input.Root`, `Input.Addon`
+**Compound**: `Input.Root`, `Input.Field`, `Input.Error`
 
 ---
 
@@ -295,9 +297,14 @@ Keyboard navigation: ArrowLeft/ArrowRight cycles through enabled tabs.
 
 **File**: `packages/components/src/composite/Pagination/`
 
-| Prop                      | Type | Default | Description     |
-| ------------------------- | ---- | ------- | --------------- |
-| Standard pagination props | —    | —       | Page navigation |
+| Prop         | Type                        | Default | Description                          |
+| ------------ | --------------------------- | ------- | ------------------------------------ |
+| `page`       | `number`                    | --      | Current page (1-based)               |
+| `totalPages` | `number`                    | --      | Total number of pages                |
+| `onChange`   | `(page: number) => void`    | --      | Page change handler                  |
+| `maxButtons` | `number`                    | --      | Max visible page buttons (optional)  |
+
+Renders prev/next arrows, numbered buttons, and ellipsis truncation when the page count exceeds `maxButtons`.
 
 ---
 
@@ -305,9 +312,14 @@ Keyboard navigation: ArrowLeft/ArrowRight cycles through enabled tabs.
 
 **File**: `packages/components/src/composite/DateRangePicker/`
 
-| Prop                      | Type | Default | Description          |
-| ------------------------- | ---- | ------- | -------------------- |
-| Standard date range props | —    | —       | Date range selection |
+| Prop           | Type                        | Default | Description                  |
+| -------------- | --------------------------- | ------- | ---------------------------- |
+| `from`         | `string`                    | --      | Start date value             |
+| `to`           | `string`                    | --      | End date value               |
+| `onFromChange` | `(value: string) => void`   | --      | Start date change handler    |
+| `onToChange`   | `(value: string) => void`   | --      | End date change handler      |
+
+Renders a from/to date input pair with inline calendar icons.
 
 ---
 
