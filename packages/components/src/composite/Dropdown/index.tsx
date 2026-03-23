@@ -4,6 +4,7 @@
  * Props-only API with Dropdown.Item and Dropdown.Divider subcomponents.
  */
 
+import * as React from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems, type MenuItemsProps } from '@headlessui/react';
 import { forwardRef, type ReactNode } from 'react';
 import type { BaseComponentProps } from '../../utils/types';

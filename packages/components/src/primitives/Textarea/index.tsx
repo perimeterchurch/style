@@ -3,6 +3,7 @@
  * Multi-line text input with error states and accessibility features
  */
 
+import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
 import type { BaseComponentProps, WidthProps } from '../../utils/types';
 import { cn } from '../../utils/cn';

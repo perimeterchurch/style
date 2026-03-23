@@ -4,6 +4,7 @@
  * Compound API: ComboSelect.Root, ComboSelect.Input, ComboSelect.Options, ComboSelect.Option
  */
 
+import * as React from 'react';
 import { useState, useMemo, createContext, useContext, forwardRef, type ReactNode } from 'react';
 import {
     Combobox,

@@ -3,6 +3,7 @@
  * User profile image with fallback initials
  */
 
+import * as React from 'react';
 import {
     forwardRef,
     useState,

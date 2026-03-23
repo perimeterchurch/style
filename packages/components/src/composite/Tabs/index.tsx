@@ -4,6 +4,7 @@
  * Compound API: Tabs.Root, Tabs.List, Tabs.Tab, Tabs.Panels, Tabs.Panel
  */
 
+import * as React from 'react';
 import { createContext, useContext, forwardRef, type ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 import {

@@ -12,6 +12,17 @@ export function SpacingEditor({ name, value, onChange }: TokenEditorProps) {
     const theme = useAddonTheme();
     const numericValue = parseRem(value);
 
+    const inputStyle: React.CSSProperties = {
+        padding: '4px 8px',
+        fontSize: 12,
+        border: `1px solid ${theme.input.border}`,
+        borderRadius: theme.input.borderRadius,
+        backgroundColor: theme.input.background,
+        color: theme.input.color,
+        fontFamily: 'monospace',
+        width: 80,
+    };
+
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
             <label
@@ -39,16 +50,7 @@ export function SpacingEditor({ name, value, onChange }: TokenEditorProps) {
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
                 aria-label={`${name} value`}
-                style={{
-                    fontFamily: 'monospace',
-                    fontSize: 12,
-                    padding: '4px 6px',
-                    width: 80,
-                    border: `1px solid ${theme.input.border}`,
-                    borderRadius: theme.input.borderRadius,
-                    backgroundColor: theme.input.background,
-                    color: theme.input.color,
-                }}
+                style={inputStyle}
             />
             <div
                 data-testid={`${name}-preview`}

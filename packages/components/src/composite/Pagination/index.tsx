@@ -4,6 +4,7 @@
  * Uses inline SVGs instead of lucide-react.
  */
 
+import * as React from 'react';
 import { useMemo } from 'react';
 import { cn } from '../../utils/cn';
 import {

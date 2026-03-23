@@ -3,6 +3,7 @@
  * Form label with proper association and required indicator
  */
 
+import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';

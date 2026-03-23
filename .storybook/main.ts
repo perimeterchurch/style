@@ -9,7 +9,11 @@ const config: StorybookConfig = {
         '../packages/motion/src/**/*.stories.@(ts|tsx)',
         '../packages/icons/src/**/*.stories.@(ts|tsx)',
     ],
-    addons: [getAbsolutePath('../packages/storybook-addon/src/preset.ts')],
+    addons: [
+        '@storybook/addon-themes',
+        'storybook-design-token',
+        getAbsolutePath('../packages/storybook-addon/src/preset.ts'),
+    ],
     framework: {
         name: getAbsolutePath('@storybook/react-vite'),
         options: {},

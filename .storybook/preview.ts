@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react-vite';
+import { withThemeByDataAttribute } from '@storybook/addon-themes';
 import React from 'react';
 import '../packages/tokens/src/base.css';
 
@@ -11,36 +12,22 @@ const preview: Preview = {
             },
         },
     },
-    globalTypes: {
-        theme: {
-            description: 'Theme mode',
-            toolbar: {
-                title: 'Theme',
-                icon: 'sun',
-                items: [
-                    { value: 'light', title: 'Light', icon: 'sun' },
-                    { value: 'dark', title: 'Dark', icon: 'moon' },
-                ],
-                dynamicTitle: true,
-            },
-        },
-    },
-    initialGlobals: {
-        theme: 'light',
-    },
     decorators: [
-        (Story, context) => {
-            const theme = context.globals.theme;
-            return React.createElement(
+        withThemeByDataAttribute({
+            themes: {
+                light: '',
+                dark: 'dark',
+            },
+            defaultTheme: 'light',
+            attributeName: 'data-theme',
+            parentSelector: '.storybook-root',
+        }),
+        (Story) =>
+            React.createElement(
                 'div',
-                {
-                    className: 'storybook-root',
-                    'data-theme': theme === 'dark' ? 'dark' : undefined,
-                    style: { padding: '1rem' },
-                },
+                { className: 'storybook-root', style: { padding: '1rem' } },
                 React.createElement(Story),
-            );
-        },
+            ),
     ],
 };
 

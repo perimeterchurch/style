@@ -4,6 +4,7 @@
  * Icons are provided via ReactNode props (no lucide-react dependency).
  */
 
+import * as React from 'react';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
 import type { ReactNode } from 'react';
 import { cn } from '../../utils/cn';

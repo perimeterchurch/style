@@ -4,6 +4,7 @@
  * Uses inline SVG instead of lucide-react Calendar.
  */
 
+import * as React from 'react';
 import { cn } from '../../utils/cn';
 import {
     dateRangePickerWrapperClasses,

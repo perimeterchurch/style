@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef, type ReactNode } from 'react';
 import type { InteractiveProps, WidthProps } from '../../utils/types';
 import { resolveVariant } from '../../utils/types';

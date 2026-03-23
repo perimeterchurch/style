@@ -3,6 +3,7 @@
  * Search input with debounce, search icon, and clear button
  */
 
+import * as React from 'react';
 import { useState, useEffect, useRef, useCallback, forwardRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';

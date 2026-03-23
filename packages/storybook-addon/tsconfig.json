@@ -2,9 +2,9 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "outDir": "dist",
-        "rootDir": "src",
         "allowImportingTsExtensions": true,
-        "noUnusedLocals": false
+        "noUnusedLocals": false,
+        "noUnusedParameters": false
     },
     "include": ["src"]
 }

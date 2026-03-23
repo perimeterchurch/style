@@ -39,6 +39,10 @@ Both panels are dev-only tools. In production Storybook builds (where the Vite d
 └────────────────────────────────────────────────────┘
 ```
 
+### Dependencies
+
+The addon now depends on `@perimeterchurch/style: workspace:*`. This gives panels access to the shared component library (Button, Card, Badge, Input, Select, Tabs, SearchInput, Textarea, EmptyState) so the UI is built from the same design system it edits.
+
 ### Registration
 
 The addon registers via `src/preset.ts`, which exports three hooks:
@@ -53,6 +57,21 @@ The addon registers via `src/preset.ts`, which exports three hooks:
 
 - `perimeterchurch/style-addon/token-editor` -- Token Editor
 - `perimeterchurch/style-addon/variant-creator` -- Variant Creator
+
+`manager.ts` also imports `./addon-components.css`, which injects the design system's CSS custom properties and component styles into the manager iframe so that `@perimeterchurch/style` components render correctly inside the panels.
+
+### CSS Scoping and AddonProvider
+
+Every panel is wrapped in `AddonProvider` (defined in `src/panels/shared/AddonProvider.tsx`). `AddonProvider` renders a `<div className="style-addon-root">` container that scopes all design system styles. This prevents Storybook's own manager styles from colliding with the panel UI.
+
+```tsx
+// manager.ts — both panels follow this pattern
+render: ({ active }) =>
+    React.createElement(AddonProvider, null,
+        React.createElement(TokenEditor, { channel }))
+```
+
+The optional `theme` prop on `AddonProvider` accepts `"dark"` and sets `data-theme` on the root element for dark-mode support.
 
 ### Channel API
 
@@ -105,6 +124,10 @@ Each token category maps to a specialized editor widget:
 | Radii       | `TextEditor`    | Plain text input                       |
 | Transitions | `TextEditor`    | Plain text input                       |
 
+### Per-Token Reset
+
+When a token has been modified but not yet saved, `TokenGroup` renders a `Badge` labeled `modified` and a `Button` labeled `Reset` inline next to that token's editor. Clicking Reset restores the single token to its original value without discarding changes to other tokens. This is wired through the optional `onTokenReset` prop on `TokenGroup` and the `dirtyTokens: Set<string>` tracking in `TokenEditor`.
+
 ## Variant Creator
 
 ### How to Use
@@ -113,19 +136,39 @@ Each token category maps to a specialized editor widget:
 2. Open the **Variant Creator** panel
 3. The panel auto-detects the current component from the story title (e.g., `Components/Primitives/Button`)
 4. View all variants and sizes defined in the component's `.variants.ts` file
-5. **Edit** a variant to modify its Tailwind classes per state (base, hover, focus, active, disabled)
-6. **Clone** a variant to create a new one pre-filled from an existing variant
-7. **Delete** removes addon-created variants (those with `_meta` -- original variants cannot be deleted)
+5. Click **New Variant** to create a variant from scratch or clone an existing one
+6. **Edit** a variant to modify its Tailwind classes per state (base, hover, focus, active, disabled) using the visual property grid
+7. **Clone** a variant to create a new one pre-filled from an existing variant
+8. **Delete** removes addon-created variants (those with `_meta` -- original variants cannot be deleted)
 
-### PropertyPicker Workflow
+### New Variant Flow
 
-When editing a variant, the PropertyPicker lets users build Tailwind classes from design tokens:
+The **New Variant** button opens `NewVariantFlow`, a modal-style form that lets users:
 
-1. Select a state key (base, hover, focus, active, disabled)
-2. Select a property type (background, text, border, ring)
-3. Pick a token from the dropdown
-4. The picker generates the correct Tailwind class (e.g., `hover:bg-[var(--color-primary)]`)
-5. The CssEditor textarea shows the full class list for manual editing
+1. Enter a name for the new variant (validated against existing names to prevent conflicts)
+2. Select a **source** from a dropdown -- either "Blank (empty)" or any existing variant name
+
+If an existing variant is chosen as the source, its definition is deep-cloned and stamped with `_meta.clonedFrom` and `_meta.createdAt`. A blank variant scaffolds a minimal definition with an empty `base` class string. The confirmed name and definition are passed to the parent via `onConfirm`.
+
+### Property Grid
+
+The property editing experience uses a structured **PropertyGrid** instead of the old append-only `PropertyPicker`. For each variant state (base, hover, focus, active, disabled), `PropertyGrid`:
+
+1. Parses the current class string using `parseTailwindClasses(classString, stateKey)`
+2. Displays a 2-column grid of `PropertyCell` components -- one per CSS property (background, text, border, ring)
+3. Each `PropertyCell` shows the current token name and a resolved color swatch; clicking it opens a `Select` to pick a new token
+4. Any class that `parseTailwindClasses` cannot categorize lands in an "Additional classes" collapsible `Textarea` for manual editing
+5. On every change, `buildClassString(updatedProperties, additionalClasses, stateKey)` reconstructs the full class string and calls `onChange`
+
+`PropertyGrid` also renders a `HintText` for each state key on first use, explaining what that state means.
+
+### PropertyCell
+
+`PropertyCell` is the individual cell inside `PropertyGrid`. It is a click-to-edit control:
+
+- **Display mode** -- shows the token name in monospace (or a muted "Click to assign" placeholder) with a circular color swatch when the token resolves to a color value
+- **Edit mode** -- replaces the display with a `Select` populated from the available token options; selecting a value commits it and returns to display mode
+- A clear button (×) removes the property assignment when a value is set
 
 ### Component Detection
 
@@ -142,6 +185,20 @@ packages/components/src/primitives/Button/Button.variants.ts
 ```
 
 The `resolveVariantsPath()` function in `readVariants.ts` handles this mapping.
+
+## Contextual Hints
+
+Two shared components provide first-use guidance across both panels:
+
+### HintText
+
+`HintText` (`src/panels/shared/HintText.tsx`) renders an inline dismissible hint banner. Each hint is identified by a `hintId` string. Once dismissed, the hint ID is stored in `localStorage` under `style-addon-hints-dismissed` and the banner no longer appears.
+
+Props: `hintId: string`, `children: ReactNode`, `forceShow?: boolean`
+
+### HelpToggle
+
+`HelpToggle` (`src/panels/shared/HelpToggle.tsx`) is a small `?` button that clears the dismissed-hints list from `localStorage` and triggers a re-render so all `HintText` banners reappear. Intended for use in panel toolbars.
 
 ## Server Middleware
 
@@ -181,7 +238,7 @@ All file mutations follow the same safety pattern:
 Both panels detect when the middleware is unavailable (production builds, static Storybook) and switch to read-only mode:
 
 - Token Editor: hides Save/Reset/Save as Theme toolbar, shows yellow "Read-only" banner
-- Variant Creator: hides Edit/Clone/Delete buttons, shows yellow "Read-only" banner
+- Variant Creator: hides Edit/Clone/Delete buttons and the New Variant button, shows yellow "Read-only" banner
 
 Detection happens on the initial `fetch()` call -- if it fails with a network error, `readOnly` is set to `true`.
 
@@ -206,3 +263,17 @@ Detection happens on the initial `fetch()` call -- if it fails with a network er
 1. Add a new `case` in the `switch` block in `src/server/middleware.ts`
 2. Create server handler functions in a new file under `src/server/`
 3. Write tests alongside (`.test.ts` in the same directory)
+
+### Working with the Property Grid
+
+The property grid is built from three composable pieces:
+
+- **`PropertyCell`** (`src/panels/VariantCreator/PropertyCell.tsx`) -- a single click-to-edit cell for one CSS property (background, text, border, or ring). Accepts `tokenOptions: SelectOption[]`, the current `currentToken`/`currentLiteral`, a `resolvedColor` for the swatch, and `onSelect`/`onClear` callbacks.
+
+- **`PropertyGrid`** (`src/panels/VariantCreator/PropertyGrid.tsx`) -- renders one `PropertyCell` per property in a 2-column grid for a given variant state key, plus the "Additional classes" textarea for overflow classes. Owns the parse/build cycle internally.
+
+- **Parser utilities** (`src/panels/utils/parseTailwindClasses.ts`) -- two pure functions:
+  - `parseTailwindClasses(classString, stateKey?)` -- splits a Tailwind class string into a `ParsedProperties` map (token, literal, or null per property) and an `additionalClasses` remainder string
+  - `buildClassString(properties, additionalClasses, stateKey?)` -- reconstructs a class string from a `ParsedProperties` map, prepending the correct state prefix (`hover:`, `focus-visible:`, etc.)
+
+  Both functions are state-prefix-aware: pass `stateKey` so classes are correctly stripped and rebuilt for the target interaction state. Custom properties in `var()` syntax are detected by the `TOKEN_RE` pattern; plain Tailwind color literals are detected by `LITERAL_RE`.

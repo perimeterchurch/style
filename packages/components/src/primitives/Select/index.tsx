@@ -4,6 +4,7 @@
  * Supports both simple API and compound API (Select.Root, Select.Field).
  */
 
+import * as React from 'react';
 import {
     forwardRef,
     createContext,

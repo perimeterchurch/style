@@ -3,6 +3,7 @@
  * Display component for empty states with optional action
  */
 
+import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef, type ReactNode } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';

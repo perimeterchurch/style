@@ -71,6 +71,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
+        "@storybook/addon-themes": "^10.3.2",
         "@storybook/react-vite": "^10.3.2",
         "@tailwindcss/vite": "^4.2.2",
         "@testing-library/jest-dom": "^6.9.1",
@@ -88,6 +89,7 @@
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
         "storybook": "^10.3.2",
+        "storybook-design-token": "^5.0.0",
         "tailwindcss": "^4.2.2",
         "tsup": "^8.5.1",
         "turbo": "^2.8.20",

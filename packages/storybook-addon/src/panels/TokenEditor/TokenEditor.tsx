@@ -7,6 +7,9 @@ import { CategoryTabs, type TokenCategory } from './CategoryTabs.tsx';
 import { TokenSearch } from './TokenSearch.tsx';
 import { TokenGroup } from './TokenGroup.tsx';
 import { TextEditor } from './editors/index.ts';
+import { Button, Badge, Form } from 'storybook/internal/components';
+import { HintText } from '../shared/HintText.tsx';
+import { HelpToggle } from '../shared/HelpToggle.tsx';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -88,6 +91,18 @@ function buildSubGroups(
     }));
 }
 
+/** Build a lookup from token name to category name. */
+function buildTokenToCategoryMap(categorized: CategorizedTokens): Map<string, string> {
+    const map = new Map<string, string>();
+    for (const [catName, group] of Object.entries(categorized)) {
+        const tokens = flattenCategory(group as Record<string, string>);
+        for (const token of tokens) {
+            map.set(token.name, catName);
+        }
+    }
+    return map;
+}
+
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
@@ -113,6 +128,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
     const [showThemeDialog, setShowThemeDialog] = useState(false);
     const [themeName, setThemeName] = useState('');
     const [readOnly, setReadOnly] = useState(false);
+    const [showHints, setShowHints] = useState(false);
 
     // Fetch tokens on mount — detect read-only mode if middleware is unavailable
     useEffect(() => {
@@ -155,6 +171,21 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
             channel?.emit(EVENTS.TOKEN_CHANGED, { name, value });
         },
         [channel],
+    );
+
+    const handleTokenReset = useCallback(
+        (name: string) => {
+            if (!data) return;
+            const originalValue = data.tokens[name];
+            if (originalValue === undefined) return;
+            setDirty((prev) => {
+                const next = { ...prev };
+                delete next[name];
+                return next;
+            });
+            channel?.emit(EVENTS.TOKEN_CHANGED, { name, value: originalValue });
+        },
+        [channel, data],
     );
 
     const handleReset = useCallback(() => {
@@ -242,6 +273,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
 
     const categories = buildCategories(data.categorized);
     const hasDirtyTokens = Object.keys(dirty).length > 0;
+    const dirtyTokenSet = new Set(Object.keys(dirty));
 
     /** Merge dirty values into a token list. */
     function applyDirty(tokens: Array<{ name: string; value: string }>) {
@@ -261,6 +293,9 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
             allTokens.filter((t) => t.name.toLowerCase().includes(searchLower)),
         );
     }
+
+    // Token-to-category lookup for search results
+    const tokenToCategory = isSearching ? buildTokenToCategoryMap(data.categorized) : null;
 
     // Active category data
     const activeCatData = data.categorized[activeTab as keyof CategorizedTokens];
@@ -303,6 +338,14 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                 </div>
             )}
 
+            {/* Hint text */}
+            <div style={{ padding: '8px 8px 0' }}>
+                <HintText hintId="token-editor-intro" forceShow={showHints}>
+                    Design tokens are the shared values (colors, spacing, shadows) used across all
+                    components. Changes here update the live preview instantly.
+                </HintText>
+            </div>
+
             {/* Toolbar — hidden in read-only mode */}
             {!readOnly && (
                 <div
@@ -314,63 +357,40 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                         alignItems: 'center',
                     }}
                 >
-                    <button
+                    <Button
+                        size="small"
+                        variant="solid"
                         onClick={handleSave}
                         disabled={!hasDirtyTokens || saving}
-                        style={{
-                            padding: '4px 12px',
-                            fontSize: 12,
-                            borderRadius: 4,
-                            border: `1px solid ${theme.barSelectedColor}`,
-                            backgroundColor: hasDirtyTokens
-                                ? theme.barSelectedColor
-                                : theme.appBorderColor,
-                            color: hasDirtyTokens ? theme.color.lightest : theme.color.mediumdark,
-                            cursor: hasDirtyTokens ? 'pointer' : 'default',
-                        }}
+                        tooltip="Writes changes to tokens.css — Vite HMR will reload automatically"
                     >
                         {saving ? 'Saving...' : 'Save'}
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        size="small"
+                        variant="outline"
                         onClick={() => setShowThemeDialog(true)}
-                        style={{
-                            padding: '4px 12px',
-                            fontSize: 12,
-                            borderRadius: 4,
-                            border: `1px solid ${theme.appBorderColor}`,
-                            backgroundColor: theme.barBg,
-                            color: theme.color.defaultText,
-                            cursor: 'pointer',
-                        }}
+                        tooltip="Creates a new theme CSS file with all current token values"
                     >
                         Save as Theme
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        size="small"
+                        variant="ghost"
                         onClick={handleReset}
                         disabled={!hasDirtyTokens}
-                        style={{
-                            padding: '4px 12px',
-                            fontSize: 12,
-                            borderRadius: 4,
-                            border: `1px solid ${theme.appBorderColor}`,
-                            backgroundColor: theme.barBg,
-                            color: hasDirtyTokens ? theme.color.negative : theme.color.mediumdark,
-                            cursor: hasDirtyTokens ? 'pointer' : 'default',
-                        }}
+                        tooltip="Revert all unsaved changes"
                     >
                         Reset
-                    </button>
+                    </Button>
                     {hasDirtyTokens && (
-                        <span
-                            style={{
-                                fontSize: 11,
-                                color: theme.color.mediumdark,
-                                marginLeft: 'auto',
-                            }}
-                        >
-                            {Object.keys(dirty).length} modified
+                        <span style={{ marginLeft: 'auto' }}>
+                            <Badge compact status="warning">
+                                {Object.keys(dirty).length} modified
+                            </Badge>
                         </span>
                     )}
+                    <HelpToggle onReset={() => setShowHints(true)} />
                 </div>
             )}
 
@@ -386,54 +406,33 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                         alignItems: 'center',
                     }}
                 >
-                    <input
-                        type="text"
+                    <Form.Input
                         value={themeName}
-                        onChange={(e) => setThemeName(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setThemeName(e.target.value)
+                        }
                         placeholder="Theme name (e.g. easter-2025)"
                         aria-label="Theme name"
-                        style={{
-                            flex: 1,
-                            padding: '4px 8px',
-                            border: `1px solid ${theme.input.border}`,
-                            borderRadius: theme.input.borderRadius,
-                            fontSize: 13,
-                            backgroundColor: theme.input.background,
-                            color: theme.input.color,
-                        }}
+                        style={{ flex: 1 }}
                     />
-                    <button
+                    <Button
+                        size="small"
+                        variant="solid"
                         onClick={handleSaveAsTheme}
                         disabled={!themeName.trim() || saving}
-                        style={{
-                            padding: '4px 12px',
-                            fontSize: 12,
-                            borderRadius: 4,
-                            border: `1px solid ${theme.barSelectedColor}`,
-                            backgroundColor: theme.barSelectedColor,
-                            color: theme.color.lightest,
-                            cursor: 'pointer',
-                        }}
                     >
-                        Create
-                    </button>
-                    <button
+                        {saving ? 'Creating...' : 'Create'}
+                    </Button>
+                    <Button
+                        size="small"
+                        variant="outline"
                         onClick={() => {
                             setShowThemeDialog(false);
                             setThemeName('');
                         }}
-                        style={{
-                            padding: '4px 12px',
-                            fontSize: 12,
-                            borderRadius: 4,
-                            border: `1px solid ${theme.appBorderColor}`,
-                            backgroundColor: theme.barBg,
-                            color: theme.color.defaultText,
-                            cursor: 'pointer',
-                        }}
                     >
                         Cancel
-                    </button>
+                    </Button>
                 </div>
             )}
 
@@ -460,16 +459,27 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                                 textAlign: 'center',
                             }}
                         >
-                            No tokens matching "{search}"
+                            No tokens matching &quot;{search}&quot;
                         </div>
                     ) : (
                         searchResults.map((token) => (
-                            <TextEditor
+                            <div
                                 key={token.name}
-                                name={token.name}
-                                value={token.value}
-                                onChange={handleTokenChange}
-                            />
+                                style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+                            >
+                                <div style={{ flex: 1 }}>
+                                    <TextEditor
+                                        name={token.name}
+                                        value={token.value}
+                                        onChange={handleTokenChange}
+                                    />
+                                </div>
+                                {tokenToCategory && (
+                                    <Badge compact status="neutral">
+                                        {tokenToCategory.get(token.name) ?? 'Other'}
+                                    </Badge>
+                                )}
+                            </div>
                         ))
                     )
                 ) : (
@@ -482,6 +492,8 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                             onTokenChange={handleTokenChange}
                             isCollapsed={collapsed.has(group.name)}
                             onToggle={() => toggleGroup(group.name)}
+                            dirtyTokens={dirtyTokenSet}
+                            onTokenReset={handleTokenReset}
                         />
                     ))
                 )}

@@ -22,6 +22,17 @@ export function ColorEditor({ name, value, onChange }: TokenEditorProps) {
     const hexValue = normalizeHex(value);
     const isValidHex = /^#[0-9a-fA-F]{6}$/.test(hexValue);
 
+    const inputStyle: React.CSSProperties = {
+        padding: '4px 8px',
+        fontSize: 12,
+        border: `1px solid ${theme.input.border}`,
+        borderRadius: theme.input.borderRadius,
+        backgroundColor: theme.input.background,
+        color: theme.input.color,
+        fontFamily: 'monospace',
+        width: 100,
+    };
+
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
             <label
@@ -46,16 +57,7 @@ export function ColorEditor({ name, value, onChange }: TokenEditorProps) {
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
                 aria-label={`${name} hex value`}
-                style={{
-                    fontFamily: 'monospace',
-                    fontSize: 12,
-                    padding: '4px 6px',
-                    width: 100,
-                    border: `1px solid ${theme.input.border}`,
-                    borderRadius: theme.input.borderRadius,
-                    backgroundColor: theme.input.background,
-                    color: theme.input.color,
-                }}
+                style={inputStyle}
             />
             <div
                 data-testid={`${name}-swatch`}

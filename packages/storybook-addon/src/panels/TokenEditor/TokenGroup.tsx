@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Badge } from 'storybook/internal/components';
 import { useAddonTheme } from '../useAddonTheme.ts';
 import { ColorEditor, SpacingEditor, ShadowEditor, TextEditor } from './editors/index.ts';
 
@@ -9,6 +10,8 @@ export interface TokenGroupProps {
     onTokenChange: (name: string, value: string) => void;
     isCollapsed: boolean;
     onToggle: () => void;
+    dirtyTokens?: Set<string>;
+    onTokenReset?: (name: string) => void;
 }
 
 function editorForType(type: string) {
@@ -31,61 +34,104 @@ export function TokenGroup({
     onTokenChange,
     isCollapsed,
     onToggle,
+    dirtyTokens,
+    onTokenReset,
 }: TokenGroupProps) {
-    const Editor = editorForType(editorType);
     const theme = useAddonTheme();
+    const Editor = editorForType(editorType);
+
+    const cardStyle: React.CSSProperties = {
+        marginBottom: 8,
+        border: `1px solid ${theme.appBorderColor}`,
+        borderRadius: theme.appBorderRadius,
+        backgroundColor: theme.background.content,
+    };
+
+    const headerStyle: React.CSSProperties = {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8,
+        width: '100%',
+        padding: '8px 12px',
+        fontSize: 13,
+        fontWeight: 600,
+        color: theme.color.defaultText,
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        textAlign: 'left',
+    };
+
+    const resetButtonStyle: React.CSSProperties = {
+        padding: '2px 6px',
+        fontSize: 11,
+        color: theme.color.mediumdark,
+        background: 'none',
+        border: `1px solid ${theme.appBorderColor}`,
+        borderRadius: theme.appBorderRadius,
+        cursor: 'pointer',
+        lineHeight: 1.2,
+    };
 
     return (
-        <div style={{ marginBottom: 8 }}>
+        <div style={cardStyle}>
             <button
                 onClick={onToggle}
                 aria-expanded={!isCollapsed}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    width: '100%',
-                    padding: '6px 8px',
-                    border: 'none',
-                    backgroundColor: theme.background.app,
-                    color: theme.color.defaultText,
-                    borderRadius: 4,
-                    cursor: 'pointer',
-                    fontSize: 13,
-                    fontWeight: 600,
-                    textAlign: 'left',
-                }}
+                style={headerStyle}
             >
                 <span
                     style={{
                         transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0)',
                         transition: 'transform 0.15s',
+                        display: 'inline-block',
                     }}
                 >
-                    ▾
+                    &#9662;
                 </span>
                 {name}
-                <span
-                    style={{
-                        color: theme.color.mediumdark,
-                        fontWeight: 400,
-                        fontSize: 11,
-                        marginLeft: 'auto',
-                    }}
-                >
-                    {tokens.length}
+                <span style={{ marginLeft: 'auto' }}>
+                    <Badge compact status="neutral">
+                        {tokens.length}
+                    </Badge>
                 </span>
             </button>
             {!isCollapsed && (
-                <div style={{ padding: '4px 0 4px 12px' }}>
-                    {tokens.map((token) => (
-                        <Editor
-                            key={token.name}
-                            name={token.name}
-                            value={token.value}
-                            onChange={onTokenChange}
-                        />
-                    ))}
+                <div style={{ padding: '4px 12px 8px' }}>
+                    {tokens.map((token) => {
+                        const isDirty = dirtyTokens?.has(token.name) ?? false;
+                        return (
+                            <div
+                                key={token.name}
+                                style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+                            >
+                                <div style={{ flex: 1 }}>
+                                    <Editor
+                                        name={token.name}
+                                        value={token.value}
+                                        onChange={onTokenChange}
+                                    />
+                                </div>
+                                {isDirty && (
+                                    <>
+                                        <Badge
+                                            compact
+                                            status="warning"
+                                        >
+                                            modified
+                                        </Badge>
+                                        <button
+                                            onClick={() => onTokenReset?.(token.name)}
+                                            aria-label={`Reset ${token.name}`}
+                                            style={resetButtonStyle}
+                                        >
+                                            Reset
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             )}
         </div>

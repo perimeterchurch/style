@@ -4,6 +4,7 @@
  * Supports both simple API and compound API (Input.Root, Input.Field, Input.Error).
  */
 
+import * as React from 'react';
 import {
     forwardRef,
     createContext,

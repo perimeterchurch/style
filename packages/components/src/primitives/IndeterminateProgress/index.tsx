@@ -5,6 +5,7 @@
  * Parent element must have `position: relative` for correct positioning.
  */
 
+import * as React from 'react';
 import { forwardRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
