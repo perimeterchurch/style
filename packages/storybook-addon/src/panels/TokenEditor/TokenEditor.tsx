@@ -6,7 +6,7 @@ import { useAddonTheme } from '../useAddonTheme.ts';
 import { CategoryTabs, type TokenCategory } from './CategoryTabs.tsx';
 import { TokenSearch } from './TokenSearch.tsx';
 import { TokenGroup } from './TokenGroup.tsx';
-import { TextEditor } from './editors/index.ts';
+import { ColorEditor, SpacingEditor, ShadowEditor, TextEditor } from './editors/index.ts';
 import { Button, Badge, Form } from 'storybook/internal/components';
 import { HintText } from '../shared/HintText.tsx';
 import { HelpToggle } from '../shared/HelpToggle.tsx';
@@ -30,6 +30,20 @@ const CATEGORY_EDITOR_MAP: Record<string, string> = {
     Transitions: 'text',
     Other: 'text',
 };
+
+/** Resolve editor component from a category editor type string. */
+function editorForType(type: string) {
+    switch (type) {
+        case 'color':
+            return ColorEditor;
+        case 'spacing':
+            return SpacingEditor;
+        case 'shadow':
+            return ShadowEditor;
+        default:
+            return TextEditor;
+    }
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -467,25 +481,30 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                             No tokens matching &quot;{search}&quot;
                         </div>
                     ) : (
-                        searchResults.map((token) => (
-                            <div
-                                key={token.name}
-                                style={{ display: 'flex', alignItems: 'center', gap: 4 }}
-                            >
-                                <div style={{ flex: 1 }}>
-                                    <TextEditor
-                                        name={token.name}
-                                        value={token.value}
-                                        onChange={handleTokenChange}
-                                    />
+                        searchResults.map((token) => {
+                            const catName = tokenToCategory?.get(token.name) ?? 'Other';
+                            const searchEditorType = CATEGORY_EDITOR_MAP[catName] ?? 'text';
+                            const Editor = editorForType(searchEditorType);
+                            return (
+                                <div
+                                    key={token.name}
+                                    style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+                                >
+                                    <div style={{ flex: 1 }}>
+                                        <Editor
+                                            name={token.name}
+                                            value={token.value}
+                                            onChange={handleTokenChange}
+                                        />
+                                    </div>
+                                    {tokenToCategory && (
+                                        <Badge compact status="neutral">
+                                            {catName}
+                                        </Badge>
+                                    )}
                                 </div>
-                                {tokenToCategory && (
-                                    <Badge compact status="neutral">
-                                        {tokenToCategory.get(token.name) ?? 'Other'}
-                                    </Badge>
-                                )}
-                            </div>
-                        ))
+                            );
+                        })
                     )
                 ) : (
                     subGroups.map((group) => (

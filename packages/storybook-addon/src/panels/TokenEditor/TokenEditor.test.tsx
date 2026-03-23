@@ -1,5 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import * as React from 'react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 
 /**
@@ -13,14 +14,24 @@ vi.mock('storybook/internal/components', () => ({
             {children}
         </span>
     ),
+    Button: ({ children, onClick, disabled, ...props }: any) => (
+        <button onClick={onClick} disabled={disabled} {...props}>
+            {children}
+        </button>
+    ),
+    Form: {
+        Input: (props: any) => <input {...props} />,
+    },
 }));
 
 import { CategoryTabs, type TokenCategory } from './CategoryTabs.tsx';
 import { TokenSearch } from './TokenSearch.tsx';
+import { TokenEditor } from './TokenEditor.tsx';
 import { ColorEditor } from './editors/ColorEditor.tsx';
 import { SpacingEditor } from './editors/SpacingEditor.tsx';
 import { ShadowEditor } from './editors/ShadowEditor.tsx';
 import { TextEditor } from './editors/TextEditor.tsx';
+import { EVENTS } from '../../constants.ts';
 
 // ---------------------------------------------------------------------------
 // CategoryTabs
@@ -173,5 +184,176 @@ describe('TextEditor', () => {
         const input = screen.getByLabelText('--font-family value');
         expect(input).toBeInTheDocument();
         expect(input).toHaveValue('Inter, sans-serif');
+    });
+});
+
+// ---------------------------------------------------------------------------
+// SpacingEditor — range behaviour
+// ---------------------------------------------------------------------------
+
+describe('SpacingEditor range behaviour', () => {
+    it('uses max=8 for rem values', () => {
+        render(<SpacingEditor name="--spacing-lg" value="2rem" onChange={vi.fn()} />);
+        const range = screen.getByLabelText('--spacing-lg range');
+        expect(range).toHaveAttribute('max', '8');
+    });
+
+    it('hides range slider for unparseable values', () => {
+        render(<SpacingEditor name="--spacing-custom" value="auto" onChange={vi.fn()} />);
+        expect(screen.queryByLabelText('--spacing-custom range')).not.toBeInTheDocument();
+        // Text input should still be present
+        expect(screen.getByLabelText('--spacing-custom value')).toBeInTheDocument();
+    });
+});
+
+// ---------------------------------------------------------------------------
+// TokenEditor — main component
+// ---------------------------------------------------------------------------
+
+const MOCK_TOKEN_DATA = {
+    tokens: {
+        '--color-primary': '#3b82f6',
+        '--color-surface': '#ffffff',
+        '--spacing-sm': '0.5rem',
+        '--shadow-sm': '0 1px 3px rgba(0,0,0,0.12)',
+        '--font-family': 'Inter, sans-serif',
+    },
+    categorized: {
+        Colors: {
+            Primary: { '--color-primary': '#3b82f6' },
+            Surface: { '--color-surface': '#ffffff' },
+        },
+        Typography: {},
+        Spacing: { '--spacing-sm': '0.5rem' },
+        Shadows: { '--shadow-sm': '0 1px 3px rgba(0,0,0,0.12)' },
+        Radii: {},
+        Transitions: {},
+        Other: { '--font-family': 'Inter, sans-serif' },
+    },
+};
+
+function mockFetchSuccess() {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(MOCK_TOKEN_DATA),
+    } as Response);
+}
+
+function mockFetchFailure(message: string) {
+    vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error(message));
+}
+
+describe('TokenEditor', () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    it('shows "Loading tokens..." initially', () => {
+        // Never-resolving fetch to freeze in loading state
+        vi.spyOn(globalThis, 'fetch').mockReturnValue(new Promise(() => {}));
+
+        render(<TokenEditor channel={{ emit: vi.fn() }} />);
+        expect(screen.getByText('Loading tokens...')).toBeInTheDocument();
+    });
+
+    it('renders token groups after successful fetch', async () => {
+        mockFetchSuccess();
+
+        render(<TokenEditor channel={{ emit: vi.fn() }} />);
+
+        await waitFor(() => {
+            expect(screen.queryByText('Loading tokens...')).not.toBeInTheDocument();
+        });
+
+        // Category tabs should be visible
+        expect(screen.getByRole('tab', { name: /Colors/ })).toBeInTheDocument();
+        expect(screen.getByRole('tab', { name: /Spacing/ })).toBeInTheDocument();
+    });
+
+    it('shows error message on fetch failure', async () => {
+        mockFetchFailure('Failed to fetch');
+
+        render(<TokenEditor channel={{ emit: vi.fn() }} />);
+
+        await waitFor(() => {
+            expect(screen.getByText(/Failed to fetch/)).toBeInTheDocument();
+        });
+    });
+
+    it('shows read-only state when middleware unavailable', async () => {
+        // When the fetch fails with a network-like error, the component sets
+        // readOnly=true but stays in the loading/error branch (data is null).
+        // The user sees the error text without the "Error:" prefix because
+        // readOnly suppresses the error display — but data never loaded, so
+        // the early-return branch renders the error string.
+        mockFetchFailure('Failed to fetch');
+
+        render(<TokenEditor channel={{ emit: vi.fn() }} />);
+
+        await waitFor(() => {
+            // The error path renders "Error: <message>" when data is null
+            expect(screen.getByText(/Failed to fetch/)).toBeInTheDocument();
+        });
+
+        // No toolbar buttons should be present (Save/Reset) since we never
+        // got past the loading state
+        expect(screen.queryByText('Save')).not.toBeInTheDocument();
+        expect(screen.queryByText('Reset')).not.toBeInTheDocument();
+    });
+
+    it('tracks dirty state when a token is edited', async () => {
+        mockFetchSuccess();
+        const channel = { emit: vi.fn() };
+
+        render(<TokenEditor channel={channel} />);
+
+        await waitFor(() => {
+            expect(screen.queryByText('Loading tokens...')).not.toBeInTheDocument();
+        });
+
+        // The default active tab is Colors, which renders color inputs.
+        // Edit the first color token's hex value input.
+        const hexInput = screen.getByLabelText('--color-primary hex value');
+        fireEvent.change(hexInput, { target: { value: '#ff0000' } });
+
+        expect(channel.emit).toHaveBeenCalledWith(EVENTS.TOKEN_CHANGED, {
+            name: '--color-primary',
+            value: '#ff0000',
+        });
+
+        // Modified badge should appear
+        expect(screen.getByText('1 modified')).toBeInTheDocument();
+    });
+
+    it('per-token reset reverts a single token', async () => {
+        mockFetchSuccess();
+        const channel = { emit: vi.fn() };
+
+        render(<TokenEditor channel={channel} />);
+
+        await waitFor(() => {
+            expect(screen.queryByText('Loading tokens...')).not.toBeInTheDocument();
+        });
+
+        // Edit --color-primary
+        const hexInput = screen.getByLabelText('--color-primary hex value');
+        fireEvent.change(hexInput, { target: { value: '#ff0000' } });
+
+        // Should see modified badge and reset button
+        expect(screen.getByText('1 modified')).toBeInTheDocument();
+        const resetBtn = screen.getByLabelText('Reset --color-primary');
+        expect(resetBtn).toBeInTheDocument();
+
+        // Click per-token reset
+        fireEvent.click(resetBtn);
+
+        // Channel should emit the original value
+        expect(channel.emit).toHaveBeenCalledWith(EVENTS.TOKEN_CHANGED, {
+            name: '--color-primary',
+            value: '#3b82f6',
+        });
+
+        // Modified badge should be gone
+        expect(screen.queryByText('1 modified')).not.toBeInTheDocument();
     });
 });
