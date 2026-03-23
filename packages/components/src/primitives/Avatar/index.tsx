@@ -33,10 +33,13 @@ export const Avatar = forwardRef<AvatarElement, AvatarProps>(
     ({ src, alt = '', fallback = '?', size = 'md', className, ...props }, ref) => {
         const [imageError, setImageError] = useState(false);
         const showImage = src && !imageError;
+        const showFallback = !showImage;
 
         return (
             <div
                 ref={ref}
+                role={showFallback ? 'img' : undefined}
+                aria-label={showFallback ? (alt || 'Avatar') : undefined}
                 className={cn(
                     'relative inline-flex items-center justify-center',
                     'rounded-full overflow-hidden',

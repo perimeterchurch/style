@@ -74,83 +74,51 @@ function getButtonClassName(
     );
 }
 
+// --- Shared render function ---
+
+function renderButton(
+    {
+        variant = 'primary',
+        size = 'md',
+        type = 'button',
+        fullWidth = false,
+        outline = false,
+        disabled = false,
+        isLoading = false,
+        className,
+        children,
+        'aria-label': ariaLabel,
+        ...props
+    }: ButtonProps,
+    ref: React.ForwardedRef<ButtonElement>,
+) {
+    const isDisabled = disabled || isLoading;
+
+    return (
+        <button
+            ref={ref}
+            type={type}
+            disabled={isDisabled}
+            aria-label={ariaLabel}
+            aria-busy={isLoading}
+            className={getButtonClassName(variant, size, outline, fullWidth, className)}
+            {...props}
+        >
+            {isLoading && <LoadingSpinner />}
+            {children}
+        </button>
+    );
+}
+
 // --- Simple API ---
 
-const SimpleButton = forwardRef<ButtonElement, ButtonProps>(
-    (
-        {
-            variant = 'primary',
-            size = 'md',
-            type = 'button',
-            fullWidth = false,
-            outline = false,
-            disabled = false,
-            isLoading = false,
-            className,
-            children,
-            'aria-label': ariaLabel,
-            ...props
-        },
-        ref,
-    ) => {
-        const isDisabled = disabled || isLoading;
-
-        return (
-            <button
-                ref={ref}
-                type={type}
-                disabled={isDisabled}
-                aria-label={ariaLabel}
-                aria-busy={isLoading}
-                className={getButtonClassName(variant, size, outline, fullWidth, className)}
-                {...props}
-            >
-                {isLoading && <LoadingSpinner />}
-                {children}
-            </button>
-        );
-    },
-);
+const SimpleButton = forwardRef<ButtonElement, ButtonProps>(renderButton);
 
 SimpleButton.displayName = 'Button';
 
 // --- Compound API ---
 
-const ButtonRoot = forwardRef<ButtonElement, ButtonProps>(
-    (
-        {
-            variant = 'primary',
-            size = 'md',
-            type = 'button',
-            outline = false,
-            fullWidth = false,
-            disabled = false,
-            isLoading = false,
-            className,
-            children,
-            'aria-label': ariaLabel,
-            ...props
-        },
-        ref,
-    ) => {
-        const isDisabled = disabled || isLoading;
-
-        return (
-            <button
-                ref={ref}
-                type={type}
-                disabled={isDisabled}
-                aria-label={ariaLabel}
-                aria-busy={isLoading}
-                className={getButtonClassName(variant, size, outline, fullWidth, className)}
-                {...props}
-            >
-                {isLoading && <LoadingSpinner />}
-                {children}
-            </button>
-        );
-    },
-);
+const ButtonRoot = forwardRef<ButtonElement, ButtonProps>(renderButton);
 
 ButtonRoot.displayName = 'Button.Root';
 
