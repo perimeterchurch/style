@@ -14,8 +14,49 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { parseTokensFromCss, categorizeTokens } from './readTokens.ts';
 import { updateTokensInCss } from './writeTokens.ts';
 import { generateThemeCss, generateBaseImport } from './writeTheme.ts';
-import { parseVariantsFile, resolveVariantsPath } from './readVariants.ts';
+import {
+    parseVariantsFile,
+    resolveVariantsPath,
+    type VariantDefinition,
+    type SizeDefinition,
+} from './readVariants.ts';
 import { updateVariantInFile, addVariantToFile, removeVariantFromFile } from './writeVariant.ts';
+
+// ---------------------------------------------------------------------------
+// Runtime validation
+// ---------------------------------------------------------------------------
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+/** Validate that a definition matches VariantDefinition shape (requires base: string). */
+function isVariantDefinition(
+    obj: Record<string, unknown>,
+): obj is Record<string, unknown> & VariantDefinition {
+    return typeof obj.base === 'string';
+}
+
+/** Validate that a definition matches SizeDefinition shape (requires padding + fontSize as strings). */
+function isSizeDefinition(
+    obj: Record<string, unknown>,
+): obj is Record<string, unknown> & SizeDefinition {
+    return typeof obj.padding === 'string' && typeof obj.fontSize === 'string';
+}
+
+/** Validate an incoming definition as either a VariantDefinition or SizeDefinition. */
+function validateDefinition(
+    definition: unknown,
+): VariantDefinition | SizeDefinition {
+    if (!isRecord(definition)) {
+        throw new Error('Definition must be a non-null object');
+    }
+    if (isVariantDefinition(definition)) return definition;
+    if (isSizeDefinition(definition)) return definition;
+    throw new Error(
+        'Definition must have "base" (string) for variants or "padding" and "fontSize" (strings) for sizes',
+    );
+}
 
 // ---------------------------------------------------------------------------
 // Route parsing
@@ -213,19 +254,20 @@ export function createStyleAddonMiddleware(rootDir: string): Plugin {
                                 const fullPath = join(rootDir, relPath);
                                 const content = await readFile(fullPath, 'utf-8');
 
+                                const validatedDef = validateDefinition(body.definition);
                                 const updated =
                                     body.mode === 'add'
                                         ? addVariantToFile(
                                               content,
                                               body.suffix,
                                               body.name,
-                                              body.definition as never,
+                                              validatedDef,
                                           )
                                         : updateVariantInFile(
                                               content,
                                               body.suffix,
                                               body.name,
-                                              body.definition as never,
+                                              validatedDef,
                                           );
 
                                 const formatted = await formatWithPrettier(updated, fullPath);
