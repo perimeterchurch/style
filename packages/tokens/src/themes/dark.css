@@ -3,6 +3,19 @@
  * Overrides default light token values when data-theme="dark" is set
  */
 [data-theme='dark'] {
+    /* Stone scale: inverted for dark mode
+       Light 50→900 maps to Dark 900→50 */
+    --color-stone-50: #1c1917;
+    --color-stone-100: #292524;
+    --color-stone-200: #44403c;
+    --color-stone-300: #57534e;
+    --color-stone-400: #78716c;
+    --color-stone-500: #a8a29e;
+    --color-stone-600: #d6d3d1;
+    --color-stone-700: #e7e5e4;
+    --color-stone-800: #f5f5f4;
+    --color-stone-900: #fafaf9;
+
     /* Base scale: stone dark */
     --color-bg: #0c0a09;
     --color-bg-subtle: #1c1917;
@@ -19,7 +32,7 @@
     --color-muted: #292524;
     --color-muted-foreground: #a8a29e;
     --color-input: #44403c;
-    --color-ring: #5b5bd6;
+    --color-ring: #7c7ce6;
 
     /* Card colors */
     --color-card: #1c1917;
@@ -32,6 +45,31 @@
     /* Accent colors */
     --color-accent: #292524;
     --color-accent-foreground: #fafaf9;
+
+    /* Destructive colors (dark mode) */
+    --color-destructive: #f76b87;
+    --color-destructive-foreground: #ffffff;
+
+    /* Semantic color hover/active: go lighter on dark backgrounds */
+    --color-primary: #6e6ee0;
+    --color-primary-hover: #8484e8;
+    --color-primary-active: #9a9aef;
+
+    --color-success: #5cb86c;
+    --color-success-hover: #72c880;
+    --color-success-active: #88d694;
+
+    --color-warning: #f7b84a;
+    --color-warning-hover: #f9c86e;
+    --color-warning-active: #fad78e;
+
+    --color-error: #f76b87;
+    --color-error-hover: #f98da2;
+    --color-error-active: #fbacbb;
+
+    --color-info: #38bdf8;
+    --color-info-hover: #5fcbfa;
+    --color-info-active: #7dd3fc;
 
     /* Adjusted shadows for dark mode */
     --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
