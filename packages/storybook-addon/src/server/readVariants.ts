@@ -1,10 +1,6 @@
 /**
  * Parses variant files (.variants.ts) to extract variant and size records.
- * Uses brace-counting + new Function() evaluation for object literal parsing.
- *
- * Dev-only evaluation of local .variants.ts object literals.
- * Acceptable because: files are trusted local source, addon only runs in pnpm dev, not in production.
- * NOT safe for untrusted input — do not use this pattern in production code.
+ * Uses brace-counting + a safe key-value parser for object literal parsing.
  */
 
 import path from 'node:path';
@@ -82,13 +78,125 @@ function extractRecordObject(content: string, exportName: string): string | null
     return null;
 }
 
-/** Safely evaluate an object literal string to a JS object. */
-function evaluateObjectLiteral(objStr: string): Record<string, unknown> {
+/**
+ * Parse a JS object literal string into a plain object without eval.
+ * Handles string values (single/double quoted), numeric values, and one level
+ * of nested objects (for _meta). Only supports the shapes used in variant files.
+ */
+function parseObjectLiteral(objStr: string): Record<string, unknown> {
     try {
-        return new Function('return (' + objStr + ')')() as Record<string, unknown>;
+        return parseObjectContents(stripOuterBraces(objStr));
     } catch {
         return {};
     }
+}
+
+/** Remove the outermost { } from an object literal string. */
+function stripOuterBraces(s: string): string {
+    const trimmed = s.trim();
+    if (trimmed[0] === '{' && trimmed[trimmed.length - 1] === '}') {
+        return trimmed.slice(1, -1);
+    }
+    return trimmed;
+}
+
+/**
+ * Split an object body into key-value entries, respecting quoted strings
+ * and nested braces so commas inside them are not treated as separators.
+ */
+function splitEntries(body: string): string[] {
+    const entries: string[] = [];
+    let current = '';
+    let depth = 0;
+    let inQuote: string | null = null;
+
+    for (let i = 0; i < body.length; i++) {
+        const ch = body[i];
+
+        if (inQuote) {
+            current += ch;
+            if (ch === '\\' && i + 1 < body.length) {
+                current += body[++i];
+                continue;
+            }
+            if (ch === inQuote) inQuote = null;
+            continue;
+        }
+
+        if (ch === "'" || ch === '"') {
+            inQuote = ch;
+            current += ch;
+            continue;
+        }
+
+        if (ch === '{') {
+            depth++;
+            current += ch;
+            continue;
+        }
+        if (ch === '}') {
+            depth--;
+            current += ch;
+            continue;
+        }
+
+        if (ch === ',' && depth === 0) {
+            entries.push(current);
+            current = '';
+            continue;
+        }
+
+        current += ch;
+    }
+    if (current.trim()) entries.push(current);
+    return entries;
+}
+
+/** Parse the inner contents of an object literal (without outer braces). */
+function parseObjectContents(body: string): Record<string, unknown> {
+    const result: Record<string, unknown> = {};
+    const entries = splitEntries(body);
+
+    for (const entry of entries) {
+        const trimmed = entry.trim();
+        if (!trimmed) continue;
+
+        // Match key: value — key may be unquoted identifier or quoted string
+        const colonIdx = trimmed.indexOf(':');
+        if (colonIdx === -1) continue;
+
+        const key = trimmed.slice(0, colonIdx).trim();
+        const rawValue = trimmed.slice(colonIdx + 1).trim();
+
+        if (!key) continue;
+
+        // Nested object
+        if (rawValue.startsWith('{')) {
+            result[key] = parseObjectContents(stripOuterBraces(rawValue));
+            continue;
+        }
+
+        // Quoted string (single or double)
+        if (
+            (rawValue.startsWith("'") && rawValue.endsWith("'")) ||
+            (rawValue.startsWith('"') && rawValue.endsWith('"'))
+        ) {
+            result[key] = rawValue.slice(1, -1);
+            continue;
+        }
+
+        // Numeric value
+        const num = Number(rawValue);
+        if (!Number.isNaN(num) && rawValue !== '') {
+            result[key] = num;
+            continue;
+        }
+
+        // Fallback: treat as raw string
+        result[key] = rawValue;
+    }
+
+    return result;
 }
 
 /** Detect the export name for variants (e.g. buttonVariants, cardVariants). */
@@ -109,14 +217,14 @@ export function parseVariantsFile(content: string): ParsedVariantsFile {
     if (variantsName) {
         const objStr = extractRecordObject(content, variantsName);
         if (objStr) {
-            variants = evaluateObjectLiteral(objStr) as Record<string, VariantDefinition>;
+            variants = parseObjectLiteral(objStr) as Record<string, VariantDefinition>;
         }
     }
 
     if (sizesName) {
         const objStr = extractRecordObject(content, sizesName);
         if (objStr) {
-            sizes = evaluateObjectLiteral(objStr) as Record<string, SizeDefinition>;
+            sizes = parseObjectLiteral(objStr) as Record<string, SizeDefinition>;
         }
     }
 
