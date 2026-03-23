@@ -143,6 +143,16 @@ function sendJson(res: ServerResponse, status: number, data: unknown): void {
     res.end(JSON.stringify(data));
 }
 
+/** Expected HTTP method for each route handler. */
+const ALLOWED_METHODS: Record<string, string> = {
+    'read-tokens': 'GET',
+    'write-tokens': 'POST',
+    'write-theme': 'POST',
+    'read-variants': 'GET',
+    'write-variant': 'POST',
+    'delete-variant': 'DELETE',
+};
+
 // ---------------------------------------------------------------------------
 // Middleware factory — returns a Vite plugin
 // ---------------------------------------------------------------------------
@@ -163,6 +173,20 @@ export function createStyleAddonMiddleware(rootDir: string): Plugin {
                 async (req: IncomingMessage, res: ServerResponse, next: () => void) => {
                     const route = parseRoute(req.method ?? 'GET', req.url ?? '');
                     if (!route) return next();
+
+                    const allowed = ALLOWED_METHODS[route.handler];
+                    if (allowed && route.method !== allowed) {
+                        res.writeHead(405, {
+                            'Content-Type': 'application/json',
+                            Allow: allowed,
+                        });
+                        res.end(
+                            JSON.stringify({
+                                error: `Method ${route.method} not allowed. Use ${allowed}.`,
+                            }),
+                        );
+                        return;
+                    }
 
                     try {
                         switch (route.handler) {
