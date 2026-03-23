@@ -18,9 +18,21 @@ export default tseslint.config(
         rules: {
             ...reactHooks.configs.recommended.rules,
             'react/react-in-jsx-scope': 'off',
+            '@typescript-eslint/no-explicit-any': 'error',
         },
         settings: {
             react: { version: 'detect' },
+        },
+    },
+    {
+        files: [
+            '**/*.test.{ts,tsx}',
+            '**/*.stories.{ts,tsx}',
+            '**/test-setup.ts',
+            '**/test-types.d.ts',
+        ],
+        rules: {
+            '@typescript-eslint/no-explicit-any': 'off',
         },
     },
     prettier,

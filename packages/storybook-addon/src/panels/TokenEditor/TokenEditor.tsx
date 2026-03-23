@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import type { CategorizedTokens, TokenRecord } from '../../server/readTokens.ts';
 import { EVENTS } from '../../constants.ts';
 import { useAddonTheme } from '../useAddonTheme.ts';
@@ -104,6 +104,8 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
     const [data, setData] = useState<FetchedTokenData | null>(null);
     const [dirty, setDirty] = useState<Record<string, string>>({});
     const [activeTab, setActiveTab] = useState('');
+    const activeTabRef = useRef(activeTab);
+    activeTabRef.current = activeTab;
     const [search, setSearch] = useState('');
     const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
     const [error, setError] = useState<string | null>(null);
@@ -125,7 +127,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
                 setData(json);
                 setReadOnly(false);
                 const cats = buildCategories(json.categorized);
-                if (cats.length > 0 && !activeTab) {
+                if (cats.length > 0 && !activeTabRef.current) {
                     setActiveTab(cats[0].name);
                 }
             })
@@ -145,7 +147,7 @@ export function TokenEditor({ channel, apiBase = '' }: TokenEditorPanelProps) {
         return () => {
             cancelled = true;
         };
-    }, [apiBase]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [apiBase]);
 
     const handleTokenChange = useCallback(
         (name: string, value: string) => {

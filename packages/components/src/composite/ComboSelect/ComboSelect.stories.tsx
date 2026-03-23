@@ -52,11 +52,10 @@ function MultiSelectDemo() {
     const [value, setValue] = useState<string[]>([]);
     return (
         <div style={{ maxWidth: 300 }}>
-            <ComboSelect
+            <ComboSelect<string>
                 options={fruitOptions}
                 value={value}
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                onChange={setValue as any}
+                onChange={(v) => setValue(v)}
                 multiple
                 placeholder="Select fruits..."
             />
