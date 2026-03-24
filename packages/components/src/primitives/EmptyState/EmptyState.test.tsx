@@ -8,6 +8,11 @@ describe('EmptyState', () => {
         expect(screen.getByText('No results')).toBeInTheDocument();
     });
 
+    it('applies base empty-state class', () => {
+        render(<EmptyState title="No results" data-testid="empty" />);
+        expect(screen.getByTestId('empty')).toHaveClass('empty-state');
+    });
+
     it('renders description', () => {
         render(<EmptyState title="Empty" description="Nothing to show" />);
         expect(screen.getByText('Nothing to show')).toBeInTheDocument();

@@ -10,10 +10,15 @@ describe('Skeleton', () => {
         expect(el).toHaveAttribute('aria-busy', 'true');
     });
 
-    it('renders all variants without crashing', () => {
+    it('applies base skeleton class', () => {
+        render(<Skeleton data-testid="skeleton" />);
+        expect(screen.getByTestId('skeleton')).toHaveClass('skeleton');
+    });
+
+    it('renders all variants with correct CSS classes', () => {
         for (const variant of ['line', 'circle', 'card'] as const) {
             const { unmount } = render(<Skeleton variant={variant} data-testid="skeleton" />);
-            expect(screen.getByTestId('skeleton')).toBeInTheDocument();
+            expect(screen.getByTestId('skeleton')).toHaveClass('skeleton', `skeleton-${variant}`);
             unmount();
         }
     });

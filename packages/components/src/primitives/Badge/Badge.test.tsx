@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Badge } from './index';
-import { badgeVariants, badgeSizes } from './Badge.variants';
+import { badgeVariantClass, badgeSizeClass } from './Badge.variants';
 
 describe('Badge', () => {
     it('renders with default props', () => {
@@ -9,44 +9,51 @@ describe('Badge', () => {
         expect(screen.getByText('Status')).toBeInTheDocument();
     });
 
-    it('renders all variants without crashing', () => {
-        for (const variant of Object.keys(badgeVariants)) {
+    it('applies base badge class', () => {
+        render(<Badge data-testid="badge">Status</Badge>);
+        expect(screen.getByTestId('badge')).toHaveClass('badge');
+    });
+
+    it('renders all variants with correct CSS classes', () => {
+        for (const [variant, cssClass] of Object.entries(badgeVariantClass)) {
             const { unmount } = render(
-                <Badge variant={variant as keyof typeof badgeVariants}>{variant}</Badge>,
+                <Badge variant={variant as keyof typeof badgeVariantClass}>{variant}</Badge>,
             );
-            expect(screen.getByText(variant)).toBeInTheDocument();
+            if (cssClass) {
+                expect(screen.getByText(variant)).toHaveClass('badge', cssClass);
+            } else {
+                expect(screen.getByText(variant)).toHaveClass('badge');
+            }
             unmount();
         }
     });
 
     it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(badgeSizes)) {
+        for (const size of Object.keys(badgeSizeClass)) {
             const { unmount } = render(
-                <Badge size={size as keyof typeof badgeSizes}>{size}</Badge>,
+                <Badge size={size as keyof typeof badgeSizeClass}>{size}</Badge>,
             );
             expect(screen.getByText(size)).toBeInTheDocument();
             unmount();
         }
     });
 
-    it('renders dot indicator', () => {
+    it('applies dot class', () => {
         render(
             <Badge dot data-testid="badge">
                 Active
             </Badge>,
         );
-        const badge = screen.getByTestId('badge');
-        const dot = badge.querySelector('[aria-hidden="true"]');
-        expect(dot).toBeInTheDocument();
+        expect(screen.getByTestId('badge')).toHaveClass('badge-dot');
     });
 
-    it('applies outline variant classes', () => {
+    it('applies outline class', () => {
         render(
             <Badge outline data-testid="badge">
                 Outlined
             </Badge>,
         );
-        expect(screen.getByTestId('badge').className).toContain('border');
+        expect(screen.getByTestId('badge')).toHaveClass('badge-outline');
     });
 
     it('merges custom className', () => {

@@ -8,13 +8,12 @@ import * as React from 'react';
 import { createContext, useContext, forwardRef, type ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 import {
-    tabsListClasses,
-    tabButtonBaseClasses,
-    tabButtonActiveClasses,
-    tabButtonInactiveClasses,
-    tabButtonHoverClasses,
-    tabButtonDisabledClasses,
-    tabIndicatorClasses,
+    tabsListClass,
+    tabClass,
+    tabActiveClass,
+    tabInactiveClass,
+    tabDisabledClass,
+    tabIndicatorClass,
 } from './Tabs.variants';
 
 // --- Types ---
@@ -37,7 +36,7 @@ export interface TabsProps {
 
 function TabsSimple({ tabs, activeTab, onChange, className }: TabsProps) {
     return (
-        <div className={cn(tabsListClasses, className)} role="tablist">
+        <div className={cn(tabsListClass, className)} role="tablist">
             {tabs.map((tab) => {
                 const isActive = tab.id === activeTab;
                 return (
@@ -75,17 +74,16 @@ function TabsSimple({ tabs, activeTab, onChange, className }: TabsProps) {
                             }
                         }}
                         className={cn(
-                            tabButtonBaseClasses,
-                            isActive ? tabButtonActiveClasses : tabButtonInactiveClasses,
-                            !tab.disabled && !isActive && tabButtonHoverClasses,
-                            tab.disabled && tabButtonDisabledClasses,
+                            tabClass,
+                            isActive ? tabActiveClass : tabInactiveClass,
+                            tab.disabled && tabDisabledClass,
                         )}
                     >
                         <span className="flex items-center gap-2">
                             {tab.label}
                             {tab.badge}
                         </span>
-                        {isActive && <span className={tabIndicatorClasses} />}
+                        {isActive && <span className={tabIndicatorClass} />}
                     </button>
                 );
             })}
@@ -139,7 +137,7 @@ export interface TabsListProps {
 
 function TabsList({ children, className }: TabsListProps) {
     return (
-        <div className={cn(tabsListClasses, className)} role="tablist">
+        <div className={cn(tabsListClass, className)} role="tablist">
             {children}
         </div>
     );
@@ -170,15 +168,14 @@ function TabsTab({ id, disabled = false, children, className }: TabsTabProps) {
                 if (!disabled) onChange(id);
             }}
             className={cn(
-                tabButtonBaseClasses,
-                isActive ? tabButtonActiveClasses : tabButtonInactiveClasses,
-                !disabled && !isActive && tabButtonHoverClasses,
-                disabled && tabButtonDisabledClasses,
+                tabClass,
+                isActive ? tabActiveClass : tabInactiveClass,
+                disabled && tabDisabledClass,
                 className,
             )}
         >
             <span className="flex items-center gap-2">{children}</span>
-            {isActive && <span className={tabIndicatorClasses} />}
+            {isActive && <span className={tabIndicatorClass} />}
         </button>
     );
 }

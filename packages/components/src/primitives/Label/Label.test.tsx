@@ -8,16 +8,19 @@ describe('Label', () => {
         expect(screen.getByText('Email')).toBeInTheDocument();
     });
 
-    it('renders required indicator', () => {
-        render(<Label required>Email</Label>);
-        expect(screen.getByText('*')).toBeInTheDocument();
-        expect(screen.getByText('(required)')).toBeInTheDocument();
+    it('applies base label class', () => {
+        render(<Label data-testid="label">Email</Label>);
+        expect(screen.getByTestId('label')).toHaveClass('label');
     });
 
-    it('hides asterisk from screen readers', () => {
-        render(<Label required>Email</Label>);
-        const asterisk = screen.getByText('*');
-        expect(asterisk).toHaveAttribute('aria-hidden', 'true');
+    it('renders required indicator via CSS class', () => {
+        render(
+            <Label required data-testid="label">
+                Email
+            </Label>,
+        );
+        expect(screen.getByTestId('label')).toHaveClass('label-required');
+        expect(screen.getByText('(required)')).toBeInTheDocument();
     });
 
     it('applies disabled styles', () => {

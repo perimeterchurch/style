@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Select } from './index';
-import { selectSizeClasses } from './Select.variants';
+import { selectSizeClass } from './Select.variants';
 
 const sampleOptions = [
     { value: '', label: 'Select an option...' },
@@ -15,7 +15,7 @@ const meta: Meta<typeof Select> = {
     argTypes: {
         size: {
             control: 'select',
-            options: Object.keys(selectSizeClasses),
+            options: Object.keys(selectSizeClass),
         },
         fullWidth: { control: 'boolean' },
         disabled: { control: 'boolean' },
@@ -36,10 +36,10 @@ export const Default: Story = {
 export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: 300 }}>
-            {Object.keys(selectSizeClasses).map((size) => (
+            {Object.keys(selectSizeClass).map((size) => (
                 <Select
                     key={size}
-                    size={size as keyof typeof selectSizeClasses}
+                    size={size as keyof typeof selectSizeClass}
                     options={[{ value: '', label: `Size: ${size}` }, ...sampleOptions.slice(1)]}
                 />
             ))}

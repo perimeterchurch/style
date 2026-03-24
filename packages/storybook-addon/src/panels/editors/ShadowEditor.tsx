@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useAddonTheme } from '../../useAddonTheme.ts';
+import { useAddonTheme } from '../useAddonTheme.ts';
 import { editorRowStyle, editorLabelStyle, editorInputStyle } from './shared.ts';
 import type { TokenEditorProps } from './shared.ts';
 
-export function TextEditor({ name, value, onChange }: TokenEditorProps) {
+export function ShadowEditor({ name, value, onChange }: TokenEditorProps) {
     const theme = useAddonTheme();
 
     return (
@@ -13,19 +13,19 @@ export function TextEditor({ name, value, onChange }: TokenEditorProps) {
                 type="text"
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
-                aria-label={`${name} value`}
+                aria-label={`${name} shadow value`}
                 style={{ ...editorInputStyle(theme), fontFamily: 'monospace', flex: 1 }}
             />
-            <span
+            <div
+                data-testid={`${name}-preview`}
                 style={{
-                    fontFamily: 'monospace',
-                    fontSize: 11,
-                    color: theme.color.mediumdark,
-                    minWidth: 60,
+                    width: 48,
+                    height: 32,
+                    backgroundColor: theme.background.content,
+                    borderRadius: 4,
+                    boxShadow: value,
                 }}
-            >
-                {value}
-            </span>
+            />
         </div>
     );
 }

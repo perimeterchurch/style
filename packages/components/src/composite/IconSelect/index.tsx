@@ -9,9 +9,9 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headless
 import type { ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 import {
-    iconSelectButtonClasses,
-    iconSelectPopoverClasses,
-    iconSelectOptionClasses,
+    iconSelectBtnClass,
+    iconSelectPopoverClass,
+    iconSelectOptionClass,
 } from './IconSelect.variants';
 
 // --- Inline SVGs ---
@@ -86,9 +86,7 @@ export function IconSelect<T extends string | number = string>({
     return (
         <Listbox value={value} onChange={onChange}>
             <div className={cn('relative', fullWidth && 'w-full', className)}>
-                <ListboxButton
-                    className={cn(iconSelectButtonClasses, fullWidth ? 'w-full' : 'w-auto')}
-                >
+                <ListboxButton className={cn(iconSelectBtnClass, fullWidth ? 'w-full' : 'w-auto')}>
                     {selected ? (
                         <>
                             {selected.icon && (
@@ -106,12 +104,12 @@ export function IconSelect<T extends string | number = string>({
                     <ChevronDownIcon className="h-3.5 w-3.5 shrink-0 text-[var(--color-text-muted)]" />
                 </ListboxButton>
 
-                <ListboxOptions transition className={iconSelectPopoverClasses}>
+                <ListboxOptions transition className={iconSelectPopoverClass}>
                     {options.map((option) => (
                         <ListboxOption
                             key={String(option.value)}
                             value={option.value}
-                            className={iconSelectOptionClasses}
+                            className={iconSelectOptionClass}
                         >
                             {({ selected: isSelected }) => (
                                 <>

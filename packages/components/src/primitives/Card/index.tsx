@@ -2,7 +2,7 @@ import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import { cardVariants, type CardVariant } from './Card.variants';
+import { cardVariantClass, type CardVariant } from './Card.variants';
 
 type CardElement = ElementRef<'div'>;
 
@@ -18,8 +18,9 @@ const CardRoot = forwardRef<CardElement, CardProps>(
         <div
             ref={ref}
             className={cn(
-                cardVariants[variant].base,
-                hoverable && 'hover:shadow-md hover:-translate-y-0.5',
+                'card',
+                cardVariantClass[variant],
+                hoverable && 'card-hoverable',
                 className,
             )}
             {...props}
@@ -32,7 +33,7 @@ CardRoot.displayName = 'Card';
 
 const CardHeader = forwardRef<ElementRef<'div'>, CardSectionProps>(
     ({ className, children, ...props }, ref) => (
-        <div ref={ref} className={cn('flex flex-col space-y-1.5 p-6', className)} {...props}>
+        <div ref={ref} className={cn('card-header', className)} {...props}>
             {children}
         </div>
     ),
@@ -41,7 +42,7 @@ CardHeader.displayName = 'Card.Header';
 
 const CardBody = forwardRef<ElementRef<'div'>, CardSectionProps>(
     ({ className, children, ...props }, ref) => (
-        <div ref={ref} className={cn('p-6 pt-0', className)} {...props}>
+        <div ref={ref} className={cn('card-body', className)} {...props}>
             {children}
         </div>
     ),
@@ -50,7 +51,7 @@ CardBody.displayName = 'Card.Body';
 
 const CardFooter = forwardRef<ElementRef<'div'>, CardSectionProps>(
     ({ className, children, ...props }, ref) => (
-        <div ref={ref} className={cn('flex items-center p-6 pt-0', className)} {...props}>
+        <div ref={ref} className={cn('card-footer', className)} {...props}>
             {children}
         </div>
     ),
@@ -63,4 +64,4 @@ export const Card = Object.assign(CardRoot, {
     Footer: CardFooter,
 });
 
-export { cardVariants, type CardVariant };
+export { cardVariantClass, type CardVariant };

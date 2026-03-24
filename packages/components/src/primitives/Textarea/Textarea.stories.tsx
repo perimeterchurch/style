@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Textarea } from './index';
-import { textareaTextSizes } from './Textarea.variants';
+import { textareaSizeClass } from './Textarea.variants';
 
 const meta: Meta<typeof Textarea> = {
     title: 'Components/Primitives/Textarea',
@@ -8,7 +8,7 @@ const meta: Meta<typeof Textarea> = {
     argTypes: {
         size: {
             control: 'select',
-            options: Object.keys(textareaTextSizes),
+            options: Object.keys(textareaSizeClass),
         },
         fullWidth: { control: 'boolean' },
         disabled: { control: 'boolean' },
@@ -29,10 +29,10 @@ export const Default: Story = {
 export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: 400 }}>
-            {Object.keys(textareaTextSizes).map((size) => (
+            {Object.keys(textareaSizeClass).map((size) => (
                 <Textarea
                     key={size}
-                    size={size as keyof typeof textareaTextSizes}
+                    size={size as keyof typeof textareaSizeClass}
                     placeholder={`Size: ${size}`}
                 />
             ))}

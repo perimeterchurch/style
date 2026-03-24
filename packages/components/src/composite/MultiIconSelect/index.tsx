@@ -10,10 +10,10 @@ import type { ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 import type { IconSelectOption } from '../IconSelect';
 import {
-    multiIconSelectButtonClasses,
-    multiIconSelectPopoverClasses,
-    multiIconSelectOptionClasses,
-    multiIconSelectPresetClasses,
+    multiIconSelectBtnClass,
+    multiIconSelectPopoverClass,
+    multiIconSelectOptionClass,
+    multiIconSelectPresetClass,
 } from './MultiIconSelect.variants';
 
 // --- Inline SVGs ---
@@ -91,7 +91,7 @@ export function MultiIconSelect<T extends string | number = string>({
         <Listbox value={value} onChange={onChange} multiple>
             <div className={cn('relative', fullWidth && 'w-full', className)}>
                 <ListboxButton
-                    className={cn(multiIconSelectButtonClasses, fullWidth ? 'w-full' : 'w-auto')}
+                    className={cn(multiIconSelectBtnClass, fullWidth ? 'w-full' : 'w-auto')}
                 >
                     {placeholderIcon && (
                         <span className="flex shrink-0 items-center text-[var(--color-text-muted)]">
@@ -114,7 +114,7 @@ export function MultiIconSelect<T extends string | number = string>({
                 <ListboxOptions
                     transition
                     anchor="bottom start"
-                    className={multiIconSelectPopoverClasses}
+                    className={multiIconSelectPopoverClass}
                 >
                     {presets?.map((preset) => {
                         const presetSet = new Set(preset.values.map(String));
@@ -131,7 +131,7 @@ export function MultiIconSelect<T extends string | number = string>({
                                     e.preventDefault();
                                     onChange(isActive ? [] : [...preset.values]);
                                 }}
-                                className={multiIconSelectPresetClasses}
+                                className={multiIconSelectPresetClass}
                             >
                                 {preset.icon && (
                                     <span className="flex shrink-0 items-center">
@@ -159,7 +159,7 @@ export function MultiIconSelect<T extends string | number = string>({
                         <ListboxOption
                             key={String(option.value)}
                             value={option.value}
-                            className={multiIconSelectOptionClasses}
+                            className={multiIconSelectOptionClass}
                         >
                             {({ selected: isSelected }) => (
                                 <>

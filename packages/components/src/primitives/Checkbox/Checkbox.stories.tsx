@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Checkbox } from './index';
-import { checkboxSizeClasses } from './Checkbox.variants';
+import { checkboxSizeClass } from './Checkbox.variants';
 
 const meta: Meta<typeof Checkbox> = {
     title: 'Components/Primitives/Checkbox',
@@ -8,7 +8,7 @@ const meta: Meta<typeof Checkbox> = {
     argTypes: {
         size: {
             control: 'select',
-            options: Object.keys(checkboxSizeClasses),
+            options: Object.keys(checkboxSizeClass),
         },
         label: { control: 'text' },
         disabled: { control: 'boolean' },
@@ -29,10 +29,10 @@ export const Default: Story = {
 export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {Object.keys(checkboxSizeClasses).map((size) => (
+            {Object.keys(checkboxSizeClass).map((size) => (
                 <Checkbox
                     key={size}
-                    size={size as keyof typeof checkboxSizeClasses}
+                    size={size as keyof typeof checkboxSizeClass}
                     label={`Size: ${size}`}
                 />
             ))}

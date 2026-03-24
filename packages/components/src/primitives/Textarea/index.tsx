@@ -7,12 +7,7 @@ import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
 import type { BaseComponentProps, WidthProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import {
-    textareaBaseClasses,
-    textareaTextSizes,
-    getTextareaBorderClasses,
-    type TextareaSize,
-} from './Textarea.variants';
+import { textareaSizeClass, type TextareaSize } from './Textarea.variants';
 
 type TextareaElement = ElementRef<'textarea'>;
 
@@ -39,12 +34,10 @@ export const Textarea = forwardRef<TextareaElement, TextareaProps>(
                     onKeyDown?.(e);
                 }}
                 className={cn(
-                    textareaBaseClasses,
-                    'min-h-[80px] px-3 py-2',
-                    'placeholder:text-[var(--color-stone-400)] dark:placeholder:text-[var(--color-stone-500)]',
-                    'resize-y',
-                    textareaTextSizes[size],
-                    getTextareaBorderClasses(error),
+                    'form-control',
+                    'textarea',
+                    textareaSizeClass[size],
+                    error && 'form-control-error',
                     fullWidth ? 'w-full' : 'w-auto',
                     className,
                 )}
@@ -56,4 +49,4 @@ export const Textarea = forwardRef<TextareaElement, TextareaProps>(
 
 Textarea.displayName = 'Textarea';
 
-export { textareaBaseClasses, textareaTextSizes, getTextareaBorderClasses, type TextareaSize };
+export { textareaSizeClass, type TextareaSize };

@@ -8,9 +8,8 @@ import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'reac
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
 import {
-    badgeVariants,
-    badgeDotColors,
-    badgeSizes,
+    badgeVariantClass,
+    badgeSizeClass,
     type BadgeVariant,
     type BadgeSize,
 } from './Badge.variants';
@@ -41,28 +40,19 @@ export const Badge = forwardRef<BadgeElement, BadgeProps>(
         },
         ref,
     ) => {
-        const variantDef = badgeVariants[variant];
-        const sizeDef = badgeSizes[size];
-
         return (
             <span
                 ref={ref}
                 className={cn(
-                    'inline-flex items-center gap-1.5 rounded-full font-medium',
-                    'transition-colors duration-200',
-                    outline && variantDef.outline ? variantDef.outline : variantDef.base,
-                    sizeDef.padding,
-                    sizeDef.fontSize,
+                    'badge',
+                    badgeVariantClass[variant],
+                    badgeSizeClass[size],
+                    outline && 'badge-outline',
+                    dot && 'badge-dot',
                     className,
                 )}
                 {...props}
             >
-                {dot && (
-                    <span
-                        className={cn('h-1.5 w-1.5 rounded-full shrink-0', badgeDotColors[variant])}
-                        aria-hidden="true"
-                    />
-                )}
                 {children}
             </span>
         );
@@ -71,4 +61,4 @@ export const Badge = forwardRef<BadgeElement, BadgeProps>(
 
 Badge.displayName = 'Badge';
 
-export { badgeVariants, badgeDotColors, badgeSizes, type BadgeVariant, type BadgeSize };
+export { badgeVariantClass, badgeSizeClass, type BadgeVariant, type BadgeSize };

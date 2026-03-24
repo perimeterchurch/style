@@ -76,6 +76,6 @@ describe('Dropdown', () => {
         );
         await user.click(screen.getByText('Open'));
         const button = screen.getByText('Delete');
-        expect(button.className).toContain('error');
+        expect(button.className).toContain('dropdown-item-destructive');
     });
 });

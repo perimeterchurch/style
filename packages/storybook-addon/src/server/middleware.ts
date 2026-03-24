@@ -14,49 +14,8 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { parseTokensFromCss, categorizeTokens } from './readTokens.ts';
 import { updateTokensInCss } from './writeTokens.ts';
 import { generateThemeCss, generateBaseImport } from './writeTheme.ts';
-import {
-    parseVariantsFile,
-    resolveVariantsPath,
-    type VariantDefinition,
-    type SizeDefinition,
-} from './readVariants.ts';
-import { updateVariantInFile, addVariantToFile, removeVariantFromFile } from './writeVariant.ts';
-
-// ---------------------------------------------------------------------------
-// Runtime validation
-// ---------------------------------------------------------------------------
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-/** Validate that a definition matches VariantDefinition shape (requires base: string). */
-function isVariantDefinition(
-    obj: Record<string, unknown>,
-): obj is Record<string, unknown> & VariantDefinition {
-    return typeof obj.base === 'string';
-}
-
-/** Validate that a definition matches SizeDefinition shape (requires padding + fontSize as strings). */
-function isSizeDefinition(
-    obj: Record<string, unknown>,
-): obj is Record<string, unknown> & SizeDefinition {
-    return typeof obj.padding === 'string' && typeof obj.fontSize === 'string';
-}
-
-/** Validate an incoming definition as either a VariantDefinition or SizeDefinition. */
-function validateDefinition(
-    definition: unknown,
-): VariantDefinition | SizeDefinition {
-    if (!isRecord(definition)) {
-        throw new Error('Definition must be a non-null object');
-    }
-    if (isVariantDefinition(definition)) return definition;
-    if (isSizeDefinition(definition)) return definition;
-    throw new Error(
-        'Definition must have "base" (string) for variants or "padding" and "fontSize" (strings) for sizes',
-    );
-}
+import { listThemes } from './listThemes.ts';
+import { readThemeFile } from './readTheme.ts';
 
 // ---------------------------------------------------------------------------
 // Route parsing
@@ -148,9 +107,8 @@ const ALLOWED_METHODS: Record<string, string> = {
     'read-tokens': 'GET',
     'write-tokens': 'POST',
     'write-theme': 'POST',
-    'read-variants': 'GET',
-    'write-variant': 'POST',
-    'delete-variant': 'DELETE',
+    'list-themes': 'GET',
+    'read-theme': 'GET',
 };
 
 // ---------------------------------------------------------------------------
@@ -239,91 +197,30 @@ export function createStyleAddonMiddleware(rootDir: string): Plugin {
                                 break;
                             }
 
-                            // ----- read-variants -----
-                            case 'read-variants': {
-                                const component = route.params.component;
-                                if (!component) {
-                                    sendJson(res, 400, { error: 'Missing component param' });
-                                    break;
-                                }
-                                const relPath = resolveVariantsPath(component);
-                                if (!relPath) {
-                                    sendJson(res, 400, {
-                                        error: `Cannot resolve variants for: "${component}"`,
-                                    });
-                                    break;
-                                }
-                                const fullPath = join(rootDir, relPath);
-                                const content = await readFile(fullPath, 'utf-8');
-                                const parsed = parseVariantsFile(content);
-                                sendJson(res, 200, parsed);
+                            // ----- list-themes -----
+                            case 'list-themes': {
+                                const themes = await listThemes(themesDir);
+                                sendJson(res, 200, { themes });
                                 break;
                             }
 
-                            // ----- write-variant -----
-                            case 'write-variant': {
-                                const body = JSON.parse(await readBody(req)) as {
-                                    component: string;
-                                    suffix: string;
-                                    name: string;
-                                    definition: Record<string, unknown>;
-                                    mode: 'add' | 'update';
-                                };
-                                const relPath = resolveVariantsPath(body.component);
-                                if (!relPath) {
-                                    sendJson(res, 400, {
-                                        error: `Cannot resolve variants for: "${body.component}"`,
+                            // ----- read-theme -----
+                            case 'read-theme': {
+                                const theme = route.params.theme;
+                                if (!theme) {
+                                    sendJson(res, 400, { error: 'Missing theme param' });
+                                    break;
+                                }
+                                const themes = await listThemes(themesDir);
+                                const match = themes.find((t) => t.slug === theme);
+                                if (!match) {
+                                    sendJson(res, 404, {
+                                        error: `Theme not found: "${theme}"`,
                                     });
                                     break;
                                 }
-                                const fullPath = join(rootDir, relPath);
-                                const content = await readFile(fullPath, 'utf-8');
-
-                                const validatedDef = validateDefinition(body.definition);
-                                const updated =
-                                    body.mode === 'add'
-                                        ? addVariantToFile(
-                                              content,
-                                              body.suffix,
-                                              body.name,
-                                              validatedDef,
-                                          )
-                                        : updateVariantInFile(
-                                              content,
-                                              body.suffix,
-                                              body.name,
-                                              validatedDef,
-                                          );
-
-                                const formatted = await formatWithPrettier(updated, fullPath);
-                                await atomicWrite(fullPath, formatted);
-                                sendJson(res, 200, { ok: true });
-                                break;
-                            }
-
-                            // ----- delete-variant -----
-                            case 'delete-variant': {
-                                const component = route.params.component;
-                                const variant = route.params.variant;
-                                if (!component || !variant) {
-                                    sendJson(res, 400, {
-                                        error: 'Missing component or variant param',
-                                    });
-                                    break;
-                                }
-                                const relPath = resolveVariantsPath(component);
-                                if (!relPath) {
-                                    sendJson(res, 400, {
-                                        error: `Cannot resolve variants for: "${component}"`,
-                                    });
-                                    break;
-                                }
-                                const fullPath = join(rootDir, relPath);
-                                const content = await readFile(fullPath, 'utf-8');
-                                const updated = removeVariantFromFile(content, 'Variants', variant);
-                                const formatted = await formatWithPrettier(updated, fullPath);
-                                await atomicWrite(fullPath, formatted);
-                                sendJson(res, 200, { ok: true });
+                                const tokens = await readThemeFile(join(themesDir, match.filename));
+                                sendJson(res, 200, { name: match.name, tokens });
                                 break;
                             }
 

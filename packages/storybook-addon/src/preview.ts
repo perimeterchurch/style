@@ -18,6 +18,17 @@ function setupTokenPreview() {
         }
         appliedOverrides.clear();
     });
+
+    channel.on(EVENTS.THEME_CHANGED, ({ theme }: { theme: string }) => {
+        const root = document.querySelector('.storybook-root');
+        if (root) {
+            if (theme === 'light' || !theme) {
+                root.removeAttribute('data-theme');
+            } else {
+                root.setAttribute('data-theme', theme);
+            }
+        }
+    });
 }
 
 setupTokenPreview();

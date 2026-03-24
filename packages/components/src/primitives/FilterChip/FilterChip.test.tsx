@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FilterChip } from './index';
-import { chipVariants, chipSizes } from './FilterChip.variants';
+import { chipVariantClass, chipSizeClass } from './FilterChip.variants';
 
 describe('FilterChip', () => {
     it('renders with default props', () => {
@@ -11,9 +11,9 @@ describe('FilterChip', () => {
     });
 
     it('renders all variants without crashing', () => {
-        for (const variant of Object.keys(chipVariants)) {
+        for (const variant of Object.keys(chipVariantClass)) {
             const { unmount } = render(
-                <FilterChip label={variant} variant={variant as keyof typeof chipVariants} />,
+                <FilterChip label={variant} variant={variant as keyof typeof chipVariantClass} />,
             );
             expect(screen.getByText(variant)).toBeInTheDocument();
             unmount();
@@ -21,9 +21,9 @@ describe('FilterChip', () => {
     });
 
     it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(chipSizes)) {
+        for (const size of Object.keys(chipSizeClass)) {
             const { unmount } = render(
-                <FilterChip label={size} size={size as keyof typeof chipSizes} />,
+                <FilterChip label={size} size={size as keyof typeof chipSizeClass} />,
             );
             expect(screen.getByText(size)).toBeInTheDocument();
             unmount();

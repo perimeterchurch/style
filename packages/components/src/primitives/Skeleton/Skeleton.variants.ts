@@ -1,15 +1,7 @@
-import type { VariantDefinition } from '../../utils/types';
+export type SkeletonVariant = 'line' | 'circle' | 'card';
 
-export const skeletonVariants: Record<string, VariantDefinition> = {
-    line: {
-        base: 'rounded-md',
-    },
-    circle: {
-        base: 'rounded-full',
-    },
-    card: {
-        base: 'rounded-xl',
-    },
+export const skeletonVariantClass: Record<SkeletonVariant, string> = {
+    line: 'skeleton-line',
+    circle: 'skeleton-circle',
+    card: 'skeleton-card',
 };
-
-export type SkeletonVariant = keyof typeof skeletonVariants;

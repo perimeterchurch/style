@@ -8,6 +8,11 @@ describe('IndeterminateProgress', () => {
         expect(screen.getByRole('progressbar')).toBeInTheDocument();
     });
 
+    it('applies base indeterminate-progress class', () => {
+        render(<IndeterminateProgress visible />);
+        expect(screen.getByRole('progressbar')).toHaveClass('indeterminate-progress');
+    });
+
     it('does not render when visible is false', () => {
         render(<IndeterminateProgress visible={false} />);
         expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
@@ -27,5 +32,6 @@ describe('IndeterminateProgress', () => {
         render(<IndeterminateProgress visible />);
         const bar = screen.getByRole('progressbar').firstElementChild;
         expect(bar).toBeInTheDocument();
+        expect(bar).toHaveClass('indeterminate-progress-bar');
     });
 });

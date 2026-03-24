@@ -7,10 +7,9 @@
 import * as React from 'react';
 import { cn } from '../../utils/cn';
 import {
-    dateRangePickerWrapperClasses,
-    dateRangePickerInputClasses,
-    dateRangePickerSeparatorClasses,
-    dateRangePickerIconClasses,
+    dateRangeWrapperClass,
+    dateRangeInputClass,
+    dateRangeSeparatorClass,
 } from './DateRangePicker.variants';
 
 // --- Inline SVG ---
@@ -58,27 +57,27 @@ export function DateRangePicker({
     className,
 }: DateRangePickerProps) {
     return (
-        <div className={cn(dateRangePickerWrapperClasses, className)}>
+        <div className={cn(dateRangeWrapperClass, className)}>
             <div className="relative">
-                <CalendarIcon className={dateRangePickerIconClasses} />
+                <CalendarIcon className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--color-text-muted)]" />
                 <input
                     type="date"
                     value={from}
                     onChange={(e) => onFromChange(e.target.value)}
                     max={to || undefined}
-                    className={cn(dateRangePickerInputClasses, 'pl-8 w-[150px]')}
+                    className={cn(dateRangeInputClass, 'pl-8 w-[150px]')}
                     aria-label="From date"
                 />
             </div>
-            <span className={dateRangePickerSeparatorClasses}>to</span>
+            <span className={dateRangeSeparatorClass}>to</span>
             <div className="relative">
-                <CalendarIcon className={dateRangePickerIconClasses} />
+                <CalendarIcon className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--color-text-muted)]" />
                 <input
                     type="date"
                     value={to}
                     onChange={(e) => onToChange(e.target.value)}
                     min={from || undefined}
-                    className={cn(dateRangePickerInputClasses, 'pl-8 w-[150px]')}
+                    className={cn(dateRangeInputClass, 'pl-8 w-[150px]')}
                     aria-label="To date"
                 />
             </div>

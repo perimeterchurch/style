@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Badge } from 'storybook/internal/components';
 import { useAddonTheme } from '../useAddonTheme.ts';
-import { ColorEditor, SpacingEditor, ShadowEditor, TextEditor } from './editors/index.ts';
+import { ColorEditor, SpacingEditor, ShadowEditor, TextEditor } from '../editors/index.ts';
 
 export interface TokenGroupProps {
     name: string;

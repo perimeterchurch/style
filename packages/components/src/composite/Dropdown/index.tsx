@@ -10,12 +10,9 @@ import { forwardRef, type ReactNode } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
 import {
-    dropdownMenuClasses,
-    dropdownItemBaseClasses,
-    dropdownItemFocusClasses,
-    dropdownItemDisabledClasses,
-    dropdownItemNormalClasses,
-    dropdownItemDestructiveClasses,
+    dropdownMenuClass,
+    dropdownItemClass,
+    dropdownItemDestructiveClass,
 } from './Dropdown.variants';
 
 export interface DropdownProps extends BaseComponentProps {
@@ -51,7 +48,7 @@ const DropdownBase = forwardRef<HTMLDivElement, DropdownProps>(
             <Menu as="div" className={cn('relative inline-block text-left', className)} ref={ref}>
                 <MenuButton as="div">{trigger}</MenuButton>
 
-                <MenuItems transition anchor={resolvedAnchor} className={dropdownMenuClasses}>
+                <MenuItems transition anchor={resolvedAnchor} className={dropdownMenuClass}>
                     <div className="py-1">{children}</div>
                 </MenuItems>
             </Menu>
@@ -65,22 +62,19 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
     ({ children, onClick, disabled = false, destructive = false, className }, ref) => {
         return (
             <MenuItem disabled={disabled}>
-                {({ focus }) => (
-                    <button
-                        ref={ref}
-                        onClick={onClick}
-                        className={cn(
-                            dropdownItemBaseClasses,
-                            focus && !disabled && dropdownItemFocusClasses,
-                            disabled ? dropdownItemDisabledClasses : 'cursor-pointer',
-                            !disabled && !destructive && dropdownItemNormalClasses,
-                            !disabled && destructive && dropdownItemDestructiveClasses,
-                            className,
-                        )}
-                    >
-                        {children}
-                    </button>
-                )}
+                <button
+                    ref={ref}
+                    onClick={onClick}
+                    className={cn(
+                        dropdownItemClass,
+                        destructive && dropdownItemDestructiveClass,
+                        disabled && 'cursor-not-allowed',
+                        !disabled && 'cursor-pointer',
+                        className,
+                    )}
+                >
+                    {children}
+                </button>
             </MenuItem>
         );
     },

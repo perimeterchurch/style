@@ -1,9 +1,5 @@
-import type { VariantDefinition } from '../../utils/types';
+export type EmptyStateVariant = 'default';
 
-export const emptyStateVariants: Record<string, VariantDefinition> = {
-    default: {
-        base: 'flex flex-col items-center justify-center text-center p-8',
-    },
+export const emptyStateVariantClass: Record<EmptyStateVariant, string> = {
+    default: '',
 };
-
-export type EmptyStateVariant = keyof typeof emptyStateVariants;

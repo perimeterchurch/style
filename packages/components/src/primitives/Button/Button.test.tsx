@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Button } from './index';
-import { buttonVariants, buttonSizes } from './Button.variants';
+import { buttonVariantClass, buttonSizeClass } from './Button.variants';
 
 describe('Button', () => {
     it('renders with default props', () => {
@@ -12,30 +12,35 @@ describe('Button', () => {
         expect(button).toHaveAttribute('type', 'button');
     });
 
-    it('renders all variants without crashing', () => {
-        for (const variant of Object.keys(buttonVariants)) {
+    it('applies base btn class', () => {
+        render(<Button>Base</Button>);
+        expect(screen.getByRole('button')).toHaveClass('btn');
+    });
+
+    it('renders all variants with correct CSS classes', () => {
+        for (const [variant, cssClass] of Object.entries(buttonVariantClass)) {
             const { unmount } = render(
-                <Button variant={variant as keyof typeof buttonVariants}>{variant}</Button>,
+                <Button variant={variant as keyof typeof buttonVariantClass}>{variant}</Button>,
             );
-            expect(screen.getByRole('button')).toBeInTheDocument();
+            expect(screen.getByRole('button')).toHaveClass('btn', cssClass);
             unmount();
         }
     });
 
-    it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(buttonSizes)) {
+    it('renders all sizes with correct CSS classes', () => {
+        for (const [size, cssClass] of Object.entries(buttonSizeClass)) {
             const { unmount } = render(
-                <Button size={size as keyof typeof buttonSizes}>{size}</Button>,
+                <Button size={size as keyof typeof buttonSizeClass}>{size}</Button>,
             );
-            expect(screen.getByRole('button')).toBeInTheDocument();
+            expect(screen.getByRole('button')).toHaveClass('btn', cssClass);
             unmount();
         }
     });
 
-    it('applies outline variant classes', () => {
+    it('applies outline class', () => {
         render(<Button outline>Outlined</Button>);
         const button = screen.getByRole('button');
-        expect(button.className).toContain('border');
+        expect(button).toHaveClass('btn-outline');
     });
 
     it('disables the button when disabled prop is true', () => {
@@ -79,12 +84,18 @@ describe('Button', () => {
 
     it('applies fullWidth class', () => {
         render(<Button fullWidth>Full</Button>);
-        expect(screen.getByRole('button').className).toContain('w-full');
+        expect(screen.getByRole('button')).toHaveClass('w-full');
     });
 
     it('applies aria-label', () => {
         render(<Button aria-label="Close dialog">X</Button>);
         expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Close dialog');
+    });
+
+    it('applies default variant and size classes', () => {
+        render(<Button>Default</Button>);
+        const button = screen.getByRole('button');
+        expect(button).toHaveClass('btn', 'btn-primary', 'btn-md');
     });
 });
 
@@ -114,5 +125,15 @@ describe('Button Compound API', () => {
         );
         const iconWrapper = screen.getByTestId('icon').parentElement;
         expect(iconWrapper).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('compound Root applies CSS classes', () => {
+        render(
+            <Button.Root variant="success" size="lg" outline>
+                <Button.Label>Action</Button.Label>
+            </Button.Root>,
+        );
+        const button = screen.getByRole('button');
+        expect(button).toHaveClass('btn', 'btn-success', 'btn-lg', 'btn-outline');
     });
 });

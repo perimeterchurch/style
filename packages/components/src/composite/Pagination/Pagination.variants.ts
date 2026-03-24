@@ -1,23 +1,14 @@
 /**
- * Pagination variant classes
+ * Pagination CSS class references
+ * Styles defined in packages/tokens/src/components.css
  */
 
-export const paginationNavClasses = 'flex items-center justify-center gap-1';
+export const paginationNavClass = 'pagination';
 
-export const paginationButtonBaseClasses = [
-    'flex items-center justify-center rounded-md text-sm font-medium transition-colors',
-    'h-8 min-w-8 px-2',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50',
-].join(' ');
+export const paginationBtnClass = 'pagination-btn';
 
-export const paginationButtonDefaultClasses = [
-    'border border-[var(--color-border)]',
-    'hover:bg-[var(--color-accent)]',
-].join(' ');
+export const paginationBtnActiveClass = 'pagination-btn-active';
 
-export const paginationButtonActiveClasses =
-    'bg-[var(--color-primary)] text-[var(--color-primary-foreground)]';
+export const paginationBtnDisabledClass = 'pagination-btn-disabled';
 
-export const paginationButtonDisabledClasses = 'disabled:opacity-50 disabled:cursor-not-allowed';
-
-export const paginationEllipsisClasses = 'px-1 text-sm text-[var(--color-text-muted)]';
+export const paginationEllipsisClass = 'pagination-ellipsis';

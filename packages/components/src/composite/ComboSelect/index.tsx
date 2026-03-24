@@ -15,9 +15,9 @@ import {
 } from '@headlessui/react';
 import { cn } from '../../utils/cn';
 import {
-    comboSelectInputClasses,
-    comboSelectOptionClasses,
-    comboSelectPopoverClasses,
+    comboSelectInputClass,
+    comboSelectOptionClass,
+    comboSelectPopoverClass,
 } from './ComboSelect.variants';
 
 // --- Inline SVGs (replacing lucide-react) ---
@@ -183,7 +183,7 @@ function ComboSelectSimple<T extends string | number = string>(props: ComboSelec
 
             <ComboboxInput
                 className={cn(
-                    comboSelectInputClasses,
+                    comboSelectInputClass,
                     placeholderIcon || loading ? 'pl-8' : 'pl-3',
                     'pr-8',
                     loading && 'opacity-70',
@@ -201,7 +201,7 @@ function ComboSelectSimple<T extends string | number = string>(props: ComboSelec
                 <ChevronDownIcon className="h-3.5 w-3.5 text-[var(--color-text-muted)]" />
             </ComboboxButton>
 
-            <ComboboxOptions transition className={comboSelectPopoverClasses}>
+            <ComboboxOptions transition className={comboSelectPopoverClass}>
                 {filtered.length === 0 ? (
                     <div className="px-3 py-2 text-sm text-[var(--color-text-muted)]">
                         {emptyText}
@@ -211,7 +211,7 @@ function ComboSelectSimple<T extends string | number = string>(props: ComboSelec
                         <ComboboxOption
                             key={String(option.value)}
                             value={option.value}
-                            className={comboSelectOptionClasses}
+                            className={comboSelectOptionClass}
                         >
                             {({ selected: isSelected }) => (
                                 <>
@@ -367,7 +367,7 @@ function ComboSelectInput({ placeholder = 'Select...', className }: ComboSelectI
             </div>
             <ComboboxInput
                 className={cn(
-                    comboSelectInputClasses,
+                    comboSelectInputClass,
                     placeholderIcon || loading ? 'pl-8' : 'pl-3',
                     'pr-8',
                     loading && 'opacity-70',
@@ -396,7 +396,7 @@ export interface ComboSelectOptionsProps {
 
 function ComboSelectOptionsWrapper({ children, className }: ComboSelectOptionsProps) {
     return (
-        <ComboboxOptions transition className={cn(comboSelectPopoverClasses, className)}>
+        <ComboboxOptions transition className={cn(comboSelectPopoverClass, className)}>
             {children}
         </ComboboxOptions>
     );
@@ -416,7 +416,7 @@ function ComboSelectOptionItem<T extends string | number = string>({
     className,
 }: ComboSelectOptionItemProps<T>) {
     return (
-        <ComboboxOption value={value} className={cn(comboSelectOptionClasses, className)}>
+        <ComboboxOption value={value} className={cn(comboSelectOptionClass, className)}>
             {children}
         </ComboboxOption>
     );

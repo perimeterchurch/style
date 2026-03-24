@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useAddonTheme } from '../../useAddonTheme.ts';
+import { useAddonTheme } from '../useAddonTheme.ts';
 import { editorRowStyle, editorLabelStyle, editorInputStyle } from './shared.ts';
 import type { TokenEditorProps } from './shared.ts';
 

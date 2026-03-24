@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FilterChip } from './index';
-import { chipVariants, chipSizes } from './FilterChip.variants';
+import { chipVariantClass, chipSizeClass } from './FilterChip.variants';
 
 const meta: Meta<typeof FilterChip> = {
     title: 'Components/Primitives/FilterChip',
@@ -8,11 +8,11 @@ const meta: Meta<typeof FilterChip> = {
     argTypes: {
         variant: {
             control: 'select',
-            options: Object.keys(chipVariants),
+            options: Object.keys(chipVariantClass),
         },
         size: {
             control: 'select',
-            options: Object.keys(chipSizes),
+            options: Object.keys(chipSizeClass),
         },
         label: { control: 'text' },
     },
@@ -32,11 +32,11 @@ export const Default: Story = {
 export const AllVariants: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {Object.keys(chipVariants).map((variant) => (
+            {Object.keys(chipVariantClass).map((variant) => (
                 <FilterChip
                     key={variant}
                     label={variant}
-                    variant={variant as keyof typeof chipVariants}
+                    variant={variant as keyof typeof chipVariantClass}
                 />
             ))}
         </div>
@@ -46,8 +46,8 @@ export const AllVariants: Story = {
 export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            {Object.keys(chipSizes).map((size) => (
-                <FilterChip key={size} label={size} size={size as keyof typeof chipSizes} />
+            {Object.keys(chipSizeClass).map((size) => (
+                <FilterChip key={size} label={size} size={size as keyof typeof chipSizeClass} />
             ))}
         </div>
     ),
@@ -56,11 +56,11 @@ export const AllSizes: Story = {
 export const WithRemove: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {Object.keys(chipVariants).map((variant) => (
+            {Object.keys(chipVariantClass).map((variant) => (
                 <FilterChip
                     key={variant}
                     label={variant}
-                    variant={variant as keyof typeof chipVariants}
+                    variant={variant as keyof typeof chipVariantClass}
                     onRemove={() => {}}
                 />
             ))}

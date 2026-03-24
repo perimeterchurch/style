@@ -8,6 +8,11 @@ describe('Card', () => {
         expect(screen.getByTestId('card')).toBeInTheDocument();
     });
 
+    it('applies base card class', () => {
+        render(<Card data-testid="card">Content</Card>);
+        expect(screen.getByTestId('card')).toHaveClass('card');
+    });
+
     it('renders compound subcomponents', () => {
         render(
             <Card>
@@ -17,8 +22,11 @@ describe('Card', () => {
             </Card>,
         );
         expect(screen.getByTestId('header')).toHaveTextContent('Header');
+        expect(screen.getByTestId('header')).toHaveClass('card-header');
         expect(screen.getByTestId('body')).toHaveTextContent('Body');
+        expect(screen.getByTestId('body')).toHaveClass('card-body');
         expect(screen.getByTestId('footer')).toHaveTextContent('Footer');
+        expect(screen.getByTestId('footer')).toHaveClass('card-footer');
     });
 
     it('applies hover effect when hoverable', () => {
@@ -27,7 +35,7 @@ describe('Card', () => {
                 Hoverable
             </Card>,
         );
-        expect(screen.getByTestId('card').className).toContain('hover:shadow-md');
+        expect(screen.getByTestId('card')).toHaveClass('card-hoverable');
     });
 
     it('merges custom className', () => {

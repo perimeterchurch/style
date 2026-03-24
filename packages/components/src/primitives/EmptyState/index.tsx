@@ -7,7 +7,7 @@ import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef, type ReactNode } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import { emptyStateVariants, type EmptyStateVariant } from './EmptyState.variants';
+import { emptyStateVariantClass, type EmptyStateVariant } from './EmptyState.variants';
 
 type EmptyStateElement = ElementRef<'div'>;
 
@@ -30,24 +30,19 @@ export const EmptyState = forwardRef<EmptyStateElement, EmptyStateProps>(
         ref,
     ) => {
         return (
-            <div ref={ref} className={cn(emptyStateVariants[variant].base, className)} {...props}>
+            <div
+                ref={ref}
+                className={cn('empty-state', emptyStateVariantClass[variant], className)}
+                {...props}
+            >
                 {icon && (
-                    <div
-                        className="mb-4 text-[var(--color-stone-400)] dark:text-[var(--color-stone-500)]"
-                        aria-hidden="true"
-                    >
+                    <div className="empty-state-icon" aria-hidden="true">
                         {icon}
                     </div>
                 )}
-                <h3 className="text-lg font-semibold text-[var(--color-stone-900)] dark:text-[var(--color-stone-100)] mb-2">
-                    {title}
-                </h3>
-                {description && (
-                    <p className="text-sm text-[var(--color-stone-500)] dark:text-[var(--color-stone-400)] mb-4 max-w-sm">
-                        {description}
-                    </p>
-                )}
-                {action && <div className="mt-2">{action}</div>}
+                <h3 className="empty-state-title">{title}</h3>
+                {description && <p className="empty-state-description">{description}</p>}
+                {action && <div className="empty-state-action">{action}</div>}
                 {children}
             </div>
         );
@@ -56,4 +51,4 @@ export const EmptyState = forwardRef<EmptyStateElement, EmptyStateProps>(
 
 EmptyState.displayName = 'EmptyState';
 
-export { emptyStateVariants, type EmptyStateVariant };
+export { emptyStateVariantClass, type EmptyStateVariant };

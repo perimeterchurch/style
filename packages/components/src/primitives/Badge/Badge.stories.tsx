@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Badge } from './index';
-import { badgeVariants, badgeSizes } from './Badge.variants';
+import { badgeVariantClass, badgeSizeClass } from './Badge.variants';
 
 const meta: Meta<typeof Badge> = {
     title: 'Components/Primitives/Badge',
@@ -8,11 +8,11 @@ const meta: Meta<typeof Badge> = {
     argTypes: {
         variant: {
             control: 'select',
-            options: Object.keys(badgeVariants),
+            options: Object.keys(badgeVariantClass),
         },
         size: {
             control: 'select',
-            options: Object.keys(badgeSizes),
+            options: Object.keys(badgeSizeClass),
         },
         dot: { control: 'boolean' },
         outline: { control: 'boolean' },
@@ -33,8 +33,8 @@ export const Default: Story = {
 export const AllVariants: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {Object.keys(badgeVariants).map((variant) => (
-                <Badge key={variant} variant={variant as keyof typeof badgeVariants}>
+            {Object.keys(badgeVariantClass).map((variant) => (
+                <Badge key={variant} variant={variant as keyof typeof badgeVariantClass}>
                     {variant}
                 </Badge>
             ))}
@@ -45,8 +45,8 @@ export const AllVariants: Story = {
 export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            {Object.keys(badgeSizes).map((size) => (
-                <Badge key={size} size={size as keyof typeof badgeSizes}>
+            {Object.keys(badgeSizeClass).map((size) => (
+                <Badge key={size} size={size as keyof typeof badgeSizeClass}>
                     {size}
                 </Badge>
             ))}
@@ -57,8 +57,8 @@ export const AllSizes: Story = {
 export const WithDot: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {Object.keys(badgeVariants).map((variant) => (
-                <Badge key={variant} variant={variant as keyof typeof badgeVariants} dot>
+            {Object.keys(badgeVariantClass).map((variant) => (
+                <Badge key={variant} variant={variant as keyof typeof badgeVariantClass} dot>
                     {variant}
                 </Badge>
             ))}
@@ -69,8 +69,8 @@ export const WithDot: Story = {
 export const Outline: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {Object.keys(badgeVariants).map((variant) => (
-                <Badge key={variant} variant={variant as keyof typeof badgeVariants} outline>
+            {Object.keys(badgeVariantClass).map((variant) => (
+                <Badge key={variant} variant={variant as keyof typeof badgeVariantClass} outline>
                     {variant}
                 </Badge>
             ))}

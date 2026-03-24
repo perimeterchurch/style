@@ -15,13 +15,7 @@ import {
 } from 'react';
 import type { BaseComponentProps, WidthProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import {
-    inputBaseClasses,
-    inputSizeClasses,
-    inputTextSizes,
-    getInputBorderClasses,
-    type InputSize,
-} from './Input.variants';
+import { inputSizeClass, type InputSize } from './Input.variants';
 
 type InputElement = ElementRef<'input'>;
 
@@ -49,11 +43,10 @@ const SimpleInput = forwardRef<InputElement, InputProps>(
                     onKeyDown?.(e);
                 }}
                 className={cn(
-                    inputBaseClasses,
-                    'placeholder:text-[var(--color-stone-400)] dark:placeholder:text-[var(--color-stone-500)]',
-                    inputSizeClasses[size],
-                    inputTextSizes[size],
-                    getInputBorderClasses(hasError),
+                    'form-control',
+                    'input',
+                    inputSizeClass[size],
+                    hasError && 'form-control-error',
                     fullWidth ? 'w-full' : 'w-auto',
                     className,
                 )}
@@ -133,11 +126,10 @@ const InputField = forwardRef<
                 onKeyDown?.(e);
             }}
             className={cn(
-                inputBaseClasses,
-                'placeholder:text-[var(--color-stone-400)] dark:placeholder:text-[var(--color-stone-500)]',
-                inputSizeClasses[ctx.size],
-                inputTextSizes[ctx.size],
-                getInputBorderClasses(hasError),
+                'form-control',
+                'input',
+                inputSizeClass[ctx.size],
+                hasError && 'form-control-error',
                 ctx.fullWidth ? 'w-full' : 'w-auto',
                 className,
             )}
@@ -169,10 +161,4 @@ export const Input = Object.assign(SimpleInput, {
     Error: InputError,
 });
 
-export {
-    inputBaseClasses,
-    inputSizeClasses,
-    inputTextSizes,
-    getInputBorderClasses,
-    type InputSize,
-};
+export { inputSizeClass, type InputSize };

@@ -13,7 +13,7 @@ import {
 } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import { avatarSizeClasses, type AvatarSize } from './Avatar.variants';
+import { avatarSizeClass, type AvatarSize } from './Avatar.variants';
 
 type AvatarElement = ElementRef<'div'>;
 
@@ -40,25 +40,11 @@ export const Avatar = forwardRef<AvatarElement, AvatarProps>(
                 ref={ref}
                 role={showFallback ? 'img' : undefined}
                 aria-label={showFallback ? (alt || 'Avatar') : undefined}
-                className={cn(
-                    'relative inline-flex items-center justify-center',
-                    'rounded-full overflow-hidden',
-                    'bg-[var(--color-stone-200)] text-[var(--color-stone-600)]',
-                    'dark:bg-[var(--color-stone-700)] dark:text-[var(--color-stone-300)]',
-                    'font-medium select-none shrink-0',
-                    'transition-all duration-200',
-                    avatarSizeClasses[size],
-                    className,
-                )}
+                className={cn('avatar', avatarSizeClass[size], className)}
                 {...props}
             >
                 {showImage ? (
-                    <img
-                        src={src}
-                        alt={alt}
-                        onError={() => setImageError(true)}
-                        className="h-full w-full object-cover"
-                    />
+                    <img src={src} alt={alt} onError={() => setImageError(true)} />
                 ) : typeof fallback === 'string' ? (
                     <span className="uppercase">{fallback}</span>
                 ) : (
@@ -71,4 +57,4 @@ export const Avatar = forwardRef<AvatarElement, AvatarProps>(
 
 Avatar.displayName = 'Avatar';
 
-export { avatarSizeClasses, type AvatarSize };
+export { avatarSizeClass, type AvatarSize };

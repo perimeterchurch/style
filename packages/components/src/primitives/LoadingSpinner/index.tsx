@@ -7,7 +7,7 @@ import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import { spinnerSizeClasses, type SpinnerSize } from './LoadingSpinner.variants';
+import { spinnerSizeClass, type SpinnerSize } from './LoadingSpinner.variants';
 
 type SpinnerElement = ElementRef<'div'>;
 
@@ -21,10 +21,9 @@ export interface LoadingSpinnerProps extends ComponentPropsWithoutRef<'div'>, Ba
 /**
  * Inline SVG spinner icon (replaces lucide-react Loader2)
  */
-function SpinnerIcon({ className }: { className?: string }) {
+function SpinnerIcon() {
     return (
         <svg
-            className={className}
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -46,15 +45,10 @@ export const LoadingSpinner = forwardRef<SpinnerElement, LoadingSpinnerProps>(
                 ref={ref}
                 role="status"
                 aria-label={ariaLabel ?? label}
-                className={cn('inline-block', className)}
+                className={cn('spinner', spinnerSizeClass[size], className)}
                 {...props}
             >
-                <SpinnerIcon
-                    className={cn(
-                        'animate-spin text-[var(--color-primary)]',
-                        spinnerSizeClasses[size],
-                    )}
-                />
+                <SpinnerIcon />
                 <span className="sr-only">{label}</span>
             </div>
         );
@@ -63,4 +57,4 @@ export const LoadingSpinner = forwardRef<SpinnerElement, LoadingSpinnerProps>(
 
 LoadingSpinner.displayName = 'LoadingSpinner';
 
-export { spinnerSizeClasses, type SpinnerSize };
+export { spinnerSizeClass, type SpinnerSize };

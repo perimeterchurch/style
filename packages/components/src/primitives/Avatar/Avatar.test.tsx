@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Avatar } from './index';
-import { avatarSizeClasses } from './Avatar.variants';
+import { avatarSizeClass } from './Avatar.variants';
 
 describe('Avatar', () => {
     it('renders with default props', () => {
@@ -11,9 +11,9 @@ describe('Avatar', () => {
     });
 
     it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(avatarSizeClasses)) {
+        for (const size of Object.keys(avatarSizeClass)) {
             const { unmount } = render(
-                <Avatar size={size as keyof typeof avatarSizeClasses} data-testid="avatar" />,
+                <Avatar size={size as keyof typeof avatarSizeClass} data-testid="avatar" />,
             );
             expect(screen.getByTestId('avatar')).toBeInTheDocument();
             unmount();

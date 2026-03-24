@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Input } from './index';
-import { inputSizeClasses } from './Input.variants';
+import { inputSizeClass } from './Input.variants';
 
 describe('Input', () => {
     it('renders with default props', () => {
@@ -11,9 +11,9 @@ describe('Input', () => {
     });
 
     it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(inputSizeClasses)) {
+        for (const size of Object.keys(inputSizeClass)) {
             const { unmount } = render(
-                <Input size={size as keyof typeof inputSizeClasses} placeholder={size} />,
+                <Input size={size as keyof typeof inputSizeClass} placeholder={size} />,
             );
             expect(screen.getByPlaceholderText(size)).toBeInTheDocument();
             unmount();

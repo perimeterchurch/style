@@ -7,7 +7,7 @@ import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import { labelVariants, type LabelVariant } from './Label.variants';
+import { labelVariantClass, type LabelVariant } from './Label.variants';
 
 type LabelElement = ElementRef<'label'>;
 
@@ -29,23 +29,16 @@ export const Label = forwardRef<LabelElement, LabelProps>(
             <label
                 ref={ref}
                 className={cn(
-                    labelVariants[variant].base,
-                    'cursor-pointer',
-                    'peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+                    'label',
+                    labelVariantClass[variant],
+                    required && 'label-required',
                     disabled && 'opacity-70 cursor-not-allowed',
                     className,
                 )}
                 {...props}
             >
                 {children}
-                {required && (
-                    <>
-                        <span className="text-[var(--color-error)] ml-1" aria-hidden="true">
-                            *
-                        </span>
-                        <span className="sr-only">(required)</span>
-                    </>
-                )}
+                {required && <span className="sr-only">(required)</span>}
             </label>
         );
     },
@@ -53,4 +46,4 @@ export const Label = forwardRef<LabelElement, LabelProps>(
 
 Label.displayName = 'Label';
 
-export { labelVariants, type LabelVariant };
+export { labelVariantClass, type LabelVariant };

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef, type ReactNode } from 'react';
 import type { InteractiveProps, WidthProps } from '../../utils/types';
-import { resolveVariant } from '../../utils/types';
 import { cn } from '../../utils/cn';
 import {
-    buttonVariants,
-    buttonSizes,
+    buttonVariantClass,
+    buttonSizeClass,
+    buttonIconSize,
     type ButtonVariant,
     type ButtonSize,
 } from './Button.variants';
@@ -55,20 +55,11 @@ function getButtonClassName(
     fullWidth: boolean,
     className?: string,
 ) {
-    const variantDef = buttonVariants[variant];
-    const sizeDef = buttonSizes[size];
-
     return cn(
-        'inline-flex items-center justify-center gap-2',
-        'font-medium transition-all duration-200',
-        'min-h-11',
-        'active:scale-[0.98]',
-        'disabled:pointer-events-none disabled:opacity-50',
-        resolveVariant(variantDef, { outline }),
-        !outline && variant !== 'ghost' && 'shadow-sm hover:shadow-md',
-        sizeDef.padding,
-        sizeDef.fontSize,
-        sizeDef.radius,
+        'btn',
+        buttonVariantClass[variant],
+        buttonSizeClass[size],
+        outline && 'btn-outline',
         fullWidth && 'w-full',
         className,
     );
@@ -145,4 +136,4 @@ export const Button = Object.assign(SimpleButton, {
     Label: ButtonLabel,
 });
 
-export { buttonVariants, buttonSizes, type ButtonVariant, type ButtonSize };
+export { buttonVariantClass, buttonSizeClass, buttonIconSize, type ButtonVariant, type ButtonSize };

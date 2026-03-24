@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Input } from './index';
-import { inputSizeClasses } from './Input.variants';
+import { inputSizeClass } from './Input.variants';
 
 const meta: Meta<typeof Input> = {
     title: 'Components/Primitives/Input',
@@ -8,7 +8,7 @@ const meta: Meta<typeof Input> = {
     argTypes: {
         size: {
             control: 'select',
-            options: Object.keys(inputSizeClasses),
+            options: Object.keys(inputSizeClass),
         },
         fullWidth: { control: 'boolean' },
         disabled: { control: 'boolean' },
@@ -28,10 +28,10 @@ export const Default: Story = {
 export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: 300 }}>
-            {Object.keys(inputSizeClasses).map((size) => (
+            {Object.keys(inputSizeClass).map((size) => (
                 <Input
                     key={size}
-                    size={size as keyof typeof inputSizeClasses}
+                    size={size as keyof typeof inputSizeClass}
                     placeholder={`Size: ${size}`}
                 />
             ))}

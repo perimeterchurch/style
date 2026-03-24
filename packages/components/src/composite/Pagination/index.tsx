@@ -8,12 +8,11 @@ import * as React from 'react';
 import { useMemo } from 'react';
 import { cn } from '../../utils/cn';
 import {
-    paginationNavClasses,
-    paginationButtonBaseClasses,
-    paginationButtonDefaultClasses,
-    paginationButtonActiveClasses,
-    paginationButtonDisabledClasses,
-    paginationEllipsisClasses,
+    paginationNavClass,
+    paginationBtnClass,
+    paginationBtnActiveClass,
+    paginationBtnDisabledClass,
+    paginationEllipsisClass,
 } from './Pagination.variants';
 
 // --- Inline SVGs ---
@@ -101,23 +100,19 @@ export function Pagination({
     if (totalPages <= 1) return null;
 
     return (
-        <nav aria-label="Pagination" className={cn(paginationNavClasses, className)}>
+        <nav aria-label="Pagination" className={cn(paginationNavClass, className)}>
             <button
                 type="button"
                 onClick={() => onChange(page - 1)}
                 disabled={page <= 1}
                 aria-label="Previous page"
-                className={cn(
-                    paginationButtonBaseClasses,
-                    paginationButtonDefaultClasses,
-                    paginationButtonDisabledClasses,
-                )}
+                className={cn(paginationBtnClass, paginationBtnDisabledClass)}
             >
                 <ChevronLeftIcon className="h-4 w-4" />
             </button>
             {pages.map((p, i) =>
                 p === 'ellipsis' ? (
-                    <span key={`ellipsis-${i}`} className={paginationEllipsisClasses}>
+                    <span key={`ellipsis-${i}`} className={paginationEllipsisClass}>
                         ...
                     </span>
                 ) : (
@@ -127,12 +122,7 @@ export function Pagination({
                         onClick={() => onChange(p)}
                         aria-label={`Page ${p}`}
                         aria-current={p === page ? 'page' : undefined}
-                        className={cn(
-                            paginationButtonBaseClasses,
-                            p === page
-                                ? paginationButtonActiveClasses
-                                : paginationButtonDefaultClasses,
-                        )}
+                        className={cn(paginationBtnClass, p === page && paginationBtnActiveClass)}
                     >
                         {p}
                     </button>
@@ -143,11 +133,7 @@ export function Pagination({
                 onClick={() => onChange(page + 1)}
                 disabled={page >= totalPages}
                 aria-label="Next page"
-                className={cn(
-                    paginationButtonBaseClasses,
-                    paginationButtonDefaultClasses,
-                    paginationButtonDisabledClasses,
-                )}
+                className={cn(paginationBtnClass, paginationBtnDisabledClass)}
             >
                 <ChevronRightIcon className="h-4 w-4" />
             </button>

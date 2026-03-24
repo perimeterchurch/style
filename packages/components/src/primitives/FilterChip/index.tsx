@@ -8,9 +8,8 @@ import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'reac
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
 import {
-    chipVariants,
-    chipSizes,
-    chipRemoveSizes,
+    chipVariantClass,
+    chipSizeClass,
     type ChipVariant,
     type ChipSize,
 } from './FilterChip.variants';
@@ -51,21 +50,10 @@ function XIcon({ className }: { className?: string }) {
 
 export const FilterChip = forwardRef<FilterChipElement, FilterChipProps>(
     ({ label, onRemove, variant = 'primary', size = 'md', className, ...props }, ref) => {
-        const variantDef = chipVariants[variant];
-        const sizeDef = chipSizes[size];
-
         return (
             <span
                 ref={ref}
-                className={cn(
-                    'inline-flex items-center rounded-full font-medium',
-                    'transition-all duration-200',
-                    'hover:shadow-sm',
-                    variantDef.base,
-                    sizeDef.padding,
-                    sizeDef.fontSize,
-                    className,
-                )}
+                className={cn('chip', chipVariantClass[variant], chipSizeClass[size], className)}
                 {...props}
             >
                 {label}
@@ -76,15 +64,10 @@ export const FilterChip = forwardRef<FilterChipElement, FilterChipProps>(
                             e.stopPropagation();
                             onRemove();
                         }}
-                        className={cn(
-                            'inline-flex items-center justify-center shrink-0',
-                            'rounded-full opacity-60 hover:opacity-100 hover:scale-110',
-                            'transition-all duration-150',
-                            'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-current',
-                        )}
+                        className="chip-remove"
                         aria-label={`Remove ${label}`}
                     >
-                        <XIcon className={chipRemoveSizes[size]} />
+                        <XIcon />
                     </button>
                 )}
             </span>
@@ -94,4 +77,4 @@ export const FilterChip = forwardRef<FilterChipElement, FilterChipProps>(
 
 FilterChip.displayName = 'FilterChip';
 
-export { chipVariants, chipSizes, chipRemoveSizes, type ChipVariant, type ChipSize };
+export { chipVariantClass, chipSizeClass, type ChipVariant, type ChipSize };

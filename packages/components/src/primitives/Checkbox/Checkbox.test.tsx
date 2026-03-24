@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Checkbox } from './index';
-import { checkboxSizeClasses } from './Checkbox.variants';
+import { checkboxSizeClass } from './Checkbox.variants';
 
 describe('Checkbox', () => {
     it('renders with default props', () => {
@@ -12,9 +12,9 @@ describe('Checkbox', () => {
     });
 
     it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(checkboxSizeClasses)) {
+        for (const size of Object.keys(checkboxSizeClass)) {
             const { unmount } = render(
-                <Checkbox size={size as keyof typeof checkboxSizeClasses} data-testid="cb" />,
+                <Checkbox size={size as keyof typeof checkboxSizeClass} data-testid="cb" />,
             );
             expect(screen.getByTestId('cb')).toBeInTheDocument();
             unmount();

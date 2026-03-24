@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Switch } from './index';
-import { switchSizeClasses } from './Switch.variants';
+import { switchSizeClass } from './Switch.variants';
 
 describe('Switch', () => {
     it('renders with default props', () => {
@@ -12,9 +12,9 @@ describe('Switch', () => {
     });
 
     it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(switchSizeClasses)) {
+        for (const size of Object.keys(switchSizeClass)) {
             const { unmount } = render(
-                <Switch size={size as keyof typeof switchSizeClasses} data-testid="sw" />,
+                <Switch size={size as keyof typeof switchSizeClass} data-testid="sw" />,
             );
             expect(screen.getByTestId('sw')).toBeInTheDocument();
             unmount();

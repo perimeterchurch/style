@@ -7,7 +7,7 @@ import * as React from 'react';
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import { skeletonVariants, type SkeletonVariant } from './Skeleton.variants';
+import { skeletonVariantClass, type SkeletonVariant } from './Skeleton.variants';
 
 type SkeletonElement = ElementRef<'div'>;
 
@@ -30,8 +30,9 @@ export const Skeleton = forwardRef<SkeletonElement, SkeletonProps>(
                 aria-live="polite"
                 aria-busy="true"
                 className={cn(
+                    'skeleton',
                     'animate-shimmer',
-                    rounded ?? skeletonVariants[variant].base,
+                    rounded ?? skeletonVariantClass[variant],
                     className,
                 )}
                 style={{
@@ -47,4 +48,4 @@ export const Skeleton = forwardRef<SkeletonElement, SkeletonProps>(
 
 Skeleton.displayName = 'Skeleton';
 
-export { skeletonVariants, type SkeletonVariant };
+export { skeletonVariantClass, type SkeletonVariant };

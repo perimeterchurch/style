@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Textarea } from './index';
-import { textareaTextSizes } from './Textarea.variants';
+import { textareaSizeClass } from './Textarea.variants';
 
 describe('Textarea', () => {
     it('renders with default props', () => {
@@ -11,9 +11,9 @@ describe('Textarea', () => {
     });
 
     it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(textareaTextSizes)) {
+        for (const size of Object.keys(textareaSizeClass)) {
             const { unmount } = render(
-                <Textarea size={size as keyof typeof textareaTextSizes} placeholder={size} />,
+                <Textarea size={size as keyof typeof textareaSizeClass} placeholder={size} />,
             );
             expect(screen.getByPlaceholderText(size)).toBeInTheDocument();
             unmount();
@@ -44,8 +44,8 @@ describe('Textarea', () => {
         expect(el).not.toHaveFocus();
     });
 
-    it('is resizable', () => {
+    it('has textarea CSS class', () => {
         render(<Textarea data-testid="textarea" />);
-        expect(screen.getByTestId('textarea').className).toContain('resize-y');
+        expect(screen.getByTestId('textarea').className).toContain('textarea');
     });
 });

@@ -9,7 +9,7 @@ import * as React from 'react';
 import { forwardRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import { progressVariants, type ProgressVariant } from './IndeterminateProgress.variants';
+import { progressVariantClass, type ProgressVariant } from './IndeterminateProgress.variants';
 
 type IndeterminateProgressElement = ElementRef<'div'>;
 
@@ -33,25 +33,14 @@ export const IndeterminateProgress = forwardRef<
             ref={ref}
             role="progressbar"
             aria-label="Loading"
-            className={cn(progressVariants[variant].base, className)}
+            className={cn('indeterminate-progress', progressVariantClass[variant], className)}
             {...props}
         >
-            <div
-                className="h-full w-1/3 bg-[var(--color-primary)] animate-indeterminate"
-                style={{
-                    animation: 'indeterminate-slide 1.5s ease-in-out infinite',
-                }}
-            />
-            <style>{`
-                @keyframes indeterminate-slide {
-                    0% { transform: translateX(-100%); }
-                    100% { transform: translateX(400%); }
-                }
-            `}</style>
+            <div className="indeterminate-progress-bar" />
         </div>
     );
 });
 
 IndeterminateProgress.displayName = 'IndeterminateProgress';
 
-export { progressVariants, type ProgressVariant };
+export { progressVariantClass, type ProgressVariant };

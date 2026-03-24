@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Skeleton } from './index';
-import { skeletonVariants } from './Skeleton.variants';
+import { skeletonVariantClass } from './Skeleton.variants';
 
 const meta: Meta<typeof Skeleton> = {
     title: 'Components/Primitives/Skeleton',
@@ -8,7 +8,7 @@ const meta: Meta<typeof Skeleton> = {
     argTypes: {
         variant: {
             control: 'select',
-            options: Object.keys(skeletonVariants),
+            options: Object.keys(skeletonVariantClass),
         },
     },
 };

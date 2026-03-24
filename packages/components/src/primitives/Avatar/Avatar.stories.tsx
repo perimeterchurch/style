@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Avatar } from './index';
-import { avatarSizeClasses } from './Avatar.variants';
+import { avatarSizeClass } from './Avatar.variants';
 
 const meta: Meta<typeof Avatar> = {
     title: 'Components/Primitives/Avatar',
@@ -8,7 +8,7 @@ const meta: Meta<typeof Avatar> = {
     argTypes: {
         size: {
             control: 'select',
-            options: Object.keys(avatarSizeClasses),
+            options: Object.keys(avatarSizeClass),
         },
         src: { control: 'text' },
         alt: { control: 'text' },
@@ -28,9 +28,9 @@ export const Default: Story = {
 export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            {Object.keys(avatarSizeClasses).map((size) => (
+            {Object.keys(avatarSizeClass).map((size) => (
                 <div key={size} style={{ textAlign: 'center' }}>
-                    <Avatar size={size as keyof typeof avatarSizeClasses} fallback="PC" />
+                    <Avatar size={size as keyof typeof avatarSizeClass} fallback="PC" />
                     <p
                         style={{
                             fontSize: '0.75rem',

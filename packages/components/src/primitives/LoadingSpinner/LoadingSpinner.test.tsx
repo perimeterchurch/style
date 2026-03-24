@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { LoadingSpinner } from './index';
-import { spinnerSizeClasses } from './LoadingSpinner.variants';
+import { spinnerSizeClass } from './LoadingSpinner.variants';
 
 describe('LoadingSpinner', () => {
     it('renders with default props', () => {
@@ -9,12 +9,17 @@ describe('LoadingSpinner', () => {
         expect(screen.getByRole('status')).toBeInTheDocument();
     });
 
-    it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(spinnerSizeClasses)) {
+    it('applies base spinner class', () => {
+        render(<LoadingSpinner />);
+        expect(screen.getByRole('status')).toHaveClass('spinner');
+    });
+
+    it('renders all sizes with correct CSS classes', () => {
+        for (const [size, cssClass] of Object.entries(spinnerSizeClass)) {
             const { unmount } = render(
-                <LoadingSpinner size={size as keyof typeof spinnerSizeClasses} />,
+                <LoadingSpinner size={size as keyof typeof spinnerSizeClass} />,
             );
-            expect(screen.getByRole('status')).toBeInTheDocument();
+            expect(screen.getByRole('status')).toHaveClass('spinner', cssClass);
             unmount();
         }
     });

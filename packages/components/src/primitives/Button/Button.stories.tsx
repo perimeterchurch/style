@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from './index';
-import { buttonVariants, buttonSizes } from './Button.variants';
+import { buttonVariantClass, buttonSizeClass } from './Button.variants';
 
 const meta: Meta<typeof Button> = {
     title: 'Components/Primitives/Button',
@@ -8,11 +8,11 @@ const meta: Meta<typeof Button> = {
     argTypes: {
         variant: {
             control: 'select',
-            options: Object.keys(buttonVariants),
+            options: Object.keys(buttonVariantClass),
         },
         size: {
             control: 'select',
-            options: Object.keys(buttonSizes),
+            options: Object.keys(buttonSizeClass),
         },
         outline: { control: 'boolean' },
         fullWidth: { control: 'boolean' },
@@ -35,8 +35,8 @@ export const Default: Story = {
 export const AllVariants: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {Object.keys(buttonVariants).map((variant) => (
-                <Button key={variant} variant={variant as keyof typeof buttonVariants}>
+            {Object.keys(buttonVariantClass).map((variant) => (
+                <Button key={variant} variant={variant as keyof typeof buttonVariantClass}>
                     {variant}
                 </Button>
             ))}
@@ -47,8 +47,8 @@ export const AllVariants: Story = {
 export const AllSizes: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            {Object.keys(buttonSizes).map((size) => (
-                <Button key={size} size={size as keyof typeof buttonSizes}>
+            {Object.keys(buttonSizeClass).map((size) => (
+                <Button key={size} size={size as keyof typeof buttonSizeClass}>
                     {size}
                 </Button>
             ))}
@@ -59,8 +59,8 @@ export const AllSizes: Story = {
 export const Outline: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {Object.keys(buttonVariants).map((variant) => (
-                <Button key={variant} variant={variant as keyof typeof buttonVariants} outline>
+            {Object.keys(buttonVariantClass).map((variant) => (
+                <Button key={variant} variant={variant as keyof typeof buttonVariantClass} outline>
                     {variant}
                 </Button>
             ))}

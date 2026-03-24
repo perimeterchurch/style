@@ -1,9 +1,5 @@
-import type { VariantDefinition } from '../../utils/types';
+export type ProgressVariant = 'default';
 
-export const progressVariants: Record<string, VariantDefinition> = {
-    default: {
-        base: 'absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden',
-    },
+export const progressVariantClass: Record<ProgressVariant, string> = {
+    default: '',
 };
-
-export type ProgressVariant = keyof typeof progressVariants;

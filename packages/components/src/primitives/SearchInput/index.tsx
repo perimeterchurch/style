@@ -7,7 +7,6 @@ import * as React from 'react';
 import { useState, useEffect, useRef, useCallback, forwardRef, type ElementRef } from 'react';
 import type { BaseComponentProps } from '../../utils/types';
 import { cn } from '../../utils/cn';
-import { searchInputVariants, type SearchInputVariant } from './SearchInput.variants';
 
 type SearchInputElement = ElementRef<'div'>;
 
@@ -22,8 +21,6 @@ export interface SearchInputProps extends BaseComponentProps {
     debounce?: number;
     /** Additional CSS classes */
     className?: string;
-    /** Visual variant */
-    variant?: SearchInputVariant;
 }
 
 /** Inline Search SVG (replaces lucide-react Search) */
@@ -67,18 +64,7 @@ function XIcon({ className }: { className?: string }) {
 }
 
 export const SearchInput = forwardRef<SearchInputElement, SearchInputProps>(
-    (
-        {
-            value,
-            onChange,
-            placeholder = 'Search...',
-            debounce = 300,
-            variant = 'default',
-            className,
-            ...props
-        },
-        ref,
-    ) => {
+    ({ value, onChange, placeholder = 'Search...', debounce = 300, className, ...props }, ref) => {
         const [localValue, setLocalValue] = useState(value);
         const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -113,9 +99,9 @@ export const SearchInput = forwardRef<SearchInputElement, SearchInputProps>(
         };
 
         return (
-            <div ref={ref} className={cn('relative flex items-center', className)} {...props}>
-                <div className="pointer-events-none absolute left-3 flex items-center justify-center">
-                    <SearchIcon className="h-4 w-4 text-[var(--color-text-muted)]" />
+            <div ref={ref} className={cn('search-input', className)} {...props}>
+                <div className="search-input-icon">
+                    <SearchIcon />
                 </div>
                 <input
                     type="text"
@@ -128,17 +114,16 @@ export const SearchInput = forwardRef<SearchInputElement, SearchInputProps>(
                         }
                     }}
                     placeholder={placeholder}
-                    className={searchInputVariants[variant].base}
                     aria-label={placeholder}
                 />
                 {localValue && (
                     <button
                         type="button"
                         onClick={handleClear}
-                        className="absolute right-3 flex items-center justify-center text-[var(--color-text-muted)] hover:text-[var(--color-foreground)]"
+                        className="search-input-clear"
                         aria-label="Clear search"
                     >
-                        <XIcon className="h-4 w-4" />
+                        <XIcon />
                     </button>
                 )}
             </div>
@@ -148,4 +133,4 @@ export const SearchInput = forwardRef<SearchInputElement, SearchInputProps>(
 
 SearchInput.displayName = 'SearchInput';
 
-export { searchInputVariants, type SearchInputVariant };
+export type { SearchInputVariant } from './SearchInput.variants';

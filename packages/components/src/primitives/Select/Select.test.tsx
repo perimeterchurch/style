@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Select } from './index';
-import { selectSizeClasses } from './Select.variants';
+import { selectSizeClass } from './Select.variants';
 
 const testOptions = [
     { value: '1', label: 'Option 1' },
@@ -16,10 +16,10 @@ describe('Select', () => {
     });
 
     it('renders all sizes without crashing', () => {
-        for (const size of Object.keys(selectSizeClasses)) {
+        for (const size of Object.keys(selectSizeClass)) {
             const { unmount } = render(
                 <Select
-                    size={size as keyof typeof selectSizeClasses}
+                    size={size as keyof typeof selectSizeClass}
                     options={testOptions}
                     data-testid="select"
                 />,
@@ -53,12 +53,6 @@ describe('Select', () => {
     it('disables the select', () => {
         render(<Select disabled options={testOptions} data-testid="select" />);
         expect(screen.getByTestId('select')).toBeDisabled();
-    });
-
-    it('renders chevron icon', () => {
-        render(<Select options={testOptions} />);
-        const svg = document.querySelector('svg[aria-hidden="true"]');
-        expect(svg).toBeInTheDocument();
     });
 });
 
