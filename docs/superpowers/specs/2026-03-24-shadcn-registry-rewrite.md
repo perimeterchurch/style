@@ -49,21 +49,22 @@ style/
 │   └── editor/
 │       └── page.tsx              # Theme editor with iframe preview
 ├── components/
-│   └── ui/                       # shadcn components (local dev copies)
+│   └── ui/                       # App-specific UI (NOT registry components)
 ├── registry/
-│   ├── new-york/                 # Registry source files
-│   │   ├── ui/                   # Component source for registry
+│   ├── new-york/                 # Registry source files (SINGLE SOURCE OF TRUTH)
+│   │   ├── ui/                   # Component source for registry + local dev
 │   │   ├── hooks/                # Shared hooks
 │   │   └── lib/                  # Utilities (cn, etc.)
-│   └── themes/                   # Theme definitions
+│   └── themes/                   # Theme definition source files
 │       ├── light.json            # Base light theme
 │       ├── dark.json             # Dark theme overrides
 │       ├── perimeter-api.json    # Project-specific theme
 │       └── metrics.json          # Project-specific theme
-├── preview/                      # iframe preview content
-│   ├── showcase.tsx              # Component showcase page
-│   ├── forms.tsx                 # Form layout preview
-│   └── dashboard.tsx             # Dashboard mockup preview
+├── app/
+│   └── preview/                  # iframe preview pages for editor
+│       ├── showcase/page.tsx     # Component showcase
+│       ├── forms/page.tsx        # Form layout preview
+│       └── dashboard/page.tsx    # Dashboard mockup preview
 ├── styles/
 │   └── globals.css               # Perimeter tokens + Tailwind
 ├── lib/
@@ -104,6 +105,7 @@ style/
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
+    "test": "echo 'No automated tests yet'",
     "quality": "pnpm typecheck && pnpm lint && pnpm format:check"
   }
 }
@@ -141,6 +143,16 @@ Follow shadcn's exact naming convention with OKLCH color format. Background/fore
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-destructive-foreground: var(--destructive-foreground, oklch(0.985 0 0));
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
@@ -234,7 +246,9 @@ shadcn's default set does not include `--success`, `--warning`, `--info`. These 
 }
 ```
 
-Items are populated by defining component files in `registry/new-york/ui/` and running `shadcn build`.
+**Important:** Every component, theme, hook, and utility must be explicitly listed as an entry in the `items` array with `name`, `type`, `files`, `dependencies`, and `registryDependencies`. The `shadcn build` command reads this manifest — it does NOT auto-discover files. With ~50+ components, a helper script (`scripts/generate-registry.ts`) should be created to scan `registry/new-york/ui/` and generate the items array, rather than maintaining it manually.
+
+Theme items from `registry/themes/` must also be listed in the `items` array. The JSON files in `registry/themes/` are source definitions referenced by those entries.
 
 ### components.json
 
@@ -261,13 +275,13 @@ Items are populated by defining component files in `registry/new-york/ui/` and r
 
 ### Component Installation
 
-Install the full shadcn component set into the project for local development, then copy them into the registry:
+Install the full shadcn component set directly into the registry source directory:
 
 ```bash
-npx shadcn@latest add --all
+pnpm dlx shadcn@latest add --all --path registry/new-york/ui
 ```
 
-Then move/copy the installed components from `components/ui/` into `registry/new-york/ui/` and define each in `registry.json`. The `components/ui/` copies are for the app's own use (editor UI, landing page). The `registry/new-york/ui/` copies are what gets built into registry JSON for consumers.
+**Single source of truth:** `registry/new-york/ui/` holds the component source files. The app imports from there directly via path aliases (configured in `tsconfig.json`). The `components/ui/` directory is reserved for app-specific UI that is NOT part of the registry (e.g., editor-specific layout components). This avoids maintaining duplicate copies of every component.
 
 ### Theme Registry Items
 
@@ -300,18 +314,16 @@ In a consuming project's `components.json`:
 ```json
 {
   "registries": {
-    "@perimeter": {
-      "url": "https://style.perimeter.church/r/{name}.json"
-    }
+    "@perimeter": "https://style.perimeter.church/r/{name}.json"
   }
 }
 ```
 
 Then:
 ```bash
-npx shadcn add @perimeter/button
-npx shadcn add @perimeter/card
-npx shadcn add @perimeter/perimeter-api-theme
+pnpm dlx shadcn@latest add @perimeter/button
+pnpm dlx shadcn@latest add @perimeter/card
+pnpm dlx shadcn@latest add @perimeter/perimeter-api-theme
 ```
 
 ---
@@ -368,7 +380,7 @@ interface EditorState {
 
 A same-origin page served by Next.js (e.g., `/preview/showcase`) that:
 
-1. Includes `<script src="https://cdn.tailwindcss.com/4">` (or a local copy of `@tailwindcss/browser`)
+1. Includes `<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">` (or a local copy of `@tailwindcss/browser`)
 2. Has a `<style type="text/tailwindcss">` block with `@theme inline { ... }` mappings
 3. Has `:root { ... }` CSS variables
 4. Renders a curated grid of components: Buttons (all variants), Card, Badge, Input, Select, Textarea, Checkbox, Switch, Tabs, Avatar, Alert, Dialog trigger
@@ -394,7 +406,7 @@ iframeRef.current?.contentWindow?.postMessage({
   type: 'UPDATE_TOKENS',
   tokens: currentTokens,
   mode: activeMode,
-}, '*');
+}, window.location.origin);
 ```
 
 ### Preview Tabs
@@ -446,7 +458,7 @@ registry JSON. Includes a theme editor with live iframe preview.
 
 ## Critical Rules
 
-- **Always use `pnpm`** — never npm or npx (except `npx shadcn` for the CLI)
+- **Always use `pnpm`** — use `pnpm dlx` instead of `npx` for one-off commands
 - **Always create a branch** — never commit directly to `dev` or `main`
 - **Never push to origin** — pushing is manual
 - **Conventional commits** — `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`
