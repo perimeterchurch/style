@@ -542,16 +542,79 @@ export default preview;
 
 ### Consumer API
 
-**No breaking changes.** Consumers continue to:
+### base.css Change: Remove Bundled Tailwind
+
+The current `base.css` starts with `@import 'tailwindcss'`. This causes double-Tailwind when consumed by projects that already have Tailwind configured (all three consuming projects do). **Remove the Tailwind import from base.css:**
 
 ```css
-/* Import everything — tokens + all themes + component base CSS */
-@import '@perimeterchurch/style/css';
+/* base.css — NO @import 'tailwindcss' */
+@import './tokens.css';
+@import './components.css';
+@import './themes/dark.css';
+/* ... other theme imports added by write-theme endpoint */
+
+@custom-variant dark (&:where([data-theme="dark"] *, [data-theme="dark"]));
+
+@layer style-tokens { ... }
+@layer style-base { ... }
 ```
 
+Storybook's own preview loads Tailwind separately via the `@tailwindcss/vite` plugin in `.storybook/main.ts`.
+
+### Dark Mode Standardization
+
+All consuming projects must use `data-theme="dark"` attribute (not `.dark` class). This is already the case for perimeter-widgets and metrics. **perimeter-api needs a one-line change** in its theme provider: add `attribute="data-theme"` to the `next-themes` `ThemeProvider`.
+
+### Consumer Import Pattern
+
+All three consuming projects follow the same pattern:
+
+```css
+/* Consumer's root CSS */
+@import 'tailwindcss';                      /* Consumer's own Tailwind */
+@import '@perimeterchurch/style/tailwind';  /* Design tokens as Tailwind theme values */
+@import '@perimeterchurch/style/css';       /* Tokens + component classes + themes */
+```
+
+For **perimeter-widgets shadow DOM**, import with `?inline` for CSS string injection:
+```ts
+import styles from '@perimeterchurch/style/css?inline';
+```
+
+### Per-Project Integration
+
+**perimeter-api (Next.js 16):**
+1. `pnpm add @perimeterchurch/style`
+2. Replace `src/styles/tokens.css` with `@import '@perimeterchurch/style/css'`
+3. Add `attribute="data-theme"` to `next-themes` ThemeProvider
+4. Delete local token definitions — use design system tokens
+
+**perimeter-widgets (Vite + Turborepo):**
+1. `pnpm add @perimeterchurch/style` in shared package
+2. Replace `shared/src/styles/tokens.css` with `@import '@perimeterchurch/style/css'`
+3. Widget CSS inlining via `?inline` continues to work
+4. `data-theme` attribute already used — no changes
+
+**metrics (Next.js 15):**
+1. Replace `@perimeter-widgets/shared` file dependency with `@perimeterchurch/style`
+2. Replace token imports with `@import '@perimeterchurch/style/css'`
+3. Keep app-specific tokens (chart colors, service colors) in local `tokens.css` as extensions
+4. `data-theme` attribute already used — no changes
+
+### Consumer Theme Application
+
 ```html
-<!-- Apply a theme -->
+<!-- Light theme (default — no attribute needed) -->
+<html>...</html>
+
+<!-- Dark theme -->
+<html data-theme="dark">...</html>
+
+<!-- Project-specific theme -->
 <html data-theme="perimeter-api">...</html>
+
+<!-- Scoped theme on a section -->
+<div data-theme="metrics">...</div>
 ```
 
 **New capability:** Themes now include component-scoped overrides. Consumers get this for free through the same CSS import. A consuming project that uses `data-theme="dark"` automatically picks up any `--btn-*`, `--card-*` overrides in `dark.css`.
