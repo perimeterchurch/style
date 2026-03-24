@@ -12,12 +12,12 @@ Redesign the design system's theming architecture to support multi-theme editing
 4. Redesign the Token Editor into a Theme Editor with theme selection dropdown, component tabs, and inherited/overridden distinction
 5. Replace `@storybook/addon-themes` with a custom dynamic theme switcher toolbar
 6. Reorganize Foundation stories into a Themes section
-7. Maintain backward-compatible consumer API (`data-theme` attribute, same CSS imports)
+7. Maintain consumer API (`data-theme` attribute, same CSS imports) — note: `className` overrides for themed properties (colors, radius, shadow) will no longer work since those properties are now CSS-variable-driven, not Tailwind-class-driven. This is a **behavioral breaking change** documented in Section 6.
 
 ## Non-Goals
 
 - JavaScript runtime theme API (consumers use `data-theme` attribute — no JS helpers needed)
-- Theme inheritance/composition (themes are flat CSS variable overrides)
+- Theme inheritance/composition (themes are flat CSS variable overrides; "inherited" in the Theme Editor means "using `:root` default value," not extending another theme)
 - Visual regression testing (separate initiative)
 - New components (separate initiative)
 
@@ -167,7 +167,7 @@ Each theme file is a CSS file in `packages/tokens/src/themes/` with a `[data-the
 | `list-themes` | GET | Scan `themes/` directory | `{ themes: [{ name: string, slug: string }] }` |
 | `read-theme` | GET | Read one theme's overrides | `{ tokens: Record<string, string> }` |
 
-**`list-themes` implementation:** Read all `*.css` files in `themes/`. For each file, extract the theme name from the `[data-theme='...']` selector using a regex. Return the list. Include "light" as the base (maps to editing `tokens.css` directly).
+**`list-themes` implementation:** Read all `*.css` files in `themes/`. For each file, extract the theme name from the `[data-theme='...']` selector using a regex. Return the list. Include "light" as the base (maps to editing `tokens.css` directly). Note: existing files use bare names (`dark.css`, `light.css`) while generated files use `theme-` prefix (`theme-perimeter-api.css`). The endpoint handles both conventions — it reads the theme name from the CSS selector, not the filename.
 
 **`read-theme?theme=dark` implementation:** Read the theme CSS file, parse all `--property: value` declarations inside the `[data-theme='...']` block, return as a flat `Record<string, string>`.
 
@@ -254,131 +254,189 @@ The preview listener sets `data-theme` on `.storybook-root` when this event fire
 
 ## Section 4: Variant File Refactor
 
-### Current Format
+### Design Decision: CSS Classes, Not Inline Styles
 
+Variants are applied as **CSS classes** (`.btn-primary`, `.btn-sm`), not inline `style` attributes. This is critical because:
+- Inline styles would override theme `[data-theme] .btn` rules due to CSS specificity
+- CSS classes in `@layer style-components` have lower specificity than both theme selectors and Tailwind utilities, allowing themes and consumer `className` overrides to work correctly
+
+### Specificity Hierarchy (lowest to highest)
+
+1. `@layer style-components { .btn { ... } }` — base component defaults
+2. `@layer style-components { .btn-primary { ... } }` — variant classes
+3. `[data-theme='dark'] .btn { ... }` — theme overrides (NOT in a layer, so higher specificity)
+4. Tailwind utilities via consumer `className` — highest specificity due to Tailwind's layer ordering
+
+This means: themes override component defaults, and consumers can still use Tailwind classes to override themes where needed.
+
+### Current Variant File Patterns (4 distinct shapes)
+
+The codebase has four variant patterns that each need a migration strategy:
+
+**Pattern A — Standard VariantDefinition** (Button, Card, Badge, Skeleton):
 ```ts
-// Button.variants.ts (current)
-export const buttonVariants = {
-    primary: {
-        base: 'bg-[var(--color-primary)] text-[var(--color-primary-foreground)]',
-        hover: 'hover:bg-[var(--color-primary-hover)]',
-        focus: 'focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/50',
-    },
-};
-export const buttonSizes = {
-    sm: { padding: 'px-3 py-1.5', fontSize: 'text-sm', iconSize: 14, radius: 'rounded-md' },
-};
+// Current: { base, hover?, active?, focus?, outline? } with resolveVariant()
+primary: { base: 'bg-[var(--color-primary)] text-white', hover: 'hover:bg-...', outline: '...' }
+```
+
+**Pattern B — Simple class maps** (Checkbox, Label):
+```ts
+// Current: Record<string, string> — just dimension/color classes
+checkboxSizeClasses: { xs: 'h-3 w-3', sm: 'h-4 w-4', md: 'h-5 w-5' }
+```
+
+**Pattern C — Multi-slot structures** (Switch):
+```ts
+// Current: Record<string, { track, knob, translate }> — multiple DOM elements
+switchSizeClasses: { sm: { track: 'h-5 w-9', knob: 'h-4 w-4', translate: 'translate-x-4' } }
+```
+
+**Pattern D — Hybrid functions** (Input, Select):
+```ts
+// Current: Mix of joined strings, Records, and helper functions
+inputBaseClasses: string; inputSizeClasses: Record<string, string>; getInputBorderClasses(): string
 ```
 
 ### New Format
 
-Variant files export CSS variable maps instead of Tailwind class strings:
+All patterns converge to the same shape: **CSS classes defined in `components.css`** that set CSS variables.
+
+**Pattern A → CSS variant classes:**
+```css
+/* components.css */
+.btn-primary { --btn-color: var(--color-primary); --btn-fg: var(--color-primary-foreground); }
+.btn-secondary { --btn-color: var(--color-secondary); --btn-fg: var(--color-secondary-foreground); }
+.btn-ghost { --btn-bg: transparent; --btn-border: transparent; --btn-shadow: none; }
+.btn-outline { --btn-bg: transparent; --btn-fg: var(--btn-color); --btn-border: var(--btn-color); }
+.btn-sm { --btn-padding-x: var(--spacing-sm); --btn-padding-y: var(--spacing-xs); --btn-font-size: var(--font-size-xs); }
+```
+
+**Pattern B → Dimensional CSS classes:**
+```css
+.checkbox { --checkbox-size: var(--spacing-md); width: var(--checkbox-size); height: var(--checkbox-size); }
+.checkbox-sm { --checkbox-size: var(--spacing-sm); }
+.checkbox-lg { --checkbox-size: var(--spacing-lg); }
+```
+
+**Pattern C → Multi-slot CSS classes:**
+```css
+.switch { --switch-track-w: 2.75rem; --switch-track-h: 1.5rem; --switch-knob-size: 1.25rem; --switch-translate: 1.25rem; }
+.switch-sm { --switch-track-w: 2.25rem; --switch-track-h: 1.25rem; --switch-knob-size: 1rem; --switch-translate: 1rem; }
+.switch-track { width: var(--switch-track-w); height: var(--switch-track-h); }
+.switch-knob { width: var(--switch-knob-size); height: var(--switch-knob-size); transform: translateX(var(--switch-translate)); }
+```
+
+**Pattern D → Simplified base + variant classes:**
+```css
+.input { --input-radius: var(--radius-md); --input-padding-x: var(--spacing-sm); --input-font-size: var(--font-size-sm); --input-border: var(--color-border); }
+.input-sm { --input-padding-x: var(--spacing-xs); --input-font-size: var(--font-size-xs); }
+.input-error { --input-border: var(--color-error); --input-focus-ring: var(--color-error); }
+```
+
+### Variant File Simplification
+
+Variant `.ts` files become lightweight mappings from prop values to CSS class names:
 
 ```ts
-// Button.variants.ts (new)
-export const buttonVariants: Record<string, Record<string, string>> = {
-    primary: {
-        '--btn-color': 'var(--color-primary)',
-        '--btn-fg': 'var(--color-primary-foreground)',
-        '--btn-hover-bg': 'var(--color-primary-hover)',
-    },
-    secondary: {
-        '--btn-color': 'var(--color-secondary)',
-        '--btn-fg': 'var(--color-secondary-foreground)',
-        '--btn-hover-bg': 'var(--color-secondary-hover)',
-    },
-    ghost: {
-        '--btn-bg': 'transparent',
-        '--btn-border': 'transparent',
-        '--btn-shadow': 'none',
-        '--btn-fg': 'var(--color-foreground)',
-    },
+// Button.variants.ts (new) — maps props to CSS classes
+export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'ghost';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+export const buttonVariantClass: Record<ButtonVariant, string> = {
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    success: 'btn-success',
+    warning: 'btn-warning',
+    error: 'btn-error',
+    info: 'btn-info',
+    ghost: 'btn-ghost',
 };
 
-export const buttonSizes: Record<string, Record<string, string>> = {
-    sm: {
-        '--btn-padding-x': 'var(--spacing-sm)',
-        '--btn-padding-y': 'var(--spacing-xs)',
-        '--btn-font-size': 'var(--font-size-xs)',
-        '--btn-icon-size': '14px',
-    },
-    md: {
-        '--btn-padding-x': 'var(--spacing-md)',
-        '--btn-padding-y': 'var(--spacing-sm)',
-        '--btn-font-size': 'var(--font-size-sm)',
-        '--btn-icon-size': '16px',
-    },
+export const buttonSizeClass: Record<ButtonSize, string> = {
+    xs: 'btn-xs',
+    sm: 'btn-sm',
+    md: 'btn-md',
+    lg: 'btn-lg',
+    xl: 'btn-xl',
+};
+
+/** Icon pixel sizes per button size (consumed as a prop, not CSS) */
+export const buttonIconSize: Record<ButtonSize, number> = {
+    xs: 12, sm: 14, md: 16, lg: 18, xl: 20,
 };
 ```
 
 ### Component File Changes
 
-Components apply variant variables as inline `style`, with a base CSS class for the variable-driven styling:
+Components compose CSS classes instead of building Tailwind strings:
 
 ```tsx
-function Button({ variant = 'primary', size = 'md', className, style, ...props }) {
-    const variantVars = buttonVariants[variant];
-    const sizeVars = buttonSizes[size];
-
+function Button({ variant = 'primary', size = 'md', outline, className, ...props }) {
     return (
         <button
-            className={cn('btn', className)}
-            style={{ ...variantVars, ...sizeVars, ...style }}
+            className={cn(
+                'btn',
+                buttonVariantClass[variant],
+                buttonSizeClass[size],
+                outline && 'btn-outline',
+                className,
+            )}
             {...props}
         />
     );
 }
 ```
 
-### Base Component CSS
+### Eliminated Types and Utilities
 
-Each component gets a CSS class defined in a component CSS file (or in the tokens CSS layer) that consumes its variables:
+- **Delete `VariantDefinition` interface** — no longer needed (variants are CSS classes)
+- **Delete `SizeDefinition` interface** — no longer needed
+- **Delete `resolveVariant()` function** — replaced by simple class composition
+- **Delete `InteractiveProps` type** if it only served variant resolution
+- **Keep `BaseComponentProps`** (className, children, etc.) and `WidthProps`
+- **Update `packages/components/src/utils/types.ts`** accordingly
+
+### Dark Mode Strategy
+
+Dark mode is handled entirely in CSS — no `dark:` Tailwind prefixes in component code:
 
 ```css
-@layer style-components {
-    .btn {
-        --btn-bg: var(--btn-color, var(--color-muted));
-        --btn-fg: var(--color-foreground);
-        --btn-border: color-mix(in oklab, var(--btn-bg), #000 8%);
-        --btn-radius: var(--radius-md);
-        --btn-padding-x: var(--spacing-md);
-        --btn-padding-y: var(--spacing-sm);
-        --btn-font-size: var(--font-size-sm);
-        --btn-shadow: var(--shadow-xs);
-
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        background-color: var(--btn-bg);
-        color: var(--btn-fg);
-        border: 1px solid var(--btn-border);
-        border-radius: var(--btn-radius);
-        padding: var(--btn-padding-y) var(--btn-padding-x);
-        font-size: var(--btn-font-size);
-        box-shadow: var(--btn-shadow);
-        font-weight: 500;
-        line-height: 1.5;
-        cursor: pointer;
-        transition: background-color 150ms, border-color 150ms, box-shadow 150ms;
-    }
-
-    .btn:hover {
-        --btn-bg: var(--btn-hover-bg, color-mix(in oklab, var(--btn-color, var(--color-muted)), #000 10%));
-    }
-
-    .btn:focus-visible {
-        outline: none;
-        box-shadow: var(--btn-shadow), 0 0 0 2px var(--color-background), 0 0 0 4px color-mix(in oklab, var(--btn-color, var(--color-primary)), transparent 50%);
-    }
-
-    .btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        pointer-events: none;
-    }
+/* In components.css */
+[data-theme='dark'] .btn {
+    --btn-border: color-mix(in oklab, var(--btn-bg), #fff 12%);
+}
+[data-theme='dark'] .card {
+    --card-border: var(--color-stone-700);
 }
 ```
+
+The existing `@custom-variant dark` in `base.css` stays for any remaining Tailwind `dark:` usage outside components (e.g., in stories or consumer code), but components themselves no longer use it.
+
+### Outline Mode
+
+Outline is a CSS class, not a separate variant definition:
+
+```css
+.btn-outline {
+    --btn-bg: transparent;
+    --btn-fg: var(--btn-color, var(--color-foreground));
+    --btn-border: var(--btn-color, var(--color-border));
+}
+.btn-outline:hover {
+    --btn-bg: var(--btn-color);
+    --btn-fg: var(--color-primary-foreground);
+}
+```
+
+Applied via `outline && 'btn-outline'` in the component, after the variant class.
+
+### iconSize Handling
+
+`iconSize` stays as a **numeric value in the variant file** (not a CSS variable) since it's passed as a prop to icon components (`<Icon size={iconSize} />`). The `buttonIconSize` record maps sizes to pixel values separately from the CSS class system.
+
+### Behavioral/Layout Tailwind Classes
+
+Classes like `active:scale-[0.98]` (press feedback), `min-h-11`, `transition-colors` stay in component JSX as regular Tailwind classes passed through `cn()`. They are not themeable and don't move to CSS variables.
 
 ### Where Component CSS Lives
 
@@ -386,26 +444,33 @@ New file: `packages/tokens/src/components.css` — imported in `base.css` after 
 
 ### Migration Scope
 
-All 19 primitives + 8 composites need:
-1. `.variants.ts` rewritten from class strings to CSS variable maps
-2. Component `index.tsx` updated to apply variables as inline `style`
-3. Base CSS class added to `components.css`
-4. Tests updated for new DOM structure (style attributes instead of class names)
-5. Stories may need minor updates
+16 primitives + 7 composites (23 total) need:
+1. Base CSS class + variant/size classes added to `components.css`
+2. `.variants.ts` simplified to prop→class-name mappings
+3. Component `index.tsx` updated to compose CSS classes via `cn()`
+4. Tests updated (assertions change from `toHaveClass('bg-[var(--color-primary)]')` to `toHaveClass('btn-primary')`)
+5. `resolveVariant()`, `VariantDefinition`, `SizeDefinition` deleted from `utils/types.ts`
 
 ### Tailwind Class Usage After Refactor
 
 Components still use Tailwind for:
 - Layout utilities (`flex`, `grid`, `inline-flex`, `items-center`)
+- Behavioral classes (`active:scale-[0.98]`, `transition-colors`)
 - Non-themeable concerns (`truncate`, `overflow-hidden`, `whitespace-nowrap`)
 - User-provided `className` (passed through via `cn()`)
 
 Components NO LONGER use Tailwind for:
-- Colors (`bg-[var(...)]` → CSS variable)
-- Radius (`rounded-md` → CSS variable)
-- Shadows (`shadow-md` → CSS variable)
-- Padding (`px-3 py-1.5` → CSS variable)
-- Font size (`text-sm` → CSS variable)
+- Colors (`bg-[var(...)]` → CSS variable via `.btn-primary`)
+- Radius (`rounded-md` → CSS variable via `.btn`)
+- Shadows (`shadow-md` → CSS variable via `.btn`)
+- Padding (`px-3 py-1.5` → CSS variable via `.btn-md`)
+- Font size (`text-sm` → CSS variable via `.btn-md`)
+
+### Existing Variant CRUD Endpoints
+
+The `read-variants`, `write-variant`, and `delete-variant` middleware endpoints currently read/write `VariantDefinition` objects from `.variants.ts` files. Since variant files now contain simple class-name mappings (not editable CSS), these endpoints become irrelevant for visual editing. The Theme Editor edits component variables at the **theme level** (in `components.css` and theme files), not at the variant level.
+
+**Decision:** Remove the variant CRUD endpoints from the middleware. The variant files are developer-owned code, edited in the IDE. Component theming happens through the Theme Editor's global and component token tabs.
 
 ---
 
@@ -497,6 +562,21 @@ export default preview;
 .sidebar { --btn-radius: var(--radius-sm); --card-shadow: none; }
 ```
 
+### Consumer Override Precedence (Breaking Change)
+
+**Before this redesign:** Component appearance was controlled by Tailwind classes. Consumers could override with `<Button className="rounded-full bg-red-500">` because Tailwind utilities had higher specificity than the component's own Tailwind classes merged via `cn()`.
+
+**After this redesign:** Themed properties (colors, radius, shadow, padding) are CSS-variable-driven. Consumer overrides work differently:
+
+| Override Method | Works? | Example |
+|----------------|--------|---------|
+| CSS custom property on parent | Yes | `.sidebar { --btn-radius: 9999px; }` |
+| `data-theme` attribute | Yes | `<div data-theme="custom">` |
+| Tailwind utility in `className` | **Partial** | `bg-red-500` works (overrides `background-color` in CSS cascade), but `rounded-full` may not override `border-radius: var(--btn-radius)` depending on layer order |
+| Inline `style` prop | Yes | `style={{ borderRadius: '9999px' }}` always wins |
+
+**Recommended consumer override pattern:** Use CSS custom properties or `data-theme` for themed overrides, not Tailwind classes. This is the same pattern used by DaisyUI, Radix Themes, and shadcn/ui.
+
 ### base.css Changes
 
 ```css
@@ -536,9 +616,11 @@ export default preview;
 | `.storybook/preview.ts` | Remove `@storybook/addon-themes`, simplify |
 | `.storybook/main.ts` | Remove `@storybook/addon-themes` from addons |
 | `package.json` (root) | Remove `@storybook/addon-themes` dependency |
-| Every component `.variants.ts` | Rewrite from Tailwind classes to CSS variable maps |
-| Every component `index.tsx` | Apply variant/size vars as inline style |
-| Every component `.test.tsx` | Update assertions for new style-based approach |
+| `packages/components/src/utils/types.ts` | Delete `VariantDefinition`, `SizeDefinition`, `resolveVariant()` |
+| Every component `.variants.ts` (23 components) | Rewrite to prop→class-name mappings |
+| Every component `index.tsx` (23 components) | Compose CSS classes via `cn()` instead of Tailwind class strings |
+| Every component `.test.tsx` | Update assertions (class names like `btn-primary` instead of `bg-[var(...)]`) |
+| `packages/storybook-addon/src/server/middleware.ts` | Remove `read-variants`, `write-variant`, `delete-variant` routes |
 
 ### Deleted Files
 
