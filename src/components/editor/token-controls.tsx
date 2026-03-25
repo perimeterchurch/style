@@ -1,14 +1,17 @@
 "use client";
 
 import { useEditorStore } from "@/lib/editor-store";
+import { useThemeManagerStore } from "@/lib/theme-manager-store";
 import { TOKEN_GROUPS } from "@/lib/default-tokens";
 import { exportAsCSS, exportAsRegistryTheme } from "@/lib/export-theme";
+import { ThemeSelector } from "@/components/editor/theme-selector";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Moon, Sun, RotateCcw, Copy, FileDown } from "lucide-react";
+import { Moon, Sun, RotateCcw, Copy, FileDown, Undo2, Redo2 } from "lucide-react";
+import { toast } from "sonner";
 
 /**
  * Attempt to convert an oklch() string to a hex color for the native color
@@ -154,14 +157,22 @@ function TokenInput({
 }
 
 export function TokenControls() {
-  const { lightTokens, darkTokens, activeMode, setToken, setActiveMode, resetToDefaults } =
+  const { lightTokens, darkTokens, activeMode, setToken, setActiveMode, resetToDefaults, undo, redo, past, future } =
     useEditorStore();
+  const activeTheme = useThemeManagerStore((s) => {
+    const slug = s.activeThemeSlug;
+    return slug ? s.savedThemes.find(t => t.slug === slug) : null;
+  });
+  const themeName = activeTheme?.slug ?? "custom-theme";
+  const canUndo = past.length > 0;
+  const canRedo = future.length > 0;
   const tokens = activeMode === "light" ? lightTokens : darkTokens;
 
   return (
     <div className="flex flex-col h-full">
       <div className="p-3 border-b space-y-2">
         <h2 className="text-sm font-semibold">Theme Editor</h2>
+        <ThemeSelector />
         <div className="flex gap-1.5">
           <Button
             variant={activeMode === "light" ? "default" : "outline"}
@@ -179,24 +190,55 @@ export function TokenControls() {
             <Moon className="size-3.5" />
             Dark
           </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={resetToDefaults}
-            className="ml-auto"
-          >
-            <RotateCcw className="size-3.5" />
-            Reset
-          </Button>
+          <div className="ml-auto flex gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={!canUndo}
+              onClick={() => {
+                undo();
+                toast("Undo");
+              }}
+            >
+              <Undo2 className="size-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={!canRedo}
+              onClick={() => {
+                redo();
+                toast("Redo");
+              }}
+            >
+              <Redo2 className="size-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                resetToDefaults();
+                toast("Tokens reset to defaults");
+              }}
+            >
+              <RotateCcw className="size-3.5" />
+              Reset
+            </Button>
+          </div>
         </div>
         <div className="flex gap-1.5">
           <Button
             variant="outline"
             size="sm"
             className="flex-1"
-            onClick={() => {
-              const css = exportAsCSS(lightTokens, darkTokens);
-              navigator.clipboard.writeText(css);
+            onClick={async () => {
+              try {
+                const css = exportAsCSS(lightTokens, darkTokens);
+                await navigator.clipboard.writeText(css);
+                toast.success("CSS copied to clipboard");
+              } catch {
+                toast.error("Failed to copy to clipboard");
+              }
             }}
           >
             <FileDown className="size-3.5" />
@@ -206,13 +248,18 @@ export function TokenControls() {
             variant="outline"
             size="sm"
             className="flex-1"
-            onClick={() => {
-              const json = exportAsRegistryTheme(
-                "custom-theme",
-                lightTokens,
-                darkTokens,
-              );
-              navigator.clipboard.writeText(JSON.stringify(json, null, 2));
+            onClick={async () => {
+              try {
+                const json = exportAsRegistryTheme(
+                  themeName,
+                  lightTokens,
+                  darkTokens,
+                );
+                await navigator.clipboard.writeText(JSON.stringify(json, null, 2));
+                toast.success("Theme JSON copied to clipboard");
+              } catch {
+                toast.error("Failed to copy to clipboard");
+              }
             }}
           >
             <Copy className="size-3.5" />
