@@ -31,10 +31,10 @@
 
 ## Architecture
 
-shadcn-compatible component registry for Perimeter Church. Next.js app that serves registry JSON and hosts a theme editor.
+shadcn-compatible component registry for Perimeter Church. Next.js app that serves registry JSON and hosts a theme editor with inline live preview.
 
-- **Registry**: Components defined in `registry/new-york/ui/`, built to `public/r/` via `shadcn build`
-- **Theme Editor**: `/editor` route with iframe-based live preview and token controls
+- **Registry**: 55 shadcn components in `registry/new-york/ui/`, built to `public/r/` via `shadcn build`
+- **Theme Editor**: `/editor` route with inline React preview and token controls (no iframe)
 - **Consumers**: Install via `pnpm dlx shadcn@latest add @perimeter/button`
 - **Tokens**: Warm stone palette in OKLCH format, light + dark + project-specific themes
 
@@ -43,12 +43,45 @@ shadcn-compatible component registry for Perimeter Church. Next.js app that serv
 | Directory | Purpose |
 |-----------|---------|
 | `registry/new-york/ui/` | Component source (SINGLE SOURCE OF TRUTH) |
-| `registry/themes/` | Theme definitions |
+| `registry/themes/` | Theme definitions (perimeter-api, metrics) |
 | `src/app/editor/` | Theme editor page |
-| `src/app/preview/` | iframe preview pages for editor |
+| `src/components/editor/` | Editor UI (token controls, theme selector, preview panel) |
+| `src/components/preview/` | Preview content (showcase, forms, dashboard) |
+| `src/lib/` | Stores, utilities (editor-store, theme-manager-store, default-tokens, export-theme) |
 | `public/r/` | Built registry JSON (generated, gitignored) |
-| `src/components/` | App-specific UI only (NOT registry components) |
+| `src/components/ui/` | shadcn components for app use (NOT the registry source) |
 | `scripts/` | Build and generation scripts |
+
+### Theme Editor Architecture
+
+The editor renders preview components **inline in the same React tree** — no iframe, no postMessage. Token changes update CSS custom properties on a wrapper `<div>`, and all child components respond instantly via CSS variable inheritance.
+
+```
+┌──────────────────┬─────────────────────────────┐
+│  TokenControls    │  PreviewPanel               │
+│  (Zustand store)  │  <div style={tokenVars}>    │
+│                   │    <Showcase /> or           │
+│  setToken() ────────→ CSS vars update instantly  │
+│                   │    <Forms /> or <Dashboard />│
+│  ThemeSelector    │                             │
+│  (save/load)      │  dark mode via className    │
+└──────────────────┴─────────────────────────────┘
+```
+
+**State management:**
+- `editor-store.ts` — Zustand + persist. Manages light/dark tokens, active mode, undo/redo (custom past/future stacks with 300ms debounced snapshots, max 50 entries)
+- `theme-manager-store.ts` — Zustand + persist. Manages saved themes (save/load/delete), preset themes from `registry/themes/`
+
+### Context Loading
+
+| Working on... | Read first |
+|---------------|-----------|
+| Theme editor UI | `src/components/editor/`, `src/lib/editor-store.ts` |
+| Preview content | `src/components/preview/` |
+| Registry components | `registry/new-york/ui/` |
+| Token values | `src/lib/default-tokens.ts`, `src/app/globals.css` |
+| Theme management | `src/lib/theme-manager-store.ts`, `registry/themes/` |
+| Registry build | `scripts/generate-registry.ts`, `registry.json` |
 
 ## Documentation
 
