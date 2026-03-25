@@ -136,7 +136,7 @@ export function ThemeSelector() {
   return (
     <div className="space-y-2">
       <Select
-        value={activeThemeSlug ?? undefined}
+        value={activeThemeSlug ?? ""}
         onValueChange={handleSelectChange}
       >
         <SelectTrigger className="w-full">
