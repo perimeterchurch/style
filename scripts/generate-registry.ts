@@ -14,11 +14,13 @@ import { join } from "node:path";
 const ROOT = process.cwd();
 const UI_DIR = join(ROOT, "registry/new-york/ui");
 const THEMES_DIR = join(ROOT, "registry/themes");
+const BASE_FILE = join(ROOT, "registry/base.json");
 const OUTPUT = join(ROOT, "registry.json");
 
 interface RegistryItem {
   name: string;
   type: string;
+  description?: string;
   files: Array<{ path: string; type: string }>;
   dependencies?: string[];
   devDependencies?: string[];
@@ -90,7 +92,32 @@ async function generateRegistry() {
     // No hooks directory — skip
   }
 
-  // 3. Scan UI components
+  // 3. Add base item (registry:base)
+  try {
+    const baseContent = await readFile(BASE_FILE, "utf-8");
+    const base = JSON.parse(baseContent) as {
+      name: string;
+      type: string;
+      description?: string;
+      dependencies?: string[];
+      registryDependencies?: string[];
+      cssVars?: Record<string, Record<string, string>>;
+    };
+    const baseItem: RegistryItem = {
+      name: base.name,
+      type: base.type,
+      files: [],
+    };
+    if (base.description) baseItem.description = base.description;
+    if (base.dependencies) baseItem.dependencies = base.dependencies;
+    if (base.registryDependencies) baseItem.registryDependencies = base.registryDependencies;
+    if (base.cssVars) baseItem.cssVars = base.cssVars;
+    items.push(baseItem);
+  } catch {
+    // No base.json — skip
+  }
+
+  // 4. Scan UI components
   const uiFiles = await readdir(UI_DIR);
   for (const file of uiFiles) {
     if (!file.endsWith(".tsx")) continue;
@@ -113,7 +140,7 @@ async function generateRegistry() {
     items.push(item);
   }
 
-  // 4. Scan theme files
+  // 5. Scan theme files
   try {
     const themeFiles = await readdir(THEMES_DIR);
     for (const file of themeFiles) {
@@ -131,7 +158,7 @@ async function generateRegistry() {
     // No themes directory — skip
   }
 
-  // 5. Write registry.json
+  // 6. Write registry.json
   const registry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "perimeter",

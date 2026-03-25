@@ -28,6 +28,103 @@
       ]
     },
     {
+      "name": "perimeter-base",
+      "type": "registry:base",
+      "files": [],
+      "description": "Perimeter Church design system base — warm stone palette, OKLCH tokens, utilities",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "cssVars": {
+        "light": {
+          "radius": "0.625rem",
+          "background": "oklch(0.985 0.002 75)",
+          "foreground": "oklch(0.147 0.012 50)",
+          "card": "oklch(0.985 0.002 75)",
+          "card-foreground": "oklch(0.147 0.012 50)",
+          "popover": "oklch(0.985 0.002 75)",
+          "popover-foreground": "oklch(0.147 0.012 50)",
+          "primary": "oklch(0.488 0.145 283)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.97 0.003 75)",
+          "secondary-foreground": "oklch(0.41 0.01 50)",
+          "muted": "oklch(0.96 0.003 75)",
+          "muted-foreground": "oklch(0.553 0.01 50)",
+          "accent": "oklch(0.96 0.003 75)",
+          "accent-foreground": "oklch(0.41 0.01 50)",
+          "destructive": "oklch(0.577 0.245 27)",
+          "destructive-foreground": "oklch(0.985 0 0)",
+          "border": "oklch(0.87 0.006 75)",
+          "input": "oklch(0.87 0.006 75)",
+          "ring": "oklch(0.488 0.145 283)",
+          "chart-1": "oklch(0.488 0.145 283)",
+          "chart-2": "oklch(0.59 0.16 145)",
+          "chart-3": "oklch(0.78 0.15 80)",
+          "chart-4": "oklch(0.577 0.245 27)",
+          "chart-5": "oklch(0.62 0.17 230)",
+          "success": "oklch(0.59 0.16 145)",
+          "success-foreground": "oklch(0.985 0 0)",
+          "warning": "oklch(0.78 0.15 80)",
+          "warning-foreground": "oklch(0.985 0 0)",
+          "info": "oklch(0.62 0.17 230)",
+          "info-foreground": "oklch(0.985 0 0)",
+          "sidebar": "oklch(0.97 0.003 75)",
+          "sidebar-foreground": "oklch(0.147 0.012 50)",
+          "sidebar-primary": "oklch(0.488 0.145 283)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.96 0.003 75)",
+          "sidebar-accent-foreground": "oklch(0.41 0.01 50)",
+          "sidebar-border": "oklch(0.87 0.006 75)",
+          "sidebar-ring": "oklch(0.488 0.145 283)"
+        },
+        "dark": {
+          "radius": "0.625rem",
+          "background": "oklch(0.147 0.012 50)",
+          "foreground": "oklch(0.985 0.002 75)",
+          "card": "oklch(0.21 0.012 50)",
+          "card-foreground": "oklch(0.985 0.002 75)",
+          "popover": "oklch(0.21 0.012 50)",
+          "popover-foreground": "oklch(0.985 0.002 75)",
+          "primary": "oklch(0.55 0.145 283)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.27 0.01 50)",
+          "secondary-foreground": "oklch(0.87 0.006 75)",
+          "muted": "oklch(0.27 0.01 50)",
+          "muted-foreground": "oklch(0.7 0.006 75)",
+          "accent": "oklch(0.27 0.01 50)",
+          "accent-foreground": "oklch(0.87 0.006 75)",
+          "destructive": "oklch(0.65 0.235 27)",
+          "destructive-foreground": "oklch(0.985 0 0)",
+          "border": "oklch(0.35 0.01 50)",
+          "input": "oklch(0.35 0.01 50)",
+          "ring": "oklch(0.55 0.145 283)",
+          "chart-1": "oklch(0.55 0.145 283)",
+          "chart-2": "oklch(0.64 0.16 145)",
+          "chart-3": "oklch(0.82 0.15 80)",
+          "chart-4": "oklch(0.65 0.235 27)",
+          "chart-5": "oklch(0.67 0.17 230)",
+          "success": "oklch(0.64 0.16 145)",
+          "success-foreground": "oklch(0.985 0 0)",
+          "warning": "oklch(0.82 0.15 80)",
+          "warning-foreground": "oklch(0.985 0 0)",
+          "info": "oklch(0.67 0.17 230)",
+          "info-foreground": "oklch(0.985 0 0)",
+          "sidebar": "oklch(0.21 0.012 50)",
+          "sidebar-foreground": "oklch(0.985 0.002 75)",
+          "sidebar-primary": "oklch(0.55 0.145 283)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.27 0.01 50)",
+          "sidebar-accent-foreground": "oklch(0.87 0.006 75)",
+          "sidebar-border": "oklch(0.35 0.01 50)",
+          "sidebar-ring": "oklch(0.55 0.145 283)"
+        }
+      }
+    },
+    {
       "name": "accordion",
       "type": "registry:ui",
       "files": [
@@ -57,8 +154,8 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils",
-        "button"
+        "button",
+        "utils"
       ]
     },
     {
@@ -154,8 +251,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils",
-        "separator"
+        "separator",
+        "utils"
       ]
     },
     {
@@ -189,8 +286,8 @@
         "react-day-picker"
       ],
       "registryDependencies": [
-        "utils",
-        "button"
+        "button",
+        "utils"
       ]
     },
     {
@@ -220,8 +317,8 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "utils",
-        "button"
+        "button",
+        "utils"
       ]
     },
     {
@@ -268,9 +365,6 @@
       ],
       "dependencies": [
         "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "utils"
       ]
     },
     {
@@ -287,9 +381,9 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "utils",
         "button",
-        "input-group"
+        "input-group",
+        "utils"
       ]
     },
     {
@@ -306,9 +400,9 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "utils",
         "dialog",
-        "input-group"
+        "input-group",
+        "utils"
       ]
     },
     {
@@ -342,8 +436,8 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "utils",
-        "button"
+        "button",
+        "utils"
       ]
     },
     {
@@ -357,9 +451,6 @@
       ],
       "dependencies": [
         "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "utils"
       ]
     },
     {
@@ -424,9 +515,9 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils",
         "label",
-        "separator"
+        "separator",
+        "utils"
       ]
     },
     {
@@ -458,10 +549,10 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils",
         "button",
         "input",
-        "textarea"
+        "textarea",
+        "utils"
       ]
     },
     {
@@ -511,8 +602,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils",
-        "separator"
+        "separator",
+        "utils"
       ]
     },
     {
@@ -555,8 +646,8 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "utils",
-        "dropdown-menu"
+        "dropdown-menu",
+        "utils"
       ]
     },
     {
@@ -606,8 +697,8 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "utils",
-        "button"
+        "button",
+        "utils"
       ]
     },
     {
@@ -737,8 +828,8 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "utils",
-        "button"
+        "button",
+        "utils"
       ]
     },
     {
@@ -756,14 +847,13 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "utils",
         "button",
         "input",
         "separator",
         "sheet",
         "skeleton",
         "tooltip",
-        "use-mobile"
+        "utils"
       ]
     },
     {
@@ -808,9 +898,6 @@
         "lucide-react",
         "next-themes",
         "sonner"
-      ],
-      "registryDependencies": [
-        "utils"
       ]
     },
     {
@@ -902,8 +989,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils",
-        "toggle"
+        "toggle",
+        "utils"
       ]
     },
     {
@@ -942,7 +1029,12 @@
     {
       "name": "metrics-theme",
       "type": "registry:theme",
-      "files": [],
+      "files": [
+        {
+          "path": "registry/themes/metrics.json",
+          "type": "registry:theme"
+        }
+      ],
       "cssVars": {
         "light": {
           "primary": "oklch(0.50 0.16 160)",
@@ -961,7 +1053,12 @@
     {
       "name": "perimeter-api-theme",
       "type": "registry:theme",
-      "files": [],
+      "files": [
+        {
+          "path": "registry/themes/perimeter-api.json",
+          "type": "registry:theme"
+        }
+      ],
       "cssVars": {
         "light": {
           "primary": "oklch(0.45 0.12 250)",
