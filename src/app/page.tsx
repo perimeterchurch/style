@@ -85,7 +85,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <pre className="rounded-lg bg-muted p-4 text-sm font-mono">
-                <code>pnpm dlx shadcn@latest add button -r https://your-registry-url.com/r</code>
+                <code>pnpm dlx shadcn@latest add @perimeter/button</code>
               </pre>
             </CardContent>
           </Card>
