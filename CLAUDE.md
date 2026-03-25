@@ -1,88 +1,81 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Table of Contents
 
-## Overview
-
-Shared design system for Perimeter Church. Published as `@perimeterchurch/style` to GitHub Packages. Internal Turborepo monorepo that publishes as a single package with multiple entry points.
+- [Commands](#commands)
+- [Architecture](#architecture)
+- [Documentation](#documentation)
+- [Critical Rules](#critical-rules)
+- [Code Philosophy](#code-philosophy)
+- [TypeScript Standards](#typescript-standards)
+- [File Naming and Organization](#file-naming-and-organization)
+- [Error Handling](#error-handling)
+- [Logging](#logging)
+- [Testing](#testing)
+- [Git Workflow](#git-workflow)
+- [Project Configuration](#project-configuration)
 
 ## Commands
 
-| Command                | Description                                         |
-| ---------------------- | --------------------------------------------------- |
-| `pnpm dev`             | Start Storybook with live editing                   |
-| `pnpm build`           | Build all packages to `dist/`                       |
-| `pnpm test`            | Run all tests via Turborepo                         |
-| `pnpm lint`            | ESLint across all packages                          |
-| `pnpm format`          | Prettier format all files                           |
-| `pnpm format:check`    | Prettier check (CI)                                 |
-| `pnpm typecheck`       | TypeScript type checking                            |
-| `pnpm quality`         | All checks (typecheck + lint + format:check + test) |
-| `pnpm storybook:build` | Static Storybook build for GitHub Pages             |
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start Next.js dev server with Turbopack |
+| `pnpm build` | Build registry JSON + Next.js production build |
+| `pnpm registry:build` | Build registry JSON only (shadcn build) |
+| `pnpm lint` | Run ESLint |
+| `pnpm format` | Format with Prettier |
+| `pnpm format:check` | Check formatting |
+| `pnpm typecheck` | TypeScript type checking |
+| `pnpm test` | Run tests (none yet) |
+| `pnpm quality` | Run all checks (typecheck + lint + format:check) |
 
 ## Architecture
 
-### Internal Monorepo → Single Published Package
+shadcn-compatible component registry for Perimeter Church. Next.js app that serves registry JSON and hosts a theme editor.
 
-| Internal Package       | Published Entry Point               | Contents                                      |
-| ---------------------- | ----------------------------------- | --------------------------------------------- |
-| `packages/tokens/`     | `@perimeterchurch/style`            | Design tokens, CSS variables, Tailwind preset |
-| `packages/components/` | `@perimeterchurch/style/components` | Primitive UI components                       |
-| `packages/components/` | `@perimeterchurch/style/composite`  | Complex components (headless UI)              |
-| `packages/motion/`     | `@perimeterchurch/style/motion`     | Framer Motion animation wrappers              |
-| `packages/icons/`      | `@perimeterchurch/style/icons`      | Icon system (lucide-react + custom)           |
-| —                      | `@perimeterchurch/style/css`        | Base CSS (tokens + resets)                    |
-| —                      | `@perimeterchurch/style/tailwind`   | Tailwind v4 preset CSS                        |
+- **Registry**: Components defined in `registry/new-york/ui/`, built to `public/r/` via `shadcn build`
+- **Theme Editor**: `/editor` route with iframe-based live preview and token controls
+- **Consumers**: Install via `pnpm dlx shadcn@latest add @perimeter/button`
+- **Tokens**: Warm stone palette in OKLCH format, light + dark + project-specific themes
 
-### Component Architecture
+### Key Directories
 
-- **Dual API**: Simple props-driven + compound escape hatch (Button, Card, Input, Select, ComboSelect, Tabs)
-- **Variant files**: Each component has a `.variants.ts` with `VariantDefinition` records — the single source of truth for styling
-- **Token-driven**: Components use CSS custom properties via `bg-[var(--color-primary)]` for runtime overrideability
-- **Two-layer tokens**: Build-time `@theme` block for Tailwind utilities + runtime `:root` CSS variables
+| Directory | Purpose |
+|-----------|---------|
+| `registry/new-york/ui/` | Component source (SINGLE SOURCE OF TRUTH) |
+| `registry/themes/` | Theme definitions |
+| `src/app/editor/` | Theme editor page |
+| `src/app/preview/` | iframe preview pages for editor |
+| `public/r/` | Built registry JSON (generated, gitignored) |
+| `src/components/` | App-specific UI only (NOT registry components) |
+| `scripts/` | Build and generation scripts |
 
-### Peer Dependencies by Entry Point
+## Documentation
 
-| Entry Point                         | Required Peer Deps                  |
-| ----------------------------------- | ----------------------------------- |
-| `@perimeterchurch/style/components` | `react@^19`                         |
-| `@perimeterchurch/style/composite`  | `react@^19`, `@headlessui/react@^2` |
-| `@perimeterchurch/style/motion`     | `react@^19`, `framer-motion@^11`    |
-| `@perimeterchurch/style/icons`      | `react@^19`, `lucide-react@^0.400`  |
+Documentation lives alongside the code it describes:
+
+- **Architecture docs** explain *why* systems are designed the way they are
+- **Guide docs** explain *how* to accomplish specific tasks
+- **Reference docs** are lookup tables for APIs, tokens, and config
+
+Rules for documentation:
+
+- Do not create documentation files unless explicitly requested
+- Keep docs close to the code they describe
+- Update docs when changing the systems they document
+- Prefer self-documenting code over comments
 
 ## Critical Rules
 
-- **Always use `pnpm`** — never npm or npx
+- **Always use `pnpm`** — never npm or npx. Use `pnpm dlx` instead of `npx`
 - **Always create a branch** — never commit directly to `dev` or `main`
 - **Never push to origin** — pushing is a manual task performed by the developer
 - **Conventional commits:** `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`
-- **Use `--body-file` for PR bodies** — avoids ANSI escape code injection
-- **Read docs before code** — check `docs/` for architecture and guides before modifying
+- **Use `--body-file` for PR bodies** — `gh pr create --body` and `gh pr edit --body` inject ANSI escape codes. Write the body file using the Write tool, then pass it with `--body-file`
+- **`registry/new-york/ui/` is the single source of truth for components** — never edit built output in `public/r/`
+- **Always run `pnpm registry:build` after modifying registry items** — the built JSON in `public/r/` must stay in sync
 - **Never add eslint-disable comments** — fix the underlying code instead of suppressing warnings. eslint-disable comments hide problems and rot over time
-- **Never use `any` in production code** — `@typescript-eslint/no-explicit-any` is enforced as an error. Use proper types, generics, or `unknown` instead. Test and story files are exempt from this rule
-
-## Context Loading
-
-| Working on...                                  | Load first                             |
-| ---------------------------------------------- | -------------------------------------- |
-| Monorepo structure or build                    | `docs/architecture/overview.md`        |
-| Design tokens or CSS variables                 | `docs/architecture/tokens.md`          |
-| Themes (light/dark/named)                      | `docs/architecture/theming.md`         |
-| Component architecture                         | `docs/architecture/components.md`      |
-| Icon system                                    | `docs/architecture/icons.md`           |
-| Creating a new component                       | `docs/guides/adding-a-component.md`    |
-| Adding a variant                               | `docs/guides/adding-a-variant.md`      |
-| Creating a new theme                           | `docs/guides/adding-a-theme.md`        |
-| Adding an icon                                 | `docs/guides/adding-an-icon.md`        |
-| Component implementation patterns              | `docs/guides/component-patterns.md`    |
-| Writing or fixing tests                        | `docs/guides/testing.md`               |
-| CI/CD or publishing                            | `docs/guides/publishing.md`            |
-| Using this package in another project          | `docs/guides/consuming.md`             |
-| Token names and values                         | `docs/reference/design-tokens.md`      |
-| Component props and APIs                       | `docs/reference/component-catalog.md`  |
-| Variant file structure                         | `docs/reference/variant-api.md`        |
-| Storybook addon (token editor/variant creator) | `docs/architecture/storybook-addon.md` |
-| Unknown area                                   | `docs/README.md`                       |
+- **Never use `any` in production code** — use proper types, generics, or `unknown` instead. Test and story files are exempt from this rule
 
 ## Code Philosophy
 
@@ -112,6 +105,94 @@ Breaks commonly happen when a semantic function morphs into a pragmatic function
 
 Models break the same way but slower. They start focused, then someone adds "just one more" optional field because it's easier than creating a new model, and then someone else does the same, and eventually the model is a loose bag of half-related data where every consumer has to guess which fields are actually set and why. The name stops describing what the data is, the fields stop cohering around a single concept, and every new feature that touches the model has to navigate states it was never designed to represent. When a model's fields no longer cohere around its name, that's the signal to split it into the distinct things it's been coupling together.
 
-## Worktrees
+## TypeScript Standards
 
-Use `.worktrees/` (project-local, hidden) for isolated development branches. This directory is gitignored.
+### Strict Configuration
+
+- `strict: true` is enabled in tsconfig.json — do not weaken it
+- All function parameters and return types should be inferable or explicitly typed
+- Prefer `unknown` over `any` when the type is genuinely not known
+
+### Type Safety Rules
+
+- Use discriminated unions for state that can be in multiple forms
+- Prefer `interface` for object shapes that will be extended, `type` for unions and computed types
+- Use `as const` for literal tuples and objects that should not widen
+- Avoid type assertions (`as`) — narrow with type guards instead
+- Generic constraints should be as tight as possible
+
+### Import Ordering
+
+Imports should be grouped in this order, with a blank line between groups:
+
+1. React / framework imports
+2. External library imports
+3. Internal absolute imports (`@/...`)
+4. Relative imports
+5. Type-only imports (`import type`)
+
+## File Naming and Organization
+
+This project uses Next.js App Router conventions:
+
+- **Route files**: `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx`
+- **Components**: PascalCase for component files (`Button.tsx`), kebab-case for directories
+- **Utilities**: camelCase (`formatDate.ts`)
+- **Types**: colocate with the module that owns them, or in a `types.ts` file for shared types
+- **Constants**: SCREAMING_SNAKE_CASE for true constants, camelCase for derived values
+- **Registry components**: live in `registry/new-york/ui/` with kebab-case filenames matching the shadcn convention
+
+### Barrel Exports
+
+- Use `index.ts` barrel files sparingly — only for public API boundaries
+- Never re-export everything; be explicit about what is public
+
+## Error Handling
+
+- Use early returns to handle error cases before the happy path
+- Throw errors with descriptive messages that include relevant context
+- Prefer custom error types for domain-specific failures
+- Never swallow errors silently — log them at minimum
+- In React components, use error boundaries for runtime errors
+
+## Logging
+
+- Use `console.error` for errors that need attention
+- Use `console.warn` for degraded behavior that still works
+- Avoid `console.log` in production code — use it only during development
+- Never log sensitive data (tokens, passwords, PII)
+
+## Testing
+
+- Test files live next to the code they test: `Button.test.tsx` beside `Button.tsx`
+- Name test files with `.test.ts` or `.test.tsx` suffix
+- Describe blocks should mirror the module's public API
+- Each test should test one behavior and have a descriptive name
+- Prefer testing behavior over implementation details
+- Use factories or builders for test data, not raw object literals
+
+## Git Workflow
+
+- **Branch naming**: `feat/short-description`, `fix/short-description`, `chore/short-description`
+- **Conventional commits**: `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`
+- **Never push to origin** — pushing is a manual task performed by the developer
+- **Never commit directly to `dev` or `main`**
+- **Use `--body-file`** for PR bodies to avoid ANSI escape code injection
+
+## Project Configuration
+
+### Path Aliases
+
+| Alias | Maps To |
+|-------|---------|
+| `@/*` | `./src/*` |
+
+### Key Config Files
+
+| File | Purpose |
+|------|---------|
+| `components.json` | shadcn registry configuration |
+| `next.config.ts` | Next.js configuration |
+| `tsconfig.json` | TypeScript configuration |
+| `postcss.config.mjs` | PostCSS with Tailwind CSS v4 |
+| `eslint.config.mjs` | ESLint flat config |

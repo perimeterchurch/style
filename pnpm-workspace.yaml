@@ -1,5 +1,3 @@
-packages:
-    - packages/*
-onlyBuiltDependencies:
-    - esbuild
-    - turbo
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver

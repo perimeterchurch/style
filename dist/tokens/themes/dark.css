@@ -1,0 +1,43 @@
+/**
+ * Dark Theme
+ * Overrides default light token values when data-theme="dark" is set
+ */
+[data-theme='dark'] {
+    /* Base scale: stone dark */
+    --color-bg: #0c0a09;
+    --color-bg-subtle: #1c1917;
+    --color-bg-muted: #292524;
+    --color-border: #44403c;
+    --color-border-subtle: #292524;
+    --color-text: #fafaf9;
+    --color-text-secondary: #a8a29e;
+    --color-text-muted: #78716c;
+
+    /* Surface colors (dark mode) */
+    --color-background: #0c0a09;
+    --color-foreground: #fafaf9;
+    --color-muted: #292524;
+    --color-muted-foreground: #a8a29e;
+    --color-input: #44403c;
+    --color-ring: #5b5bd6;
+
+    /* Card colors */
+    --color-card: #1c1917;
+    --color-card-foreground: #fafaf9;
+
+    /* Popover colors */
+    --color-popover: #1c1917;
+    --color-popover-foreground: #fafaf9;
+
+    /* Accent colors */
+    --color-accent: #292524;
+    --color-accent-foreground: #fafaf9;
+
+    /* Adjusted shadows for dark mode */
+    --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+}

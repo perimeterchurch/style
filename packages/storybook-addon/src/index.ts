@@ -1,1 +1,0 @@
-export { ADDON_ID, TOKEN_EDITOR_PANEL_ID, VARIANT_CREATOR_PANEL_ID, EVENTS } from './constants.ts';
