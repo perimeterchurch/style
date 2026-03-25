@@ -1,19 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PreviewFrame } from "@/components/editor/preview-frame";
+
+import { PreviewPanel } from "@/components/editor/preview-panel";
 import { TokenControls } from "@/components/editor/token-controls";
 import { useEditorStore } from "@/lib/editor-store";
 import { Button } from "@/components/ui/button";
 
 const PREVIEW_TABS = [
-  { label: "Showcase", path: "/preview/showcase" },
-  { label: "Forms", path: "/preview/forms" },
-  { label: "Dashboard", path: "/preview/dashboard" },
+  { label: "Showcase", key: "showcase" },
+  { label: "Forms", key: "forms" },
+  { label: "Dashboard", key: "dashboard" },
 ] as const;
 
 export default function EditorPage() {
-  const [activeTab, setActiveTab] = useState<string>(PREVIEW_TABS[0].path);
+  const [activeTab, setActiveTab] = useState<string>(PREVIEW_TABS[0].key);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -40,17 +41,17 @@ export default function EditorPage() {
         <div className="flex gap-1 p-2 border-b bg-muted/50">
           {PREVIEW_TABS.map((tab) => (
             <Button
-              key={tab.path}
-              variant={activeTab === tab.path ? "default" : "ghost"}
+              key={tab.key}
+              variant={activeTab === tab.key ? "default" : "ghost"}
               size="sm"
-              onClick={() => setActiveTab(tab.path)}
+              onClick={() => setActiveTab(tab.key)}
             >
               {tab.label}
             </Button>
           ))}
         </div>
         <div className="flex-1">
-          <PreviewFrame src={activeTab} />
+          <PreviewPanel activeTab={activeTab} />
         </div>
       </main>
     </div>

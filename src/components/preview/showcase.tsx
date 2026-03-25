@@ -19,7 +19,7 @@ import { Separator } from "@/components/ui/separator";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-export default function ShowcasePage() {
+export function Showcase() {
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold">Component Showcase</h1>

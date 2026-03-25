@@ -77,7 +77,7 @@ const TRANSACTIONS = [
   },
 ];
 
-export default function DashboardPage() {
+export function Dashboard() {
   const [activeNav, setActiveNav] = useState("Dashboard");
 
   return (

@@ -10,12 +10,12 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
-export default function FormsPage() {
+export function Forms() {
   return (
     <div className="space-y-8 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold">Form Examples</h1>
@@ -29,23 +29,31 @@ export default function FormsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-1.5">
-            <Label>Email</Label>
-            <Input type="email" placeholder="you@example.com" />
+          <div className="space-y-2">
+            <Label htmlFor="login-email">Email</Label>
+            <Input
+              id="login-email"
+              type="email"
+              placeholder="you@example.com"
+            />
           </div>
-          <div className="space-y-1.5">
-            <Label>Password</Label>
-            <Input type="password" placeholder="Enter your password" />
+          <div className="space-y-2">
+            <Label htmlFor="login-password">Password</Label>
+            <Input
+              id="login-password"
+              type="password"
+              placeholder="Enter your password"
+            />
           </div>
           <div className="flex items-center gap-2">
-            <Checkbox />
-            <Label className="text-sm">Remember me</Label>
+            <Checkbox id="login-remember" />
+            <Label htmlFor="login-remember" className="text-sm font-normal">
+              Remember me
+            </Label>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button variant="link" size="sm">
-            Forgot password?
-          </Button>
+        <CardFooter className="flex items-center justify-between">
+          <Button variant="link">Forgot password?</Button>
           <Button>Sign In</Button>
         </CardFooter>
       </Card>
@@ -62,30 +70,42 @@ export default function FormsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <Label>First Name</Label>
-              <Input placeholder="John" />
+            <div className="space-y-2">
+              <Label htmlFor="signup-first">First Name</Label>
+              <Input id="signup-first" placeholder="John" />
             </div>
-            <div className="space-y-1.5">
-              <Label>Last Name</Label>
-              <Input placeholder="Doe" />
+            <div className="space-y-2">
+              <Label htmlFor="signup-last">Last Name</Label>
+              <Input id="signup-last" placeholder="Doe" />
             </div>
           </div>
-          <div className="space-y-1.5">
-            <Label>Email</Label>
-            <Input type="email" placeholder="john@example.com" />
+          <div className="space-y-2">
+            <Label htmlFor="signup-email">Email</Label>
+            <Input
+              id="signup-email"
+              type="email"
+              placeholder="john@example.com"
+            />
           </div>
-          <div className="space-y-1.5">
-            <Label>Password</Label>
-            <Input type="password" placeholder="Create a password" />
+          <div className="space-y-2">
+            <Label htmlFor="signup-password">Password</Label>
+            <Input
+              id="signup-password"
+              type="password"
+              placeholder="Create a password"
+            />
           </div>
-          <div className="space-y-1.5">
-            <Label>Confirm Password</Label>
-            <Input type="password" placeholder="Confirm your password" />
+          <div className="space-y-2">
+            <Label htmlFor="signup-confirm">Confirm Password</Label>
+            <Input
+              id="signup-confirm"
+              type="password"
+              placeholder="Confirm your password"
+            />
           </div>
           <div className="flex items-center gap-2">
-            <Checkbox />
-            <Label className="text-sm">
+            <Checkbox id="signup-terms" />
+            <Label htmlFor="signup-terms" className="text-sm font-normal">
               I agree to the terms and conditions
             </Label>
           </div>
@@ -113,7 +133,7 @@ export default function FormsPage() {
                 Receive email about activity on your account.
               </p>
             </div>
-            <Switch defaultChecked />
+            <Switch id="settings-email" defaultChecked />
           </div>
           <Separator />
           <div className="flex items-center justify-between">
@@ -123,7 +143,7 @@ export default function FormsPage() {
                 Get push notifications on your device.
               </p>
             </div>
-            <Switch />
+            <Switch id="settings-push" />
           </div>
           <Separator />
           <div className="flex items-center justify-between">
@@ -133,7 +153,7 @@ export default function FormsPage() {
                 Receive emails about new features and updates.
               </p>
             </div>
-            <Switch />
+            <Switch id="settings-marketing" />
           </div>
         </CardContent>
         <CardFooter>
