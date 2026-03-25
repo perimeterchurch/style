@@ -8,11 +8,11 @@
 
 ## High Priority
 
-- [ ] Registry base item — `registry:base` metaitem so consumers can install full Perimeter style in one command
-- [ ] File download export — editor exports as `.css` and `.json` file downloads, not just clipboard
-- [ ] Per-project integration docs — specific setup steps for perimeter-api, metrics, perimeter-widgets
-- [ ] Versioning strategy — how consuming projects handle registry updates without breaking
-- [ ] Deploy to GitHub Pages — CI/CD pipeline working end-to-end
+- [x] Registry base item — `registry:base` metaitem so consumers can install full Perimeter style in one command
+- [x] File download export — editor exports as `.css` and `.json` file downloads, not just clipboard
+- [x] Per-project integration docs — specific setup steps for perimeter-api, metrics, perimeter-widgets
+- [x] Versioning strategy — how consuming projects handle registry updates without breaking
+- [ ] Deploy to GitHub Pages — CI/CD pipeline working end-to-end (workflows updated, needs first push to main)
 
 ## Medium Priority
 
