@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Moon, Sun, RotateCcw, Copy, FileDown, Undo2, Redo2 } from "lucide-react";
+import { Moon, Sun, RotateCcw, Copy, FileDown, Download, Undo2, Redo2 } from "lucide-react";
 import { toast } from "sonner";
 
 /**
@@ -93,6 +93,18 @@ function hexToOklch(hex: string): string {
   if (H < 0) H += 360;
 
   return `oklch(${L.toFixed(3)} ${C.toFixed(3)} ${Math.round(H)})`;
+}
+
+function downloadFile(content: string, filename: string, type: string) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 const NON_COLOR_TOKENS = new Set(["radius"]);
@@ -265,6 +277,38 @@ export function TokenControls() {
           >
             <Copy className="size-3.5" />
             Copy JSON
+          </Button>
+        </div>
+        <div className="flex gap-1.5">
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1"
+            onClick={() => {
+              const css = exportAsCSS(lightTokens, darkTokens);
+              downloadFile(css, "theme.css", "text/css");
+              toast.success("Downloaded theme.css");
+            }}
+          >
+            <Download className="size-3.5" />
+            Download CSS
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1"
+            onClick={() => {
+              const json = exportAsRegistryTheme(
+                themeName,
+                lightTokens,
+                darkTokens,
+              );
+              downloadFile(JSON.stringify(json, null, 2), `${themeName}.json`, "application/json");
+              toast.success(`Downloaded ${themeName}.json`);
+            }}
+          >
+            <Download className="size-3.5" />
+            Download JSON
           </Button>
         </div>
       </div>
