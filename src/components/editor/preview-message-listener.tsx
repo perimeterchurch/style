@@ -5,6 +5,7 @@ import { useEffect } from "react";
 export function PreviewMessageListener() {
   useEffect(() => {
     function handleMessage(e: MessageEvent) {
+      if (e.origin !== window.location.origin) return;
       if (e.data?.type === "UPDATE_TOKENS") {
         const { tokens, mode } = e.data as {
           tokens: Record<string, string>;

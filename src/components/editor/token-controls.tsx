@@ -95,8 +95,9 @@ function hexToOklch(hex: string): string {
   return `oklch(${L.toFixed(3)} ${C.toFixed(3)} ${Math.round(H)})`;
 }
 
+const NON_COLOR_TOKENS = new Set(["radius"]);
 function isColorToken(name: string): boolean {
-  return name !== "radius";
+  return !NON_COLOR_TOKENS.has(name);
 }
 
 function TokenInput({

@@ -55,8 +55,8 @@ export function ThemeSelector() {
     ? savedThemes.find((t) => t.slug === activeThemeSlug)
     : null;
 
-  function handleSelectChange(value: string | null) {
-    if (!value) return;
+  function handleSelectChange(value: string | null, _eventDetails?: unknown) {
+    if (value === null) return;
     if (value === CREATE_NEW_VALUE) {
       setThemeName("");
       setDialogMode("create");

@@ -41,6 +41,7 @@ export const DEFAULT_LIGHT_TOKENS: Record<string, string> = {
 };
 
 export const DEFAULT_DARK_TOKENS: Record<string, string> = {
+  radius: "0.625rem",
   background: "oklch(0.147 0.012 50)",
   foreground: "oklch(0.985 0.002 75)",
   card: "oklch(0.21 0.012 50)",

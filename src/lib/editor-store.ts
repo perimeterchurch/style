@@ -29,6 +29,16 @@ const MAX_HISTORY = 50;
 let snapshotTimer: ReturnType<typeof setTimeout> | null = null;
 let pendingSnapshot: TokenSnapshot | null = null;
 
+function flushPendingSnapshot(get: () => EditorState, set: (partial: Partial<EditorState>) => void) {
+  if (pendingSnapshot && snapshotTimer) {
+    clearTimeout(snapshotTimer);
+    snapshotTimer = null;
+    const past = [...get().past, pendingSnapshot].slice(-MAX_HISTORY);
+    set({ past, future: [] });
+    pendingSnapshot = null;
+  }
+}
+
 function scheduleSnapshot(
   get: () => EditorState,
   set: (partial: Partial<EditorState>) => void,
@@ -84,25 +94,26 @@ export const useEditorStore = create<EditorState>()(
       },
 
       undo: () => {
-        const { past, lightTokens, darkTokens } = get();
+        flushPendingSnapshot(get, set);
+        const { past, lightTokens, darkTokens, future } = get();
         if (past.length === 0) return;
         const previous = past[past.length - 1];
         set({
           lightTokens: { ...previous.lightTokens },
           darkTokens: { ...previous.darkTokens },
           past: past.slice(0, -1),
-          future: [{ lightTokens, darkTokens }, ...get().future],
+          future: [{ lightTokens, darkTokens }, ...future],
         });
       },
 
       redo: () => {
-        const { future, lightTokens, darkTokens } = get();
+        const { future, lightTokens, darkTokens, past } = get();
         if (future.length === 0) return;
         const next = future[0];
         set({
           lightTokens: { ...next.lightTokens },
           darkTokens: { ...next.darkTokens },
-          past: [...get().past, { lightTokens, darkTokens }],
+          past: [...past, { lightTokens, darkTokens }],
           future: future.slice(1),
         });
       },

@@ -80,7 +80,7 @@ export const useThemeManagerStore = create<ThemeManagerState>()(
                 t.slug === activeThemeSlug
                   ? {
                       ...t,
-                      name,
+                      name: existing.name,
                       lightTokens: { ...editor.lightTokens },
                       darkTokens: { ...editor.darkTokens },
                     }
@@ -124,15 +124,15 @@ export const useThemeManagerStore = create<ThemeManagerState>()(
         if (!theme) return;
 
         const editor = useEditorStore.getState();
+        const lightTokens = { ...DEFAULT_LIGHT_TOKENS, ...theme.lightTokens };
+        const darkTokens = { ...DEFAULT_DARK_TOKENS, ...theme.darkTokens };
 
-        // For presets, tokens already have defaults merged in from buildPreset
-        editor.resetToDefaults();
-
-        // Apply theme tokens via individual setToken calls would be slow;
-        // directly set via the store's setState
+        // Push current state to undo stack, set new tokens in one operation
         useEditorStore.setState({
-          lightTokens: { ...theme.lightTokens },
-          darkTokens: { ...theme.darkTokens },
+          lightTokens,
+          darkTokens,
+          past: [...editor.past, { lightTokens: editor.lightTokens, darkTokens: editor.darkTokens }].slice(-50),
+          future: [],
         });
 
         set({ activeThemeSlug: slug });
