@@ -11,8 +11,18 @@ export function PreviewMessageListener() {
           tokens: Record<string, string>;
           mode: string;
         };
+        // Clear all previous inline token overrides before applying new ones
+        // This prevents stale light-mode values from persisting in dark mode
+        const style = document.documentElement.style;
+        for (let i = style.length - 1; i >= 0; i--) {
+          const prop = style.item(i);
+          if (prop.startsWith("--")) {
+            style.removeProperty(prop);
+          }
+        }
+        // Apply the current mode's tokens
         for (const [name, value] of Object.entries(tokens)) {
-          document.documentElement.style.setProperty(`--${name}`, value);
+          style.setProperty(`--${name}`, value);
         }
         document.documentElement.classList.toggle("dark", mode === "dark");
       }
