@@ -16,7 +16,7 @@ export default function EditorPage() {
 
   return (
     <div className="flex h-screen">
-      <aside className="w-80 border-r overflow-hidden bg-background flex flex-col">
+      <aside className="w-80 border-r bg-background flex flex-col overflow-y-auto">
         <TokenControls />
       </aside>
       <main className="flex-1 flex flex-col">
