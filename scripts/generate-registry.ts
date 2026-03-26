@@ -92,7 +92,7 @@ async function generateRegistry() {
     // No hooks directory — skip
   }
 
-  // 3. Add base item (registry:base)
+  // 3. Add base item (registry:base), syncing cssVars from default.json
   try {
     const baseContent = await readFile(BASE_FILE, "utf-8");
     const base = JSON.parse(baseContent) as {
@@ -103,6 +103,14 @@ async function generateRegistry() {
       registryDependencies?: string[];
       cssVars?: Record<string, Record<string, string>>;
     };
+
+    // Sync cssVars from default.json so base.json stays in sync automatically
+    const defaultThemePath = join(THEMES_DIR, "default.json");
+    const defaultThemeContent = await readFile(defaultThemePath, "utf-8");
+    const defaultTheme = JSON.parse(defaultThemeContent) as {
+      cssVars: Record<string, Record<string, string>>;
+    };
+
     const baseItem: RegistryItem = {
       name: base.name,
       type: base.type,
@@ -111,10 +119,10 @@ async function generateRegistry() {
     if (base.description) baseItem.description = base.description;
     if (base.dependencies) baseItem.dependencies = base.dependencies;
     if (base.registryDependencies) baseItem.registryDependencies = base.registryDependencies;
-    if (base.cssVars) baseItem.cssVars = base.cssVars;
+    baseItem.cssVars = defaultTheme.cssVars;
     items.push(baseItem);
   } catch {
-    // No base.json — skip
+    // No base.json or default.json — skip
   }
 
   // 4. Scan UI components
