@@ -17,18 +17,19 @@
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start Next.js dev server with Turbopack |
-| `pnpm build` | Generate themes + build registry + Next.js production build |
-| `pnpm registry:build` | Build registry JSON only (shadcn build) |
-| `pnpm generate:themes` | Generate theme CSS from `registry/themes/*.json` |
-| `pnpm lint` | Run ESLint |
-| `pnpm format` | Format with Prettier |
-| `pnpm format:check` | Check formatting |
-| `pnpm typecheck` | TypeScript type checking |
-| `pnpm test` | Run tests (none yet) |
-| `pnpm quality` | Run all checks (typecheck + lint + format:check) |
+| Command                | Description                                                 |
+| ---------------------- | ----------------------------------------------------------- |
+| `pnpm dev`             | Start Next.js dev server with Turbopack                     |
+| `pnpm build`           | Generate themes + build registry + Next.js production build |
+| `pnpm registry:build`  | Build registry JSON only (shadcn build)                     |
+| `pnpm generate:themes` | Generate theme CSS from `registry/themes/*.json`            |
+| `pnpm lint`            | Run ESLint                                                  |
+| `pnpm format`          | Format with Prettier                                        |
+| `pnpm format:check`    | Check formatting                                            |
+| `pnpm collect:demos`   | Collect demo manifests and generate import map              |
+| `pnpm typecheck`       | TypeScript type checking                                    |
+| `pnpm test`            | Run tests (none yet)                                        |
+| `pnpm quality`         | Run all checks (typecheck + lint + format:check)            |
 
 ## Architecture
 
@@ -42,17 +43,19 @@ shadcn-compatible component registry and showcase site for Perimeter Church. Nex
 
 ### Key Directories
 
-| Directory | Purpose |
-|-----------|---------|
-| `registry/ui/perimeter/` | Component source (SINGLE SOURCE OF TRUTH) |
-| `registry/themes/` | Theme definitions (default, perimeter-api, metrics) |
-| `src/app/` | Next.js routes (components, templates, tokens, docs) |
-| `src/components/site/` | Site chrome (top nav, sidebar, search, playground controls) |
-| `src/components/ui/` | shadcn components for app use (NOT the registry source) |
-| `src/lib/` | Utilities (demo-types, highlight, theme-context, utils) |
-| `src/styles/` | Generated theme CSS (gitignored) |
-| `scripts/` | Build and generation scripts |
-| `public/r/` | Built registry JSON (generated, gitignored) |
+| Directory                          | Purpose                                                     |
+| ---------------------------------- | ----------------------------------------------------------- |
+| `registry/ui/perimeter/`           | Component source (SINGLE SOURCE OF TRUTH)                   |
+| `registry/ui/perimeter/*.demo.tsx` | Component demos with controls, examples, and meta           |
+| `registry/themes/`                 | Theme definitions (default, perimeter-api, metrics)         |
+| `src/app/`                         | Next.js routes (components, templates, tokens, docs)        |
+| `src/templates/`                   | Full-page template compositions (dashboard, settings, etc.) |
+| `src/components/site/`             | Site chrome (top nav, sidebar, search, playground controls)  |
+| `src/components/ui/`               | shadcn components for app use (NOT the registry source)     |
+| `src/lib/`                         | Utilities (demo-types, highlight, theme-context, utils)     |
+| `src/styles/`                      | Generated theme CSS (gitignored)                            |
+| `scripts/`                         | Build and generation scripts                                |
+| `public/r/`                        | Built registry JSON (generated, gitignored)                 |
 
 ### Theme System Architecture
 
@@ -64,20 +67,23 @@ Theme files in `registry/themes/` are compiled to CSS at build time by `scripts/
 
 ### Context Loading
 
-| Working on... | Read first |
-|---------------|-----------|
-| Registry components | `registry/ui/perimeter/` |
-| Theme tokens | `registry/themes/default.json`, `src/app/globals.css` |
-| Theme generation | `scripts/generate-theme-css.ts`, `registry/themes/` |
-| Registry build | `scripts/generate-registry.ts`, `registry.json` |
-| Site navigation | `src/components/site/` |
+| Working on...       | Read first                                                |
+| ------------------- | --------------------------------------------------------- |
+| Registry components | `registry/ui/perimeter/`                                  |
+| Demo files          | `registry/ui/perimeter/*.demo.tsx`, `src/lib/demo-types.ts` |
+| Templates           | `src/templates/`, `src/app/templates/`                    |
+| Theme tokens        | `registry/themes/default.json`, `src/app/globals.css`     |
+| Theme generation    | `scripts/generate-theme-css.ts`, `registry/themes/`       |
+| Registry build      | `scripts/generate-registry.ts`, `registry.json`           |
+| Site navigation     | `src/components/site/`                                    |
+| Site components     | `src/components/site/`, `src/app/layout.tsx`              |
 
 ## Documentation
 
 Documentation lives alongside the code it describes:
 
-- **Architecture docs** explain *why* systems are designed the way they are
-- **Guide docs** explain *how* to accomplish specific tasks
+- **Architecture docs** explain _why_ systems are designed the way they are
+- **Guide docs** explain _how_ to accomplish specific tasks
 - **Reference docs** are lookup tables for APIs, tokens, and config
 
 Rules for documentation:
@@ -94,7 +100,7 @@ Rules for documentation:
 - **Never push to origin** — pushing is a manual task performed by the developer
 - **Conventional commits:** `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`
 - **Use `--body-file` for PR bodies** — `gh pr create --body` and `gh pr edit --body` inject ANSI escape codes. Write the body file using the Write tool, then pass it with `--body-file`
-- **`registry/new-york/ui/` is the single source of truth for components** — never edit built output in `public/r/`
+- **`registry/ui/perimeter/` is the single source of truth for components** — never edit built output in `public/r/`
 - **Always run `pnpm registry:build` after modifying registry items** — the built JSON in `public/r/` must stay in sync
 - **Never add eslint-disable comments** — fix the underlying code instead of suppressing warnings. eslint-disable comments hide problems and rot over time
 - **Never use `any` in production code** — use proper types, generics, or `unknown` instead. Test and story files are exempt from this rule
@@ -162,7 +168,7 @@ This project uses Next.js App Router conventions:
 - **Utilities**: camelCase (`formatDate.ts`)
 - **Types**: colocate with the module that owns them, or in a `types.ts` file for shared types
 - **Constants**: SCREAMING_SNAKE_CASE for true constants, camelCase for derived values
-- **Registry components**: live in `registry/new-york/ui/` with kebab-case filenames matching the shadcn convention
+- **Registry components**: live in `registry/ui/perimeter/` with kebab-case filenames matching the shadcn convention
 
 ### Barrel Exports
 
@@ -205,16 +211,17 @@ This project uses Next.js App Router conventions:
 
 ### Path Aliases
 
-| Alias | Maps To |
-|-------|---------|
-| `@/*` | `./src/*` |
+| Alias          | Maps To        |
+| -------------- | -------------- |
+| `@/*`          | `./src/*`      |
+| `@registry/*`  | `./registry/*` |
 
 ### Key Config Files
 
-| File | Purpose |
-|------|---------|
-| `components.json` | shadcn registry configuration |
-| `next.config.ts` | Next.js configuration |
-| `tsconfig.json` | TypeScript configuration |
-| `postcss.config.mjs` | PostCSS with Tailwind CSS v4 |
-| `eslint.config.mjs` | ESLint flat config |
+| File                 | Purpose                       |
+| -------------------- | ----------------------------- |
+| `components.json`    | shadcn registry configuration |
+| `next.config.ts`     | Next.js configuration         |
+| `tsconfig.json`      | TypeScript configuration      |
+| `postcss.config.mjs` | PostCSS with Tailwind CSS v4  |
+| `eslint.config.mjs`  | ESLint flat config            |
