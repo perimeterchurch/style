@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import dynamic from "next/dynamic";
+import { useState, useMemo, useEffect } from "react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlaygroundControls } from "./playground-controls";
+import { demoImports } from "@/lib/demo-imports";
 
 import type { ControlsConfig } from "@/lib/demo-types";
 
@@ -31,23 +31,19 @@ export function ComponentPlayground({
 }: ComponentPlaygroundProps) {
   const defaults = useMemo(() => buildDefaults(controls), [controls]);
   const [values, setValues] = useState<Record<string, unknown>>(defaults);
+  const [Playground, setPlayground] = useState<React.ComponentType<
+    Record<string, unknown>
+  > | null>(null);
 
-  // Load only the single demo Playground for this slug — not all 55
-  const PlaygroundComponent = useMemo(
-    () =>
-      dynamic(
-        () =>
-          import(`@registry/ui/perimeter/${slug}.demo`).then(
-            (mod) => mod.Playground,
-          ),
-        {
-          loading: () => (
-            <div className="text-sm text-muted-foreground">Loading...</div>
-          ),
-        },
-      ),
-    [slug],
-  );
+  useEffect(() => {
+    const importFn = demoImports[slug];
+    if (!importFn) return;
+    importFn().then((mod) => {
+      setPlayground(
+        () => mod.Playground as React.ComponentType<Record<string, unknown>>,
+      );
+    });
+  }, [slug]);
 
   const nonDefaultEntries = useMemo(() => {
     return Object.entries(values).filter(
@@ -69,7 +65,11 @@ export function ComponentPlayground({
 
         <TabsContent value="preview">
           <div className="flex min-h-48 items-center justify-center rounded-lg border bg-background p-8">
-            <PlaygroundComponent {...values} />
+            {Playground ? (
+              <Playground {...values} />
+            ) : (
+              <div className="text-sm text-muted-foreground">Loading...</div>
+            )}
           </div>
         </TabsContent>
 
