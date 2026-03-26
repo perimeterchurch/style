@@ -4,7 +4,10 @@ import { lazy, Suspense, useState } from "react";
 
 import type { TemplateSlug } from "@/templates";
 
-const templateComponents: Record<TemplateSlug, React.LazyExoticComponent<React.ComponentType>> = {
+const templateComponents: Record<
+  TemplateSlug,
+  React.LazyExoticComponent<React.ComponentType>
+> = {
   dashboard: lazy(() => import("@/templates/dashboard")),
   settings: lazy(() => import("@/templates/settings")),
   login: lazy(() => import("@/templates/login")),

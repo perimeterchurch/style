@@ -7,8 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@registry/ui/perimeter/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/ui/perimeter/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@registry/ui/perimeter/avatar";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@registry/ui/perimeter/tabs";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@registry/ui/perimeter/avatar";
 import { Badge } from "@registry/ui/perimeter/badge";
 import {
   BarChartIcon,
@@ -74,10 +83,25 @@ const RECENT_ACTIVITY = [
 ] as const;
 
 const UPCOMING_EVENTS = [
-  { name: "Sunday Worship", date: "Mar 30", attendees: 450, status: "confirmed" },
+  {
+    name: "Sunday Worship",
+    date: "Mar 30",
+    attendees: 450,
+    status: "confirmed",
+  },
   { name: "Youth Night", date: "Apr 2", attendees: 85, status: "confirmed" },
-  { name: "Community Dinner", date: "Apr 5", attendees: 120, status: "tentative" },
-  { name: "Leadership Meeting", date: "Apr 7", attendees: 24, status: "confirmed" },
+  {
+    name: "Community Dinner",
+    date: "Apr 5",
+    attendees: 120,
+    status: "tentative",
+  },
+  {
+    name: "Leadership Meeting",
+    date: "Apr 7",
+    attendees: 24,
+    status: "confirmed",
+  },
 ] as const;
 
 export default function DashboardTemplate() {
@@ -157,10 +181,7 @@ export default function DashboardTemplate() {
                 <CardContent>
                   <div className="space-y-4">
                     {RECENT_ACTIVITY.map((item) => (
-                      <div
-                        key={item.name}
-                        className="flex items-center gap-3"
-                      >
+                      <div key={item.name} className="flex items-center gap-3">
                         <Avatar size="sm">
                           <AvatarFallback>{item.initials}</AvatarFallback>
                         </Avatar>

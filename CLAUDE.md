@@ -50,7 +50,7 @@ shadcn-compatible component registry and showcase site for Perimeter Church. Nex
 | `registry/themes/`                 | Theme definitions (default, perimeter-api, metrics)         |
 | `src/app/`                         | Next.js routes (components, templates, tokens, docs)        |
 | `src/templates/`                   | Full-page template compositions (dashboard, settings, etc.) |
-| `src/components/site/`             | Site chrome (top nav, sidebar, search, playground controls)  |
+| `src/components/site/`             | Site chrome (top nav, sidebar, search, playground controls) |
 | `src/components/ui/`               | shadcn components for app use (NOT the registry source)     |
 | `src/lib/`                         | Utilities (demo-types, highlight, theme-context, utils)     |
 | `src/styles/`                      | Generated theme CSS (gitignored)                            |
@@ -67,16 +67,16 @@ Theme files in `registry/themes/` are compiled to CSS at build time by `scripts/
 
 ### Context Loading
 
-| Working on...       | Read first                                                |
-| ------------------- | --------------------------------------------------------- |
-| Registry components | `registry/ui/perimeter/`                                  |
+| Working on...       | Read first                                                  |
+| ------------------- | ----------------------------------------------------------- |
+| Registry components | `registry/ui/perimeter/`                                    |
 | Demo files          | `registry/ui/perimeter/*.demo.tsx`, `src/lib/demo-types.ts` |
-| Templates           | `src/templates/`, `src/app/templates/`                    |
-| Theme tokens        | `registry/themes/default.json`, `src/app/globals.css`     |
-| Theme generation    | `scripts/generate-theme-css.ts`, `registry/themes/`       |
-| Registry build      | `scripts/generate-registry.ts`, `registry.json`           |
-| Site navigation     | `src/components/site/`                                    |
-| Site components     | `src/components/site/`, `src/app/layout.tsx`              |
+| Templates           | `src/templates/`, `src/app/templates/`                      |
+| Theme tokens        | `registry/themes/default.json`, `src/app/globals.css`       |
+| Theme generation    | `scripts/generate-theme-css.ts`, `registry/themes/`         |
+| Registry build      | `scripts/generate-registry.ts`, `registry.json`             |
+| Site navigation     | `src/components/site/`                                      |
+| Site components     | `src/components/site/`, `src/app/layout.tsx`                |
 
 ## Documentation
 
@@ -211,10 +211,10 @@ This project uses Next.js App Router conventions:
 
 ### Path Aliases
 
-| Alias          | Maps To        |
-| -------------- | -------------- |
-| `@/*`          | `./src/*`      |
-| `@registry/*`  | `./registry/*` |
+| Alias         | Maps To        |
+| ------------- | -------------- |
+| `@/*`         | `./src/*`      |
+| `@registry/*` | `./registry/*` |
 
 ### Key Config Files
 

@@ -20,7 +20,12 @@ import {
 } from "@registry/ui/perimeter/select";
 import { Separator } from "@registry/ui/perimeter/separator";
 import { Switch } from "@registry/ui/perimeter/switch";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@registry/ui/perimeter/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@registry/ui/perimeter/tabs";
 
 export const meta = {
   name: "Settings",
@@ -112,10 +117,7 @@ export default function SettingsTemplate() {
 
               <div className="space-y-2">
                 <Label htmlFor="bio">Bio</Label>
-                <Input
-                  id="bio"
-                  placeholder="Tell us a little about yourself"
-                />
+                <Input id="bio" placeholder="Tell us a little about yourself" />
                 <p className="text-xs text-muted-foreground">
                   This will be visible to small group leaders and staff.
                 </p>
@@ -141,7 +143,7 @@ export default function SettingsTemplate() {
                 <div className="space-y-0.5">
                   <Label>Event reminders</Label>
                   <p className="text-xs text-muted-foreground">
-                    Get notified before events you RSVP'd to.
+                    Get notified before events you RSVP&apos;d to.
                   </p>
                 </div>
                 <Switch defaultChecked />

@@ -10,7 +10,6 @@ import { Badge } from "@registry/ui/perimeter/badge";
 import { Button } from "@registry/ui/perimeter/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -149,8 +148,8 @@ export default function MarketingLandingTemplate() {
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold">Ready to take the next step?</h2>
           <p className="mt-3 text-lg text-muted-foreground">
-            Join thousands of families who call Perimeter Church home. We can&apos;t
-            wait to welcome you.
+            Join thousands of families who call Perimeter Church home. We
+            can&apos;t wait to welcome you.
           </p>
           <div className="mt-6 flex justify-center gap-3">
             <Button size="lg">Get Started</Button>
