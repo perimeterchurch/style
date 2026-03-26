@@ -1,3 +1,5 @@
+import { readdirSync } from "node:fs";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -7,6 +9,11 @@ import { TopNav } from "@/components/site/top-nav";
 import { SearchPalette } from "@/components/site/search-palette";
 
 import "./globals.css";
+
+const availableThemes = readdirSync("registry/themes")
+  .filter((f) => f.endsWith(".json") && f !== "default.json")
+  .map((f) => f.replace(".json", ""))
+  .sort();
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -35,7 +42,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider availableThemes={["perimeter-api", "metrics"]}>
+        <ThemeProvider availableThemes={availableThemes}>
           <TopNav />
           {children}
           <SearchPalette />
