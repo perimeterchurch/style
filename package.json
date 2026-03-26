@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "pnpm generate:themes && pnpm collect:demos && next dev",
+        "dev": "pnpm generate:themes && pnpm collect:demos && next dev --webpack",
         "build": "pnpm registry:build && pnpm generate:themes && pnpm collect:demos && next build",
         "collect:demos": "tsx scripts/collect-demos.ts",
         "generate:themes": "tsx scripts/generate-theme-css.ts",
