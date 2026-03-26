@@ -1,7 +1,7 @@
 /**
  * Generate registry.json from component source files.
  *
- * Scans registry/new-york/ui/ for all .tsx files, extracts npm dependencies
+ * Scans registry/ui/perimeter/ for all .tsx files, extracts npm dependencies
  * and inter-component registryDependencies from import statements, and
  * writes the complete registry.json manifest.
  *
@@ -12,7 +12,7 @@ import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const ROOT = process.cwd();
-const UI_DIR = join(ROOT, "registry/new-york/ui");
+const UI_DIR = join(ROOT, "registry/ui/perimeter");
 const THEMES_DIR = join(ROOT, "registry/themes");
 const BASE_FILE = join(ROOT, "registry/base.json");
 const OUTPUT = join(ROOT, "registry.json");
@@ -51,8 +51,8 @@ function extractDependencies(source: string): string[] {
 /** Extract registryDependencies — other UI components imported from the registry */
 function extractRegistryDeps(source: string): string[] {
   const deps = new Set<string>();
-  // Match imports from @/registry/new-york/ui/... or @/components/ui/...
-  const re = /from\s+["']@\/(?:registry\/new-york\/ui|components\/ui)\/([\w-]+)["']/g;
+  // Match imports from @registry/ui/perimeter/... or @/components/ui/...
+  const re = /from\s+["']@(?:registry\/ui\/perimeter|\/components\/ui)\/([\w-]+)["']/g;
   let match: RegExpExecArray | null;
   while ((match = re.exec(source)) !== null) {
     deps.add(match[1]);
@@ -131,7 +131,7 @@ async function generateRegistry() {
     const item: RegistryItem = {
       name,
       type: "registry:ui",
-      files: [{ path: `registry/new-york/ui/${file}`, type: "registry:ui" }],
+      files: [{ path: `registry/ui/perimeter/${file}`, type: "registry:ui" }],
     };
 
     if (dependencies.length > 0) item.dependencies = dependencies;

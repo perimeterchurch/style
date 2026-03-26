@@ -129,7 +129,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/accordion.tsx",
+          "path": "registry/ui/perimeter/accordion.tsx",
           "type": "registry:ui"
         }
       ],
@@ -146,7 +146,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/alert-dialog.tsx",
+          "path": "registry/ui/perimeter/alert-dialog.tsx",
           "type": "registry:ui"
         }
       ],
@@ -163,7 +163,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/alert.tsx",
+          "path": "registry/ui/perimeter/alert.tsx",
           "type": "registry:ui"
         }
       ],
@@ -179,7 +179,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/aspect-ratio.tsx",
+          "path": "registry/ui/perimeter/aspect-ratio.tsx",
           "type": "registry:ui"
         }
       ],
@@ -192,7 +192,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/avatar.tsx",
+          "path": "registry/ui/perimeter/avatar.tsx",
           "type": "registry:ui"
         }
       ],
@@ -208,7 +208,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/badge.tsx",
+          "path": "registry/ui/perimeter/badge.tsx",
           "type": "registry:ui"
         }
       ],
@@ -225,7 +225,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/breadcrumb.tsx",
+          "path": "registry/ui/perimeter/breadcrumb.tsx",
           "type": "registry:ui"
         }
       ],
@@ -242,7 +242,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/button-group.tsx",
+          "path": "registry/ui/perimeter/button-group.tsx",
           "type": "registry:ui"
         }
       ],
@@ -260,7 +260,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/button.tsx",
+          "path": "registry/ui/perimeter/button.tsx",
           "type": "registry:ui"
         }
       ],
@@ -277,7 +277,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/calendar.tsx",
+          "path": "registry/ui/perimeter/calendar.tsx",
           "type": "registry:ui"
         }
       ],
@@ -295,7 +295,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/card.tsx",
+          "path": "registry/ui/perimeter/card.tsx",
           "type": "registry:ui"
         }
       ],
@@ -308,7 +308,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/carousel.tsx",
+          "path": "registry/ui/perimeter/carousel.tsx",
           "type": "registry:ui"
         }
       ],
@@ -326,7 +326,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/chart.tsx",
+          "path": "registry/ui/perimeter/chart.tsx",
           "type": "registry:ui"
         }
       ],
@@ -342,7 +342,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/checkbox.tsx",
+          "path": "registry/ui/perimeter/checkbox.tsx",
           "type": "registry:ui"
         }
       ],
@@ -359,7 +359,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/collapsible.tsx",
+          "path": "registry/ui/perimeter/collapsible.tsx",
           "type": "registry:ui"
         }
       ],
@@ -372,7 +372,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/combobox.tsx",
+          "path": "registry/ui/perimeter/combobox.tsx",
           "type": "registry:ui"
         }
       ],
@@ -391,7 +391,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/command.tsx",
+          "path": "registry/ui/perimeter/command.tsx",
           "type": "registry:ui"
         }
       ],
@@ -410,7 +410,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/context-menu.tsx",
+          "path": "registry/ui/perimeter/context-menu.tsx",
           "type": "registry:ui"
         }
       ],
@@ -427,7 +427,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/dialog.tsx",
+          "path": "registry/ui/perimeter/dialog.tsx",
           "type": "registry:ui"
         }
       ],
@@ -445,7 +445,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/direction.tsx",
+          "path": "registry/ui/perimeter/direction.tsx",
           "type": "registry:ui"
         }
       ],
@@ -458,7 +458,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/drawer.tsx",
+          "path": "registry/ui/perimeter/drawer.tsx",
           "type": "registry:ui"
         }
       ],
@@ -474,7 +474,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/dropdown-menu.tsx",
+          "path": "registry/ui/perimeter/dropdown-menu.tsx",
           "type": "registry:ui"
         }
       ],
@@ -491,7 +491,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/empty.tsx",
+          "path": "registry/ui/perimeter/empty.tsx",
           "type": "registry:ui"
         }
       ],
@@ -507,7 +507,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/field.tsx",
+          "path": "registry/ui/perimeter/field.tsx",
           "type": "registry:ui"
         }
       ],
@@ -525,7 +525,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/hover-card.tsx",
+          "path": "registry/ui/perimeter/hover-card.tsx",
           "type": "registry:ui"
         }
       ],
@@ -541,7 +541,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/input-group.tsx",
+          "path": "registry/ui/perimeter/input-group.tsx",
           "type": "registry:ui"
         }
       ],
@@ -560,7 +560,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/input-otp.tsx",
+          "path": "registry/ui/perimeter/input-otp.tsx",
           "type": "registry:ui"
         }
       ],
@@ -577,7 +577,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/input.tsx",
+          "path": "registry/ui/perimeter/input.tsx",
           "type": "registry:ui"
         }
       ],
@@ -593,7 +593,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/item.tsx",
+          "path": "registry/ui/perimeter/item.tsx",
           "type": "registry:ui"
         }
       ],
@@ -611,7 +611,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/kbd.tsx",
+          "path": "registry/ui/perimeter/kbd.tsx",
           "type": "registry:ui"
         }
       ],
@@ -624,7 +624,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/label.tsx",
+          "path": "registry/ui/perimeter/label.tsx",
           "type": "registry:ui"
         }
       ],
@@ -637,7 +637,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/menubar.tsx",
+          "path": "registry/ui/perimeter/menubar.tsx",
           "type": "registry:ui"
         }
       ],
@@ -655,7 +655,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/native-select.tsx",
+          "path": "registry/ui/perimeter/native-select.tsx",
           "type": "registry:ui"
         }
       ],
@@ -671,7 +671,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/navigation-menu.tsx",
+          "path": "registry/ui/perimeter/navigation-menu.tsx",
           "type": "registry:ui"
         }
       ],
@@ -689,7 +689,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/pagination.tsx",
+          "path": "registry/ui/perimeter/pagination.tsx",
           "type": "registry:ui"
         }
       ],
@@ -706,7 +706,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/popover.tsx",
+          "path": "registry/ui/perimeter/popover.tsx",
           "type": "registry:ui"
         }
       ],
@@ -722,7 +722,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/progress.tsx",
+          "path": "registry/ui/perimeter/progress.tsx",
           "type": "registry:ui"
         }
       ],
@@ -738,7 +738,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/radio-group.tsx",
+          "path": "registry/ui/perimeter/radio-group.tsx",
           "type": "registry:ui"
         }
       ],
@@ -754,7 +754,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/resizable.tsx",
+          "path": "registry/ui/perimeter/resizable.tsx",
           "type": "registry:ui"
         }
       ],
@@ -770,7 +770,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/scroll-area.tsx",
+          "path": "registry/ui/perimeter/scroll-area.tsx",
           "type": "registry:ui"
         }
       ],
@@ -786,7 +786,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/select.tsx",
+          "path": "registry/ui/perimeter/select.tsx",
           "type": "registry:ui"
         }
       ],
@@ -803,7 +803,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/separator.tsx",
+          "path": "registry/ui/perimeter/separator.tsx",
           "type": "registry:ui"
         }
       ],
@@ -819,7 +819,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/sheet.tsx",
+          "path": "registry/ui/perimeter/sheet.tsx",
           "type": "registry:ui"
         }
       ],
@@ -837,7 +837,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/sidebar.tsx",
+          "path": "registry/ui/perimeter/sidebar.tsx",
           "type": "registry:ui"
         }
       ],
@@ -861,7 +861,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/skeleton.tsx",
+          "path": "registry/ui/perimeter/skeleton.tsx",
           "type": "registry:ui"
         }
       ],
@@ -874,7 +874,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/slider.tsx",
+          "path": "registry/ui/perimeter/slider.tsx",
           "type": "registry:ui"
         }
       ],
@@ -890,7 +890,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/sonner.tsx",
+          "path": "registry/ui/perimeter/sonner.tsx",
           "type": "registry:ui"
         }
       ],
@@ -905,7 +905,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/spinner.tsx",
+          "path": "registry/ui/perimeter/spinner.tsx",
           "type": "registry:ui"
         }
       ],
@@ -921,7 +921,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/switch.tsx",
+          "path": "registry/ui/perimeter/switch.tsx",
           "type": "registry:ui"
         }
       ],
@@ -937,7 +937,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/table.tsx",
+          "path": "registry/ui/perimeter/table.tsx",
           "type": "registry:ui"
         }
       ],
@@ -950,7 +950,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/tabs.tsx",
+          "path": "registry/ui/perimeter/tabs.tsx",
           "type": "registry:ui"
         }
       ],
@@ -967,7 +967,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/textarea.tsx",
+          "path": "registry/ui/perimeter/textarea.tsx",
           "type": "registry:ui"
         }
       ],
@@ -980,7 +980,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/toggle-group.tsx",
+          "path": "registry/ui/perimeter/toggle-group.tsx",
           "type": "registry:ui"
         }
       ],
@@ -998,7 +998,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/toggle.tsx",
+          "path": "registry/ui/perimeter/toggle.tsx",
           "type": "registry:ui"
         }
       ],
@@ -1015,7 +1015,7 @@
       "type": "registry:ui",
       "files": [
         {
-          "path": "registry/new-york/ui/tooltip.tsx",
+          "path": "registry/ui/perimeter/tooltip.tsx",
           "type": "registry:ui"
         }
       ],
