@@ -4,7 +4,8 @@
     "private": true,
     "scripts": {
         "dev": "pnpm generate:themes && next dev --turbopack",
-        "build": "pnpm registry:build && pnpm generate:themes && next build",
+        "build": "pnpm registry:build && pnpm generate:themes && pnpm collect:demos && next build",
+        "collect:demos": "tsx scripts/collect-demos.ts",
         "generate:themes": "tsx scripts/generate-theme-css.ts",
         "start": "next start",
         "lint": "eslint .",

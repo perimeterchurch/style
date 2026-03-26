@@ -46,6 +46,9 @@ public/r/
 # generated theme CSS
 src/styles/themes.css
 
+# generated demo manifest
+src/lib/demo-manifest.json
+
 # superpowers brainstorm artifacts
 .superpowers/
 
