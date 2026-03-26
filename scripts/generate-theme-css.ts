@@ -47,7 +47,7 @@ async function generateThemeCSS() {
     const theme: ThemeFile = JSON.parse(
       await readFile(join(themesDir, file), "utf-8"),
     );
-    const slug = file.replace(".json", "").replace("-theme", "");
+    const slug = file.replace(".json", "").replace(/-theme$/, "");
 
     blocks.push("");
     blocks.push(cssBlock(`[data-theme="${slug}"]`, theme.cssVars.light));
