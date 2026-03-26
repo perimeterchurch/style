@@ -42,3 +42,6 @@ next-env.d.ts
 
 # built registry output
 public/r/
+
+# superpowers brainstorm artifacts
+.superpowers/

@@ -58,9 +58,19 @@ registry/
     metrics.json            ← project overrides (existing)
 ```
 
-Update `components.json` and `scripts/generate-registry.ts` to point at the new path. `shadcn build` must ignore `*.demo.tsx` files.
+Update `scripts/generate-registry.ts` to scan `registry/ui/perimeter/` instead of `registry/new-york/ui/` (the `UI_DIR` constant and file path references). `components.json` itself has no registry path field — the path is only in the generate script. `shadcn build` must ignore `*.demo.tsx` files (add a glob exclude to the build config or filter in the generate script).
 
-`registry/base.json` (the `registry:base` meta-item for one-command install) is kept and updated to reference the new path. Its `cssVars` should be derived from `registry/themes/default.json` at build time to stay in sync.
+`registry/base.json` (the `registry:base` meta-item for one-command install) is kept and updated to reference the new path. Its `cssVars` should be derived from `registry/themes/default.json` at build time — `scripts/generate-registry.ts` reads `default.json` and writes the full token set into `base.json`'s `cssVars` before emitting `registry.json`, keeping the two in sync automatically.
+
+### Demo file discovery from the app
+
+Next.js route pages need to import demo files from the registry directory. Add a path alias in `tsconfig.json`:
+
+```json
+"@registry/*": ["./registry/*"]
+```
+
+App route pages import as `import { meta, controls, Playground, examples } from "@registry/ui/perimeter/button.demo"`. At build time, a script in `scripts/collect-demos.ts` scans `registry/ui/perimeter/*.demo.tsx`, reads each file's `meta` export, and writes a manifest (`src/lib/demo-manifest.json`) mapping slug → category, name, description, and file path. This manifest drives sidebar generation, hub pages, and search indexing without runtime filesystem access.
 
 ## Demo File Format
 
@@ -69,6 +79,7 @@ Each component gets a co-located `*.demo.tsx` file that drives its showcase page
 ```typescript
 // registry/ui/perimeter/button.demo.tsx
 
+import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types"
 import { Button } from "./button"
 
 export const meta = {
@@ -210,7 +221,7 @@ src/templates/
 export const meta = {
   name: "Dashboard",
   description: "Admin dashboard with sidebar navigation, stats cards, and charts.",
-  components: ["sidebar", "card", "chart", "tabs", "avatar", "dropdown-menu"],
+  components: ["sidebar", "card", "chart", "tabs", "avatar", "dropdown-menu", "breadcrumb"],
 }
 
 export default function DashboardTemplate() {
@@ -277,7 +288,11 @@ App-specific templates added later as consuming projects migrate.
 
 ### What globals.css becomes
 
-Stripped to Tailwind imports and base resets only. No token values — those come from the generated theme CSS.
+Stripped to Tailwind imports, base resets, and a single `@import "./themes.css"` (or `@import "../styles/themes.css"` depending on final location). No token values inline — those come from the generated theme CSS. The import ensures the generated tokens are part of the CSS pipeline without manual updates when themes change.
+
+### Syntax highlighting
+
+Code blocks in the playground "Code" tab and example "Copy code" panels use [Shiki](https://shiki.style/) for syntax highlighting. Shiki runs at build time (Next.js RSC or `generateStaticParams`) so no client-side JS is needed for highlighting. Add `shiki` as a dev dependency. A thin wrapper in `src/lib/highlight.ts` exposes a `highlight(code: string, lang: string)` function returning pre-rendered HTML.
 
 ## Token Reference Page
 
@@ -333,10 +348,23 @@ Registry components (`registry/ui/perimeter/`) are used in demo Playground and e
 - `scripts/generate-registry.ts` — updated for new path
 - All existing dependencies except `zustand`
 
+## Static Generation
+
+All showcase routes are statically generated at build time for fast page loads:
+
+- `/components`, `/components/[category]`, `/components/[category]/[slug]` — generated from the demo manifest via `generateStaticParams`
+- `/templates`, `/templates/[slug]` — generated from template meta exports
+- `/tokens` — single static page reading from `default.json`
+- `/docs/getting-started` — static content
+
+The playground controls panel is a client component (`"use client"`) that updates the preview interactively. The rest of each component page (breadcrumb, title, examples, install command) is server-rendered.
+
 ## New Dependencies
 
-None anticipated. The site uses:
-- Next.js (existing) for routing and SSR/SSG
-- `cmdk` (existing) for search
-- Tailwind CSS v4 (existing) for styling
+- `shiki` (dev) — build-time syntax highlighting for code blocks
+
+Everything else is existing:
+- Next.js for routing and SSG
+- `cmdk` for search
+- Tailwind CSS v4 for styling
 - The registry components themselves for previews
