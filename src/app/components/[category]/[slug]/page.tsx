@@ -13,7 +13,6 @@ import { ComponentPlayground } from "@/components/site/component-playground";
 import { ExampleCard } from "@/components/site/example-card";
 import { highlight } from "@/lib/highlight";
 import { extractExampleSources } from "@/lib/extract-source";
-import { demoImports } from "@/lib/demo-imports";
 import manifest from "@/lib/demo-manifest.json";
 
 import type { ControlsConfig, DemoExample } from "@/lib/demo-types";
@@ -37,10 +36,12 @@ export default async function ComponentPage({ params }: PageProps) {
   );
   if (!entry) notFound();
 
-  const importFn = demoImports[slug];
-  if (!importFn) notFound();
+  // Import only the single demo file needed — not the full 55-entry map
+  const demoModule = await import(
+    `@registry/ui/perimeter/${slug}.demo`
+  ).catch(() => null);
+  if (!demoModule) notFound();
 
-  const demoModule = await importFn();
   const { controls, examples, meta } = demoModule;
 
   const playgroundCode = buildPlaygroundSnippet(meta.name, controls);

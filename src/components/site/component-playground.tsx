@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlaygroundControls } from "./playground-controls";
-import { demoImports } from "@/lib/demo-imports";
 
 import type { ControlsConfig } from "@/lib/demo-types";
 
@@ -31,22 +31,28 @@ export function ComponentPlayground({
 }: ComponentPlaygroundProps) {
   const defaults = useMemo(() => buildDefaults(controls), [controls]);
   const [values, setValues] = useState<Record<string, unknown>>(defaults);
-  const [Playground, setPlayground] = useState<React.ComponentType<
-    Record<string, unknown>
-  > | null>(null);
 
-  useEffect(() => {
-    const importFn = demoImports[slug];
-    if (!importFn) return;
-    importFn().then((mod) => {
-      setPlayground(
-        () => mod.Playground as React.ComponentType<Record<string, unknown>>,
-      );
-    });
-  }, [slug]);
+  // Load only the single demo Playground for this slug — not all 55
+  const PlaygroundComponent = useMemo(
+    () =>
+      dynamic(
+        () =>
+          import(`@registry/ui/perimeter/${slug}.demo`).then(
+            (mod) => mod.Playground,
+          ),
+        {
+          loading: () => (
+            <div className="text-sm text-muted-foreground">Loading...</div>
+          ),
+        },
+      ),
+    [slug],
+  );
 
   const nonDefaultEntries = useMemo(() => {
-    return Object.entries(values).filter(([key, val]) => val !== defaults[key]);
+    return Object.entries(values).filter(
+      ([key, val]) => val !== defaults[key],
+    );
   }, [values, defaults]);
 
   function handleChange(name: string, value: unknown) {
@@ -63,11 +69,7 @@ export function ComponentPlayground({
 
         <TabsContent value="preview">
           <div className="flex min-h-48 items-center justify-center rounded-lg border bg-background p-8">
-            {Playground ? (
-              <Playground {...values} />
-            ) : (
-              <div className="text-sm text-muted-foreground">Loading...</div>
-            )}
+            <PlaygroundComponent {...values} />
           </div>
         </TabsContent>
 
