@@ -43,8 +43,6 @@ next-env.d.ts
 # built registry output
 public/r/
 
-# generated theme CSS
-src/app/themes.css
 
 # generated demo manifest
 src/lib/demo-manifest.json

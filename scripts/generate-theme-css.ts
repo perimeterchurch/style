@@ -1,4 +1,4 @@
-import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
+import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 interface ThemeFile {
@@ -9,6 +9,9 @@ interface ThemeFile {
   };
 }
 
+const START_MARKER = "/* @generated-themes-start */";
+const END_MARKER = "/* @generated-themes-end */";
+
 function cssBlock(selector: string, vars: Record<string, string>): string {
   const entries = Object.entries(vars)
     .map(([key, value]) => `  --${key}: ${value};`)
@@ -18,16 +21,12 @@ function cssBlock(selector: string, vars: Record<string, string>): string {
 
 async function generateThemeCSS() {
   const themesDir = join(process.cwd(), "registry", "themes");
-  const outputDir = join(process.cwd(), "src", "app");
-  const outputPath = join(outputDir, "themes.css");
+  const globalsPath = join(process.cwd(), "src", "app", "globals.css");
 
   const files = await readdir(themesDir);
   const jsonFiles = files.filter((f) => f.endsWith(".json")).sort();
 
-  const blocks: string[] = [
-    "/* Auto-generated from registry/themes/ — do not edit manually */",
-    "",
-  ];
+  const blocks: string[] = [];
 
   const defaultFile = jsonFiles.find((f) => f === "default.json");
   if (!defaultFile) {
@@ -55,9 +54,24 @@ async function generateThemeCSS() {
     blocks.push(cssBlock(`[data-theme="${slug}"].dark`, theme.cssVars.dark));
   }
 
-  await mkdir(outputDir, { recursive: true });
-  await writeFile(outputPath, blocks.join("\n") + "\n");
-  console.log(`Generated ${outputPath} from ${jsonFiles.length} theme(s)`);
+  const globals = await readFile(globalsPath, "utf-8");
+  const startIdx = globals.indexOf(START_MARKER);
+  const endIdx = globals.indexOf(END_MARKER);
+
+  if (startIdx === -1 || endIdx === -1) {
+    throw new Error(
+      `globals.css is missing theme markers (${START_MARKER} / ${END_MARKER})`,
+    );
+  }
+
+  const before = globals.slice(0, startIdx + START_MARKER.length);
+  const after = globals.slice(endIdx);
+  const updated = before + "\n" + blocks.join("\n") + "\n" + after;
+
+  await writeFile(globalsPath, updated);
+  console.log(
+    `Injected ${jsonFiles.length} theme(s) into ${globalsPath}`,
+  );
 }
 
 generateThemeCSS().catch((err) => {
