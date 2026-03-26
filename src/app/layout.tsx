@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/lib/theme-context";
 import { TopNav } from "@/components/site/top-nav";
+import { SearchPalette } from "@/components/site/search-palette";
 
 import "./globals.css";
 
@@ -37,6 +38,7 @@ export default function RootLayout({
         <ThemeProvider availableThemes={["perimeter-api", "metrics"]}>
           <TopNav />
           {children}
+          <SearchPalette />
         </ThemeProvider>
         <Toaster />
       </body>

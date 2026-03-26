@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { SearchTrigger } from "./search-trigger"
 import { ThemeSwitcher } from "./theme-switcher"
 import { ModeToggle } from "./mode-toggle"
 
@@ -29,6 +30,7 @@ export function TopNav() {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-3">
+          <SearchTrigger />
           <ThemeSwitcher />
           <ModeToggle />
         </div>
