@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/index.ts"],"sourcesContent":["/**\n * Tokens package entry point\n * Re-exports token-related TypeScript utilities\n */\nexport const TOKEN_VERSION = '0.1.0';\n"],"mappings":";;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAIO,IAAM,gBAAgB;","names":[]}

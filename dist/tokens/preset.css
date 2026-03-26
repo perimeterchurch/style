@@ -1,8 +1,0 @@
-/**
- * Tailwind Preset for @perimeterchurch/style
- * Import this file in your project's CSS to get all design token utility classes.
- *
- * Usage:
- *   @import "@perimeterchurch/style/tailwind";
- */
-@import './tokens.css';
