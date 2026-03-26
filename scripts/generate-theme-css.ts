@@ -18,7 +18,7 @@ function cssBlock(selector: string, vars: Record<string, string>): string {
 
 async function generateThemeCSS() {
   const themesDir = join(process.cwd(), "registry", "themes");
-  const outputDir = join(process.cwd(), "src", "styles");
+  const outputDir = join(process.cwd(), "src", "app");
   const outputPath = join(outputDir, "themes.css");
 
   const files = await readdir(themesDir);

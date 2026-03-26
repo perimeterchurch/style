@@ -44,7 +44,7 @@ next-env.d.ts
 public/r/
 
 # generated theme CSS
-src/styles/themes.css
+src/app/themes.css
 
 # generated demo manifest
 src/lib/demo-manifest.json
