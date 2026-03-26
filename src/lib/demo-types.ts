@@ -1,34 +1,34 @@
 export interface EnumControl {
-  type: "enum"
-  options: readonly string[]
-  default: string
+  type: "enum";
+  options: readonly string[];
+  default: string;
 }
 
 export interface BooleanControl {
-  type: "boolean"
-  default: boolean
+  type: "boolean";
+  default: boolean;
 }
 
 export interface StringControl {
-  type: "string"
-  default: string
+  type: "string";
+  default: string;
 }
 
 export interface NumberControl {
-  type: "number"
-  default: number
-  min?: number
-  max?: number
-  step?: number
+  type: "number";
+  default: number;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 export type ControlDescriptor =
   | EnumControl
   | BooleanControl
   | StringControl
-  | NumberControl
+  | NumberControl;
 
-export type ControlsConfig = Record<string, ControlDescriptor>
+export type ControlsConfig = Record<string, ControlDescriptor>;
 
 type InferControlType<T extends ControlDescriptor> = T extends EnumControl
   ? T["options"][number]
@@ -38,20 +38,20 @@ type InferControlType<T extends ControlDescriptor> = T extends EnumControl
       ? string
       : T extends NumberControl
         ? number
-        : never
+        : never;
 
 export type PlaygroundProps<T extends ControlsConfig> = {
-  [K in keyof T]: InferControlType<T[K]>
-}
+  [K in keyof T]: InferControlType<T[K]>;
+};
 
 export interface DemoMeta {
-  name: string
-  description: string
-  category: string
-  install: string
+  name: string;
+  description: string;
+  category: string;
+  install: string;
 }
 
 export interface DemoExample {
-  name: string
-  render: () => React.ReactNode
+  name: string;
+  render: () => React.ReactNode;
 }

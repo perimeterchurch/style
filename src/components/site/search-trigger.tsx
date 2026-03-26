@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { SearchIcon } from "lucide-react"
+import { SearchIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Kbd } from "@/components/ui/kbd"
+import { Button } from "@/components/ui/button";
+import { Kbd } from "@/components/ui/kbd";
 
 export function SearchTrigger() {
   return (
@@ -12,7 +12,9 @@ export function SearchTrigger() {
       size="sm"
       className="w-[200px] justify-start gap-2 text-muted-foreground"
       onClick={() => {
-        document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))
+        document.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "k", metaKey: true }),
+        );
       }}
     >
       <SearchIcon className="h-3.5 w-3.5" />
@@ -21,5 +23,5 @@ export function SearchTrigger() {
         <span className="text-xs">&#8984;K</span>
       </Kbd>
     </Button>
-  )
+  );
 }

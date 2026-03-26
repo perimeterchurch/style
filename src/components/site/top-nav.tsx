@@ -1,15 +1,15 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import { SearchTrigger } from "./search-trigger"
-import { ThemeSwitcher } from "./theme-switcher"
-import { ModeToggle } from "./mode-toggle"
+import { SearchTrigger } from "./search-trigger";
+import { ThemeSwitcher } from "./theme-switcher";
+import { ModeToggle } from "./mode-toggle";
 
 const NAV_LINKS = [
   { href: "/components", label: "Components" },
   { href: "/templates", label: "Templates" },
   { href: "/tokens", label: "Tokens" },
   { href: "/docs/getting-started", label: "Getting Started" },
-] as const
+] as const;
 
 export function TopNav() {
   return (
@@ -36,5 +36,5 @@ export function TopNav() {
         </div>
       </div>
     </header>
-  )
+  );
 }

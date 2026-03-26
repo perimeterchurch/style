@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   CommandDialog,
@@ -11,46 +11,46 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
-import manifest from "@/lib/demo-manifest.json"
+} from "@/components/ui/command";
+import manifest from "@/lib/demo-manifest.json";
 
 interface ManifestEntry {
-  slug: string
-  name: string
-  description: string
-  category: string
-  install: string
-  demoFile: string
+  slug: string;
+  name: string;
+  description: string;
+  category: string;
+  install: string;
+  demoFile: string;
 }
 
 export function SearchPalette() {
-  const [open, setOpen] = useState(false)
-  const router = useRouter()
-  const entries = manifest as ManifestEntry[]
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const entries = manifest as ManifestEntry[];
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault()
-        setOpen((prev) => !prev)
+        e.preventDefault();
+        setOpen((prev) => !prev);
       }
     }
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [])
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const handleSelect = useCallback(
     (href: string) => {
-      setOpen(false)
-      router.push(href)
+      setOpen(false);
+      router.push(href);
     },
     [router],
-  )
+  );
 
-  const grouped: Record<string, ManifestEntry[]> = {}
+  const grouped: Record<string, ManifestEntry[]> = {};
   for (const entry of entries) {
-    if (!grouped[entry.category]) grouped[entry.category] = []
-    grouped[entry.category].push(entry)
+    if (!grouped[entry.category]) grouped[entry.category] = [];
+    grouped[entry.category].push(entry);
   }
 
   return (
@@ -73,7 +73,9 @@ export function SearchPalette() {
                     key={entry.slug}
                     value={`${entry.name} ${entry.category}`}
                     onSelect={() =>
-                      handleSelect(`/components/${entry.category}/${entry.slug}`)
+                      handleSelect(
+                        `/components/${entry.category}/${entry.slug}`,
+                      )
                     }
                   >
                     {entry.name}
@@ -91,15 +93,21 @@ export function SearchPalette() {
             >
               Getting Started
             </CommandItem>
-            <CommandItem value="Templates" onSelect={() => handleSelect("/templates")}>
+            <CommandItem
+              value="Templates"
+              onSelect={() => handleSelect("/templates")}
+            >
               Templates
             </CommandItem>
-            <CommandItem value="Tokens" onSelect={() => handleSelect("/tokens")}>
+            <CommandItem
+              value="Tokens"
+              onSelect={() => handleSelect("/tokens")}
+            >
               Tokens
             </CommandItem>
           </CommandGroup>
         </CommandList>
       </Command>
     </CommandDialog>
-  )
+  );
 }

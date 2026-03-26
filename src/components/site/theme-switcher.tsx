@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import { useTheme } from "@/lib/theme-context"
+import { useTheme } from "@/lib/theme-context";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 function formatThemeName(slug: string): string {
   return slug
     .split("-")
     .map((w) => w[0].toUpperCase() + w.slice(1))
-    .join(" ")
+    .join(" ");
 }
 
 export function ThemeSwitcher() {
-  const { theme, setTheme, availableThemes } = useTheme()
+  const { theme, setTheme, availableThemes } = useTheme();
 
   return (
     <Select value={theme} onValueChange={(value) => setTheme(value ?? "")}>
@@ -33,5 +33,5 @@ export function ThemeSwitcher() {
         ))}
       </SelectContent>
     </Select>
-  )
+  );
 }

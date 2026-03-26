@@ -1,34 +1,36 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils"
-import manifest from "@/lib/demo-manifest.json"
+import { cn } from "@/lib/utils";
+import manifest from "@/lib/demo-manifest.json";
 
 interface ManifestEntry {
-  slug: string
-  name: string
-  description: string
-  category: string
-  install: string
-  demoFile: string
+  slug: string;
+  name: string;
+  description: string;
+  category: string;
+  install: string;
+  demoFile: string;
 }
 
-function groupByCategory(entries: ManifestEntry[]): Record<string, ManifestEntry[]> {
-  const groups: Record<string, ManifestEntry[]> = {}
+function groupByCategory(
+  entries: ManifestEntry[],
+): Record<string, ManifestEntry[]> {
+  const groups: Record<string, ManifestEntry[]> = {};
   for (const entry of entries) {
-    const cat = entry.category
-    if (!groups[cat]) groups[cat] = []
-    groups[cat].push(entry)
+    const cat = entry.category;
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(entry);
   }
-  return groups
+  return groups;
 }
 
 export function DocsSidebar() {
-  const pathname = usePathname()
-  const grouped = groupByCategory(manifest as ManifestEntry[])
-  const categories = Object.keys(grouped).sort()
+  const pathname = usePathname();
+  const grouped = groupByCategory(manifest as ManifestEntry[]);
+  const categories = Object.keys(grouped).sort();
 
   return (
     <aside className="sticky top-14 h-[calc(100vh-3.5rem)] w-64 shrink-0 overflow-y-auto border-r p-4">
@@ -65,7 +67,7 @@ export function DocsSidebar() {
             </Link>
             <ul className="space-y-0.5">
               {grouped[category].map((entry) => {
-                const href = `/components/${category}/${entry.slug}`
+                const href = `/components/${category}/${entry.slug}`;
                 return (
                   <li key={entry.slug}>
                     <Link
@@ -80,12 +82,12 @@ export function DocsSidebar() {
                       {entry.name}
                     </Link>
                   </li>
-                )
+                );
               })}
             </ul>
           </div>
         ))}
       </nav>
     </aside>
-  )
+  );
 }
