@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/lib/theme-context";
+import { TopNav } from "@/components/site/top-nav";
+
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -30,7 +34,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
+        <ThemeProvider availableThemes={["perimeter-api", "metrics"]}>
+          <TopNav />
+          {children}
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>
