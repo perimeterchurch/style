@@ -1,0 +1,136 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { ComponentPlayground } from "@/components/site/component-playground";
+import { ExampleCard } from "@/components/site/example-card";
+import { highlight } from "@/lib/highlight";
+import { extractExampleSources } from "@/lib/extract-source";
+import { demoImports } from "@/lib/demo-imports";
+import manifest from "@/lib/demo-manifest.json";
+
+import type { ControlsConfig, DemoExample } from "@/lib/demo-types";
+
+interface PageProps {
+  params: Promise<{ category: string; slug: string }>;
+}
+
+export function generateStaticParams() {
+  return manifest.map((entry) => ({
+    category: entry.category,
+    slug: entry.slug,
+  }));
+}
+
+export default async function ComponentPage({ params }: PageProps) {
+  const { category, slug } = await params;
+
+  const entry = manifest.find(
+    (e) => e.category === category && e.slug === slug,
+  );
+  if (!entry) notFound();
+
+  const importFn = demoImports[slug];
+  if (!importFn) notFound();
+
+  const demoModule = await importFn();
+  const { controls, examples, meta } = demoModule;
+
+  const playgroundCode = buildPlaygroundSnippet(meta.name, controls);
+  const defaultCodeHtml = await highlight(playgroundCode);
+
+  const exampleSources = await extractExampleSources(slug);
+
+  const highlightedExamples = await Promise.all(
+    exampleSources.map((src) => highlight(src)),
+  );
+
+  return (
+    <div className="space-y-8">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink render={<Link href="/components" />}>
+              Components
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink render={<Link href={`/components/${category}`} />}>
+              {category}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{meta.name}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <div>
+        <h1 className="text-3xl font-bold">{meta.name}</h1>
+        <p className="mt-1 text-muted-foreground">{meta.description}</p>
+      </div>
+
+      <ComponentPlayground
+        slug={slug}
+        controls={controls}
+        componentName={meta.name}
+        defaultCodeHtml={defaultCodeHtml}
+      />
+
+      {examples.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold">Examples</h2>
+          {examples.map((example: DemoExample, i: number) => (
+            <ExampleCard
+              key={example.name}
+              name={example.name}
+              codeHtml={highlightedExamples[i] ?? ""}
+              rawCode={exampleSources[i] ?? ""}
+            >
+              {example.render()}
+            </ExampleCard>
+          ))}
+        </section>
+      )}
+
+      <section className="space-y-2">
+        <h2 className="text-xl font-semibold">Installation</h2>
+        <pre className="rounded-lg border bg-muted px-4 py-3 text-sm">
+          <code>{meta.install}</code>
+        </pre>
+      </section>
+    </div>
+  );
+}
+
+function buildPlaygroundSnippet(
+  componentName: string,
+  controls: ControlsConfig,
+): string {
+  const props = Object.entries(controls)
+    .filter(([name]) => name !== "children")
+    .map(([name, desc]) => {
+      const val = desc.default;
+      if (typeof val === "boolean") return val ? name : `${name}={false}`;
+      if (typeof val === "number") return `${name}={${val}}`;
+      return `${name}="${val}"`;
+    });
+
+  const childrenControl = controls["children"];
+  const children =
+    childrenControl && "default" in childrenControl
+      ? String(childrenControl.default)
+      : "...";
+
+  const propsStr = props.length > 0 ? " " + props.join(" ") : "";
+  return `<${componentName}${propsStr}>${children}</${componentName}>`;
+}
