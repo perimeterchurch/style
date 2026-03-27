@@ -77,7 +77,7 @@ Tokens don't have traditional versions, but you can track changes:
 
 /* Changing a value — consumers get it on next update */
 :root {
-  --primary: oklch(0.50 0.15 283);  /* was 0.488 0.145 283 */
+  --primary: oklch(0.5 0.15 283); /* was 0.488 0.145 283 */
 }
 ```
 

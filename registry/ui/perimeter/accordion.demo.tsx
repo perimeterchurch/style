@@ -79,9 +79,7 @@ export const examples = [
         </AccordionItem>
         <AccordionItem value="faq-2">
           <AccordionTrigger>Collapsed by default</AccordionTrigger>
-          <AccordionContent>
-            Click to expand this content.
-          </AccordionContent>
+          <AccordionContent>Click to expand this content.</AccordionContent>
         </AccordionItem>
       </Accordion>
     ),

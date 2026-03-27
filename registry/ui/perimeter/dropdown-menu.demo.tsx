@@ -14,8 +14,7 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Dropdown Menu",
-  description:
-    "Displays a menu of actions or options triggered by a button.",
+  description: "Displays a menu of actions or options triggered by a button.",
   category: "actions",
   install: "pnpm dlx shadcn@latest add @perimeter/dropdown-menu",
 };

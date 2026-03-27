@@ -5,6 +5,7 @@ How to integrate the Perimeter design system registry into each consuming projec
 ## Prerequisites (All Projects)
 
 1. Add the registry to `components.json`:
+
 ```json
 {
   "registries": {
@@ -14,6 +15,7 @@ How to integrate the Perimeter design system registry into each consuming projec
 ```
 
 2. Install the base style:
+
 ```bash
 pnpm dlx shadcn@latest add @perimeter/perimeter-base
 ```
@@ -25,6 +27,7 @@ This sets up the warm stone palette tokens in your `globals.css`.
 ## perimeter-api (Next.js 16)
 
 ### Current State
+
 - Has its own `tokens.css` with a nearly identical warm stone palette
 - Uses `next-themes` with class-based dark mode (`.dark`)
 - Uses `@headlessui/react`, `framer-motion`, `lucide-react`
@@ -32,6 +35,7 @@ This sets up the warm stone palette tokens in your `globals.css`.
 ### Migration Steps
 
 1. **Initialize shadcn** (if not already):
+
 ```bash
 pnpm dlx shadcn@latest init --style new-york --base-color stone
 ```
@@ -39,6 +43,7 @@ pnpm dlx shadcn@latest init --style new-york --base-color stone
 2. **Add the Perimeter registry** to `components.json` (see Prerequisites above)
 
 3. **Install base + components**:
+
 ```bash
 pnpm dlx shadcn@latest add @perimeter/perimeter-base
 pnpm dlx shadcn@latest add @perimeter/button @perimeter/card @perimeter/input @perimeter/select @perimeter/tabs
@@ -46,6 +51,7 @@ pnpm dlx shadcn@latest add @perimeter/button @perimeter/card @perimeter/input @p
 ```
 
 4. **Install the project theme**:
+
 ```bash
 pnpm dlx shadcn@latest add @perimeter/perimeter-api-theme
 ```
@@ -53,11 +59,13 @@ pnpm dlx shadcn@latest add @perimeter/perimeter-api-theme
 5. **Remove local tokens**: Delete `src/styles/tokens.css` — the base style provides all tokens now.
 
 6. **Dark mode**: `next-themes` with `attribute="class"` works out of the box. The `.dark` class is what the design system expects:
+
 ```tsx
 <ThemeProvider attribute="class" defaultTheme="light">
 ```
 
 ### What Changes
+
 - Components come from `@/components/ui/` (shadcn convention) instead of custom imports
 - Tokens are OKLCH format instead of hex
 - Dark mode uses the same `.dark` class mechanism
@@ -67,6 +75,7 @@ pnpm dlx shadcn@latest add @perimeter/perimeter-api-theme
 ## perimeter-widgets (Turborepo + Vite)
 
 ### Current State
+
 - Monorepo with shared package
 - Uses `data-theme="dark"` for dark mode
 - Shadow DOM isolation for widgets
@@ -75,6 +84,7 @@ pnpm dlx shadcn@latest add @perimeter/perimeter-api-theme
 ### Migration Steps
 
 1. **In the shared package**, initialize shadcn:
+
 ```bash
 cd packages/shared
 pnpm dlx shadcn@latest init --style new-york --base-color stone
@@ -83,6 +93,7 @@ pnpm dlx shadcn@latest init --style new-york --base-color stone
 2. **Add the registry** to `packages/shared/components.json`
 
 3. **Install base + needed components**:
+
 ```bash
 pnpm dlx shadcn@latest add @perimeter/perimeter-base
 pnpm dlx shadcn@latest add @perimeter/button @perimeter/card
@@ -92,14 +103,17 @@ pnpm dlx shadcn@latest add @perimeter/button @perimeter/card
 4. **Remove local tokens**: Replace `shared/src/styles/tokens.css` with the base style tokens.
 
 5. **Dark mode compatibility**: The design system uses `.dark` class, but widgets use `data-theme="dark"`. Add this to your CSS:
+
 ```css
 @custom-variant dark (&:is(.dark *, [data-theme="dark"] *));
 ```
+
 This makes `dark:` utilities respond to both mechanisms.
 
 6. **Shadow DOM**: The `?inline` import pattern continues to work. Import component CSS alongside your widget CSS.
 
 ### What Changes
+
 - Shared token definitions come from the registry instead of local copies
 - Components are source code owned by your project
 - Widget-specific components stay as-is
@@ -109,6 +123,7 @@ This makes `dark:` utilities respond to both mechanisms.
 ## metrics (Next.js 15)
 
 ### Current State
+
 - Imports tokens from `@perimeter-widgets/shared/styles/tokens`
 - Uses `next-themes` with `attribute='data-theme'`
 - Default theme is dark
@@ -117,6 +132,7 @@ This makes `dark:` utilities respond to both mechanisms.
 ### Migration Steps
 
 1. **Initialize shadcn**:
+
 ```bash
 pnpm dlx shadcn@latest init --style new-york --base-color stone
 ```
@@ -124,6 +140,7 @@ pnpm dlx shadcn@latest init --style new-york --base-color stone
 2. **Add the registry** to `components.json`
 
 3. **Install base + theme + components**:
+
 ```bash
 pnpm dlx shadcn@latest add @perimeter/perimeter-base
 pnpm dlx shadcn@latest add @perimeter/metrics-theme
@@ -133,22 +150,25 @@ pnpm dlx shadcn@latest add @perimeter/button @perimeter/card @perimeter/table @p
 4. **Remove shared dependency**: Replace the `@perimeter-widgets/shared` file dependency with registry components.
 
 5. **Keep app-specific tokens**: Your chart colors and service-specific colors stay in a local `tokens.css`:
+
 ```css
 /* src/styles/tokens.css — app-specific extensions */
 :root {
   --chart-attendance: oklch(0.55 0.15 280);
-  --chart-giving: oklch(0.60 0.16 145);
+  --chart-giving: oklch(0.6 0.16 145);
   --service-9am: oklch(0.65 0.12 60);
   --service-11am: oklch(0.55 0.14 200);
 }
 ```
 
 6. **Dark mode**: Switch from `attribute='data-theme'` to `attribute='class'`:
+
 ```tsx
 <ThemeProvider attribute="class" defaultTheme="dark">
 ```
 
 ### What Changes
+
 - No longer depends on perimeter-widgets for tokens
 - Components are self-contained in your project
 - Chart/service colors remain local (not in the design system)
@@ -166,7 +186,7 @@ Add overrides in your `globals.css` AFTER the base tokens:
 
 /* Project-specific overrides */
 :root {
-  --primary: oklch(0.45 0.12 250);  /* Different primary for this project */
+  --primary: oklch(0.45 0.12 250); /* Different primary for this project */
 }
 .dark {
   --primary: oklch(0.55 0.12 250);

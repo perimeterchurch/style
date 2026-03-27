@@ -69,9 +69,7 @@ async function generateThemeCSS() {
   const updated = before + "\n" + blocks.join("\n") + "\n" + after;
 
   await writeFile(globalsPath, updated);
-  console.log(
-    `Injected ${jsonFiles.length} theme(s) into ${globalsPath}`,
-  );
+  console.log(`Injected ${jsonFiles.length} theme(s) into ${globalsPath}`);
 }
 
 generateThemeCSS().catch((err) => {

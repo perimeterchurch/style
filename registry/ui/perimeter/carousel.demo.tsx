@@ -11,7 +11,8 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Carousel",
-  description: "A scrollable carousel built on Embla for cycling through content.",
+  description:
+    "A scrollable carousel built on Embla for cycling through content.",
   category: "data-display",
   install: "pnpm dlx shadcn@latest add @perimeter/carousel",
 };

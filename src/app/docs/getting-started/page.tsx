@@ -44,17 +44,30 @@ interface HighlightedBlocks {
 }
 
 async function highlightAllBlocks(): Promise<HighlightedBlocks> {
-  const [addComponent, addBase, componentsJson, dataTheme, darkMode, usageExample] =
-    await Promise.all([
-      highlight(CODE_BLOCKS.addComponent, "bash"),
-      highlight(CODE_BLOCKS.addBase, "bash"),
-      highlight(CODE_BLOCKS.componentsJson, "json"),
-      highlight(CODE_BLOCKS.dataTheme, "tsx"),
-      highlight(CODE_BLOCKS.darkMode, "tsx"),
-      highlight(CODE_BLOCKS.usageExample, "tsx"),
-    ]);
+  const [
+    addComponent,
+    addBase,
+    componentsJson,
+    dataTheme,
+    darkMode,
+    usageExample,
+  ] = await Promise.all([
+    highlight(CODE_BLOCKS.addComponent, "bash"),
+    highlight(CODE_BLOCKS.addBase, "bash"),
+    highlight(CODE_BLOCKS.componentsJson, "json"),
+    highlight(CODE_BLOCKS.dataTheme, "tsx"),
+    highlight(CODE_BLOCKS.darkMode, "tsx"),
+    highlight(CODE_BLOCKS.usageExample, "tsx"),
+  ]);
 
-  return { addComponent, addBase, componentsJson, dataTheme, darkMode, usageExample };
+  return {
+    addComponent,
+    addBase,
+    componentsJson,
+    dataTheme,
+    darkMode,
+    usageExample,
+  };
 }
 
 export default async function GettingStartedPage() {
@@ -107,9 +120,7 @@ export default async function GettingStartedPage() {
       </p>
 
       <h2>Install the Full Base</h2>
-      <p>
-        To install all base components at once:
-      </p>
+      <p>To install all base components at once:</p>
       <div
         className="not-prose overflow-x-auto rounded-lg border text-sm [&_pre]:p-4"
         dangerouslySetInnerHTML={{ __html: code.addBase }}
@@ -117,7 +128,8 @@ export default async function GettingStartedPage() {
 
       <h2>Usage</h2>
       <p>
-        Import installed components from your project&apos;s component directory:
+        Import installed components from your project&apos;s component
+        directory:
       </p>
       <div
         className="not-prose overflow-x-auto rounded-lg border text-sm [&_pre]:p-4"
@@ -135,9 +147,9 @@ export default async function GettingStartedPage() {
         dangerouslySetInnerHTML={{ __html: code.dataTheme }}
       />
       <p>
-        Available themes: <code>perimeter-api</code>, <code>metrics</code>.
-        When no <code>data-theme</code> is set, the default warm stone palette
-        is used.
+        Available themes: <code>perimeter-api</code>, <code>metrics</code>. When
+        no <code>data-theme</code> is set, the default warm stone palette is
+        used.
       </p>
 
       <h2>Dark Mode</h2>

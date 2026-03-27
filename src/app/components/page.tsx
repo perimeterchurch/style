@@ -35,10 +35,7 @@ export default function ComponentsIndexPage() {
             </p>
             <ul className="mt-3 space-y-1">
               {components.map((entry) => (
-                <li
-                  key={entry.slug}
-                  className="text-sm text-muted-foreground"
-                >
+                <li key={entry.slug} className="text-sm text-muted-foreground">
                   {entry.name}
                 </li>
               ))}

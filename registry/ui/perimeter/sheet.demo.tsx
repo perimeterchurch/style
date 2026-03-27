@@ -54,9 +54,7 @@ export const examples = [
     name: "Right Sheet",
     render: () => (
       <Sheet>
-        <SheetTrigger render={<Button variant="outline" />}>
-          Right
-        </SheetTrigger>
+        <SheetTrigger render={<Button variant="outline" />}>Right</SheetTrigger>
         <SheetContent side="right">
           <SheetHeader>
             <SheetTitle>Settings</SheetTitle>
@@ -70,9 +68,7 @@ export const examples = [
     name: "Left Sheet",
     render: () => (
       <Sheet>
-        <SheetTrigger render={<Button variant="outline" />}>
-          Left
-        </SheetTrigger>
+        <SheetTrigger render={<Button variant="outline" />}>Left</SheetTrigger>
         <SheetContent side="left">
           <SheetHeader>
             <SheetTitle>Navigation</SheetTitle>

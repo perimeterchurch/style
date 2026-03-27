@@ -110,9 +110,7 @@ export function ComponentPlayground({
               {Playground ? (
                 <Playground {...values} />
               ) : (
-                <div className="text-sm text-muted-foreground">
-                  Loading...
-                </div>
+                <div className="text-sm text-muted-foreground">Loading...</div>
               )}
             </div>
           </div>

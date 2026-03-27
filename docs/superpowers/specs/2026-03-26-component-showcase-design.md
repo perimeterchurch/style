@@ -168,15 +168,15 @@ Demo files import as `import type { ControlsConfig, PlaygroundProps } from "@/li
 
 Categories are discovered at build time from `meta.category` across all demo files.
 
-| Category | Components |
-|----------|-----------|
-| Actions (7) | button, button-group, toggle, toggle-group, dropdown-menu, context-menu, menubar |
-| Forms (14) | input, input-group, input-otp, textarea, select, native-select, checkbox, radio-group, switch, slider, combobox, calendar, field, label |
-| Data Display (9) | card, table, badge, avatar, chart, carousel, progress, skeleton, empty |
-| Feedback (9) | alert, alert-dialog, dialog, drawer, sheet, sonner, tooltip, hover-card, popover |
-| Navigation (6) | breadcrumb, command, navigation-menu, pagination, tabs, sidebar |
-| Layout (7) | accordion, collapsible, resizable, scroll-area, separator, aspect-ratio, direction |
-| Misc (3) | kbd, spinner, item |
+| Category         | Components                                                                                                                              |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Actions (7)      | button, button-group, toggle, toggle-group, dropdown-menu, context-menu, menubar                                                        |
+| Forms (14)       | input, input-group, input-otp, textarea, select, native-select, checkbox, radio-group, switch, slider, combobox, calendar, field, label |
+| Data Display (9) | card, table, badge, avatar, chart, carousel, progress, skeleton, empty                                                                  |
+| Feedback (9)     | alert, alert-dialog, dialog, drawer, sheet, sonner, tooltip, hover-card, popover                                                        |
+| Navigation (6)   | breadcrumb, command, navigation-menu, pagination, tabs, sidebar                                                                         |
+| Layout (7)       | accordion, collapsible, resizable, scroll-area, separator, aspect-ratio, direction                                                      |
+| Misc (3)         | kbd, spinner, item                                                                                                                      |
 
 ## Component Page Layout
 
@@ -242,13 +242,13 @@ export default function DashboardTemplate() {
 
 ### Initial templates
 
-| Template | Components Used |
-|----------|----------------|
-| Dashboard | sidebar, card, chart, tabs, avatar, dropdown-menu, breadcrumb |
-| Settings Page | tabs, card, input, select, switch, label, button, separator |
-| Login / Auth | card, input, label, button, checkbox, separator |
-| Data Table | table, input, dropdown-menu, badge, pagination, button |
-| Marketing Landing | card, button, badge, navigation-menu, accordion |
+| Template          | Components Used                                               |
+| ----------------- | ------------------------------------------------------------- |
+| Dashboard         | sidebar, card, chart, tabs, avatar, dropdown-menu, breadcrumb |
+| Settings Page     | tabs, card, input, select, switch, label, button, separator   |
+| Login / Auth      | card, input, label, button, checkbox, separator               |
+| Data Table        | table, input, dropdown-menu, badge, pagination, button        |
+| Marketing Landing | card, button, badge, navigation-menu, accordion               |
 
 App-specific templates added later as consuming projects migrate.
 
@@ -260,16 +260,28 @@ App-specific templates added later as consuming projects migrate.
 
 ```css
 /* From default.json */
-:root { --primary: oklch(0.55 0.08 45); /* ... all tokens */ }
-.dark { --primary: oklch(0.85 0.06 45); /* ... */ }
+:root {
+  --primary: oklch(0.55 0.08 45); /* ... all tokens */
+}
+.dark {
+  --primary: oklch(0.85 0.06 45); /* ... */
+}
 
 /* From perimeter-api.json — overrides only */
-[data-theme="perimeter-api"] { --primary: oklch(0.50 0.10 220); /* ... */ }
-[data-theme="perimeter-api"].dark { /* ... */ }
+[data-theme="perimeter-api"] {
+  --primary: oklch(0.5 0.1 220); /* ... */
+}
+[data-theme="perimeter-api"].dark {
+  /* ... */
+}
 
 /* From metrics.json — overrides only */
-[data-theme="metrics"] { /* ... */ }
-[data-theme="metrics"].dark { /* ... */ }
+[data-theme="metrics"] {
+  /* ... */
+}
+[data-theme="metrics"].dark {
+  /* ... */
+}
 ```
 
 ### Runtime
@@ -364,6 +376,7 @@ The playground controls panel is a client component (`"use client"`) that update
 - `shiki` (dev) — build-time syntax highlighting for code blocks
 
 Everything else is existing:
+
 - Next.js for routing and SSG
 - `cmdk` for search
 - Tailwind CSS v4 for styling

@@ -35,20 +35,14 @@ export function Playground(props: PlaygroundProps<typeof controls>) {
 export const examples = [
   {
     name: "Single Date",
-    render: () => (
-      <Calendar mode="single" />
-    ),
+    render: () => <Calendar mode="single" />,
   },
   {
     name: "Multiple Months",
-    render: () => (
-      <Calendar mode="single" numberOfMonths={2} />
-    ),
+    render: () => <Calendar mode="single" numberOfMonths={2} />,
   },
   {
     name: "With Dropdown Navigation",
-    render: () => (
-      <Calendar mode="single" captionLayout="dropdown" />
-    ),
+    render: () => <Calendar mode="single" captionLayout="dropdown" />,
   },
 ];

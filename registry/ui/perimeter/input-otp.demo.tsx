@@ -9,7 +9,8 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Input OTP",
-  description: "Accessible one-time password input with individual character slots.",
+  description:
+    "Accessible one-time password input with individual character slots.",
   category: "forms",
   install: "pnpm dlx shadcn@latest add @perimeter/input-otp",
 };

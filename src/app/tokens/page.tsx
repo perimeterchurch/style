@@ -35,10 +35,7 @@ export default function TokensPage() {
         </p>
       </div>
 
-      <TokenPageClient
-        groups={TOKEN_GROUPS}
-        values={tokenValues}
-      />
+      <TokenPageClient groups={TOKEN_GROUPS} values={tokenValues} />
     </div>
   );
 }

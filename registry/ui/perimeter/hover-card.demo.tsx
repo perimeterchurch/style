@@ -1,10 +1,6 @@
 import { CalendarDaysIcon } from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "./avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 
 import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
@@ -103,9 +99,7 @@ export const examples = [
           Hover for details
         </HoverCardTrigger>
         <HoverCardContent>
-          <p className="text-sm">
-            Additional context about this element.
-          </p>
+          <p className="text-sm">Additional context about this element.</p>
         </HoverCardContent>
       </HoverCard>
     ),

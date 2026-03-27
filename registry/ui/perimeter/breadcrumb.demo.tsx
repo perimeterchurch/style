@@ -12,7 +12,8 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Breadcrumb",
-  description: "Displays the path to the current page using a hierarchy of links.",
+  description:
+    "Displays the path to the current page using a hierarchy of links.",
   category: "navigation",
   install: "pnpm dlx shadcn@latest add @perimeter/breadcrumb",
 };

@@ -4,7 +4,8 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Progress",
-  description: "Displays an indicator showing the completion progress of a task.",
+  description:
+    "Displays an indicator showing the completion progress of a task.",
   category: "data-display",
   install: "pnpm dlx shadcn@latest add @perimeter/progress",
 };
@@ -26,9 +27,7 @@ export function Playground(props: PlaygroundProps<typeof controls>) {
 export const examples = [
   {
     name: "Basic Progress",
-    render: () => (
-      <Progress value={45} className="max-w-sm" />
-    ),
+    render: () => <Progress value={45} className="max-w-sm" />,
   },
   {
     name: "With Label and Value",

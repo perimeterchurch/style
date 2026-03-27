@@ -24,39 +24,39 @@ OKLCH is perceptually uniform — equal chroma values look equally saturated acr
 
 shadcn's standard: background/foreground pairs.
 
-| Token | Purpose |
-|-------|---------|
-| `--primary` / `--primary-foreground` | Brand color + text on brand |
-| `--secondary` / `--secondary-foreground` | Subtle backgrounds + text |
-| `--muted` / `--muted-foreground` | Dimmed surfaces + muted text |
-| `--accent` / `--accent-foreground` | Highlight surfaces + text |
-| `--destructive` | Error/danger color |
-| `--background` / `--foreground` | Page background + default text |
-| `--card` / `--card-foreground` | Card surface + text |
-| `--popover` / `--popover-foreground` | Popover surface + text |
-| `--border` | Default border color |
-| `--input` | Input border color |
-| `--ring` | Focus ring color |
-| `--chart-1` through `--chart-5` | Chart/data visualization colors |
+| Token                                    | Purpose                         |
+| ---------------------------------------- | ------------------------------- |
+| `--primary` / `--primary-foreground`     | Brand color + text on brand     |
+| `--secondary` / `--secondary-foreground` | Subtle backgrounds + text       |
+| `--muted` / `--muted-foreground`         | Dimmed surfaces + muted text    |
+| `--accent` / `--accent-foreground`       | Highlight surfaces + text       |
+| `--destructive`                          | Error/danger color              |
+| `--background` / `--foreground`          | Page background + default text  |
+| `--card` / `--card-foreground`           | Card surface + text             |
+| `--popover` / `--popover-foreground`     | Popover surface + text          |
+| `--border`                               | Default border color            |
+| `--input`                                | Input border color              |
+| `--ring`                                 | Focus ring color                |
+| `--chart-1` through `--chart-5`          | Chart/data visualization colors |
 
 ### Perimeter Extensions
 
 These are NOT part of shadcn's default set:
 
-| Token | Purpose |
-|-------|---------|
+| Token                                | Purpose               |
+| ------------------------------------ | --------------------- |
 | `--success` / `--success-foreground` | Success state (green) |
 | `--warning` / `--warning-foreground` | Warning state (amber) |
-| `--info` / `--info-foreground` | Info state (blue) |
+| `--info` / `--info-foreground`       | Info state (blue)     |
 
 ## Where Tokens Are Defined
 
 Tokens exist in two places (must stay in sync):
 
-| Location | Purpose |
-|----------|---------|
-| `src/app/globals.css` | CSS source of truth — `:root` and `.dark` blocks |
-| `src/lib/default-tokens.ts` | TypeScript copy for the editor store |
+| Location                    | Purpose                                          |
+| --------------------------- | ------------------------------------------------ |
+| `src/app/globals.css`       | CSS source of truth — `:root` and `.dark` blocks |
+| `src/lib/default-tokens.ts` | TypeScript copy for the editor store             |
 
 The `globals.css` file also contains the `@theme inline` block that bridges CSS variables to Tailwind utility classes (e.g., `--color-primary: var(--primary)` enables `bg-primary`).
 
@@ -64,14 +64,14 @@ The `globals.css` file also contains the `@theme inline` block that bridges CSS 
 
 The palette uses warm hues (stone grays with yellow-orange undertones) and indigo as the primary accent.
 
-| Color | Light | Dark | Hue |
-|-------|-------|------|-----|
-| Primary | `oklch(0.488 0.145 283)` | `oklch(0.55 0.145 283)` | Indigo |
-| Success | `oklch(0.59 0.16 145)` | `oklch(0.65 0.16 145)` | Green |
-| Warning | `oklch(0.78 0.15 80)` | `oklch(0.82 0.15 80)` | Amber |
-| Destructive | `oklch(0.577 0.245 27)` | `oklch(0.65 0.235 27)` | Rose |
-| Info | `oklch(0.62 0.17 230)` | `oklch(0.68 0.17 230)` | Sky |
-| Background | `oklch(0.985 0.002 75)` | `oklch(0.147 0.012 50)` | Warm white / stone-900 |
+| Color       | Light                    | Dark                    | Hue                    |
+| ----------- | ------------------------ | ----------------------- | ---------------------- |
+| Primary     | `oklch(0.488 0.145 283)` | `oklch(0.55 0.145 283)` | Indigo                 |
+| Success     | `oklch(0.59 0.16 145)`   | `oklch(0.65 0.16 145)`  | Green                  |
+| Warning     | `oklch(0.78 0.15 80)`    | `oklch(0.82 0.15 80)`   | Amber                  |
+| Destructive | `oklch(0.577 0.245 27)`  | `oklch(0.65 0.235 27)`  | Rose                   |
+| Info        | `oklch(0.62 0.17 230)`   | `oklch(0.68 0.17 230)`  | Sky                    |
+| Background  | `oklch(0.985 0.002 75)`  | `oklch(0.147 0.012 50)` | Warm white / stone-900 |
 
 ## Dark Mode
 

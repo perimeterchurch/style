@@ -43,19 +43,19 @@ shadcn-compatible component registry and showcase site for Perimeter Church. Nex
 
 ### Key Directories
 
-| Directory                          | Purpose                                                     |
-| ---------------------------------- | ----------------------------------------------------------- |
-| `registry/ui/perimeter/`           | Component source (SINGLE SOURCE OF TRUTH)                   |
-| `registry/ui/perimeter/*.demo.tsx` | Component demos with controls, examples, and meta           |
-| `registry/themes/`                 | Theme definitions (default, perimeter-api, metrics)         |
-| `src/app/`                         | Next.js routes (components, templates, tokens, docs)        |
-| `src/templates/`                   | Full-page template compositions (dashboard, settings, etc.) |
-| `src/components/site/`             | Site chrome (top nav, sidebar, search, playground controls) |
-| `src/components/ui/`               | shadcn components for app use (NOT the registry source)     |
-| `src/lib/`                         | Utilities (demo-types, highlight, theme-context, utils)     |
+| Directory                          | Purpose                                                       |
+| ---------------------------------- | ------------------------------------------------------------- |
+| `registry/ui/perimeter/`           | Component source (SINGLE SOURCE OF TRUTH)                     |
+| `registry/ui/perimeter/*.demo.tsx` | Component demos with controls, examples, and meta             |
+| `registry/themes/`                 | Theme definitions (default, perimeter-api, metrics)           |
+| `src/app/`                         | Next.js routes (components, templates, tokens, docs)          |
+| `src/templates/`                   | Full-page template compositions (dashboard, settings, etc.)   |
+| `src/components/site/`             | Site chrome (top nav, sidebar, search, playground controls)   |
+| `src/components/ui/`               | shadcn components for app use (NOT the registry source)       |
+| `src/lib/`                         | Utilities (demo-types, highlight, theme-context, utils)       |
 | `src/lib/demo-types.ts`            | Shared types (ManifestEntry, ControlsConfig, PlaygroundProps) |
-| `scripts/`                         | Build and generation scripts                                |
-| `public/r/`                        | Built registry JSON (generated, gitignored)                 |
+| `scripts/`                         | Build and generation scripts                                  |
+| `public/r/`                        | Built registry JSON (generated, gitignored)                   |
 
 ### Theme System Architecture
 

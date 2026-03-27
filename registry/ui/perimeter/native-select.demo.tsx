@@ -1,4 +1,8 @@
-import { NativeSelect, NativeSelectOption, NativeSelectOptGroup } from "./native-select";
+import {
+  NativeSelect,
+  NativeSelectOption,
+  NativeSelectOptGroup,
+} from "./native-select";
 
 import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 

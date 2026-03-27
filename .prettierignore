@@ -1,0 +1,13 @@
+# Build artifacts and caches
+.turbo/
+.next/
+out/
+node_modules/
+public/r/
+
+# Generated files
+src/lib/demo-manifest.json
+src/lib/demo-imports.ts
+
+# Lock files
+pnpm-lock.yaml

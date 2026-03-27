@@ -26,10 +26,7 @@ interface FlatToken {
 type SortKey = "token" | "group" | "lightValue" | "darkValue";
 type SortDirection = "asc" | "desc";
 
-function flattenTokens(
-  groups: TokenGroup[],
-  values: TokenValues,
-): FlatToken[] {
+function flattenTokens(groups: TokenGroup[], values: TokenValues): FlatToken[] {
   const result: FlatToken[] = [];
   for (const group of groups) {
     for (const token of group.tokens) {
@@ -65,7 +62,10 @@ export function TokenTable({ groups, values }: TokenTableProps) {
   const [filter, setFilter] = useState("");
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
 
-  const allTokens = useMemo(() => flattenTokens(groups, values), [groups, values]);
+  const allTokens = useMemo(
+    () => flattenTokens(groups, values),
+    [groups, values],
+  );
 
   const filtered = useMemo(() => {
     const query = filter.toLowerCase();
@@ -170,9 +170,7 @@ export function TokenTable({ groups, values }: TokenTableProps) {
                 <td className="px-4 py-2 text-xs text-muted-foreground">
                   {t.group}
                 </td>
-                <td className="px-4 py-2 font-mono text-xs">
-                  {t.lightValue}
-                </td>
+                <td className="px-4 py-2 font-mono text-xs">{t.lightValue}</td>
                 <td className="px-4 py-2 font-mono text-xs">{t.darkValue}</td>
                 <td className="px-4 py-2">
                   <button

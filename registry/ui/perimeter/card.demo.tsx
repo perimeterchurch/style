@@ -82,9 +82,7 @@ export const examples = [
       <Card className="max-w-sm">
         <CardHeader>
           <CardTitle>Confirm Action</CardTitle>
-          <CardDescription>
-            Are you sure you want to proceed?
-          </CardDescription>
+          <CardDescription>Are you sure you want to proceed?</CardDescription>
         </CardHeader>
         <CardFooter>
           <Button variant="outline" size="sm">

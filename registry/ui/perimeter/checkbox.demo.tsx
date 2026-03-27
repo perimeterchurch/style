@@ -5,7 +5,8 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Checkbox",
-  description: "A control that allows the user to toggle between checked and unchecked states.",
+  description:
+    "A control that allows the user to toggle between checked and unchecked states.",
   category: "forms",
   install: "pnpm dlx shadcn@latest add @perimeter/checkbox",
 };

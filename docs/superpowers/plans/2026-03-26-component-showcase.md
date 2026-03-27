@@ -19,6 +19,7 @@ This chunk moves the registry to its new path, deletes old editor code, creates 
 ### Task 1: Move registry components to new path
 
 **Files:**
+
 - Move: `registry/new-york/ui/*.tsx` → `registry/ui/perimeter/*.tsx`
 - Move: `registry/new-york/lib/utils.ts` → `registry/ui/perimeter/lib/utils.ts`
 - Delete: `registry/new-york/` (entire directory after move)
@@ -52,6 +53,7 @@ git commit -m "refactor: move registry components to registry/ui/perimeter/"
 ### Task 2: Update generate-registry.ts for new paths
 
 **Files:**
+
 - Modify: `scripts/generate-registry.ts`
 
 - [ ] **Step 1: Update the UI_DIR constant**
@@ -81,6 +83,7 @@ git commit -m "refactor: update generate-registry.ts for new registry path"
 ### Task 3: Add @registry path alias to tsconfig.json
 
 **Files:**
+
 - Modify: `tsconfig.json`
 
 - [ ] **Step 1: Add the path alias**
@@ -102,6 +105,7 @@ git commit -m "chore: add @registry path alias to tsconfig"
 ### Task 4: Delete old editor code and remove zustand
 
 **Files:**
+
 - Delete: `src/app/editor/page.tsx`
 - Delete: `src/components/editor/` (3 files: preview-panel.tsx, theme-selector.tsx, token-controls.tsx)
 - Delete: `src/components/preview/` (3 files: dashboard.tsx, forms.tsx, showcase.tsx)
@@ -137,9 +141,11 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen items-center justify-center">
       <h1 className="text-3xl font-bold">Perimeter Style</h1>
-      <p className="text-muted-foreground mt-2">Component showcase — coming soon</p>
+      <p className="text-muted-foreground mt-2">
+        Component showcase — coming soon
+      </p>
     </main>
-  )
+  );
 }
 ```
 
@@ -162,6 +168,7 @@ git commit -m "refactor: remove editor code, preview components, and zustand dep
 ### Task 5: Create default.json theme file
 
 **Files:**
+
 - Create: `registry/themes/default.json`
 - Modify: `src/app/globals.css` (remove inline token values)
 
@@ -275,83 +282,80 @@ git commit -m "feat: add default.json theme with full warm stone palette"
 ### Task 6: Create generate-theme-css.ts script
 
 **Files:**
+
 - Create: `scripts/generate-theme-css.ts`
 
 - [ ] **Step 1: Write the theme CSS generation script**
 
 ```typescript
-import { readdir, readFile, writeFile, mkdir } from "node:fs/promises"
-import { join } from "node:path"
+import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
+import { join } from "node:path";
 
 interface ThemeFile {
-  name: string
+  name: string;
   cssVars: {
-    light: Record<string, string>
-    dark: Record<string, string>
-  }
+    light: Record<string, string>;
+    dark: Record<string, string>;
+  };
 }
 
 function cssBlock(selector: string, vars: Record<string, string>): string {
   const entries = Object.entries(vars)
     .map(([key, value]) => `  --${key}: ${value};`)
-    .join("\n")
-  return `${selector} {\n${entries}\n}`
+    .join("\n");
+  return `${selector} {\n${entries}\n}`;
 }
 
 async function generateThemeCSS() {
-  const themesDir = join(process.cwd(), "registry", "themes")
-  const outputDir = join(process.cwd(), "src", "styles")
-  const outputPath = join(outputDir, "themes.css")
+  const themesDir = join(process.cwd(), "registry", "themes");
+  const outputDir = join(process.cwd(), "src", "styles");
+  const outputPath = join(outputDir, "themes.css");
 
-  const files = await readdir(themesDir)
-  const jsonFiles = files.filter((f) => f.endsWith(".json")).sort()
+  const files = await readdir(themesDir);
+  const jsonFiles = files.filter((f) => f.endsWith(".json")).sort();
 
   const blocks: string[] = [
     "/* Auto-generated from registry/themes/ — do not edit manually */",
     "",
-  ]
+  ];
 
   // Find default.json first — it becomes :root and .dark
-  const defaultFile = jsonFiles.find((f) => f === "default.json")
+  const defaultFile = jsonFiles.find((f) => f === "default.json");
   if (!defaultFile) {
-    throw new Error("registry/themes/default.json is required")
+    throw new Error("registry/themes/default.json is required");
   }
 
   const defaultTheme: ThemeFile = JSON.parse(
     await readFile(join(themesDir, defaultFile), "utf-8"),
-  )
-  blocks.push(cssBlock(":root", defaultTheme.cssVars.light))
-  blocks.push("")
-  blocks.push(cssBlock(".dark", defaultTheme.cssVars.dark))
+  );
+  blocks.push(cssBlock(":root", defaultTheme.cssVars.light));
+  blocks.push("");
+  blocks.push(cssBlock(".dark", defaultTheme.cssVars.dark));
 
   // Process remaining themes as data-theme overrides
   for (const file of jsonFiles) {
-    if (file === "default.json") continue
+    if (file === "default.json") continue;
 
     const theme: ThemeFile = JSON.parse(
       await readFile(join(themesDir, file), "utf-8"),
-    )
-    const slug = file.replace(".json", "").replace("-theme", "")
+    );
+    const slug = file.replace(".json", "").replace("-theme", "");
 
-    blocks.push("")
-    blocks.push(
-      cssBlock(`[data-theme="${slug}"]`, theme.cssVars.light),
-    )
-    blocks.push("")
-    blocks.push(
-      cssBlock(`[data-theme="${slug}"].dark`, theme.cssVars.dark),
-    )
+    blocks.push("");
+    blocks.push(cssBlock(`[data-theme="${slug}"]`, theme.cssVars.light));
+    blocks.push("");
+    blocks.push(cssBlock(`[data-theme="${slug}"].dark`, theme.cssVars.dark));
   }
 
-  await mkdir(outputDir, { recursive: true })
-  await writeFile(outputPath, blocks.join("\n") + "\n")
-  console.log(`Generated ${outputPath} from ${jsonFiles.length} theme(s)`)
+  await mkdir(outputDir, { recursive: true });
+  await writeFile(outputPath, blocks.join("\n") + "\n");
+  console.log(`Generated ${outputPath} from ${jsonFiles.length} theme(s)`);
 }
 
 generateThemeCSS().catch((err) => {
-  console.error("Failed to generate theme CSS:", err)
-  process.exit(1)
-})
+  console.error("Failed to generate theme CSS:", err);
+  process.exit(1);
+});
 ```
 
 - [ ] **Step 2: Run the script to verify output**
@@ -362,6 +366,7 @@ Expected: Creates `src/styles/themes.css` with `:root`, `.dark`, and `[data-them
 - [ ] **Step 3: Verify the generated CSS content**
 
 Read `src/styles/themes.css` and confirm:
+
 - `:root` block has all light tokens from `default.json`
 - `.dark` block has all dark tokens from `default.json`
 - `[data-theme="perimeter-api"]` block has the 4 override tokens
@@ -377,6 +382,7 @@ git commit -m "feat: add theme CSS generation script"
 ### Task 7: Update globals.css and build pipeline
 
 **Files:**
+
 - Modify: `src/app/globals.css` (remove inline tokens, add import)
 - Modify: `package.json` (update build scripts)
 - Modify: `.gitignore` (add generated themes.css)
@@ -384,6 +390,7 @@ git commit -m "feat: add theme CSS generation script"
 - [ ] **Step 1: Strip token values from globals.css**
 
 Remove the `:root { ... }` and `.dark { ... }` blocks that define color/radius token values. Keep:
+
 - The `@import` statements for tailwindcss, tw-animate-css, shadcn
 - Add `@import "../styles/themes.css";` after the other imports
 - The `@custom-variant dark` line
@@ -419,6 +426,7 @@ git commit -m "refactor: move token values to generated themes.css, update build
 ### Task 8: Update generate-registry.ts to sync base.json from default.json
 
 **Files:**
+
 - Modify: `scripts/generate-registry.ts`
 
 - [ ] **Step 1: Add logic to read default.json and write cssVars into base.json**
@@ -446,6 +454,7 @@ This chunk builds the site chrome: the top nav, sidebar, theme/mode switcher, an
 ### Task 9: Install shiki dependency
 
 **Files:**
+
 - Modify: `package.json`
 
 - [ ] **Step 1: Install shiki as a dev dependency**
@@ -464,42 +473,43 @@ git commit -m "chore: add shiki for build-time syntax highlighting"
 ### Task 10: Create demo type infrastructure
 
 **Files:**
+
 - Create: `src/lib/demo-types.ts`
 
 - [ ] **Step 1: Write the ControlsConfig and PlaygroundProps types**
 
 ```typescript
 export interface EnumControl {
-  type: "enum"
-  options: readonly string[]
-  default: string
+  type: "enum";
+  options: readonly string[];
+  default: string;
 }
 
 export interface BooleanControl {
-  type: "boolean"
-  default: boolean
+  type: "boolean";
+  default: boolean;
 }
 
 export interface StringControl {
-  type: "string"
-  default: string
+  type: "string";
+  default: string;
 }
 
 export interface NumberControl {
-  type: "number"
-  default: number
-  min?: number
-  max?: number
-  step?: number
+  type: "number";
+  default: number;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 export type ControlDescriptor =
   | EnumControl
   | BooleanControl
   | StringControl
-  | NumberControl
+  | NumberControl;
 
-export type ControlsConfig = Record<string, ControlDescriptor>
+export type ControlsConfig = Record<string, ControlDescriptor>;
 
 type InferControlType<T extends ControlDescriptor> = T extends EnumControl
   ? T["options"][number]
@@ -509,22 +519,22 @@ type InferControlType<T extends ControlDescriptor> = T extends EnumControl
       ? string
       : T extends NumberControl
         ? number
-        : never
+        : never;
 
 export type PlaygroundProps<T extends ControlsConfig> = {
-  [K in keyof T]: InferControlType<T[K]>
-}
+  [K in keyof T]: InferControlType<T[K]>;
+};
 
 export interface DemoMeta {
-  name: string
-  description: string
-  category: string
-  install: string
+  name: string;
+  description: string;
+  category: string;
+  install: string;
 }
 
 export interface DemoExample {
-  name: string
-  render: () => React.ReactNode
+  name: string;
+  render: () => React.ReactNode;
 }
 ```
 
@@ -543,34 +553,35 @@ git commit -m "feat: add ControlsConfig and PlaygroundProps type infrastructure"
 ### Task 11: Create Shiki highlight utility
 
 **Files:**
+
 - Create: `src/lib/highlight.ts`
 
 - [ ] **Step 1: Write the highlight wrapper**
 
 ```typescript
-import { createHighlighter, type Highlighter } from "shiki"
+import { createHighlighter, type Highlighter } from "shiki";
 
-let highlighter: Highlighter | null = null
+let highlighter: Highlighter | null = null;
 
 async function getHighlighter(): Promise<Highlighter> {
   if (!highlighter) {
     highlighter = await createHighlighter({
       themes: ["github-dark", "github-light"],
       langs: ["tsx", "bash", "json", "css"],
-    })
+    });
   }
-  return highlighter
+  return highlighter;
 }
 
 export async function highlight(
   code: string,
   lang: string = "tsx",
 ): Promise<string> {
-  const h = await getHighlighter()
+  const h = await getHighlighter();
   return h.codeToHtml(code, {
     lang,
     themes: { light: "github-light", dark: "github-dark" },
-  })
+  });
 }
 ```
 
@@ -589,6 +600,7 @@ git commit -m "feat: add Shiki syntax highlighting utility"
 ### Task 12: Create theme context provider
 
 **Files:**
+
 - Create: `src/lib/theme-context.tsx`
 
 - [ ] **Step 1: Write the theme provider**
@@ -680,6 +692,7 @@ git commit -m "feat: add lightweight theme context provider"
 ### Task 13: Create collect-demos.ts manifest script
 
 **Files:**
+
 - Create: `scripts/collect-demos.ts`
 - Modify: `package.json` (add script)
 - Modify: `.gitignore` (add generated manifest)
@@ -689,41 +702,41 @@ git commit -m "feat: add lightweight theme context provider"
 This script scans `registry/ui/perimeter/*.demo.tsx` files, extracts `meta` exports using regex (not runtime import — avoids TSX compilation), and writes a JSON manifest.
 
 ```typescript
-import { readdir, readFile, writeFile, mkdir } from "node:fs/promises"
-import { join } from "node:path"
+import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
+import { join } from "node:path";
 
 interface ManifestEntry {
-  slug: string
-  name: string
-  description: string
-  category: string
-  install: string
-  demoFile: string
+  slug: string;
+  name: string;
+  description: string;
+  category: string;
+  install: string;
+  demoFile: string;
 }
 
 async function collectDemos() {
-  const registryDir = join(process.cwd(), "registry", "ui", "perimeter")
-  const outputDir = join(process.cwd(), "src", "lib")
-  const outputPath = join(outputDir, "demo-manifest.json")
+  const registryDir = join(process.cwd(), "registry", "ui", "perimeter");
+  const outputDir = join(process.cwd(), "src", "lib");
+  const outputPath = join(outputDir, "demo-manifest.json");
 
-  const files = await readdir(registryDir)
-  const demoFiles = files.filter((f) => f.endsWith(".demo.tsx")).sort()
+  const files = await readdir(registryDir);
+  const demoFiles = files.filter((f) => f.endsWith(".demo.tsx")).sort();
 
-  const manifest: ManifestEntry[] = []
+  const manifest: ManifestEntry[] = [];
 
   for (const file of demoFiles) {
-    const content = await readFile(join(registryDir, file), "utf-8")
-    const slug = file.replace(".demo.tsx", "")
+    const content = await readFile(join(registryDir, file), "utf-8");
+    const slug = file.replace(".demo.tsx", "");
 
     // Extract meta fields using regex
-    const nameMatch = content.match(/name:\s*"([^"]+)"/)
-    const descMatch = content.match(/description:\s*"([^"]+)"/)
-    const catMatch = content.match(/category:\s*"([^"]+)"/)
-    const installMatch = content.match(/install:\s*"([^"]+)"/)
+    const nameMatch = content.match(/name:\s*"([^"]+)"/);
+    const descMatch = content.match(/description:\s*"([^"]+)"/);
+    const catMatch = content.match(/category:\s*"([^"]+)"/);
+    const installMatch = content.match(/install:\s*"([^"]+)"/);
 
     if (!nameMatch || !descMatch || !catMatch || !installMatch) {
-      console.warn(`Skipping ${file}: missing meta fields`)
-      continue
+      console.warn(`Skipping ${file}: missing meta fields`);
+      continue;
     }
 
     manifest.push({
@@ -733,21 +746,24 @@ async function collectDemos() {
       category: catMatch[1],
       install: installMatch[1],
       demoFile: `@registry/ui/perimeter/${slug}.demo`,
-    })
+    });
   }
 
   // Sort by category then name
-  manifest.sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name))
+  manifest.sort(
+    (a, b) =>
+      a.category.localeCompare(b.category) || a.name.localeCompare(b.name),
+  );
 
-  await mkdir(outputDir, { recursive: true })
-  await writeFile(outputPath, JSON.stringify(manifest, null, 2) + "\n")
-  console.log(`Collected ${manifest.length} demo(s) → ${outputPath}`)
+  await mkdir(outputDir, { recursive: true });
+  await writeFile(outputPath, JSON.stringify(manifest, null, 2) + "\n");
+  console.log(`Collected ${manifest.length} demo(s) → ${outputPath}`);
 }
 
 collectDemos().catch((err) => {
-  console.error("Failed to collect demos:", err)
-  process.exit(1)
-})
+  console.error("Failed to collect demos:", err);
+  process.exit(1);
+});
 ```
 
 - [ ] **Step 2: Add script to package.json**
@@ -757,6 +773,7 @@ collectDemos().catch((err) => {
 ```
 
 Update `build` to include demo collection:
+
 ```json
 "build": "pnpm registry:build && pnpm generate:themes && pnpm collect:demos && next build"
 ```
@@ -775,6 +792,7 @@ git commit -m "feat: add demo manifest collection script"
 ### Task 14: Create site shell layout with top nav
 
 **Files:**
+
 - Modify: `src/app/layout.tsx` (add ThemeProvider, top nav)
 - Create: `src/components/site/top-nav.tsx`
 - Create: `src/components/site/theme-switcher.tsx`
@@ -785,13 +803,19 @@ git commit -m "feat: add demo manifest collection script"
 `src/components/site/theme-switcher.tsx` — a `"use client"` component:
 
 ```tsx
-"use client"
+"use client";
 
-import { useTheme } from "@/lib/theme-context"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useTheme } from "@/lib/theme-context";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function ThemeSwitcher() {
-  const { theme, setTheme, availableThemes } = useTheme()
+  const { theme, setTheme, availableThemes } = useTheme();
 
   return (
     <Select value={theme} onValueChange={setTheme}>
@@ -802,12 +826,15 @@ export function ThemeSwitcher() {
         <SelectItem value="">Default</SelectItem>
         {availableThemes.map((t) => (
           <SelectItem key={t} value={t}>
-            {t.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ")}
+            {t
+              .split("-")
+              .map((w) => w[0].toUpperCase() + w.slice(1))
+              .join(" ")}
           </SelectItem>
         ))}
       </SelectContent>
     </Select>
-  )
+  );
 }
 ```
 
@@ -816,21 +843,32 @@ export function ThemeSwitcher() {
 `src/components/site/mode-toggle.tsx` — a `"use client"` component:
 
 ```tsx
-"use client"
+"use client";
 
-import { useTheme } from "@/lib/theme-context"
-import { Button } from "@/components/ui/button"
-import { Sun, Moon } from "lucide-react"
+import { useTheme } from "@/lib/theme-context";
+import { Button } from "@/components/ui/button";
+import { Sun, Moon } from "lucide-react";
 
 export function ModeToggle() {
-  const { mode, toggleMode } = useTheme()
+  const { mode, toggleMode } = useTheme();
 
   return (
-    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={toggleMode}>
-      {mode === "light" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-      <span className="sr-only">Toggle {mode === "light" ? "dark" : "light"} mode</span>
+    <Button
+      variant="ghost"
+      size="icon"
+      className="h-8 w-8"
+      onClick={toggleMode}
+    >
+      {mode === "light" ? (
+        <Sun className="h-4 w-4" />
+      ) : (
+        <Moon className="h-4 w-4" />
+      )}
+      <span className="sr-only">
+        Toggle {mode === "light" ? "dark" : "light"} mode
+      </span>
     </Button>
-  )
+  );
 }
 ```
 
@@ -839,16 +877,16 @@ export function ModeToggle() {
 `src/components/site/top-nav.tsx` — server component with client sub-components:
 
 ```tsx
-import Link from "next/link"
-import { ThemeSwitcher } from "./theme-switcher"
-import { ModeToggle } from "./mode-toggle"
+import Link from "next/link";
+import { ThemeSwitcher } from "./theme-switcher";
+import { ModeToggle } from "./mode-toggle";
 
 const NAV_LINKS = [
   { href: "/components", label: "Components" },
   { href: "/templates", label: "Templates" },
   { href: "/tokens", label: "Tokens" },
   { href: "/docs/getting-started", label: "Getting Started" },
-]
+];
 
 export function TopNav() {
   return (
@@ -859,7 +897,11 @@ export function TopNav() {
         </Link>
         <nav className="flex items-center gap-4 text-sm">
           {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
               {link.label}
             </Link>
           ))}
@@ -871,7 +913,7 @@ export function TopNav() {
         </div>
       </div>
     </header>
-  )
+  );
 }
 ```
 
@@ -894,8 +936,9 @@ git commit -m "feat: add site shell with top nav, theme switcher, and mode toggl
 ### Task 15: Create sidebar component
 
 **Files:**
+
 - Create: `src/components/site/docs-sidebar.tsx`
-- Create: `src/app/components/layout.tsx` (layout for /components/* routes)
+- Create: `src/app/components/layout.tsx` (layout for /components/\* routes)
 
 - [ ] **Step 1: Create the sidebar component**
 
@@ -908,15 +951,19 @@ Key sections: "Getting Started" (hardcoded links to /docs/getting-started), then
 `src/app/components/layout.tsx`:
 
 ```tsx
-import { DocsSidebar } from "@/components/site/docs-sidebar"
+import { DocsSidebar } from "@/components/site/docs-sidebar";
 
-export default function ComponentsLayout({ children }: { children: React.ReactNode }) {
+export default function ComponentsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex">
       <DocsSidebar />
       <main className="flex-1 min-w-0 p-8">{children}</main>
     </div>
-  )
+  );
 }
 ```
 
@@ -935,12 +982,14 @@ git commit -m "feat: add docs sidebar with category navigation"
 ### Task 16: Create Cmd+K search palette
 
 **Files:**
+
 - Create: `src/components/site/search-palette.tsx`
 - Modify: `src/app/layout.tsx` (add search palette)
 
 - [ ] **Step 1: Create the search palette component**
 
 `src/components/site/search-palette.tsx` — a `"use client"` component that:
+
 - Renders the Command component (from `@/components/ui/command`) in a dialog
 - Listens for Cmd+K / Ctrl+K to open
 - Reads the demo manifest for component entries
@@ -972,11 +1021,13 @@ This chunk builds the dynamic component page infrastructure: the playground with
 ### Task 17: Create the playground controls renderer
 
 **Files:**
+
 - Create: `src/components/site/playground-controls.tsx`
 
 - [ ] **Step 1: Write the controls renderer**
 
 `src/components/site/playground-controls.tsx` — a `"use client"` component that:
+
 - Accepts a `ControlsConfig` and current values
 - Renders the appropriate input for each control type:
   - `enum` → segmented button group (row of buttons, active one highlighted)
@@ -986,14 +1037,14 @@ This chunk builds the dynamic component page infrastructure: the playground with
 - Calls `onChange(name, value)` when any control changes
 
 ```typescript
-"use client"
+"use client";
 
-import type { ControlsConfig, ControlDescriptor } from "@/lib/demo-types"
+import type { ControlsConfig, ControlDescriptor } from "@/lib/demo-types";
 
 interface PlaygroundControlsProps {
-  controls: ControlsConfig
-  values: Record<string, unknown>
-  onChange: (name: string, value: unknown) => void
+  controls: ControlsConfig;
+  values: Record<string, unknown>;
+  onChange: (name: string, value: unknown) => void;
 }
 ```
 
@@ -1014,11 +1065,13 @@ git commit -m "feat: add playground controls renderer for enum/boolean/string/nu
 ### Task 18: Create the playground wrapper component
 
 **Files:**
+
 - Create: `src/components/site/component-playground.tsx`
 
 - [ ] **Step 1: Write the playground wrapper**
 
 `src/components/site/component-playground.tsx` — a `"use client"` component that:
+
 - Accepts: `Playground` component, `controls` config, `defaultCodeHtml` (pre-rendered HTML string from build time), `componentName` (string)
 - Manages control state with `useState` (initialized from control defaults)
 - Renders a tabbed interface: Preview | Code
@@ -1027,17 +1080,17 @@ git commit -m "feat: add playground controls renderer for enum/boolean/string/nu
 - Renders PlaygroundControls below the preview area
 
 ```typescript
-"use client"
+"use client";
 
-import { useState, useMemo } from "react"
-import type { ControlsConfig } from "@/lib/demo-types"
-import { PlaygroundControls } from "./playground-controls"
+import { useState, useMemo } from "react";
+import type { ControlsConfig } from "@/lib/demo-types";
+import { PlaygroundControls } from "./playground-controls";
 
 interface ComponentPlaygroundProps {
-  playground: React.ComponentType<Record<string, unknown>>
-  controls: ControlsConfig
-  componentName: string
-  defaultCodeHtml: string
+  playground: React.ComponentType<Record<string, unknown>>;
+  controls: ControlsConfig;
+  componentName: string;
+  defaultCodeHtml: string;
 }
 ```
 
@@ -1056,24 +1109,26 @@ git commit -m "feat: add component playground with interactive controls and code
 ### Task 19: Create the example renderer component
 
 **Files:**
+
 - Create: `src/components/site/example-card.tsx`
 
 - [ ] **Step 1: Write the example card**
 
 `src/components/site/example-card.tsx` — renders a single example:
+
 - Title (example name)
 - Live render area (calls `render()`)
 - Expandable code block (Shiki-highlighted HTML, passed as prop)
 - Copy button that copies the raw source code to clipboard
 
 ```typescript
-"use client"
+"use client";
 
 interface ExampleCardProps {
-  name: string
-  children: React.ReactNode
-  codeHtml: string
-  rawCode: string
+  name: string;
+  children: React.ReactNode;
+  codeHtml: string;
+  rawCode: string;
 }
 ```
 
@@ -1087,11 +1142,13 @@ git commit -m "feat: add example card with live render and copyable code"
 ### Task 20: Create the component page template
 
 **Files:**
+
 - Create: `src/app/components/[category]/[slug]/page.tsx`
 
 - [ ] **Step 1: Write the dynamic component page**
 
 This is the main page for each component. It:
+
 - Uses `generateStaticParams` to enumerate all components from the demo manifest
 - Dynamically imports the demo file based on the slug
 - Renders:
@@ -1102,13 +1159,13 @@ This is the main page for each component. It:
   5. Installation section with the install command
 
 ```typescript
-import manifest from "@/lib/demo-manifest.json"
+import manifest from "@/lib/demo-manifest.json";
 
 export function generateStaticParams() {
   return manifest.map((entry) => ({
     category: entry.category,
     slug: entry.slug,
-  }))
+  }));
 }
 
 // Dynamic import using a lookup map generated at build time.
@@ -1119,13 +1176,13 @@ const DEMO_IMPORTS: Record<string, () => Promise<DemoModule>> = {
   card: () => import("@registry/ui/perimeter/card.demo"),
   // ... one entry per component — generated by collect-demos.ts
   // or maintained manually (55 entries)
-}
+};
 
 interface DemoModule {
-  meta: DemoMeta
-  controls: ControlsConfig
-  Playground: React.ComponentType<Record<string, unknown>>
-  examples: DemoExample[]
+  meta: DemoMeta;
+  controls: ControlsConfig;
+  Playground: React.ComponentType<Record<string, unknown>>;
+  examples: DemoExample[];
 }
 ```
 
@@ -1159,13 +1216,14 @@ git commit -m "feat: add dynamic component page with playground, examples, and c
 ### Task 21: Create source code extraction utility
 
 **Files:**
+
 - Create: `src/lib/extract-source.ts`
 
 - [ ] **Step 1: Write the extraction utility**
 
 ```typescript
-import { readFile } from "node:fs/promises"
-import { join } from "node:path"
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 /**
  * Extracts example render function bodies from a demo file's raw source.
@@ -1182,21 +1240,21 @@ export async function extractExampleSources(slug: string): Promise<string[]> {
     "ui",
     "perimeter",
     `${slug}.demo.tsx`,
-  )
-  const source = await readFile(filePath, "utf-8")
+  );
+  const source = await readFile(filePath, "utf-8");
 
-  const sources: string[] = []
-  const renderRegex = /render:\s*\(\)\s*=>\s*\(/g
-  let match
+  const sources: string[] = [];
+  const renderRegex = /render:\s*\(\)\s*=>\s*\(/g;
+  let match;
 
   while ((match = renderRegex.exec(source)) !== null) {
     // Start after the opening paren
-    const startIdx = match.index + match[0].length
-    const body = extractBalancedParens(source, startIdx)
-    if (body) sources.push(body.trim())
+    const startIdx = match.index + match[0].length;
+    const body = extractBalancedParens(source, startIdx);
+    if (body) sources.push(body.trim());
   }
 
-  return sources
+  return sources;
 }
 
 /**
@@ -1204,33 +1262,36 @@ export async function extractExampleSources(slug: string): Promise<string[]> {
  * balanced parens. Handles nested parens in JSX expressions, template
  * literals, and string literals (skips quoted content).
  */
-function extractBalancedParens(source: string, startIdx: number): string | null {
-  let depth = 1
-  let i = startIdx
+function extractBalancedParens(
+  source: string,
+  startIdx: number,
+): string | null {
+  let depth = 1;
+  let i = startIdx;
 
   while (i < source.length && depth > 0) {
-    const ch = source[i]
+    const ch = source[i];
 
     // Skip string literals
     if (ch === '"' || ch === "'" || ch === "`") {
-      const quote = ch
-      i++
+      const quote = ch;
+      i++;
       while (i < source.length && source[i] !== quote) {
-        if (source[i] === "\\") i++ // skip escaped char
-        i++
+        if (source[i] === "\\") i++; // skip escaped char
+        i++;
       }
     } else if (ch === "(") {
-      depth++
+      depth++;
     } else if (ch === ")") {
-      depth--
+      depth--;
       if (depth === 0) {
-        return source.slice(startIdx, i)
+        return source.slice(startIdx, i);
       }
     }
-    i++
+    i++;
   }
 
-  return null
+  return null;
 }
 ```
 
@@ -1239,14 +1300,14 @@ function extractBalancedParens(source: string, startIdx: number): string | null 
 Create a test script at `scripts/test-extract.ts`:
 
 ```typescript
-import { extractExampleSources } from "../src/lib/extract-source"
+import { extractExampleSources } from "../src/lib/extract-source";
 
 async function main() {
-  const sources = await extractExampleSources("button")
-  console.log(`Found ${sources.length} examples`)
-  sources.forEach((s, i) => console.log(`\n--- Example ${i + 1} ---\n${s}`))
+  const sources = await extractExampleSources("button");
+  console.log(`Found ${sources.length} examples`);
+  sources.forEach((s, i) => console.log(`\n--- Example ${i + 1} ---\n${s}`));
 }
-main()
+main();
 ```
 
 Run: `pnpm tsx scripts/test-extract.ts`
@@ -1268,11 +1329,13 @@ This chunk builds the category hub pages, the main components index, the landing
 ### Task 22: Create the components index page
 
 **Files:**
+
 - Create: `src/app/components/page.tsx`
 
 - [ ] **Step 1: Write the components index**
 
 Shows all categories as cards in a grid. Each card displays:
+
 - Category name
 - Component count
 - List of component names
@@ -1295,11 +1358,13 @@ git commit -m "feat: add components index page with category grid"
 ### Task 23: Create the category hub page
 
 **Files:**
+
 - Create: `src/app/components/[category]/page.tsx`
 
 - [ ] **Step 1: Write the category hub page**
 
 Uses `generateStaticParams` to enumerate categories from the manifest. Shows a grid of component cards for the category. Each card has:
+
 - Component name
 - Description
 - Small live preview rendering the component's `Playground` with default prop values (import the demo, instantiate with defaults)
@@ -1320,11 +1385,13 @@ git commit -m "feat: add category hub page with component card grid"
 ### Task 24: Create the landing page
 
 **Files:**
+
 - Modify: `src/app/page.tsx`
 
 - [ ] **Step 1: Write the new landing page**
 
 Replace the placeholder with a polished landing page:
+
 - Hero section: "Perimeter Style" heading, description ("A shadcn-compatible component registry for Perimeter Church"), CTA buttons (Browse Components → /components, Get Started → /docs/getting-started)
 - Quick Start section: CLI install command with copy button
 - Featured components: small live previews of 3-4 key components (button, card, badge, input) linking to their pages
@@ -1348,6 +1415,7 @@ git commit -m "feat: add polished landing page for component showcase"
 ### Task 25: Create getting started docs page
 
 **Files:**
+
 - Create: `src/app/docs/getting-started/page.tsx`
 - Create: `src/app/docs/layout.tsx`
 
@@ -1358,6 +1426,7 @@ git commit -m "feat: add polished landing page for component showcase"
 - [ ] **Step 2: Write the getting started page**
 
 Cover:
+
 - Prerequisites (Node.js, pnpm)
 - Installing a component: `pnpm dlx shadcn@latest add @perimeter/button`
 - Installing the full base: `pnpm dlx shadcn@latest add @perimeter/perimeter-base`
@@ -1380,6 +1449,7 @@ git commit -m "feat: add getting started docs page"
 ### Task 26: Create token reference page
 
 **Files:**
+
 - Create: `src/app/tokens/page.tsx`
 - Create: `src/lib/token-usage.ts`
 - Create: `src/components/site/token-grid.tsx`
@@ -1404,7 +1474,11 @@ export const TOKEN_GROUPS = [
   {
     name: "Destructive",
     tokens: ["destructive", "destructive-foreground"],
-    usedBy: ["button (destructive)", "badge (destructive)", "alert (destructive)"],
+    usedBy: [
+      "button (destructive)",
+      "badge (destructive)",
+      "alert (destructive)",
+    ],
   },
   {
     name: "Success",
@@ -1458,7 +1532,16 @@ export const TOKEN_GROUPS = [
   },
   {
     name: "Sidebar",
-    tokens: ["sidebar", "sidebar-foreground", "sidebar-primary", "sidebar-primary-foreground", "sidebar-accent", "sidebar-accent-foreground", "sidebar-border", "sidebar-ring"],
+    tokens: [
+      "sidebar",
+      "sidebar-foreground",
+      "sidebar-primary",
+      "sidebar-primary-foreground",
+      "sidebar-accent",
+      "sidebar-accent-foreground",
+      "sidebar-border",
+      "sidebar-ring",
+    ],
     usedBy: ["sidebar"],
   },
   {
@@ -1467,7 +1550,7 @@ export const TOKEN_GROUPS = [
     usedBy: ["all components with rounded corners"],
     isNonColor: true,
   },
-]
+];
 ```
 
 Enumerate all 15 groups corresponding to the token categories. Mark non-color tokens with `isNonColor: true` for separate rendering.
@@ -1505,6 +1588,7 @@ This chunk creates the demo files for all 55 components. Each demo file follows 
 ### Task 27: Create demo files for Actions category (7 components)
 
 **Files:**
+
 - Create: `registry/ui/perimeter/button.demo.tsx` (already created in Task 20, verify it works)
 - Create: `registry/ui/perimeter/button-group.demo.tsx`
 - Create: `registry/ui/perimeter/toggle.demo.tsx`
@@ -1516,6 +1600,7 @@ This chunk creates the demo files for all 55 components. Each demo file follows 
 - [ ] **Step 1: Read each component's source to understand its props and variants**
 
 For each component, read the `.tsx` file in `registry/ui/perimeter/` to identify:
+
 - Exported components and their props
 - Variants (from cva or variant prop types)
 - Size options
@@ -1524,6 +1609,7 @@ For each component, read the `.tsx` file in `registry/ui/perimeter/` to identify
 - [ ] **Step 2: Write all 7 demo files**
 
 Each demo file must export: `meta`, `controls`, `Playground`, `examples`. Follow the button.demo.tsx pattern. Include at minimum:
+
 - 2-3 examples per component showing common use cases
 - Controls for the most important props (variant, size, disabled at minimum)
 
@@ -1547,6 +1633,7 @@ git commit -m "feat: add demo files for Actions category (7 components)"
 ### Task 28: Create demo files for Forms category (14 components)
 
 **Files:**
+
 - Create demo files for: input, input-group, input-otp, textarea, select, native-select, checkbox, radio-group, switch, slider, combobox, calendar, field, label
 
 **Quality bar (same for all demo tasks):** Each demo file must have: `meta` with all 4 fields, `controls` with at minimum the component's key variant/size/state props, `Playground` rendering the component with control values, and `examples` with 2-3 named examples showing common use cases. All render functions must use the `() => (...)` parenthesized syntax for source extraction compatibility.
@@ -1565,6 +1652,7 @@ git commit -m "feat: add demo files for Forms category (14 components)"
 ### Task 29: Create demo files for Data Display category (9 components)
 
 **Files:**
+
 - Create demo files for: card, table, badge, avatar, chart, carousel, progress, skeleton, empty
 
 **Quality bar:** Same as Task 28 — meta (4 fields), controls (key props), Playground, 2-3 examples with `() => (...)` syntax.
@@ -1583,6 +1671,7 @@ git commit -m "feat: add demo files for Data Display category (9 components)"
 ### Task 30: Create demo files for Feedback category (9 components)
 
 **Files:**
+
 - Create demo files for: alert, alert-dialog, dialog, drawer, sheet, sonner, tooltip, hover-card, popover
 
 **Quality bar:** Same as Task 28 — meta (4 fields), controls (key props), Playground, 2-3 examples with `() => (...)` syntax.
@@ -1601,6 +1690,7 @@ git commit -m "feat: add demo files for Feedback category (9 components)"
 ### Task 31: Create demo files for Navigation category (6 components)
 
 **Files:**
+
 - Create demo files for: breadcrumb, command, navigation-menu, pagination, tabs, sidebar
 
 **Quality bar:** Same as Task 28 — meta (4 fields), controls (key props), Playground, 2-3 examples with `() => (...)` syntax.
@@ -1619,6 +1709,7 @@ git commit -m "feat: add demo files for Navigation category (6 components)"
 ### Task 32: Create demo files for Layout category (7 components)
 
 **Files:**
+
 - Create demo files for: accordion, collapsible, resizable, scroll-area, separator, aspect-ratio, direction
 
 **Quality bar:** Same as Task 28 — meta (4 fields), controls (key props), Playground, 2-3 examples with `() => (...)` syntax.
@@ -1637,6 +1728,7 @@ git commit -m "feat: add demo files for Layout category (7 components)"
 ### Task 33: Create demo files for Misc category (3 components)
 
 **Files:**
+
 - Create demo files for: kbd, spinner, item
 
 **Quality bar:** Same as Task 28 — meta (4 fields), controls (key props), Playground, 2-3 examples with `() => (...)` syntax.
@@ -1661,6 +1753,7 @@ This chunk creates the template pages, runs a full build, and verifies everythin
 ### Task 34: Create template infrastructure
 
 **Files:**
+
 - Create: `src/templates/dashboard.tsx`
 - Create: `src/templates/settings.tsx`
 - Create: `src/templates/login.tsx`
@@ -1688,12 +1781,14 @@ git commit -m "feat: add 5 initial page templates (dashboard, settings, login, d
 ### Task 35: Create template gallery and detail pages
 
 **Files:**
+
 - Create: `src/app/templates/page.tsx`
 - Create: `src/app/templates/[slug]/page.tsx`
 
 - [ ] **Step 1: Write the template gallery page**
 
 `src/app/templates/page.tsx` — grid of cards. Each card shows:
+
 - Template name and description from `meta`
 - Scaled-down live preview using CSS `transform: scale(0.3)` in a fixed-height container with `overflow: hidden`
 - List of components used
@@ -1704,6 +1799,7 @@ This is a static page (no `generateStaticParams` needed — it's not a dynamic r
 - [ ] **Step 2: Write the template detail page**
 
 `src/app/templates/[slug]/page.tsx` — uses `generateStaticParams` to enumerate template slugs. Renders:
+
 - Full-width live preview (respects current theme + light/dark)
 - Preview | Code toggle
 - Component list with links to their pages
@@ -1724,11 +1820,13 @@ git commit -m "feat: add template gallery and detail pages"
 ### Task 36: Update CLAUDE.md for new architecture
 
 **Files:**
+
 - Modify: `CLAUDE.md`
 
 - [ ] **Step 1: Update the Architecture section**
 
 Replace the Theme Editor Architecture with the new Component Showcase architecture. Update:
+
 - Description: "component showcase site" instead of "theme editor with inline live preview"
 - Key Directories table: add `registry/ui/perimeter/`, `src/components/site/`, `src/templates/`, remove editor/preview directories
 - Context Loading table: update for new file locations

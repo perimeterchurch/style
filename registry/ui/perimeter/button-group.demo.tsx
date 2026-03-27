@@ -1,11 +1,16 @@
 import { Button } from "./button";
-import { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "./button-group";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+  ButtonGroupText,
+} from "./button-group";
 
 import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Button Group",
-  description: "Groups related buttons together with shared borders and separators.",
+  description:
+    "Groups related buttons together with shared borders and separators.",
   category: "actions",
   install: "pnpm dlx shadcn@latest add @perimeter/button-group",
 };

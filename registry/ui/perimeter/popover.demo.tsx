@@ -99,9 +99,7 @@ export const examples = [
           Info
         </PopoverTrigger>
         <PopoverContent>
-          <p className="text-sm">
-            This is a simple popover with text content.
-          </p>
+          <p className="text-sm">This is a simple popover with text content.</p>
         </PopoverContent>
       </Popover>
     ),

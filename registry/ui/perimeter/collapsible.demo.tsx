@@ -30,9 +30,7 @@ export function Playground(props: PlaygroundProps<typeof controls>) {
     <Collapsible defaultOpen={props.defaultOpen} className="max-w-sm">
       <div className="flex items-center justify-between gap-4">
         <h4 className="text-sm font-semibold">3 items</h4>
-        <CollapsibleTrigger
-          render={<Button variant="ghost" size="sm" />}
-        >
+        <CollapsibleTrigger render={<Button variant="ghost" size="sm" />}>
           <ChevronsUpDownIcon className="size-4" />
           <span className="sr-only">Toggle</span>
         </CollapsibleTrigger>
@@ -55,9 +53,7 @@ export const examples = [
       <Collapsible className="max-w-sm">
         <div className="flex items-center justify-between gap-4">
           <h4 className="text-sm font-semibold">Toggle content</h4>
-          <CollapsibleTrigger
-            render={<Button variant="ghost" size="sm" />}
-          >
+          <CollapsibleTrigger render={<Button variant="ghost" size="sm" />}>
             <ChevronsUpDownIcon className="size-4" />
           </CollapsibleTrigger>
         </div>
@@ -75,9 +71,7 @@ export const examples = [
       <Collapsible defaultOpen className="max-w-sm">
         <div className="flex items-center justify-between gap-4">
           <h4 className="text-sm font-semibold">Expanded by default</h4>
-          <CollapsibleTrigger
-            render={<Button variant="ghost" size="sm" />}
-          >
+          <CollapsibleTrigger render={<Button variant="ghost" size="sm" />}>
             <ChevronsUpDownIcon className="size-4" />
           </CollapsibleTrigger>
         </div>

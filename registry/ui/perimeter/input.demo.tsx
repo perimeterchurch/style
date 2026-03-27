@@ -59,8 +59,6 @@ export const examples = [
   },
   {
     name: "File Input",
-    render: () => (
-      <Input type="file" className="max-w-sm" />
-    ),
+    render: () => <Input type="file" className="max-w-sm" />,
   },
 ];

@@ -11,8 +11,7 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Input Group",
-  description:
-    "Groups an input with addons like icons, text, or buttons.",
+  description: "Groups an input with addons like icons, text, or buttons.",
   category: "forms",
   install: "pnpm dlx shadcn@latest add @perimeter/input-group",
 };

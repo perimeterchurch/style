@@ -57,9 +57,7 @@ export default function HomePage() {
           {STATS.map((stat) => (
             <div key={stat.label} className="text-center">
               <p className="text-3xl font-bold">{stat.value}</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {stat.label}
-              </p>
+              <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
             </div>
           ))}
         </div>

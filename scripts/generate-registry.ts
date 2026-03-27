@@ -36,7 +36,13 @@ function extractDependencies(source: string): string[] {
   while ((match = importRe.exec(source)) !== null) {
     const pkg = match[1];
     // Skip internal imports and Next.js/React built-ins
-    if (pkg.startsWith("@/") || pkg === "react" || pkg === "react-dom" || pkg.startsWith("next/")) continue;
+    if (
+      pkg.startsWith("@/") ||
+      pkg === "react" ||
+      pkg === "react-dom" ||
+      pkg.startsWith("next/")
+    )
+      continue;
     // Get the package name (handle scoped packages)
     if (pkg.startsWith("@")) {
       const parts = pkg.split("/");
@@ -52,7 +58,8 @@ function extractDependencies(source: string): string[] {
 function extractRegistryDeps(source: string): string[] {
   const deps = new Set<string>();
   // Match imports from @registry/ui/perimeter/... or @/components/ui/...
-  const re = /from\s+["']@(?:registry\/ui\/perimeter|\/components\/ui)\/([\w-]+)["']/g;
+  const re =
+    /from\s+["']@(?:registry\/ui\/perimeter|\/components\/ui)\/([\w-]+)["']/g;
   let match: RegExpExecArray | null;
   while ((match = re.exec(source)) !== null) {
     deps.add(match[1]);
@@ -118,7 +125,8 @@ async function generateRegistry() {
     };
     if (base.description) baseItem.description = base.description;
     if (base.dependencies) baseItem.dependencies = base.dependencies;
-    if (base.registryDependencies) baseItem.registryDependencies = base.registryDependencies;
+    if (base.registryDependencies)
+      baseItem.registryDependencies = base.registryDependencies;
     baseItem.cssVars = defaultTheme.cssVars;
     items.push(baseItem);
   } catch {
@@ -143,7 +151,8 @@ async function generateRegistry() {
     };
 
     if (dependencies.length > 0) item.dependencies = dependencies;
-    if (registryDependencies.length > 0) item.registryDependencies = registryDependencies;
+    if (registryDependencies.length > 0)
+      item.registryDependencies = registryDependencies;
 
     items.push(item);
   }
@@ -154,7 +163,11 @@ async function generateRegistry() {
     for (const file of themeFiles) {
       if (!file.endsWith(".json")) continue;
       const content = await readFile(join(THEMES_DIR, file), "utf-8");
-      const theme = JSON.parse(content) as { name: string; type: string; cssVars?: Record<string, Record<string, string>> };
+      const theme = JSON.parse(content) as {
+        name: string;
+        type: string;
+        cssVars?: Record<string, Record<string, string>>;
+      };
       items.push({
         name: theme.name,
         type: theme.type || "registry:theme",

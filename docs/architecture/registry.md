@@ -35,7 +35,9 @@ CLI fetches JSON, rewrites imports, writes .tsx to consumer's project
     {
       "name": "button",
       "type": "registry:ui",
-      "files": [{ "path": "registry/new-york/ui/button.tsx", "type": "registry:ui" }],
+      "files": [
+        { "path": "registry/new-york/ui/button.tsx", "type": "registry:ui" }
+      ],
       "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
       "registryDependencies": ["utils"]
     }
@@ -47,12 +49,12 @@ Items are NOT auto-discovered. Run `pnpm tsx scripts/generate-registry.ts` to re
 
 ## Item Types
 
-| Type | Purpose | Location |
-|------|---------|----------|
-| `registry:ui` | UI components | `registry/new-york/ui/` |
-| `registry:lib` | Utilities (cn, etc.) | `registry/new-york/lib/` |
-| `registry:hook` | React hooks | `registry/new-york/hooks/` |
-| `registry:theme` | Theme token overrides | `registry/themes/` |
+| Type             | Purpose               | Location                   |
+| ---------------- | --------------------- | -------------------------- |
+| `registry:ui`    | UI components         | `registry/new-york/ui/`    |
+| `registry:lib`   | Utilities (cn, etc.)  | `registry/new-york/lib/`   |
+| `registry:hook`  | React hooks           | `registry/new-york/hooks/` |
+| `registry:theme` | Theme token overrides | `registry/themes/`         |
 
 ## Build Pipeline
 

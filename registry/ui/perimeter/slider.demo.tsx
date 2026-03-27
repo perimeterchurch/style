@@ -4,7 +4,8 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Slider",
-  description: "An input for selecting a value from a range by dragging a thumb.",
+  description:
+    "An input for selecting a value from a range by dragging a thumb.",
   category: "forms",
   install: "pnpm dlx shadcn@latest add @perimeter/slider",
 };
@@ -31,9 +32,7 @@ export function Playground(props: PlaygroundProps<typeof controls>) {
 export const examples = [
   {
     name: "Single Value",
-    render: () => (
-      <Slider defaultValue={[30]} max={100} className="max-w-sm" />
-    ),
+    render: () => <Slider defaultValue={[30]} max={100} className="max-w-sm" />,
   },
   {
     name: "Range",

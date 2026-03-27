@@ -11,8 +11,7 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Navigation Menu",
-  description:
-    "A horizontal navigation menu with dropdown content panels.",
+  description: "A horizontal navigation menu with dropdown content panels.",
   category: "navigation",
   install: "pnpm dlx shadcn@latest add @perimeter/navigation-menu",
 };

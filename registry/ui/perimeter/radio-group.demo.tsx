@@ -5,7 +5,8 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Radio Group",
-  description: "A set of checkable buttons where only one can be checked at a time.",
+  description:
+    "A set of checkable buttons where only one can be checked at a time.",
   category: "forms",
   install: "pnpm dlx shadcn@latest add @perimeter/radio-group",
 };

@@ -5,8 +5,7 @@ import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Scroll Area",
-  description:
-    "Augments native scroll with custom styled scrollbars.",
+  description: "Augments native scroll with custom styled scrollbars.",
   category: "layout",
   install: "pnpm dlx shadcn@latest add @perimeter/scroll-area",
 };

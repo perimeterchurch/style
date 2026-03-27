@@ -2,19 +2,14 @@
 
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
 
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "./chart";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "./chart";
 
 import type { ChartConfig } from "./chart";
 import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 export const meta = {
   name: "Chart",
-  description:
-    "Chart container and tooltip components built on Recharts.",
+  description: "Chart container and tooltip components built on Recharts.",
   category: "data-display",
   install: "pnpm dlx shadcn@latest add @perimeter/chart",
 };
