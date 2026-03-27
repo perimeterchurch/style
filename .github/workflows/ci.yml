@@ -19,6 +19,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Generate files needed for typecheck (gitignored build outputs)
+      - run: pnpm generate:themes && pnpm collect:demos
+
       - run: pnpm quality
 
       - run: pnpm build
