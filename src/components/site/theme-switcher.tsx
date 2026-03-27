@@ -1,5 +1,7 @@
 "use client";
 
+import { PaletteIcon } from "lucide-react";
+
 import { useTheme } from "@/lib/theme-context";
 import {
   Select,
@@ -24,7 +26,8 @@ export function ThemeSwitcher() {
       value={theme}
       onValueChange={(value: string | null) => setTheme(value ?? "")}
     >
-      <SelectTrigger className="w-[140px] h-8 text-xs">
+      <SelectTrigger className="w-[160px] h-8 gap-1.5 border-primary/30 text-xs">
+        <PaletteIcon className="size-3.5 text-muted-foreground" />
         <SelectValue placeholder="Default" />
       </SelectTrigger>
       <SelectContent>
