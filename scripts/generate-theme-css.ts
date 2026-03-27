@@ -1,5 +1,6 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { execSync } from "node:child_process";
 
 interface ThemeFile {
   name: string;
@@ -69,6 +70,10 @@ async function generateThemeCSS() {
   const updated = before + "\n" + blocks.join("\n") + "\n" + after;
 
   await writeFile(globalsPath, updated);
+
+  // Format the injected CSS so it matches Prettier's output
+  execSync(`pnpm prettier --write ${globalsPath}`, { stdio: "ignore" });
+
   console.log(`Injected ${jsonFiles.length} theme(s) into ${globalsPath}`);
 }
 

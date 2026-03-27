@@ -41,9 +41,7 @@ export function CodeBlock({
           size="icon"
           className="h-7 w-7 bg-background/80 backdrop-blur-sm"
           onClick={() => setLineNumbers((prev) => !prev)}
-          aria-label={
-            lineNumbers ? "Hide line numbers" : "Show line numbers"
-          }
+          aria-label={lineNumbers ? "Hide line numbers" : "Show line numbers"}
         >
           <HashIcon
             className={cn(

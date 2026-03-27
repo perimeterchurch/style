@@ -4,19 +4,19 @@ shadcn-compatible component registry and showcase site for Perimeter Church. 55 
 
 ## Commands
 
-| Command                | Description                                                    |
-| ---------------------- | -------------------------------------------------------------- |
-| `pnpm dev`             | Start Next.js dev server (webpack — Turbopack not supported)   |
+| Command                | Description                                                      |
+| ---------------------- | ---------------------------------------------------------------- |
+| `pnpm dev`             | Start Next.js dev server (webpack — Turbopack not supported)     |
 | `pnpm build`           | Generate themes + collect demos + build registry + static export |
-| `pnpm registry:build`  | Build registry JSON only (shadcn build)                        |
+| `pnpm registry:build`  | Build registry JSON only (shadcn build)                          |
 | `pnpm generate:themes` | Inject theme CSS into globals.css from `registry/themes/*.json`  |
-| `pnpm collect:demos`   | Collect demo manifests and generate import map                 |
-| `pnpm lint`            | Run ESLint                                                     |
-| `pnpm format`          | Format with Prettier                                           |
-| `pnpm format:check`    | Check formatting                                               |
-| `pnpm typecheck`       | TypeScript type checking                                       |
-| `pnpm test`            | Run tests (none yet)                                           |
-| `pnpm quality`         | Run all checks (typecheck + lint + format:check)               |
+| `pnpm collect:demos`   | Collect demo manifests and generate import map                   |
+| `pnpm lint`            | Run ESLint                                                       |
+| `pnpm format`          | Format with Prettier                                             |
+| `pnpm format:check`    | Check formatting                                                 |
+| `pnpm typecheck`       | TypeScript type checking                                         |
+| `pnpm test`            | Run tests (none yet)                                             |
+| `pnpm quality`         | Run all checks (typecheck + lint + format:check)                 |
 
 ## Architecture
 
@@ -28,20 +28,20 @@ shadcn-compatible component registry and showcase site for Perimeter Church. 55 
 
 ### Key Directories
 
-| Directory                          | Purpose                                                       |
-| ---------------------------------- | ------------------------------------------------------------- |
-| `registry/ui/perimeter/`           | Component source (SINGLE SOURCE OF TRUTH)                     |
-| `registry/ui/perimeter/*.demo.tsx` | Component demos with controls, examples, and meta             |
-| `registry/themes/`                 | Theme definitions (default, perimeter-api, metrics)           |
-| `src/app/`                         | Next.js routes (components, templates, tokens, docs)          |
-| `src/templates/`                   | Full-page template compositions (dashboard, settings, etc.)   |
+| Directory                          | Purpose                                                        |
+| ---------------------------------- | -------------------------------------------------------------- |
+| `registry/ui/perimeter/`           | Component source (SINGLE SOURCE OF TRUTH)                      |
+| `registry/ui/perimeter/*.demo.tsx` | Component demos with controls, examples, and meta              |
+| `registry/themes/`                 | Theme definitions (default, perimeter-api, metrics)            |
+| `src/app/`                         | Next.js routes (components, templates, tokens, docs)           |
+| `src/templates/`                   | Full-page template compositions (dashboard, settings, etc.)    |
 | `src/components/site/`             | Site chrome (top nav, sidebar, search, playground, code block) |
-| `src/components/ui/`              | shadcn components for app use (NOT the registry source)       |
-| `src/lib/demo-types.ts`           | Shared types (ManifestEntry, ControlsConfig, PlaygroundProps) |
-| `src/lib/highlight.ts`            | Server-side Shiki highlighting (vitesse themes)               |
-| `src/lib/highlight-client.ts`     | Client-side Shiki highlighting for live code updates          |
-| `scripts/`                         | Build and generation scripts                                  |
-| `public/r/`                        | Built registry JSON (generated, gitignored)                   |
+| `src/components/ui/`               | shadcn components for app use (NOT the registry source)        |
+| `src/lib/demo-types.ts`            | Shared types (ManifestEntry, ControlsConfig, PlaygroundProps)  |
+| `src/lib/highlight.ts`             | Server-side Shiki highlighting (vitesse themes)                |
+| `src/lib/highlight-client.ts`      | Client-side Shiki highlighting for live code updates           |
+| `scripts/`                         | Build and generation scripts                                   |
+| `public/r/`                        | Built registry JSON (generated, gitignored)                    |
 
 ### Theme System
 
@@ -69,17 +69,17 @@ pnpm build
 
 **Always read the relevant doc BEFORE searching the codebase or writing code.**
 
-| Working on...       | Read first                                                  |
-| ------------------- | ----------------------------------------------------------- |
-| Unknown area        | `docs/README.md` (full index)                               |
-| Registry components | `registry/ui/perimeter/`                                    |
-| Demo files          | `registry/ui/perimeter/*.demo.tsx`, `src/lib/demo-types.ts` |
-| Templates           | `src/templates/`, `src/app/templates/`                      |
-| Theme tokens        | `registry/themes/default.json`, `src/app/globals.css`       |
-| Theme generation    | `scripts/generate-theme-css.ts`, `registry/themes/`         |
-| Registry build      | `scripts/generate-registry.ts`, `registry.json`             |
-| Site navigation     | `src/components/site/`                                      |
-| Site layout         | `src/app/layout.tsx`, `src/components/site/`                |
+| Working on...       | Read first                                                   |
+| ------------------- | ------------------------------------------------------------ |
+| Unknown area        | `docs/README.md` (full index)                                |
+| Registry components | `registry/ui/perimeter/`                                     |
+| Demo files          | `registry/ui/perimeter/*.demo.tsx`, `src/lib/demo-types.ts`  |
+| Templates           | `src/templates/`, `src/app/templates/`                       |
+| Theme tokens        | `registry/themes/default.json`, `src/app/globals.css`        |
+| Theme generation    | `scripts/generate-theme-css.ts`, `registry/themes/`          |
+| Registry build      | `scripts/generate-registry.ts`, `registry.json`              |
+| Site navigation     | `src/components/site/`                                       |
+| Site layout         | `src/app/layout.tsx`, `src/components/site/`                 |
 | Code blocks         | `src/components/site/code-block.tsx`, `src/lib/highlight.ts` |
 
 ## Critical Rules
@@ -260,18 +260,18 @@ Note: Turbopack does not work in worktrees (resolves parent directory). The `--w
 
 ### Path Aliases
 
-| Alias         | Maps To        | Used For                                   |
-| ------------- | -------------- | ------------------------------------------ |
-| `@/*`         | `./src/*`      | App code (components, lib, hooks)          |
-| `@registry/*` | `./registry/*` | Registry components and demo file imports  |
+| Alias         | Maps To        | Used For                                  |
+| ------------- | -------------- | ----------------------------------------- |
+| `@/*`         | `./src/*`      | App code (components, lib, hooks)         |
+| `@registry/*` | `./registry/*` | Registry components and demo file imports |
 
 ### Key Config Files
 
-| File                 | Purpose                       |
-| -------------------- | ----------------------------- |
-| `components.json`    | shadcn registry configuration |
-| `next.config.ts`     | Next.js configuration         |
-| `tsconfig.json`      | TypeScript configuration      |
-| `postcss.config.mjs` | PostCSS with Tailwind CSS v4  |
-| `eslint.config.mjs`  | ESLint flat config            |
+| File                 | Purpose                                        |
+| -------------------- | ---------------------------------------------- |
+| `components.json`    | shadcn registry configuration                  |
+| `next.config.ts`     | Next.js configuration                          |
+| `tsconfig.json`      | TypeScript configuration                       |
+| `postcss.config.mjs` | PostCSS with Tailwind CSS v4                   |
+| `eslint.config.mjs`  | ESLint flat config                             |
 | `.prettierignore`    | Excludes generated/build files from formatting |
