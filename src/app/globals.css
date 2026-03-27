@@ -91,17 +91,17 @@
 }
 
 [data-theme="metrics"] {
-  --primary: oklch(0.5 0.16 160);
+  --primary: oklch(0.50 0.16 160);
   --primary-foreground: oklch(0.985 0 0);
-  --ring: oklch(0.5 0.16 160);
-  --chart-1: oklch(0.5 0.16 160);
+  --ring: oklch(0.50 0.16 160);
+  --chart-1: oklch(0.50 0.16 160);
 }
 
 [data-theme="metrics"].dark {
-  --primary: oklch(0.6 0.16 160);
+  --primary: oklch(0.60 0.16 160);
   --primary-foreground: oklch(0.985 0 0);
-  --ring: oklch(0.6 0.16 160);
-  --chart-1: oklch(0.6 0.16 160);
+  --ring: oklch(0.60 0.16 160);
+  --chart-1: oklch(0.60 0.16 160);
 }
 
 [data-theme="perimeter-api"] {
@@ -190,19 +190,30 @@ html.dark .shiki span {
   background-color: var(--shiki-dark-bg) !important;
 }
 
-/* Code block line numbers */
-.code-line-numbers pre code {
+/* Code block line numbers — always present but animated in/out */
+pre code > .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 0;
+  margin-right: 0;
+  text-align: right;
+  color: var(--muted-foreground);
+  opacity: 0;
+  font-size: 0.75em;
+  overflow: hidden;
+  transition:
+    width 0.2s ease,
+    margin-right 0.2s ease,
+    opacity 0.2s ease;
+}
+
+pre code {
   counter-reset: line;
 }
 
 .code-line-numbers pre code > .line::before {
-  counter-increment: line;
-  content: counter(line);
-  display: inline-block;
-  width: 2rem;
-  margin-right: 1rem;
-  text-align: right;
-  color: var(--muted-foreground);
+  width: 1.5rem;
+  margin-right: 0.75rem;
   opacity: 0.4;
-  font-size: 0.8em;
 }
