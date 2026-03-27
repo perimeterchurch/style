@@ -23,7 +23,7 @@ export function TopNav() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
             >
               {link.label}
             </Link>
