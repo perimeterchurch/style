@@ -8,6 +8,7 @@ public/r/
 # Generated files
 src/lib/demo-manifest.json
 src/lib/demo-imports.ts
+registry.json
 
 # Lock files
 pnpm-lock.yaml

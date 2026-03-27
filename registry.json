@@ -12,7 +12,10 @@
           "type": "registry:lib"
         }
       ],
-      "dependencies": ["clsx", "tailwind-merge"]
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ]
     },
     {
       "name": "use-mobile",
@@ -29,8 +32,13 @@
       "type": "registry:base",
       "files": [],
       "description": "Perimeter Church design system base — warm stone palette, OKLCH tokens, utilities",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["utils"],
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
       "cssVars": {
         "light": {
           "radius": "0.625rem",
@@ -135,8 +143,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "alert-dialog.demo",
@@ -157,8 +170,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["button", "utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "button",
+        "utils"
+      ]
     },
     {
       "name": "alert.demo",
@@ -169,7 +187,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "alert",
@@ -180,8 +200,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "aspect-ratio.demo",
@@ -202,7 +226,9 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": ["utils"]
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "avatar.demo",
@@ -223,8 +249,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "badge.demo",
@@ -245,8 +275,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "class-variance-authority"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "breadcrumb.demo",
@@ -267,8 +302,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "button-group.demo",
@@ -289,8 +329,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "class-variance-authority"],
-      "registryDependencies": ["separator", "utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "separator",
+        "utils"
+      ]
     },
     {
       "name": "button.demo",
@@ -311,8 +357,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "class-variance-authority"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "calendar.demo",
@@ -333,8 +384,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react", "react-day-picker"],
-      "registryDependencies": ["button", "utils"]
+      "dependencies": [
+        "lucide-react",
+        "react-day-picker"
+      ],
+      "registryDependencies": [
+        "button",
+        "utils"
+      ]
     },
     {
       "name": "card.demo",
@@ -355,7 +412,9 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": ["utils"]
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "carousel.demo",
@@ -376,8 +435,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["embla-carousel-react", "lucide-react"],
-      "registryDependencies": ["button", "utils"]
+      "dependencies": [
+        "embla-carousel-react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "utils"
+      ]
     },
     {
       "name": "chart.demo",
@@ -388,7 +453,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["recharts"]
+      "dependencies": [
+        "recharts"
+      ]
     },
     {
       "name": "chart",
@@ -399,8 +466,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["recharts"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "recharts"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "checkbox.demo",
@@ -421,8 +492,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "collapsible.demo",
@@ -433,7 +509,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "collapsible",
@@ -444,7 +522,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"]
+      "dependencies": [
+        "@base-ui/react"
+      ]
     },
     {
       "name": "combobox.demo",
@@ -465,8 +545,15 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["button", "input-group", "utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "input-group",
+        "utils"
+      ]
     },
     {
       "name": "command.demo",
@@ -477,7 +564,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "command",
@@ -488,8 +577,15 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["cmdk", "lucide-react"],
-      "registryDependencies": ["dialog", "input-group", "utils"]
+      "dependencies": [
+        "cmdk",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "dialog",
+        "input-group",
+        "utils"
+      ]
     },
     {
       "name": "context-menu.demo",
@@ -510,8 +606,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "dialog.demo",
@@ -532,8 +633,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["button", "utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "utils"
+      ]
     },
     {
       "name": "direction.demo",
@@ -554,7 +661,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"]
+      "dependencies": [
+        "@base-ui/react"
+      ]
     },
     {
       "name": "drawer.demo",
@@ -575,8 +684,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["vaul"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "vaul"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "dropdown-menu.demo",
@@ -597,8 +710,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "empty.demo",
@@ -609,7 +727,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "empty",
@@ -620,8 +740,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "field.demo",
@@ -642,8 +766,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["label", "separator", "utils"]
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "label",
+        "separator",
+        "utils"
+      ]
     },
     {
       "name": "hover-card.demo",
@@ -654,7 +784,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "hover-card",
@@ -665,8 +797,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "input-group.demo",
@@ -677,7 +813,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "input-group",
@@ -688,8 +826,15 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["button", "input", "textarea", "utils"]
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "button",
+        "input",
+        "textarea",
+        "utils"
+      ]
     },
     {
       "name": "input-otp.demo",
@@ -710,8 +855,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["input-otp", "lucide-react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "input-otp",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "input.demo",
@@ -732,8 +882,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "item.demo",
@@ -744,7 +898,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "item",
@@ -755,8 +911,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "class-variance-authority"],
-      "registryDependencies": ["separator", "utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "separator",
+        "utils"
+      ]
     },
     {
       "name": "kbd.demo",
@@ -777,7 +939,9 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": ["utils"]
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "label.demo",
@@ -798,7 +962,9 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": ["utils"]
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "menubar.demo",
@@ -819,8 +985,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["dropdown-menu", "utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "dropdown-menu",
+        "utils"
+      ]
     },
     {
       "name": "native-select.demo",
@@ -841,8 +1013,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "navigation-menu.demo",
@@ -868,7 +1044,9 @@
         "class-variance-authority",
         "lucide-react"
       ],
-      "registryDependencies": ["utils"]
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "pagination.demo",
@@ -889,8 +1067,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["button", "utils"]
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "utils"
+      ]
     },
     {
       "name": "popover.demo",
@@ -911,8 +1094,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "progress.demo",
@@ -933,8 +1120,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "radio-group.demo",
@@ -955,8 +1146,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "resizable.demo",
@@ -977,8 +1172,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["react-resizable-panels"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "react-resizable-panels"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "scroll-area.demo",
@@ -999,8 +1198,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "select.demo",
@@ -1021,8 +1224,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "separator.demo",
@@ -1043,8 +1251,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "sheet.demo",
@@ -1065,8 +1277,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "lucide-react"],
-      "registryDependencies": ["button", "utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "utils"
+      ]
     },
     {
       "name": "sidebar.demo",
@@ -1077,7 +1295,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "sidebar",
@@ -1122,7 +1342,9 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": ["utils"]
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "slider.demo",
@@ -1143,8 +1365,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "sonner.demo",
@@ -1155,7 +1381,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["sonner"]
+      "dependencies": [
+        "sonner"
+      ]
     },
     {
       "name": "sonner",
@@ -1166,7 +1394,11 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react", "next-themes", "sonner"]
+      "dependencies": [
+        "lucide-react",
+        "next-themes",
+        "sonner"
+      ]
     },
     {
       "name": "spinner.demo",
@@ -1187,8 +1419,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "switch.demo",
@@ -1209,8 +1445,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "table.demo",
@@ -1231,7 +1471,9 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": ["utils"]
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "tabs.demo",
@@ -1252,8 +1494,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "class-variance-authority"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "textarea.demo",
@@ -1274,7 +1521,9 @@
           "type": "registry:ui"
         }
       ],
-      "registryDependencies": ["utils"]
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "toggle-group.demo",
@@ -1285,7 +1534,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "toggle-group",
@@ -1296,8 +1547,14 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "class-variance-authority"],
-      "registryDependencies": ["toggle", "utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "toggle",
+        "utils"
+      ]
     },
     {
       "name": "toggle.demo",
@@ -1308,7 +1565,9 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["lucide-react"]
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "toggle",
@@ -1319,8 +1578,13 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react", "class-variance-authority"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "tooltip.demo",
@@ -1341,8 +1605,12 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["utils"]
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "default-theme",
