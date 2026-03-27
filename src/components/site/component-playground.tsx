@@ -74,6 +74,12 @@ export function ComponentPlayground({
     });
   }, [slug]);
 
+  useEffect(() => {
+    return () => {
+      if (highlightTimer.current) clearTimeout(highlightTimer.current);
+    };
+  }, []);
+
   const updateCodeHighlight = useCallback(
     (currentValues: Record<string, unknown>) => {
       if (highlightTimer.current) clearTimeout(highlightTimer.current);
@@ -129,6 +135,7 @@ export function ComponentPlayground({
             <CodeBlock
               html={codeHtml}
               rawCode={codeRaw}
+              showHeader={false}
               className="rounded-none border-0"
             />
           </div>

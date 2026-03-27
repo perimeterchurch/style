@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -10,10 +11,16 @@ import { TEMPLATE_ENTRIES, TEMPLATE_SLUGS } from "@/templates";
 
 import { TemplateDetailClient } from "./template-detail-client";
 
-import type { TemplateSlug } from "@/templates";
-
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const entry = TEMPLATE_ENTRIES.find((e) => e.slug === slug);
+  return { title: entry?.meta.name ?? slug };
 }
 
 export function generateStaticParams() {
@@ -31,8 +38,7 @@ export default async function TemplateDetailPage({ params }: PageProps) {
   const entry = TEMPLATE_ENTRIES.find((e) => e.slug === slug);
   if (!entry) notFound();
 
-  const templateSlug = slug as TemplateSlug;
-  const { meta } = entry;
+  const { slug: templateSlug, meta } = entry;
 
   const sourceCode = await readTemplateSource(templateSlug);
   const codeHtml = await highlight(sourceCode);

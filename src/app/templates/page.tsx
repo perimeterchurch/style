@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { TEMPLATE_ENTRIES } from "@/templates";
+
+export const metadata: Metadata = { title: "Templates" };
 
 import { TemplatePreviewThumb } from "./template-preview-thumb";
 

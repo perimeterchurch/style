@@ -1,7 +1,13 @@
 import { readFileSync } from "node:fs";
 
+import type { Metadata } from "next";
+
 import { TOKEN_GROUPS } from "@/lib/token-usage";
 import { TokenPageClient } from "@/components/site/token-page-client";
+
+import type { TokenValues } from "@/lib/token-usage";
+
+export const metadata: Metadata = { title: "Design Tokens" };
 
 interface ThemeFile {
   cssVars: {
@@ -10,10 +16,7 @@ interface ThemeFile {
   };
 }
 
-function readTokenValues(): {
-  light: Record<string, string>;
-  dark: Record<string, string>;
-} {
+function readTokenValues(): TokenValues {
   const raw = readFileSync("registry/themes/default.json", "utf-8");
   const theme = JSON.parse(raw) as ThemeFile;
   return {
@@ -22,9 +25,9 @@ function readTokenValues(): {
   };
 }
 
-const tokenValues = readTokenValues();
-
 export default function TokensPage() {
+  const tokenValues = readTokenValues();
+
   return (
     <div className="mx-auto max-w-6xl space-y-8 p-8">
       <div>

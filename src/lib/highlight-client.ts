@@ -2,16 +2,21 @@
 
 import { createHighlighter, type Highlighter } from "shiki/bundle/web";
 
-let highlighterPromise: Promise<Highlighter> | null = null;
+const GLOBAL_KEY = "__shiki_client" as const;
 
 function getHighlighter(): Promise<Highlighter> {
-  if (!highlighterPromise) {
-    highlighterPromise = createHighlighter({
-      themes: ["vitesse-light", "vitesse-dark"],
-      langs: ["tsx"],
-    });
-  }
-  return highlighterPromise;
+  // Cache on globalThis so the singleton survives HMR reloads in dev.
+  const cached = (globalThis as Record<string, unknown>)[GLOBAL_KEY] as
+    | Promise<Highlighter>
+    | undefined;
+  if (cached) return cached;
+
+  const promise = createHighlighter({
+    themes: ["vitesse-light", "vitesse-dark"],
+    langs: ["tsx"],
+  });
+  (globalThis as Record<string, unknown>)[GLOBAL_KEY] = promise;
+  return promise;
 }
 
 export async function highlightClient(code: string): Promise<string> {

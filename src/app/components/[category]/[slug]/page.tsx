@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -20,6 +21,14 @@ import type { ControlsConfig, DemoExample } from "@/lib/demo-types";
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const entry = manifest.find((e) => e.slug === slug);
+  return { title: entry?.name ?? slug };
 }
 
 export function generateStaticParams() {

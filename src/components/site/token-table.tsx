@@ -1,13 +1,10 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
-import type { TokenGroup } from "@/lib/token-usage";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 
-interface TokenValues {
-  light: Record<string, string>;
-  dark: Record<string, string>;
-}
+import type { TokenGroup, TokenValues } from "@/lib/token-usage";
 
 interface TokenTableProps {
   groups: TokenGroup[];
@@ -25,6 +22,13 @@ interface FlatToken {
 
 type SortKey = "token" | "group" | "lightValue" | "darkValue";
 type SortDirection = "asc" | "desc";
+
+const COLUMNS: { key: SortKey; label: string }[] = [
+  { key: "token", label: "Token Name" },
+  { key: "group", label: "Group" },
+  { key: "lightValue", label: "Light Value" },
+  { key: "darkValue", label: "Dark Value" },
+];
 
 function flattenTokens(groups: TokenGroup[], values: TokenValues): FlatToken[] {
   const result: FlatToken[] = [];
@@ -49,9 +53,7 @@ function sortTokens(
   direction: SortDirection,
 ): FlatToken[] {
   return [...tokens].sort((a, b) => {
-    const aVal = a[key];
-    const bVal = b[key];
-    const cmp = aVal.localeCompare(bVal);
+    const cmp = a[key].localeCompare(b[key]);
     return direction === "asc" ? cmp : -cmp;
   });
 }
@@ -60,7 +62,7 @@ export function TokenTable({ groups, values }: TokenTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("token");
   const [sortDir, setSortDir] = useState<SortDirection>("asc");
   const [filter, setFilter] = useState("");
-  const [copiedToken, setCopiedToken] = useState<string | null>(null);
+  const { copiedKey, copy } = useCopyToClipboard();
 
   const allTokens = useMemo(
     () => flattenTokens(groups, values),
@@ -82,35 +84,19 @@ export function TokenTable({ groups, values }: TokenTableProps) {
     [filtered, sortKey, sortDir],
   );
 
-  const handleSort = useCallback(
-    (key: SortKey) => {
-      if (sortKey === key) {
-        setSortDir((d) => (d === "asc" ? "desc" : "asc"));
-      } else {
-        setSortKey(key);
-        setSortDir("asc");
-      }
-    },
-    [sortKey],
-  );
-
-  const copyToClipboard = useCallback(async (text: string, token: string) => {
-    await navigator.clipboard.writeText(text);
-    setCopiedToken(token);
-    setTimeout(() => setCopiedToken(null), 2000);
-  }, []);
+  function handleSort(key: SortKey) {
+    if (sortKey === key) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
+  }
 
   function sortIndicator(key: SortKey): string {
     if (sortKey !== key) return "";
     return sortDir === "asc" ? " \u2191" : " \u2193";
   }
-
-  const COLUMNS: { key: SortKey; label: string }[] = [
-    { key: "token", label: "Token Name" },
-    { key: "group", label: "Group" },
-    { key: "lightValue", label: "Light Value" },
-    { key: "darkValue", label: "Dark Value" },
-  ];
 
   return (
     <div className="space-y-4">
@@ -175,10 +161,10 @@ export function TokenTable({ groups, values }: TokenTableProps) {
                 <td className="px-4 py-2">
                   <button
                     type="button"
-                    onClick={() => copyToClipboard(t.cssVar, t.token)}
+                    onClick={() => copy(t.cssVar, t.token)}
                     className="font-mono text-xs text-muted-foreground hover:text-foreground"
                   >
-                    {copiedToken === t.token ? (
+                    {copiedKey === t.token ? (
                       <span className="text-primary">Copied!</span>
                     ) : (
                       t.cssVar

@@ -95,8 +95,9 @@ async function generateRegistry() {
         files: [{ path: `src/hooks/${file}`, type: "registry:hook" }],
       });
     }
-  } catch {
-    // No hooks directory — skip
+  } catch (err: unknown) {
+    if (!(err instanceof Error && "code" in err && err.code === "ENOENT"))
+      throw err;
   }
 
   // 3. Add base item (registry:base), syncing cssVars from default.json
@@ -129,15 +130,16 @@ async function generateRegistry() {
       baseItem.registryDependencies = base.registryDependencies;
     baseItem.cssVars = defaultTheme.cssVars;
     items.push(baseItem);
-  } catch {
-    // No base.json or default.json — skip
+  } catch (err: unknown) {
+    if (!(err instanceof Error && "code" in err && err.code === "ENOENT"))
+      throw err;
   }
 
   // 4. Scan UI components
   const uiFiles = await readdir(UI_DIR);
   for (const file of uiFiles) {
     if (!file.endsWith(".tsx")) continue;
-    if (file === "index.tsx") continue;
+    if (file === "index.tsx" || file.endsWith(".demo.tsx")) continue;
 
     const name = file.replace(/\.tsx$/, "");
     const source = await readFile(join(UI_DIR, file), "utf-8");
@@ -175,8 +177,9 @@ async function generateRegistry() {
         cssVars: theme.cssVars,
       });
     }
-  } catch {
-    // No themes directory — skip
+  } catch (err: unknown) {
+    if (!(err instanceof Error && "code" in err && err.code === "ENOENT"))
+      throw err;
   }
 
   // 6. Write registry.json

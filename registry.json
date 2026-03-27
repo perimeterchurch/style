@@ -18,6 +18,16 @@
       ]
     },
     {
+      "name": "use-copy-to-clipboard",
+      "type": "registry:hook",
+      "files": [
+        {
+          "path": "src/hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
       "name": "use-mobile",
       "type": "registry:hook",
       "files": [
@@ -125,16 +135,6 @@
       }
     },
     {
-      "name": "accordion.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/accordion.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "accordion",
       "type": "registry:ui",
       "files": [
@@ -149,16 +149,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "alert-dialog.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/alert-dialog.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -179,19 +169,6 @@
       ]
     },
     {
-      "name": "alert.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/alert.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
-      ]
-    },
-    {
       "name": "alert",
       "type": "registry:ui",
       "files": [
@@ -208,16 +185,6 @@
       ]
     },
     {
-      "name": "aspect-ratio.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/aspect-ratio.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "aspect-ratio",
       "type": "registry:ui",
       "files": [
@@ -228,16 +195,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "avatar.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/avatar.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -254,16 +211,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "badge.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/badge.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -284,16 +231,6 @@
       ]
     },
     {
-      "name": "breadcrumb.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/breadcrumb.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "breadcrumb",
       "type": "registry:ui",
       "files": [
@@ -308,16 +245,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "button-group.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/button-group.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -339,16 +266,6 @@
       ]
     },
     {
-      "name": "button.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/button.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "button",
       "type": "registry:ui",
       "files": [
@@ -363,16 +280,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "calendar.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/calendar.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -394,16 +301,6 @@
       ]
     },
     {
-      "name": "card.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/card.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "card",
       "type": "registry:ui",
       "files": [
@@ -414,16 +311,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "carousel.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/carousel.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -445,19 +332,6 @@
       ]
     },
     {
-      "name": "chart.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/chart.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "recharts"
-      ]
-    },
-    {
       "name": "chart",
       "type": "registry:ui",
       "files": [
@@ -471,16 +345,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "checkbox.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/checkbox.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -501,19 +365,6 @@
       ]
     },
     {
-      "name": "collapsible.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/collapsible.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
-      ]
-    },
-    {
       "name": "collapsible",
       "type": "registry:ui",
       "files": [
@@ -527,16 +378,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "combobox.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/combobox.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -559,19 +400,6 @@
       ]
     },
     {
-      "name": "command.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/command.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
-      ]
-    },
-    {
       "name": "command",
       "type": "registry:ui",
       "files": [
@@ -591,16 +419,6 @@
       ]
     },
     {
-      "name": "context-menu.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/context-menu.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "context-menu",
       "type": "registry:ui",
       "files": [
@@ -615,16 +433,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "dialog.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/dialog.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -646,16 +454,6 @@
       ]
     },
     {
-      "name": "direction.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/direction.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "direction",
       "type": "registry:ui",
       "files": [
@@ -666,16 +464,6 @@
       ],
       "dependencies": [
         "@base-ui/react"
-      ]
-    },
-    {
-      "name": "drawer.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/drawer.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -692,16 +480,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "dropdown-menu.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/dropdown-menu.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -722,19 +500,6 @@
       ]
     },
     {
-      "name": "empty.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/empty.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
-      ]
-    },
-    {
       "name": "empty",
       "type": "registry:ui",
       "files": [
@@ -748,16 +513,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "field.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/field.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -779,19 +534,6 @@
       ]
     },
     {
-      "name": "hover-card.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/hover-card.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
-      ]
-    },
-    {
       "name": "hover-card",
       "type": "registry:ui",
       "files": [
@@ -805,19 +547,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "input-group.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/input-group.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
       ]
     },
     {
@@ -840,16 +569,6 @@
       ]
     },
     {
-      "name": "input-otp.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/input-otp.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "input-otp",
       "type": "registry:ui",
       "files": [
@@ -867,16 +586,6 @@
       ]
     },
     {
-      "name": "input.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/input.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "input",
       "type": "registry:ui",
       "files": [
@@ -890,19 +599,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "item.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/item.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
       ]
     },
     {
@@ -924,16 +620,6 @@
       ]
     },
     {
-      "name": "kbd.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/kbd.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "kbd",
       "type": "registry:ui",
       "files": [
@@ -947,16 +633,6 @@
       ]
     },
     {
-      "name": "label.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/label.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "label",
       "type": "registry:ui",
       "files": [
@@ -967,16 +643,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "menubar.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/menubar.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -998,16 +664,6 @@
       ]
     },
     {
-      "name": "native-select.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/native-select.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "native-select",
       "type": "registry:ui",
       "files": [
@@ -1021,16 +677,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "navigation-menu.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/navigation-menu.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -1052,16 +698,6 @@
       ]
     },
     {
-      "name": "pagination.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/pagination.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "pagination",
       "type": "registry:ui",
       "files": [
@@ -1076,16 +712,6 @@
       "registryDependencies": [
         "button",
         "utils"
-      ]
-    },
-    {
-      "name": "popover.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/popover.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -1105,16 +731,6 @@
       ]
     },
     {
-      "name": "progress.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/progress.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "progress",
       "type": "registry:ui",
       "files": [
@@ -1128,16 +744,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "radio-group.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/radio-group.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -1157,16 +763,6 @@
       ]
     },
     {
-      "name": "resizable.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/resizable.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "resizable",
       "type": "registry:ui",
       "files": [
@@ -1183,16 +779,6 @@
       ]
     },
     {
-      "name": "scroll-area.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/scroll-area.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "scroll-area",
       "type": "registry:ui",
       "files": [
@@ -1206,16 +792,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "select.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/select.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -1236,16 +812,6 @@
       ]
     },
     {
-      "name": "separator.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/separator.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "separator",
       "type": "registry:ui",
       "files": [
@@ -1259,16 +825,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "sheet.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/sheet.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -1287,19 +843,6 @@
       "registryDependencies": [
         "button",
         "utils"
-      ]
-    },
-    {
-      "name": "sidebar.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/sidebar.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
       ]
     },
     {
@@ -1327,16 +870,6 @@
       ]
     },
     {
-      "name": "skeleton.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/skeleton.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "skeleton",
       "type": "registry:ui",
       "files": [
@@ -1347,16 +880,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "slider.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/slider.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -1376,19 +899,6 @@
       ]
     },
     {
-      "name": "sonner.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/sonner.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "sonner"
-      ]
-    },
-    {
       "name": "sonner",
       "type": "registry:ui",
       "files": [
@@ -1401,16 +911,6 @@
         "lucide-react",
         "next-themes",
         "sonner"
-      ]
-    },
-    {
-      "name": "spinner.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/spinner.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -1430,16 +930,6 @@
       ]
     },
     {
-      "name": "switch.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/switch.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "switch",
       "type": "registry:ui",
       "files": [
@@ -1456,16 +946,6 @@
       ]
     },
     {
-      "name": "table.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/table.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "table",
       "type": "registry:ui",
       "files": [
@@ -1476,16 +956,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "tabs.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/tabs.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {
@@ -1506,16 +976,6 @@
       ]
     },
     {
-      "name": "textarea.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/textarea.demo.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "textarea",
       "type": "registry:ui",
       "files": [
@@ -1526,19 +986,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "toggle-group.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/toggle-group.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
       ]
     },
     {
@@ -1560,19 +1007,6 @@
       ]
     },
     {
-      "name": "toggle.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/toggle.demo.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [
-        "lucide-react"
-      ]
-    },
-    {
       "name": "toggle",
       "type": "registry:ui",
       "files": [
@@ -1587,16 +1021,6 @@
       ],
       "registryDependencies": [
         "utils"
-      ]
-    },
-    {
-      "name": "tooltip.demo",
-      "type": "registry:ui",
-      "files": [
-        {
-          "path": "registry/ui/perimeter/tooltip.demo.tsx",
-          "type": "registry:ui"
-        }
       ]
     },
     {

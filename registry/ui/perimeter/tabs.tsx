@@ -54,6 +54,7 @@ function TabsList({
 }: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
   const listRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
+  const prevTransform = useRef("");
   const [indicatorStyle, setIndicatorStyle] = useState<CSSProperties>({});
 
   const updateIndicator = useCallback(() => {
@@ -72,40 +73,46 @@ function TabsList({
       ? "none"
       : "transform 200ms ease-out, width 200ms ease-out, height 200ms ease-out";
 
-    if (isVertical) {
-      const h = activeTab.offsetHeight * 0.6;
-      const y = activeTab.offsetTop + activeTab.offsetHeight * 0.2;
-      setIndicatorStyle({
-        position: "absolute",
-        right: -4,
-        width: 2,
-        height: h,
-        transform: `translateY(${y}px)`,
-        borderRadius: 9999,
-        backgroundColor: "var(--foreground)",
-        transition,
-      });
-    } else {
-      const w = activeTab.offsetWidth * 0.6;
-      const x = activeTab.offsetLeft + activeTab.offsetWidth * 0.2;
-      setIndicatorStyle({
-        position: "absolute",
-        bottom: -4,
-        height: 2,
-        width: w,
-        transform: `translateX(${x}px)`,
-        borderRadius: 9999,
-        backgroundColor: "var(--foreground)",
-        transition,
-      });
-    }
+    const size = isVertical
+      ? activeTab.offsetHeight * 0.6
+      : activeTab.offsetWidth * 0.6;
+    const transform = isVertical
+      ? `translateY(${activeTab.offsetTop + activeTab.offsetHeight * 0.2}px)`
+      : `translateX(${activeTab.offsetLeft + activeTab.offsetWidth * 0.2}px)`;
+
+    if (transform === prevTransform.current && !skipTransition) return;
+    prevTransform.current = transform;
+
+    setIndicatorStyle(
+      isVertical
+        ? {
+            position: "absolute",
+            right: -4,
+            width: 2,
+            height: size,
+            transform,
+            borderRadius: 9999,
+            backgroundColor: "var(--foreground)",
+            transition,
+          }
+        : {
+            position: "absolute",
+            bottom: -4,
+            height: 2,
+            width: size,
+            transform,
+            borderRadius: 9999,
+            backgroundColor: "var(--foreground)",
+            transition,
+          },
+    );
   }, []);
 
   useEffect(() => {
     const list = listRef.current;
     if (!list || variant !== "line") return;
 
-    updateIndicator();
+    const frame = requestAnimationFrame(updateIndicator);
 
     const mutationObserver = new MutationObserver(updateIndicator);
     const tabs = list.querySelectorAll("[data-slot='tabs-trigger']");
@@ -120,6 +127,7 @@ function TabsList({
     resizeObserver.observe(list);
 
     return () => {
+      cancelAnimationFrame(frame);
       mutationObserver.disconnect();
       resizeObserver.disconnect();
     };

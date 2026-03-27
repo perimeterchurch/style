@@ -27,7 +27,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Perimeter Church Design System",
+  title: {
+    template: "%s — Perimeter Style",
+    default: "Perimeter Style — Design System",
+  },
   description:
     "shadcn-compatible component registry for Perimeter Church projects",
 };

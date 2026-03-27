@@ -1,8 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import manifest from "@/lib/demo-manifest.json";
 import { capitalize, type ManifestEntry } from "@/lib/demo-types";
+
+interface PageProps {
+  params: Promise<{ category: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { category } = await params;
+  return { title: capitalize(category) };
+}
 
 function uniqueCategories(entries: ManifestEntry[]): string[] {
   return [...new Set(entries.map((e) => e.category))];
@@ -12,10 +24,6 @@ export function generateStaticParams() {
   return uniqueCategories(manifest as ManifestEntry[]).map((category) => ({
     category,
   }));
-}
-
-interface PageProps {
-  params: Promise<{ category: string }>;
 }
 
 export default async function CategoryPage({ params }: PageProps) {

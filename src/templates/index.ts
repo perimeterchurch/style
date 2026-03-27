@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import { lazy } from "react";
 
 interface TemplateMeta {
   name: string;
@@ -6,13 +6,8 @@ interface TemplateMeta {
   components: string[];
 }
 
-interface TemplateModule {
-  meta: TemplateMeta;
-  default: ComponentType;
-}
-
 interface TemplateEntry {
-  slug: string;
+  slug: TemplateSlug;
   meta: TemplateMeta;
 }
 
@@ -26,12 +21,15 @@ const TEMPLATE_SLUGS = [
 
 type TemplateSlug = (typeof TEMPLATE_SLUGS)[number];
 
-const templateImports: Record<TemplateSlug, () => Promise<TemplateModule>> = {
-  dashboard: () => import("./dashboard"),
-  settings: () => import("./settings"),
-  login: () => import("./login"),
-  "data-table": () => import("./data-table"),
-  "marketing-landing": () => import("./marketing-landing"),
+const templateComponents: Record<
+  TemplateSlug,
+  React.LazyExoticComponent<React.ComponentType>
+> = {
+  dashboard: lazy(() => import("./dashboard")),
+  settings: lazy(() => import("./settings")),
+  login: lazy(() => import("./login")),
+  "data-table": lazy(() => import("./data-table")),
+  "marketing-landing": lazy(() => import("./marketing-landing")),
 };
 
 /**
@@ -95,5 +93,5 @@ const TEMPLATE_ENTRIES: TemplateEntry[] = [
   },
 ];
 
-export { TEMPLATE_ENTRIES, TEMPLATE_SLUGS, templateImports };
-export type { TemplateMeta, TemplateModule, TemplateSlug };
+export { TEMPLATE_ENTRIES, TEMPLATE_SLUGS, templateComponents };
+export type { TemplateMeta, TemplateSlug };

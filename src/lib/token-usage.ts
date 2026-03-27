@@ -5,6 +5,11 @@ export interface TokenGroup {
   isNonColor?: boolean;
 }
 
+export interface TokenValues {
+  light: Record<string, string>;
+  dark: Record<string, string>;
+}
+
 export const TOKEN_GROUPS: TokenGroup[] = [
   {
     name: "Primary",

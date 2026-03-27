@@ -5,16 +5,13 @@ import { useState } from "react";
 import { TokenGrid } from "@/components/site/token-grid";
 import { TokenTable } from "@/components/site/token-table";
 
-import type { TokenGroup } from "@/lib/token-usage";
+import type { TokenGroup, TokenValues } from "@/lib/token-usage";
 
 type ViewMode = "grid" | "table";
 
 interface TokenPageClientProps {
   groups: TokenGroup[];
-  values: {
-    light: Record<string, string>;
-    dark: Record<string, string>;
-  };
+  values: TokenValues;
 }
 
 export function TokenPageClient({ groups, values }: TokenPageClientProps) {

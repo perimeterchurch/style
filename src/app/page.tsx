@@ -1,12 +1,20 @@
+import { readdirSync } from "node:fs";
+
 import Link from "next/link";
 
 import { CopyInstallButton } from "@/components/site/copy-install-button";
+import manifest from "@/lib/demo-manifest.json";
 
 const INSTALL_COMMAND = "pnpm dlx shadcn@latest add @perimeter/perimeter-base";
 
+const componentCount = manifest.length;
+const themeCount = readdirSync("registry/themes").filter((f) =>
+  f.endsWith(".json"),
+).length;
+
 const STATS = [
-  { label: "Components", value: "55" },
-  { label: "Themes", value: "3" },
+  { label: "Components", value: String(componentCount) },
+  { label: "Themes", value: String(themeCount) },
   { label: "shadcn CLI Compatible", value: "Yes" },
 ] as const;
 

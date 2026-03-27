@@ -1,19 +1,9 @@
 "use client";
 
-import { lazy, Suspense, useState } from "react";
+import { Suspense, useState } from "react";
 
-import type { TemplateSlug } from "@/templates";
-
-const templateComponents: Record<
-  TemplateSlug,
-  React.LazyExoticComponent<React.ComponentType>
-> = {
-  dashboard: lazy(() => import("@/templates/dashboard")),
-  settings: lazy(() => import("@/templates/settings")),
-  login: lazy(() => import("@/templates/login")),
-  "data-table": lazy(() => import("@/templates/data-table")),
-  "marketing-landing": lazy(() => import("@/templates/marketing-landing")),
-};
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { templateComponents, type TemplateSlug } from "@/templates";
 
 interface TemplateDetailClientProps {
   slug: TemplateSlug;
@@ -27,16 +17,9 @@ export function TemplateDetailClient({
   rawCode,
 }: TemplateDetailClientProps) {
   const [view, setView] = useState<"preview" | "code">("preview");
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopyToClipboard();
 
   const Template = templateComponents[slug];
-
-  function handleCopy() {
-    navigator.clipboard.writeText(rawCode).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }
 
   return (
     <div className="space-y-4">
@@ -67,7 +50,7 @@ export function TemplateDetailClient({
         {view === "code" && (
           <button
             type="button"
-            onClick={handleCopy}
+            onClick={() => copy(rawCode)}
             className="ml-auto rounded-lg border px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             {copied ? "Copied!" : "Copy"}

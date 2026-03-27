@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import manifest from "@/lib/demo-manifest.json";
+
+export const metadata: Metadata = { title: "Components" };
 import {
   capitalize,
   groupByCategory,

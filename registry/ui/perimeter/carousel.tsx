@@ -102,6 +102,7 @@ function Carousel({
     api.on("select", onSelect);
 
     return () => {
+      api?.off("reInit", onSelect);
       api?.off("select", onSelect);
     };
   }, [api, onSelect]);
@@ -110,7 +111,7 @@ function Carousel({
     <CarouselContext.Provider
       value={{
         carouselRef,
-        api: api,
+        api,
         opts,
         orientation:
           orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
@@ -140,17 +141,13 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       ref={carouselRef}
-      className={cn(
-        "-m-2 overflow-hidden p-2",
-        orientation === "vertical" && "h-[calc(100%+1rem)]",
-      )}
+      className={cn("overflow-hidden", orientation === "vertical" && "h-full")}
       data-slot="carousel-content"
     >
       <div
         className={cn(
           "flex",
-          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-          orientation === "vertical" && "h-full",
+          orientation === "horizontal" ? "-ml-4" : "h-full flex-col gap-4",
           className,
         )}
         {...props}
@@ -169,7 +166,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="carousel-item"
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-4" : "pt-4",
+        orientation === "horizontal" && "pl-4",
         className,
       )}
       {...props}

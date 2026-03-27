@@ -20,7 +20,7 @@ export const meta = {
 export const controls = {
   orientation: {
     type: "enum",
-    options: ["horizontal", "vertical"],
+    options: ["horizontal", "vertical"] as const,
     default: "horizontal",
   },
 } satisfies ControlsConfig;
@@ -30,21 +30,29 @@ export function Playground(props: PlaygroundProps<typeof controls>) {
   return (
     <div className="flex items-center justify-center">
       <Carousel
-        orientation={props.orientation as "horizontal"}
+        orientation={props.orientation}
         className={
           isVertical
-            ? "my-12 h-[100px] w-full max-w-xs"
+            ? "my-12 h-[200px] w-full max-w-xs"
             : "mx-14 w-full max-w-xs"
         }
       >
-        <CarouselContent className={isVertical ? "h-[100px]" : undefined}>
+        <CarouselContent>
           {Array.from({ length: 5 }, (_, i) => (
             <CarouselItem key={i}>
-              <Card>
-                <CardContent className="flex items-center justify-center p-6">
-                  <span className="text-2xl font-semibold">{i + 1}</span>
-                </CardContent>
-              </Card>
+              <div
+                className={
+                  isVertical
+                    ? "flex h-full items-center justify-center p-1"
+                    : "p-1"
+                }
+              >
+                <Card className="w-full">
+                  <CardContent className="flex items-center justify-center p-6">
+                    <span className="text-2xl font-semibold">{i + 1}</span>
+                  </CardContent>
+                </Card>
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -63,11 +71,13 @@ export const examples = [
         <CarouselContent>
           {Array.from({ length: 5 }, (_, i) => (
             <CarouselItem key={i}>
-              <Card>
-                <CardContent className="flex items-center justify-center p-6">
-                  <span className="text-2xl font-semibold">{i + 1}</span>
-                </CardContent>
-              </Card>
+              <div className="p-1">
+                <Card>
+                  <CardContent className="flex items-center justify-center p-6">
+                    <span className="text-2xl font-semibold">{i + 1}</span>
+                  </CardContent>
+                </Card>
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -83,11 +93,13 @@ export const examples = [
         <CarouselContent className="-ml-2">
           {Array.from({ length: 6 }, (_, i) => (
             <CarouselItem key={i} className="basis-1/3 pl-2">
-              <Card>
-                <CardContent className="flex items-center justify-center p-4">
-                  <span className="text-lg font-semibold">{i + 1}</span>
-                </CardContent>
-              </Card>
+              <div className="p-1">
+                <Card>
+                  <CardContent className="flex items-center justify-center p-4">
+                    <span className="text-lg font-semibold">{i + 1}</span>
+                  </CardContent>
+                </Card>
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>

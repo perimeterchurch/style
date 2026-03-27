@@ -1,22 +1,11 @@
 "use client";
 
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 
-import type { TemplateSlug } from "@/templates";
+import { templateComponents, type TemplateSlug } from "@/templates";
 
-const templateComponents: Record<
-  TemplateSlug,
-  React.LazyExoticComponent<React.ComponentType>
-> = {
-  dashboard: lazy(() => import("@/templates/dashboard")),
-  settings: lazy(() => import("@/templates/settings")),
-  login: lazy(() => import("@/templates/login")),
-  "data-table": lazy(() => import("@/templates/data-table")),
-  "marketing-landing": lazy(() => import("@/templates/marketing-landing")),
-};
-
-export function TemplatePreviewThumb({ slug }: { slug: string }) {
-  const Template = templateComponents[slug as TemplateSlug];
+export function TemplatePreviewThumb({ slug }: { slug: TemplateSlug }) {
+  const Template = templateComponents[slug];
   if (!Template) return null;
 
   return (

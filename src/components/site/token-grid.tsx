@@ -1,13 +1,8 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 
-import type { TokenGroup } from "@/lib/token-usage";
-
-interface TokenValues {
-  light: Record<string, string>;
-  dark: Record<string, string>;
-}
+import type { TokenGroup, TokenValues } from "@/lib/token-usage";
 
 interface TokenGridProps {
   groups: TokenGroup[];
@@ -15,13 +10,7 @@ interface TokenGridProps {
 }
 
 export function TokenGrid({ groups, values }: TokenGridProps) {
-  const [copiedToken, setCopiedToken] = useState<string | null>(null);
-
-  const copyToClipboard = useCallback(async (text: string, token: string) => {
-    await navigator.clipboard.writeText(text);
-    setCopiedToken(token);
-    setTimeout(() => setCopiedToken(null), 2000);
-  }, []);
+  const { copiedKey, copy } = useCopyToClipboard();
 
   return (
     <div className="space-y-10">
@@ -38,13 +27,13 @@ export function TokenGrid({ groups, values }: TokenGridProps) {
               const cssVar = `--${token}`;
               const lightValue = values.light[token] ?? "—";
               const darkValue = values.dark[token] ?? "—";
-              const isCopied = copiedToken === token;
+              const isCopied = copiedKey === token;
 
               return (
                 <button
                   key={token}
                   type="button"
-                  onClick={() => copyToClipboard(cssVar, token)}
+                  onClick={() => copy(cssVar, token)}
                   className="group rounded-lg border bg-card p-3 text-left transition-colors hover:border-primary/50"
                 >
                   {!group.isNonColor && (
