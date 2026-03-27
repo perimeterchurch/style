@@ -58,8 +58,10 @@ function Carousel({
     },
     plugins,
   );
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
+  // Default to true to avoid hydration mismatch — Embla sets the real
+  // values on mount, and a fresh carousel can typically scroll forward.
+  const [canScrollPrev, setCanScrollPrev] = React.useState(true);
+  const [canScrollNext, setCanScrollNext] = React.useState(true);
 
   const onSelect = React.useCallback((api: CarouselApi) => {
     if (!api) return;

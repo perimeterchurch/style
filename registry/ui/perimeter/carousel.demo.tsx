@@ -33,11 +33,11 @@ export function Playground(props: PlaygroundProps<typeof controls>) {
         orientation={props.orientation as "horizontal"}
         className={
           isVertical
-            ? "h-[250px] w-full max-w-xs my-14"
-            : "w-full max-w-xs mx-14"
+            ? "my-12 h-[100px] w-full max-w-xs"
+            : "mx-14 w-full max-w-xs"
         }
       >
-        <CarouselContent className={isVertical ? "h-[250px]" : undefined}>
+        <CarouselContent className={isVertical ? "h-[100px]" : undefined}>
           {Array.from({ length: 5 }, (_, i) => (
             <CarouselItem key={i}>
               <Card>
