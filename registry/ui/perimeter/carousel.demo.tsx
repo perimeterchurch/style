@@ -26,15 +26,16 @@ export const controls = {
 } satisfies ControlsConfig;
 
 export function Playground(props: PlaygroundProps<typeof controls>) {
+  const isVertical = props.orientation === "vertical";
   return (
     <Carousel
       orientation={props.orientation as "horizontal"}
-      className="mx-12 max-w-xs"
+      className={isVertical ? "mx-12 max-w-xs h-[200px]" : "mx-12 max-w-xs"}
     >
-      <CarouselContent>
+      <CarouselContent className={isVertical ? "h-[200px]" : undefined}>
         {Array.from({ length: 5 }, (_, i) => (
           <CarouselItem key={i}>
-            <Card>
+            <Card className="overflow-hidden">
               <CardContent className="flex items-center justify-center p-6">
                 <span className="text-2xl font-semibold">{i + 1}</span>
               </CardContent>
