@@ -2,19 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import manifest from "@/lib/demo-manifest.json";
-
-interface ManifestEntry {
-  slug: string;
-  name: string;
-  description: string;
-  category: string;
-  install: string;
-  demoFile: string;
-}
-
-function capitalize(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+import { capitalize, type ManifestEntry } from "@/lib/demo-types";
 
 function uniqueCategories(entries: ManifestEntry[]): string[] {
   return [...new Set(entries.map((e) => e.category))];

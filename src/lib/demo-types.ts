@@ -55,3 +55,29 @@ export interface DemoExample {
   name: string;
   render: () => React.ReactNode;
 }
+
+export interface ManifestEntry {
+  slug: string;
+  name: string;
+  description: string;
+  category: string;
+  install: string;
+  demoFile: string;
+}
+
+export function groupByCategory(
+  entries: ManifestEntry[],
+): [string, ManifestEntry[]][] {
+  const groups: Record<string, ManifestEntry[]> = {};
+  for (const entry of entries) {
+    (groups[entry.category] ??= []).push(entry);
+  }
+  return Object.entries(groups).sort(([a], [b]) => a.localeCompare(b));
+}
+
+export function capitalize(str: string): string {
+  return str
+    .split("-")
+    .map((w) => w[0].toUpperCase() + w.slice(1))
+    .join(" ");
+}

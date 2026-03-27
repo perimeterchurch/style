@@ -54,10 +54,6 @@ async function collectDemos() {
   console.log(`Collected ${manifest.length} demo(s) → ${outputPath}`);
 
   const importsPath = join(outputDir, "demo-imports.ts");
-  const importLines = manifest.map(
-    (entry) =>
-      `  "${entry.slug}": () => import("@registry/ui/perimeter/${entry.slug}.demo"),`,
-  );
   const castImportLines = manifest.map(
     (entry) =>
       `  "${entry.slug}": () => import("@registry/ui/perimeter/${entry.slug}.demo") as unknown as Promise<DemoModule>,`,

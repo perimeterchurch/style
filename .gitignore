@@ -44,8 +44,9 @@ next-env.d.ts
 public/r/
 
 
-# generated demo manifest
+# generated demo files
 src/lib/demo-manifest.json
+src/lib/demo-imports.ts
 
 # superpowers brainstorm artifacts
 .superpowers/

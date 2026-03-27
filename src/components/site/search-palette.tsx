@@ -13,15 +13,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import manifest from "@/lib/demo-manifest.json";
-
-interface ManifestEntry {
-  slug: string;
-  name: string;
-  description: string;
-  category: string;
-  install: string;
-  demoFile: string;
-}
+import type { ManifestEntry } from "@/lib/demo-types";
 
 export function SearchPalette() {
   const [open, setOpen] = useState(false);

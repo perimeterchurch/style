@@ -53,13 +53,13 @@ shadcn-compatible component registry and showcase site for Perimeter Church. Nex
 | `src/components/site/`             | Site chrome (top nav, sidebar, search, playground controls) |
 | `src/components/ui/`               | shadcn components for app use (NOT the registry source)     |
 | `src/lib/`                         | Utilities (demo-types, highlight, theme-context, utils)     |
-| `src/styles/`                      | Generated theme CSS (gitignored)                            |
+| `src/lib/demo-types.ts`            | Shared types (ManifestEntry, ControlsConfig, PlaygroundProps) |
 | `scripts/`                         | Build and generation scripts                                |
 | `public/r/`                        | Built registry JSON (generated, gitignored)                 |
 
 ### Theme System Architecture
 
-Theme files in `registry/themes/` are compiled to CSS at build time by `scripts/generate-theme-css.ts`. The generated `src/styles/themes.css` defines CSS custom properties for `:root`, `.dark`, and `[data-theme="..."]` selectors. All components respond to theme changes via CSS variable inheritance.
+Theme files in `registry/themes/` are compiled to CSS at build time by `scripts/generate-theme-css.ts`, which injects tokens directly into `src/app/globals.css` between `@generated-themes-start` / `@generated-themes-end` markers. All components respond to theme changes via CSS variable inheritance.
 
 - `default.json` — base warm stone palette (emitted as `:root` / `.dark`)
 - Project themes (perimeter-api, metrics) — overrides only (emitted as `[data-theme="slug"]`)

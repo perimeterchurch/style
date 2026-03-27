@@ -5,32 +5,11 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import manifest from "@/lib/demo-manifest.json";
-
-interface ManifestEntry {
-  slug: string;
-  name: string;
-  description: string;
-  category: string;
-  install: string;
-  demoFile: string;
-}
-
-function groupByCategory(
-  entries: ManifestEntry[],
-): Record<string, ManifestEntry[]> {
-  const groups: Record<string, ManifestEntry[]> = {};
-  for (const entry of entries) {
-    const cat = entry.category;
-    if (!groups[cat]) groups[cat] = [];
-    groups[cat].push(entry);
-  }
-  return groups;
-}
+import { groupByCategory, type ManifestEntry } from "@/lib/demo-types";
 
 export function DocsSidebar() {
   const pathname = usePathname();
-  const grouped = groupByCategory(manifest as ManifestEntry[]);
-  const categories = Object.keys(grouped).sort();
+  const categories = groupByCategory(manifest as ManifestEntry[]);
 
   return (
     <aside className="sticky top-14 h-[calc(100vh-3.5rem)] w-64 shrink-0 overflow-y-auto border-r p-4">
@@ -52,7 +31,7 @@ export function DocsSidebar() {
           </Link>
         </div>
 
-        {categories.map((category) => (
+        {categories.map(([category, entries]) => (
           <div key={category}>
             <Link
               href={`/components/${category}`}
@@ -66,7 +45,7 @@ export function DocsSidebar() {
               {category}
             </Link>
             <ul className="space-y-0.5">
-              {grouped[category].map((entry) => {
+              {entries.map((entry) => {
                 const href = `/components/${category}/${entry.slug}`;
                 return (
                   <li key={entry.slug}>
