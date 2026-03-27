@@ -524,6 +524,9 @@
       ],
       "dependencies": [
         "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
       ]
     },
     {
