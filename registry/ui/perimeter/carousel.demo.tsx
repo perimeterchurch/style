@@ -28,12 +28,16 @@ export const controls = {
 export function Playground(props: PlaygroundProps<typeof controls>) {
   const isVertical = props.orientation === "vertical";
   return (
-    <div className={isVertical ? "py-14" : ""}>
+    <div className="flex items-center justify-center">
       <Carousel
         orientation={props.orientation as "horizontal"}
-        className={isVertical ? "mx-auto max-w-xs h-[200px]" : "mx-14 max-w-xs"}
+        className={
+          isVertical
+            ? "h-[250px] w-full max-w-xs my-14"
+            : "w-full max-w-xs mx-14"
+        }
       >
-        <CarouselContent className={isVertical ? "h-[200px]" : undefined}>
+        <CarouselContent className={isVertical ? "h-[250px]" : undefined}>
           {Array.from({ length: 5 }, (_, i) => (
             <CarouselItem key={i}>
               <Card>
@@ -55,7 +59,7 @@ export const examples = [
   {
     name: "Basic Carousel",
     render: () => (
-      <Carousel className="mx-14 max-w-xs">
+      <Carousel className="mx-14 w-full max-w-xs">
         <CarouselContent>
           {Array.from({ length: 5 }, (_, i) => (
             <CarouselItem key={i}>
@@ -75,7 +79,7 @@ export const examples = [
   {
     name: "Multiple Per View",
     render: () => (
-      <Carousel className="mx-14 max-w-sm">
+      <Carousel className="mx-14 w-full max-w-sm">
         <CarouselContent className="-ml-2">
           {Array.from({ length: 6 }, (_, i) => (
             <CarouselItem key={i} className="basis-1/3 pl-2">
