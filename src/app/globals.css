@@ -182,3 +182,10 @@
     @apply font-sans;
   }
 }
+
+/* Shiki dual-theme: light by default, dark when .dark class is present */
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
