@@ -1,171 +1,284 @@
-import { highlight } from "@/lib/highlight";
+import Link from "next/link";
 
-const CODE_BLOCKS = {
-  addComponent: `pnpm dlx shadcn@latest add @perimeter/button`,
-  addBase: `pnpm dlx shadcn@latest add @perimeter/perimeter-base`,
-  componentsJson: `{
+import { highlight } from "@/lib/highlight";
+import { CodeBlock } from "@/components/site/code-block";
+import { Badge } from "@/components/ui/badge";
+
+const SECTIONS = {
+  configRegistry: {
+    code: `{
   "registries": {
     "perimeter": {
       "url": "https://style.perimeter.church/r"
     }
   }
 }`,
-  dataTheme: `<!-- Apply a project theme -->
-<html data-theme="metrics">
-  ...
+    lang: "json",
+  },
+  addComponent: {
+    code: `pnpm dlx shadcn@latest add @perimeter/button`,
+    lang: "bash",
+  },
+  addBase: {
+    code: `pnpm dlx shadcn@latest add @perimeter/perimeter-base`,
+    lang: "bash",
+  },
+  usage: {
+    code: `import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+
+export function MyPage() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Welcome</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>Your content here.</p>
+        <Button variant="default">Get Started</Button>
+      </CardContent>
+    </Card>
+  )
+}`,
+    lang: "tsx",
+  },
+  dataTheme: {
+    code: `<html data-theme="metrics">
+  <body>
+    {/* Components automatically use the metrics color palette */}
+  </body>
 </html>`,
-  darkMode: `<!-- Toggle dark mode with the .dark class -->
-<html class="dark">
-  ...
+    lang: "tsx",
+  },
+  darkMode: {
+    code: `<html class="dark">
+  <body>
+    {/* All components switch to dark variants */}
+  </body>
 </html>
 
-<!-- Or combine with a project theme -->
-<html class="dark" data-theme="metrics">
-  ...
+{/* Combine with a project theme */}
+<html class="dark" data-theme="perimeter-api">
+  <body>
+    {/* Dark mode + project-specific colors */}
+  </body>
 </html>`,
-  usageExample: `import { Button } from "@/components/ui/button";
-
-export function MyComponent() {
-  return (
-    <Button variant="default">
-      Click me
-    </Button>
-  );
+    lang: "tsx",
+  },
+  createTheme: {
+    code: `{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "my-project-theme",
+  "type": "registry:theme",
+  "cssVars": {
+    "light": {
+      "primary": "oklch(0.55 0.15 200)",
+      "primary-foreground": "oklch(0.985 0 0)"
+    },
+    "dark": {
+      "primary": "oklch(0.65 0.15 200)",
+      "primary-foreground": "oklch(0.985 0 0)"
+    }
+  }
 }`,
+    lang: "json",
+  },
 } as const;
 
-interface HighlightedBlocks {
-  addComponent: string;
-  addBase: string;
-  componentsJson: string;
-  dataTheme: string;
-  darkMode: string;
-  usageExample: string;
-}
+type SectionKey = keyof typeof SECTIONS;
 
-async function highlightAllBlocks(): Promise<HighlightedBlocks> {
-  const [
-    addComponent,
-    addBase,
-    componentsJson,
-    dataTheme,
-    darkMode,
-    usageExample,
-  ] = await Promise.all([
-    highlight(CODE_BLOCKS.addComponent, "bash"),
-    highlight(CODE_BLOCKS.addBase, "bash"),
-    highlight(CODE_BLOCKS.componentsJson, "json"),
-    highlight(CODE_BLOCKS.dataTheme, "tsx"),
-    highlight(CODE_BLOCKS.darkMode, "tsx"),
-    highlight(CODE_BLOCKS.usageExample, "tsx"),
-  ]);
-
-  return {
-    addComponent,
-    addBase,
-    componentsJson,
-    dataTheme,
-    darkMode,
-    usageExample,
-  };
+async function highlightAll() {
+  const entries = Object.entries(SECTIONS) as [
+    SectionKey,
+    (typeof SECTIONS)[SectionKey],
+  ][];
+  const results = await Promise.all(
+    entries.map(
+      async ([key, { code, lang }]) =>
+        [key, await highlight(code, lang)] as const,
+    ),
+  );
+  return Object.fromEntries(results) as Record<SectionKey, string>;
 }
 
 export default async function GettingStartedPage() {
-  const code = await highlightAllBlocks();
+  const html = await highlightAll();
 
   return (
-    <article className="prose prose-stone dark:prose-invert mx-auto max-w-3xl">
-      <h1>Getting Started</h1>
-      <p>
-        Perimeter Style is a shadcn-compatible component registry. You can
-        install individual components or the full base set directly into your
-        project using the shadcn CLI.
-      </p>
+    <article className="max-w-3xl space-y-12">
+      {/* Hero */}
+      <header className="space-y-3">
+        <div className="flex items-center gap-3">
+          <h1 className="text-4xl font-bold tracking-tight">Getting Started</h1>
+          <Badge variant="secondary">v0.1.0</Badge>
+        </div>
+        <p className="text-lg text-muted-foreground">
+          Install Perimeter Church&apos;s shadcn-compatible components directly
+          into your project. You own the source — customize everything.
+        </p>
+      </header>
 
-      <h2>Prerequisites</h2>
-      <ul>
-        <li>
-          <strong>Node.js</strong> 18 or later
-        </li>
-        <li>
-          <strong>pnpm</strong> as your package manager
-        </li>
-        <li>
-          A project with <strong>shadcn</strong> initialized (Tailwind CSS v4 +
-          TypeScript)
-        </li>
-      </ul>
+      {/* Prerequisites */}
+      <section className="space-y-4">
+        <h2 className="text-2xl font-semibold tracking-tight">Prerequisites</h2>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {[
+            { name: "Node.js", detail: "v18 or later" },
+            { name: "pnpm", detail: "Package manager" },
+            { name: "shadcn", detail: "Tailwind CSS v4 + TypeScript" },
+          ].map((item) => (
+            <div key={item.name} className="rounded-lg border bg-card p-4">
+              <p className="font-medium">{item.name}</p>
+              <p className="text-sm text-muted-foreground">{item.detail}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      <h2>Configure the Registry</h2>
-      <p>
-        Add the Perimeter registry to your <code>components.json</code>:
-      </p>
-      <div
-        className="not-prose overflow-x-auto rounded-lg border text-sm [&_pre]:p-4"
-        dangerouslySetInnerHTML={{ __html: code.componentsJson }}
-      />
+      <hr className="border-border" />
 
-      <h2>Install a Component</h2>
-      <p>
-        Use the shadcn CLI to add a single component. For example, to add the
-        Button:
-      </p>
-      <div
-        className="not-prose overflow-x-auto rounded-lg border text-sm [&_pre]:p-4"
-        dangerouslySetInnerHTML={{ __html: code.addComponent }}
-      />
-      <p>
-        This copies the component source into your project and installs any
-        required dependencies.
-      </p>
+      {/* Configure Registry */}
+      <section className="space-y-4">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          1. Configure the Registry
+        </h2>
+        <p className="text-muted-foreground">
+          Add the Perimeter registry to your project&apos;s{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            components.json
+          </code>
+          :
+        </p>
+        <CodeBlock
+          html={html.configRegistry}
+          rawCode={SECTIONS.configRegistry.code}
+          showLineNumbers
+        />
+      </section>
 
-      <h2>Install the Full Base</h2>
-      <p>To install all base components at once:</p>
-      <div
-        className="not-prose overflow-x-auto rounded-lg border text-sm [&_pre]:p-4"
-        dangerouslySetInnerHTML={{ __html: code.addBase }}
-      />
+      {/* Install Components */}
+      <section className="space-y-4">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          2. Install Components
+        </h2>
+        <p className="text-muted-foreground">
+          Add individual components with the shadcn CLI. Each component copies
+          its source into your project with all dependencies:
+        </p>
+        <CodeBlock
+          html={html.addComponent}
+          rawCode={SECTIONS.addComponent.code}
+        />
+        <p className="text-muted-foreground">
+          Or install the full base set — all 55 components, tokens, and
+          utilities in one command:
+        </p>
+        <CodeBlock html={html.addBase} rawCode={SECTIONS.addBase.code} />
+        <p className="text-sm text-muted-foreground">
+          Browse all available components in the{" "}
+          <Link
+            href="/components"
+            className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+          >
+            component library
+          </Link>
+          .
+        </p>
+      </section>
 
-      <h2>Usage</h2>
-      <p>
-        Import installed components from your project&apos;s component
-        directory:
-      </p>
-      <div
-        className="not-prose overflow-x-auto rounded-lg border text-sm [&_pre]:p-4"
-        dangerouslySetInnerHTML={{ __html: code.usageExample }}
-      />
+      {/* Usage */}
+      <section className="space-y-4">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          3. Use in Your Code
+        </h2>
+        <p className="text-muted-foreground">
+          Import installed components from your project&apos;s component
+          directory. They work like any other React component:
+        </p>
+        <CodeBlock
+          html={html.usage}
+          rawCode={SECTIONS.usage.code}
+          showLineNumbers
+        />
+      </section>
 
-      <h2>Theming</h2>
-      <p>
-        Perimeter Style includes project-specific themes that override the base
-        tokens. Apply a theme by setting the <code>data-theme</code> attribute
-        on your <code>&lt;html&gt;</code> element:
-      </p>
-      <div
-        className="not-prose overflow-x-auto rounded-lg border text-sm [&_pre]:p-4"
-        dangerouslySetInnerHTML={{ __html: code.dataTheme }}
-      />
-      <p>
-        Available themes: <code>perimeter-api</code>, <code>metrics</code>. When
-        no <code>data-theme</code> is set, the default warm stone palette is
-        used.
-      </p>
+      <hr className="border-border" />
 
-      <h2>Dark Mode</h2>
-      <p>
-        Dark mode is controlled by adding the <code>.dark</code> class to the{" "}
-        <code>&lt;html&gt;</code> element. This works independently of the
-        project theme:
-      </p>
-      <div
-        className="not-prose overflow-x-auto rounded-lg border text-sm [&_pre]:p-4"
-        dangerouslySetInnerHTML={{ __html: code.darkMode }}
-      />
-      <p>
-        All components automatically respond to the dark mode class through CSS
-        custom property inheritance.
-      </p>
+      {/* Theming */}
+      <section className="space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold tracking-tight">Theming</h2>
+          <p className="text-muted-foreground">
+            The default palette is a warm stone theme in OKLCH color space.
+            Project-specific themes override selected tokens while inheriting
+            everything else.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium">Apply a Project Theme</h3>
+          <p className="text-muted-foreground">
+            Set the{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+              data-theme
+            </code>{" "}
+            attribute on your root element:
+          </p>
+          <CodeBlock
+            html={html.dataTheme}
+            rawCode={SECTIONS.dataTheme.code}
+            showLineNumbers
+          />
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="outline">default</Badge>
+            <Badge variant="outline">perimeter-api</Badge>
+            <Badge variant="outline">metrics</Badge>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium">Dark Mode</h3>
+          <p className="text-muted-foreground">
+            Toggle dark mode by adding the{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+              .dark
+            </code>{" "}
+            class. This works independently of project themes:
+          </p>
+          <CodeBlock
+            html={html.darkMode}
+            rawCode={SECTIONS.darkMode.code}
+            showLineNumbers
+          />
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium">Create a Custom Theme</h3>
+          <p className="text-muted-foreground">
+            Add a JSON file to{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+              registry/themes/
+            </code>{" "}
+            with your overrides. Only specify the tokens you want to change —
+            everything else inherits from the default palette:
+          </p>
+          <CodeBlock
+            html={html.createTheme}
+            rawCode={SECTIONS.createTheme.code}
+            showLineNumbers
+          />
+          <p className="text-sm text-muted-foreground">
+            See all available tokens on the{" "}
+            <Link
+              href="/tokens"
+              className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+            >
+              token reference
+            </Link>{" "}
+            page.
+          </p>
+        </div>
+      </section>
     </article>
   );
 }

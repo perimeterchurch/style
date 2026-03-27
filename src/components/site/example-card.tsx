@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { ChevronDownIcon, CopyIcon, CheckIcon } from "lucide-react";
+import { ChevronDownIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { CodeBlock } from "./code-block";
 
 interface ExampleCardProps {
   name: string;
@@ -21,13 +21,6 @@ export function ExampleCard({
   rawCode,
 }: ExampleCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  async function handleCopy() {
-    await navigator.clipboard.writeText(rawCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
 
   return (
     <div className="rounded-lg border">
@@ -38,39 +31,26 @@ export function ExampleCard({
       <div className="flex items-center justify-center p-8">{children}</div>
 
       <div className="border-t">
-        <div className="flex items-center justify-between px-4 py-1.5">
-          <button
-            type="button"
-            onClick={() => setExpanded((prev) => !prev)}
-            className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <ChevronDownIcon
-              className={cn(
-                "size-3.5 transition-transform",
-                expanded && "rotate-180",
-              )}
-            />
-            {expanded ? "Hide code" : "Show code"}
-          </button>
-
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            onClick={handleCopy}
-            aria-label="Copy code"
-          >
-            {copied ? (
-              <CheckIcon className="size-3" />
-            ) : (
-              <CopyIcon className="size-3" />
+        <button
+          type="button"
+          onClick={() => setExpanded((prev) => !prev)}
+          className="flex w-full items-center gap-1 px-4 py-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <ChevronDownIcon
+            className={cn(
+              "size-3.5 transition-transform",
+              expanded && "rotate-180",
             )}
-          </Button>
-        </div>
+          />
+          {expanded ? "Hide code" : "Show code"}
+        </button>
 
         {expanded && (
-          <div
-            className="overflow-x-auto border-t text-sm [&_pre]:p-4"
-            dangerouslySetInnerHTML={{ __html: codeHtml }}
+          <CodeBlock
+            html={codeHtml}
+            rawCode={rawCode}
+            showLineNumbers
+            className="rounded-none rounded-b-lg border-0 border-t"
           />
         )}
       </div>

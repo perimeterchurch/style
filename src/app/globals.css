@@ -189,3 +189,20 @@ html.dark .shiki span {
   color: var(--shiki-dark) !important;
   background-color: var(--shiki-dark-bg) !important;
 }
+
+/* Code block line numbers */
+.code-line-numbers pre code {
+  counter-reset: line;
+}
+
+.code-line-numbers pre code > .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: var(--muted-foreground);
+  opacity: 0.4;
+  font-size: 0.8em;
+}

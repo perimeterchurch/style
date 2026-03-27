@@ -5,8 +5,8 @@ let highlighter: Highlighter | null = null;
 async function getHighlighter(): Promise<Highlighter> {
   if (!highlighter) {
     highlighter = await createHighlighter({
-      themes: ["github-dark", "github-light"],
-      langs: ["tsx", "bash", "json", "css"],
+      themes: ["vitesse-light", "vitesse-dark"],
+      langs: ["tsx", "bash", "json", "css", "html"],
     });
   }
   return highlighter;
@@ -19,6 +19,6 @@ export async function highlight(
   const h = await getHighlighter();
   return h.codeToHtml(code, {
     lang,
-    themes: { light: "github-light", dark: "github-dark" },
+    themes: { light: "vitesse-light", dark: "vitesse-dark" },
   });
 }

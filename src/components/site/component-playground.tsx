@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlaygroundControls } from "./playground-controls";
+import { CodeBlock } from "./code-block";
 import { demoImports } from "@/lib/demo-imports";
 import { highlightClient } from "@/lib/highlight-client";
 
@@ -14,6 +15,7 @@ interface ComponentPlaygroundProps {
   controls: ControlsConfig;
   componentName: string;
   defaultCodeHtml: string;
+  defaultCodeRaw: string;
 }
 
 function buildDefaults(controls: ControlsConfig): Record<string, unknown> {
@@ -50,6 +52,7 @@ export function ComponentPlayground({
   controls,
   componentName,
   defaultCodeHtml,
+  defaultCodeRaw,
 }: ComponentPlaygroundProps) {
   const defaults = useMemo(() => buildDefaults(controls), [controls]);
   const [values, setValues] = useState<Record<string, unknown>>(defaults);
@@ -57,6 +60,7 @@ export function ComponentPlayground({
     Record<string, unknown>
   > | null>(null);
   const [codeHtml, setCodeHtml] = useState(defaultCodeHtml);
+  const [codeRaw, setCodeRaw] = useState(defaultCodeRaw);
   const [activeTab, setActiveTab] = useState("preview");
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -70,12 +74,12 @@ export function ComponentPlayground({
     });
   }, [slug]);
 
-  // Re-highlight code when values change (debounced)
   const updateCodeHighlight = useCallback(
     (currentValues: Record<string, unknown>) => {
       if (highlightTimer.current) clearTimeout(highlightTimer.current);
       highlightTimer.current = setTimeout(() => {
         const code = buildCodeSnippet(componentName, controls, currentValues);
+        setCodeRaw(code);
         highlightClient(code).then(setCodeHtml);
       }, 150);
     },
@@ -97,7 +101,6 @@ export function ComponentPlayground({
         </TabsList>
 
         <div className="relative overflow-hidden rounded-lg border">
-          {/* Preview panel */}
           <div
             className="transition-all duration-300 ease-in-out"
             style={{
@@ -115,7 +118,6 @@ export function ComponentPlayground({
             </div>
           </div>
 
-          {/* Code panel */}
           <div
             className="transition-all duration-300 ease-in-out"
             style={{
@@ -124,9 +126,10 @@ export function ComponentPlayground({
               overflow: activeTab === "code" ? "visible" : "hidden",
             }}
           >
-            <div
-              className="overflow-x-auto text-sm [&_pre]:p-4"
-              dangerouslySetInnerHTML={{ __html: codeHtml }}
+            <CodeBlock
+              html={codeHtml}
+              rawCode={codeRaw}
+              className="rounded-none border-0"
             />
           </div>
         </div>

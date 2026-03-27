@@ -84,6 +84,7 @@ export default async function ComponentPage({ params }: PageProps) {
         controls={controls}
         componentName={meta.name}
         defaultCodeHtml={defaultCodeHtml}
+        defaultCodeRaw={playgroundCode}
       />
 
       {examples.length > 0 && (
