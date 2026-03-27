@@ -28,24 +28,26 @@ export const controls = {
 export function Playground(props: PlaygroundProps<typeof controls>) {
   const isVertical = props.orientation === "vertical";
   return (
-    <Carousel
-      orientation={props.orientation as "horizontal"}
-      className={isVertical ? "mx-12 max-w-xs h-[200px]" : "mx-12 max-w-xs"}
-    >
-      <CarouselContent className={isVertical ? "h-[200px]" : undefined}>
-        {Array.from({ length: 5 }, (_, i) => (
-          <CarouselItem key={i}>
-            <Card className="overflow-hidden">
-              <CardContent className="flex items-center justify-center p-6">
-                <span className="text-2xl font-semibold">{i + 1}</span>
-              </CardContent>
-            </Card>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
+    <div className={isVertical ? "py-14" : ""}>
+      <Carousel
+        orientation={props.orientation as "horizontal"}
+        className={isVertical ? "mx-auto max-w-xs h-[200px]" : "mx-14 max-w-xs"}
+      >
+        <CarouselContent className={isVertical ? "h-[200px]" : undefined}>
+          {Array.from({ length: 5 }, (_, i) => (
+            <CarouselItem key={i}>
+              <Card>
+                <CardContent className="flex items-center justify-center p-6">
+                  <span className="text-2xl font-semibold">{i + 1}</span>
+                </CardContent>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+    </div>
   );
 }
 
@@ -53,7 +55,7 @@ export const examples = [
   {
     name: "Basic Carousel",
     render: () => (
-      <Carousel className="mx-12 max-w-xs">
+      <Carousel className="mx-14 max-w-xs">
         <CarouselContent>
           {Array.from({ length: 5 }, (_, i) => (
             <CarouselItem key={i}>
@@ -73,7 +75,7 @@ export const examples = [
   {
     name: "Multiple Per View",
     render: () => (
-      <Carousel className="mx-12 max-w-sm">
+      <Carousel className="mx-14 max-w-sm">
         <CarouselContent className="-ml-2">
           {Array.from({ length: 6 }, (_, i) => (
             <CarouselItem key={i} className="basis-1/3 pl-2">
