@@ -19,6 +19,7 @@ This chunk adds cursor-pointer, hover/focus states to form inputs, and transitio
 ### Task 1: Add cursor-pointer to standalone interactive elements
 
 **Files:**
+
 - Modify: `registry/ui/perimeter/accordion.tsx`
 - Modify: `registry/ui/perimeter/pagination.tsx`
 - Modify: `registry/ui/perimeter/navigation-menu.tsx`
@@ -30,11 +31,13 @@ This chunk adds cursor-pointer, hover/focus states to form inputs, and transitio
 In `accordion.tsx`, find the AccordionTrigger className string. Add `cursor-pointer` after `text-sm font-medium`.
 
 The className currently starts with:
+
 ```
 "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-lg border border-transparent py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline
 ```
 
 Add `cursor-pointer` so it becomes:
+
 ```
 "group/accordion-trigger relative flex flex-1 cursor-pointer items-start justify-between rounded-lg border border-transparent py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline
 ```
@@ -73,6 +76,7 @@ git commit -m "feat: add cursor-pointer to accordion, pagination, nav-menu, cale
 ### Task 2: Add hover/focus states to form inputs
 
 **Files:**
+
 - Modify: `registry/ui/perimeter/input.tsx`
 - Modify: `registry/ui/perimeter/textarea.tsx`
 - Modify: `registry/ui/perimeter/native-select.tsx`
@@ -82,11 +86,13 @@ git commit -m "feat: add cursor-pointer to accordion, pagination, nav-menu, cale
 In `input.tsx`, find the className string on the InputPrimitive. Add `hover:border-ring/50 hover:bg-muted/30 focus:bg-background` after `transition-colors`.
 
 The area around `transition-colors` currently reads:
+
 ```
 ...text-base transition-colors outline-none file:inline-flex...
 ```
 
 Change to:
+
 ```
 ...text-base transition-colors hover:border-ring/50 hover:bg-muted/30 focus:bg-background outline-none file:inline-flex...
 ```
@@ -113,6 +119,7 @@ git commit -m "feat: add hover/focus states to input, textarea, native-select"
 ### Task 3: Add transition-colors to components with abrupt state changes
 
 **Files:**
+
 - Modify: `registry/ui/perimeter/select.tsx`
 - Modify: `registry/ui/perimeter/combobox.tsx`
 - Modify: `registry/ui/perimeter/command.tsx`
@@ -157,6 +164,7 @@ git commit -m "feat: add transition-colors to select, combobox, command, input-o
 ### Task 4: Enhance scroll area thumb and resizable handle
 
 **Files:**
+
 - Modify: `registry/ui/perimeter/scroll-area.tsx`
 - Modify: `registry/ui/perimeter/resizable.tsx`
 
@@ -165,10 +173,13 @@ git commit -m "feat: add transition-colors to select, combobox, command, input-o
 In `scroll-area.tsx`, make the ScrollBar a group so the thumb can respond to parent hover. Update the ScrollBar className to add `group/scrollbar`.
 
 Update the Thumb className from:
+
 ```
 "relative flex-1 rounded-full bg-border"
 ```
+
 To:
+
 ```
 "relative flex-1 rounded-full bg-border opacity-60 transition-all duration-200 group-hover/scrollbar:opacity-100 data-horizontal:h-1.5 data-horizontal:group-hover/scrollbar:h-2 data-vertical:w-1.5 data-vertical:group-hover/scrollbar:w-2"
 ```
@@ -205,6 +216,7 @@ This chunk adds the collapsible expand/collapse animation, fixes the progress co
 ### Task 5: Add collapsible content animation
 
 **Files:**
+
 - Modify: `registry/ui/perimeter/collapsible.tsx`
 
 - [ ] **Step 1: Add cn import and animation classes to CollapsibleContent**
@@ -261,6 +273,7 @@ git commit -m "feat: add expand/collapse animation to collapsible content"
 ### Task 6: Fix progress component rendering
 
 **Files:**
+
 - Modify: `registry/ui/perimeter/progress.tsx`
 
 - [ ] **Step 1: Debug and fix the progress indicator**
@@ -289,6 +302,7 @@ git commit -m "fix: progress indicator rendering and smoother fill animation"
 ### Task 7: Improve theme switcher visibility
 
 **Files:**
+
 - Modify: `src/components/site/theme-switcher.tsx`
 
 - [ ] **Step 1: Add Palette icon and visual emphasis**
@@ -353,6 +367,7 @@ git commit -m "feat: add palette icon and visual emphasis to theme switcher"
 ### Task 8: Add cursor-pointer to nav links
 
 **Files:**
+
 - Modify: `src/components/site/top-nav.tsx`
 
 - [ ] **Step 1: Add cursor-pointer to nav links**
@@ -379,11 +394,13 @@ This is the most complex piece — replacing the pseudo-element underline with a
 ### Task 9: Implement sliding tab indicator
 
 **Files:**
+
 - Modify: `registry/ui/perimeter/tabs.tsx`
 
 - [ ] **Step 1: Rewrite TabsList for the line variant with a sliding indicator**
 
 The `TabsList` component needs to:
+
 1. Detect when it's using the `line` variant
 2. Track the active tab's position via refs
 3. Render a positioned `<span>` that animates between tabs
@@ -562,6 +579,7 @@ export { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants };
 ```
 
 Key changes:
+
 - `TabsList` now uses `useRef` to track the list element
 - A `MutationObserver` watches for `data-active` attribute changes on child tabs
 - A `ResizeObserver` recalculates on layout changes

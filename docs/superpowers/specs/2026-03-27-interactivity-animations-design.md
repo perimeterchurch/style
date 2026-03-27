@@ -10,13 +10,13 @@ Improve the interactive feel of all 55 registry components and site chrome. Add 
 
 Add `cursor-pointer` to non-menu standalone interactive elements. Menu items (dropdown-menu, context-menu, menubar, command, combobox, select) keep `cursor-default` following macOS native conventions.
 
-| Component | File | Element | Change |
-|-----------|------|---------|--------|
-| accordion | `registry/ui/perimeter/accordion.tsx` | `AccordionTrigger` | Add `cursor-pointer` |
-| pagination | `registry/ui/perimeter/pagination.tsx` | `PaginationLink` | Add `cursor-pointer` |
+| Component       | File                                        | Element              | Change               |
+| --------------- | ------------------------------------------- | -------------------- | -------------------- |
+| accordion       | `registry/ui/perimeter/accordion.tsx`       | `AccordionTrigger`   | Add `cursor-pointer` |
+| pagination      | `registry/ui/perimeter/pagination.tsx`      | `PaginationLink`     | Add `cursor-pointer` |
 | navigation-menu | `registry/ui/perimeter/navigation-menu.tsx` | `NavigationMenuLink` | Add `cursor-pointer` |
-| calendar | `registry/ui/perimeter/calendar.tsx` | `CalendarDayButton` | Add `cursor-pointer` |
-| item | `registry/ui/perimeter/item.tsx` | `Item` root element | Add `cursor-pointer` |
+| calendar        | `registry/ui/perimeter/calendar.tsx`        | `CalendarDayButton`  | Add `cursor-pointer` |
+| item            | `registry/ui/perimeter/item.tsx`            | `Item` root element  | Add `cursor-pointer` |
 
 Collapsible triggers use render props (consumers pass their own Button), so no cursor change needed there. Table rows are not always clickable, so no cursor change.
 
@@ -27,6 +27,7 @@ Collapsible triggers use render props (consumers pass their own Button), so no c
 **Files:** `input.tsx`, `textarea.tsx`, `native-select.tsx`
 
 Add to the base input/textarea classes:
+
 - Hover: `hover:border-ring/50 hover:bg-muted/30`
 - The existing `focus-visible:ring` stays. Add `focus:bg-background` to clear the hover background tint when the field is focused.
 - All with `transition-colors duration-150`
@@ -36,6 +37,7 @@ Add to the base input/textarea classes:
 **File:** `scroll-area.tsx`
 
 The scrollbar track is `w-2.5` with the thumb as a `flex-1` child inside it. Changes apply to the **thumb** element specifically (not the track):
+
 - Add explicit width to thumb: `w-1.5` (narrower than the track, centered)
 - Add `opacity-60` as default
 - Hover on the **scrollbar** (parent): `group-hover:w-2 group-hover:opacity-100` on the thumb
@@ -117,6 +119,7 @@ Add `transition-colors duration-150` to item elements so the `data-highlighted` 
 **File:** `progress.tsx` and/or `progress.demo.tsx`
 
 Base-ui's `Progress.Indicator` sets width via inline styles automatically from the context value. The progress bar is not rendering in the showcase preview — this is NOT a missing width style issue. Possible causes:
+
 - CSS conflict (the `h-full` on the indicator may collapse if the track has no explicit height context)
 - The indicator's background may not be visible against the track
 - The demo's playground wrapper may be interfering
