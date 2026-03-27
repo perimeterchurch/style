@@ -91,17 +91,17 @@
 }
 
 [data-theme="metrics"] {
-  --primary: oklch(0.50 0.16 160);
+  --primary: oklch(0.5 0.16 160);
   --primary-foreground: oklch(0.985 0 0);
-  --ring: oklch(0.50 0.16 160);
-  --chart-1: oklch(0.50 0.16 160);
+  --ring: oklch(0.5 0.16 160);
+  --chart-1: oklch(0.5 0.16 160);
 }
 
 [data-theme="metrics"].dark {
-  --primary: oklch(0.60 0.16 160);
+  --primary: oklch(0.6 0.16 160);
   --primary-foreground: oklch(0.985 0 0);
-  --ring: oklch(0.60 0.16 160);
-  --chart-1: oklch(0.60 0.16 160);
+  --ring: oklch(0.6 0.16 160);
+  --chart-1: oklch(0.6 0.16 160);
 }
 
 [data-theme="perimeter-api"] {
