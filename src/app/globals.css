@@ -190,30 +190,59 @@ html.dark .shiki span {
   background-color: var(--shiki-dark-bg) !important;
 }
 
-/* Code block line numbers — always present but animated in/out */
-pre code > .line::before {
-  counter-increment: line;
-  content: counter(line);
-  display: inline-block;
-  width: 0;
-  margin-right: 0;
-  text-align: right;
-  color: var(--muted-foreground);
-  opacity: 0;
-  font-size: 0.75em;
-  overflow: hidden;
-  transition:
-    width 0.2s ease,
-    margin-right 0.2s ease,
-    opacity 0.2s ease;
-}
-
+/*
+ * Code block line numbers
+ *
+ * Each .line becomes a block with padding-left for the gutter and negative
+ * text-indent to pull the ::before line number into that gutter. This means
+ * wrapped lines (word-wrap mode) indent past the line number instead of
+ * flowing underneath it.
+ *
+ * --line-number-gutter is the total gutter width (digit width + gap),
+ * set by the component based on line count.
+ */
 pre code {
   counter-reset: line;
 }
 
+.code-line-numbers pre code,
+.code-word-wrap pre code {
+  display: flex;
+  flex-direction: column;
+}
+
+pre code > .line {
+  padding-left: 0;
+  text-indent: 0;
+}
+
+pre code > .line:last-child:empty {
+  display: none;
+}
+
+pre code > .line::before {
+  content: none;
+}
+
+.code-line-numbers pre code > .line,
+.code-word-wrap pre code > .line {
+  display: block;
+}
+
+.code-line-numbers pre code > .line {
+  padding-left: var(--line-number-gutter);
+  text-indent: calc(var(--line-number-gutter) * -1);
+}
+
 .code-line-numbers pre code > .line::before {
-  width: 1.5rem;
-  margin-right: 0.75rem;
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: var(--line-number-width);
+  margin-right: 0.5rem;
+  text-align: right;
+  vertical-align: top;
+  color: var(--muted-foreground);
   opacity: 0.4;
+  user-select: none;
 }

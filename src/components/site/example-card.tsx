@@ -49,6 +49,7 @@ export function ExampleCard({
           <CodeBlock
             html={codeHtml}
             rawCode={rawCode}
+            showHeader={false}
             showLineNumbers
             className="rounded-none rounded-b-lg border-0 border-t"
           />

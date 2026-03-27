@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { highlight } from "@/lib/highlight";
+
+export const metadata: Metadata = { title: "Getting Started" };
 import { CodeBlock } from "@/components/site/code-block";
 import { Badge } from "@/components/ui/badge";
 
@@ -152,6 +155,7 @@ export default async function GettingStartedPage() {
         <CodeBlock
           html={html.configRegistry}
           rawCode={SECTIONS.configRegistry.code}
+          language={SECTIONS.configRegistry.lang}
           showLineNumbers
         />
       </section>
@@ -168,12 +172,17 @@ export default async function GettingStartedPage() {
         <CodeBlock
           html={html.addComponent}
           rawCode={SECTIONS.addComponent.code}
+          language={SECTIONS.addComponent.lang}
         />
         <p className="text-muted-foreground">
           Or install the full base set — all 55 components, tokens, and
           utilities in one command:
         </p>
-        <CodeBlock html={html.addBase} rawCode={SECTIONS.addBase.code} />
+        <CodeBlock
+          html={html.addBase}
+          rawCode={SECTIONS.addBase.code}
+          language={SECTIONS.addBase.lang}
+        />
         <p className="text-sm text-muted-foreground">
           Browse all available components in the{" "}
           <Link
@@ -198,6 +207,7 @@ export default async function GettingStartedPage() {
         <CodeBlock
           html={html.usage}
           rawCode={SECTIONS.usage.code}
+          language={SECTIONS.usage.lang}
           showLineNumbers
         />
       </section>
@@ -227,6 +237,7 @@ export default async function GettingStartedPage() {
           <CodeBlock
             html={html.dataTheme}
             rawCode={SECTIONS.dataTheme.code}
+            language={SECTIONS.dataTheme.lang}
             showLineNumbers
           />
           <div className="flex flex-wrap gap-2">
@@ -248,6 +259,7 @@ export default async function GettingStartedPage() {
           <CodeBlock
             html={html.darkMode}
             rawCode={SECTIONS.darkMode.code}
+            language={SECTIONS.darkMode.lang}
             showLineNumbers
           />
         </div>
@@ -265,6 +277,7 @@ export default async function GettingStartedPage() {
           <CodeBlock
             html={html.createTheme}
             rawCode={SECTIONS.createTheme.code}
+            language={SECTIONS.createTheme.lang}
             showLineNumbers
           />
           <p className="text-sm text-muted-foreground">
