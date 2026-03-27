@@ -2,6 +2,7 @@
   "name": "perimeter-registry",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.27.0",
   "scripts": {
     "dev": "pnpm generate:themes && pnpm collect:demos && next dev --webpack",
     "build": "pnpm registry:build && pnpm generate:themes && pnpm collect:demos && next build",

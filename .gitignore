@@ -56,3 +56,4 @@ src/lib/demo-imports.ts
 
 # git worktrees
 .worktrees/
+.claude/worktrees/
