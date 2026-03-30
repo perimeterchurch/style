@@ -107,6 +107,30 @@ export function SearchPalette() {
             >
               Tokens
             </CommandItem>
+            <CommandItem
+              value="Theming Guide"
+              onSelect={() => handleSelect("/docs/theming")}
+            >
+              Theming Guide
+            </CommandItem>
+            <CommandItem
+              value="Contributing"
+              onSelect={() => handleSelect("/docs/contributing")}
+            >
+              Contributing
+            </CommandItem>
+            <CommandItem
+              value="Troubleshooting"
+              onSelect={() => handleSelect("/docs/troubleshooting")}
+            >
+              Troubleshooting
+            </CommandItem>
+            <CommandItem
+              value="Changelog"
+              onSelect={() => handleSelect("/changelog")}
+            >
+              Changelog
+            </CommandItem>
           </CommandGroup>
         </CommandList>
       </Command>
