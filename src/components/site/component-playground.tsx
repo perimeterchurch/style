@@ -62,16 +62,26 @@ export function ComponentPlayground({
   const [codeHtml, setCodeHtml] = useState(defaultCodeHtml);
   const [codeRaw, setCodeRaw] = useState(defaultCodeRaw);
   const [activeTab, setActiveTab] = useState("preview");
+  const [importError, setImportError] = useState<string | null>(null);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const importFn = demoImports[slug];
-    if (!importFn) return;
-    importFn().then((mod) => {
-      setPlayground(
-        () => mod.Playground as React.ComponentType<Record<string, unknown>>,
-      );
-    });
+    if (!importFn) {
+      setImportError(`No demo found for "${slug}"`);
+      return;
+    }
+    importFn()
+      .then((mod) => {
+        setPlayground(
+          () => mod.Playground as React.ComponentType<Record<string, unknown>>,
+        );
+      })
+      .catch((err: unknown) => {
+        setImportError(
+          err instanceof Error ? err.message : "Failed to load component demo",
+        );
+      });
   }, [slug]);
 
   useEffect(() => {
@@ -116,7 +126,9 @@ export function ComponentPlayground({
             }}
           >
             <div className="flex min-h-48 items-center justify-center bg-background p-8">
-              {Playground ? (
+              {importError ? (
+                <div className="text-sm text-destructive">{importError}</div>
+              ) : Playground ? (
                 <Playground {...values} />
               ) : (
                 <div className="text-sm text-muted-foreground">Loading...</div>
