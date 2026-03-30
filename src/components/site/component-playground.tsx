@@ -2,6 +2,13 @@
 
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 
+const WIDTH_PRESETS = [
+  { label: "Mobile", width: 375 },
+  { label: "Tablet", width: 768 },
+  { label: "Desktop", width: 1280 },
+  { label: "Full", width: null },
+] as const;
+
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlaygroundControls } from "./playground-controls";
 import { CodeBlock } from "./code-block";
@@ -44,6 +51,9 @@ export function ComponentPlayground({
   const [activeTab, setActiveTab] = useState("preview");
   const [importError, setImportError] = useState<string | null>(null);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [previewWidth, setPreviewWidth] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const importFn = demoImports[slug];
@@ -82,6 +92,27 @@ export function ComponentPlayground({
     [componentName, controls],
   );
 
+  const handleDragStart = useCallback((e: React.PointerEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    const startX = e.clientX;
+    const startWidth = previewRef.current?.offsetWidth ?? 800;
+
+    function onMove(ev: PointerEvent) {
+      const delta = ev.clientX - startX;
+      setPreviewWidth(Math.max(320, startWidth + delta));
+    }
+
+    function onUp() {
+      setIsDragging(false);
+      document.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerup", onUp);
+    }
+
+    document.addEventListener("pointermove", onMove);
+    document.addEventListener("pointerup", onUp);
+  }, []);
+
   function handleChange(name: string, value: unknown) {
     const next = { ...values, [name]: value };
     setValues(next);
@@ -109,17 +140,60 @@ export function ComponentPlayground({
               overflow: activeTab === "preview" ? "visible" : "hidden",
             }}
           >
-            <div className="flex min-h-48 items-center justify-center bg-background p-8">
-              {importError ? (
-                <div className="text-sm text-destructive">{importError}</div>
-              ) : Playground ? (
-                <Playground {...values} />
-              ) : (
-                <div className="flex w-full flex-col items-center gap-4 p-8">
-                  <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
-                  <div className="h-6 w-32 animate-pulse rounded-md bg-muted" />
-                </div>
+            {/* Responsive toolbar */}
+            <div className="flex items-center gap-1 border-b px-3 py-1.5">
+              {WIDTH_PRESETS.map((preset) => (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => setPreviewWidth(preset.width)}
+                  className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
+                    previewWidth === preset.width
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  {preset.label}
+                </button>
+              ))}
+              {previewWidth && (
+                <span className="ml-2 text-xs text-muted-foreground">
+                  {previewWidth}px
+                </span>
               )}
+            </div>
+
+            <div className="flex justify-center bg-background">
+              <div
+                ref={previewRef}
+                className="relative w-full"
+                style={{ maxWidth: previewWidth ?? undefined }}
+              >
+                <div className="flex min-h-48 items-center justify-center p-8">
+                  {importError ? (
+                    <div className="text-sm text-destructive">
+                      {importError}
+                    </div>
+                  ) : Playground ? (
+                    <Playground {...values} />
+                  ) : (
+                    <div className="flex w-full flex-col items-center gap-4 p-8">
+                      <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
+                      <div className="h-6 w-32 animate-pulse rounded-md bg-muted" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Drag handle */}
+                {previewWidth && (
+                  <div
+                    onPointerDown={handleDragStart}
+                    className={`absolute right-0 top-0 bottom-0 w-2 cursor-col-resize transition-colors hover:bg-primary/20 ${
+                      isDragging ? "bg-primary/30" : ""
+                    }`}
+                  />
+                )}
+              </div>
             </div>
           </div>
 
