@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -17,6 +17,7 @@ import type { ManifestEntry } from "@/lib/demo-types";
 
 export function SearchPalette() {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<Element | null>(null);
   const router = useRouter();
   const entries = manifest as ManifestEntry[];
 
@@ -24,7 +25,10 @@ export function SearchPalette() {
     function handleKeyDown(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
-        setOpen((prev) => !prev);
+        setOpen((prev) => {
+          if (!prev) triggerRef.current = document.activeElement;
+          return !prev;
+        });
       }
     }
     document.addEventListener("keydown", handleKeyDown);
@@ -48,7 +52,13 @@ export function SearchPalette() {
   return (
     <CommandDialog
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={(value) => {
+        setOpen(value);
+        if (!value && triggerRef.current instanceof HTMLElement) {
+          triggerRef.current.focus();
+          triggerRef.current = null;
+        }
+      }}
       title="Search"
       description="Search for components, templates, and more."
     >

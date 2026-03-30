@@ -141,11 +141,13 @@ export function TokenTable({ groups, values }: TokenTableProps) {
                         className="h-6 w-6 rounded border"
                         style={{ backgroundColor: t.lightValue }}
                         title={`Light: ${t.lightValue}`}
+                        aria-label={`${t.token} light: ${t.lightValue}`}
                       />
                       <div
                         className="h-6 w-6 rounded border bg-stone-900"
                         style={{ backgroundColor: t.darkValue }}
                         title={`Dark: ${t.darkValue}`}
+                        aria-label={`${t.token} dark: ${t.darkValue}`}
                       />
                     </div>
                   ) : (
