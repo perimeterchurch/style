@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { TEMPLATE_ENTRIES } from "@/templates";
 import { CodeBlock } from "@/components/site/code-block";
 import { ComponentPlayground } from "@/components/site/component-playground";
 import { ExampleCard } from "@/components/site/example-card";
@@ -13,6 +14,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Badge } from "@/components/ui/badge";
 import { buildSnippet } from "@/lib/build-snippet";
 import { extractExampleSources } from "@/lib/extract-source";
 import { highlight } from "@/lib/highlight";
@@ -67,6 +69,10 @@ export default async function ComponentPage({ params }: PageProps) {
 
   const playgroundCode = buildSnippet(meta.name, controls);
   const defaultCodeHtml = await highlight(playgroundCode);
+
+  const usedInTemplates = TEMPLATE_ENTRIES.filter((t) =>
+    t.meta.components.includes(slug),
+  );
 
   const importName = meta.name.replace(/\s+/g, "");
   const usageCode = `import { ${importName} } from "@/components/ui/${slug}";\n\n${playgroundCode}`;
@@ -145,6 +151,19 @@ export default async function ComponentPage({ params }: PageProps) {
           <code>{meta.install}</code>
         </pre>
       </section>
+
+      {usedInTemplates.length > 0 && (
+        <section className="space-y-2">
+          <h2 className="text-xl font-semibold">Used in Templates</h2>
+          <div className="flex flex-wrap gap-2">
+            {usedInTemplates.map((t) => (
+              <Link key={t.slug} href={`/templates/${t.slug}`}>
+                <Badge variant="secondary">{t.meta.name}</Badge>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
