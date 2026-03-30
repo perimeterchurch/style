@@ -6,6 +6,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
+import { CopyInstallButton } from "@/components/site/copy-install-button";
 import { highlight } from "@/lib/highlight";
 import manifest from "@/lib/demo-manifest.json";
 import { TEMPLATE_ENTRIES, TEMPLATE_SLUGS } from "@/templates";
@@ -82,23 +83,18 @@ export default async function TemplateDetailPage({ params }: PageProps) {
         })}
       </div>
 
+      {/* Install command */}
+      <section className="space-y-2">
+        <h2 className="text-xl font-semibold">Install Components</h2>
+        <CopyInstallButton command={installCommand} />
+      </section>
+
       {/* Preview / Code toggle */}
       <TemplateDetailClient
         slug={templateSlug}
         codeHtml={codeHtml}
         rawCode={sourceCode}
       />
-
-      {/* Install command */}
-      <section className="space-y-2">
-        <h2 className="text-xl font-semibold">Install Components</h2>
-        <p className="text-sm text-muted-foreground">
-          Install all components used in this template with a single command.
-        </p>
-        <pre className="overflow-x-auto rounded-lg border bg-muted px-4 py-3 text-sm">
-          <code>{installCommand}</code>
-        </pre>
-      </section>
     </div>
   );
 }

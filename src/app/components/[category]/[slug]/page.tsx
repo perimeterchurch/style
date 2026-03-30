@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { TEMPLATE_ENTRIES } from "@/templates";
 import { CodeBlock } from "@/components/site/code-block";
 import { ComponentPlayground } from "@/components/site/component-playground";
+import { CopyInstallButton } from "@/components/site/copy-install-button";
 import { ExampleCard } from "@/components/site/example-card";
 import {
   Breadcrumb,
@@ -147,9 +148,7 @@ export default async function ComponentPage({ params }: PageProps) {
 
       <section className="space-y-2">
         <h2 className="text-xl font-semibold">Installation</h2>
-        <pre className="rounded-lg border bg-muted px-4 py-3 text-sm">
-          <code>{meta.install}</code>
-        </pre>
+        <CopyInstallButton command={meta.install} />
       </section>
 
       {usedInTemplates.length > 0 && (
