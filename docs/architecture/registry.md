@@ -7,7 +7,7 @@ The project is a shadcn-compatible component registry. It serves customized shad
 ## How It Works
 
 ```
-registry/new-york/ui/*.tsx    ←  Component source files (single source of truth)
+registry/ui/perimeter/*.tsx   ←  Component source files (single source of truth)
         ↓
 scripts/generate-registry.ts  ←  Scans source, generates registry.json with items
         ↓
@@ -30,13 +30,13 @@ CLI fetches JSON, rewrites imports, writes .tsx to consumer's project
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "perimeter",
-  "homepage": "https://style.perimeter.church",
+  "homepage": "https://style.perimeter.org",
   "items": [
     {
       "name": "button",
       "type": "registry:ui",
       "files": [
-        { "path": "registry/new-york/ui/button.tsx", "type": "registry:ui" }
+        { "path": "registry/ui/perimeter/button.tsx", "type": "registry:ui" }
       ],
       "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
       "registryDependencies": ["utils"]
@@ -49,12 +49,12 @@ Items are NOT auto-discovered. Run `pnpm tsx scripts/generate-registry.ts` to re
 
 ## Item Types
 
-| Type             | Purpose               | Location                   |
-| ---------------- | --------------------- | -------------------------- |
-| `registry:ui`    | UI components         | `registry/new-york/ui/`    |
-| `registry:lib`   | Utilities (cn, etc.)  | `registry/new-york/lib/`   |
-| `registry:hook`  | React hooks           | `registry/new-york/hooks/` |
-| `registry:theme` | Theme token overrides | `registry/themes/`         |
+| Type             | Purpose               | Location                    |
+| ---------------- | --------------------- | --------------------------- |
+| `registry:ui`    | UI components         | `registry/ui/perimeter/`    |
+| `registry:lib`   | Utilities (cn, etc.)  | `registry/lib/`             |
+| `registry:hook`  | React hooks           | `registry/hooks/`           |
+| `registry:theme` | Theme token overrides | `registry/themes/`          |
 
 ## Build Pipeline
 
@@ -72,7 +72,7 @@ In the consuming project's `components.json`:
 ```json
 {
   "registries": {
-    "@perimeter": "https://style.perimeter.church/r/{name}.json"
+    "@perimeter": "https://style.perimeter.org/r/{name}.json"
   }
 }
 ```
@@ -88,7 +88,7 @@ The CLI fetches the JSON, rewrites import paths to match the consumer's aliases,
 
 ## Component Source
 
-Components live in `registry/new-york/ui/` — this is the single source of truth. The `src/components/ui/` directory contains copies for the app's own use (editor, landing page). When customizing a component, edit the registry source and re-run `pnpm registry:build`.
+Components live in `registry/ui/perimeter/` — this is the single source of truth. The `src/components/ui/` directory contains copies for the app's own use (editor, landing page). When customizing a component, edit the registry source and re-run `pnpm registry:build`.
 
 ## Theme Items
 
