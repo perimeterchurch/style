@@ -26,20 +26,20 @@ interface ThemeFile {
   };
 }
 
-function readTokenValues(): TokenValues {
+function readTokenValues(): { values: TokenValues; rawJson: string } {
   const raw = readFileSync(
     join(process.cwd(), "registry", "themes", "default.json"),
     "utf-8",
   );
   const theme = JSON.parse(raw) as ThemeFile;
   return {
-    light: theme.cssVars.light,
-    dark: theme.cssVars.dark,
+    values: { light: theme.cssVars.light, dark: theme.cssVars.dark },
+    rawJson: JSON.stringify(theme.cssVars, null, 2),
   };
 }
 
 export default function TokensPage() {
-  const tokenValues = readTokenValues();
+  const { values: tokenValues, rawJson } = readTokenValues();
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 p-8">
@@ -51,7 +51,11 @@ export default function TokensPage() {
         </p>
       </div>
 
-      <TokenPageClient groups={TOKEN_GROUPS} values={tokenValues} />
+      <TokenPageClient
+        groups={TOKEN_GROUPS}
+        values={tokenValues}
+        rawJson={rawJson}
+      />
     </div>
   );
 }
