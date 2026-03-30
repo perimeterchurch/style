@@ -43,6 +43,12 @@ async function generateThemeCSS() {
   blocks.push("");
   blocks.push(cssBlock(".dark", defaultTheme.cssVars.dark));
 
+  blocks.push("");
+  // Shadow DOM consumers
+  blocks.push(cssBlock(":host", defaultTheme.cssVars.light));
+  blocks.push("");
+  blocks.push(cssBlock(':host([data-mode="dark"])', defaultTheme.cssVars.dark));
+
   for (const file of jsonFiles) {
     if (file === "default.json") continue;
 
@@ -55,6 +61,17 @@ async function generateThemeCSS() {
     blocks.push(cssBlock(`[data-theme="${slug}"]`, theme.cssVars.light));
     blocks.push("");
     blocks.push(cssBlock(`[data-theme="${slug}"].dark`, theme.cssVars.dark));
+
+    blocks.push("");
+    // Shadow DOM
+    blocks.push(cssBlock(`:host([data-theme="${slug}"])`, theme.cssVars.light));
+    blocks.push("");
+    blocks.push(
+      cssBlock(
+        `:host([data-theme="${slug}"][data-mode="dark"])`,
+        theme.cssVars.dark,
+      ),
+    );
   }
 
   const globals = await readFile(globalsPath, "utf-8");
