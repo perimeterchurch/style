@@ -12,7 +12,7 @@ const SECTIONS = {
     code: `{
   "registries": {
     "perimeter": {
-      "url": "https://style.perimeter.church/r"
+      "url": "https://style.perimeter.org/r"
     }
   }
 }`,

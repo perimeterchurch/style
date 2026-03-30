@@ -186,7 +186,7 @@ async function generateRegistry() {
   const registry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "perimeter",
-    homepage: "https://perimeter.church",
+    homepage: "https://style.perimeter.org",
     items,
   };
 
