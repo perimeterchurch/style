@@ -17,6 +17,7 @@
 ### Task 1: Create feature branch
 
 **Files:**
+
 - None
 
 - [ ] **Step 1: Create and switch to feature branch**
@@ -31,11 +32,13 @@ git checkout -b feat/audit-fixes-and-features
 ### Task 2: Fix stale doc paths — registry.md
 
 **Files:**
+
 - Modify: `docs/architecture/registry.md`
 
 - [ ] **Step 1: Replace all `registry/new-york/` references with `registry/ui/perimeter/`**
 
 In `docs/architecture/registry.md`, find and replace all occurrences:
+
 - `registry/new-york/ui/` → `registry/ui/perimeter/`
 - `registry/new-york/lib/` → `registry/lib/` (if exists)
 - `registry/new-york/hooks/` → `registry/hooks/` (if exists)
@@ -59,6 +62,7 @@ git commit -m "docs: fix stale paths in registry architecture doc"
 ### Task 3: Fix stale doc paths — adding-a-component.md
 
 **Files:**
+
 - Modify: `docs/guides/adding-a-component.md`
 
 - [ ] **Step 1: Replace all `registry/new-york/` references with `registry/ui/perimeter/`**
@@ -82,6 +86,7 @@ git commit -m "docs: fix stale paths in adding-a-component guide"
 ### Task 4: Standardize registry URLs across all docs
 
 **Files:**
+
 - Modify: `docs/guides/consuming.md`
 - Modify: `docs/guides/project-integration.md`
 - Modify: `docs/architecture/registry.md`
@@ -91,6 +96,7 @@ git commit -m "docs: fix stale paths in adding-a-component guide"
 - [ ] **Step 1: Update all registry URLs to `https://style.perimeter.org`**
 
 In each file, replace:
+
 - `https://perimeterchurch.github.io/style` → `https://style.perimeter.org`
 - `https://style.perimeter.church` → `https://style.perimeter.org`
 - `https://perimeter.church` (when used as homepage) → `https://style.perimeter.org`
@@ -118,11 +124,13 @@ git commit -m "docs: standardize registry URL to style.perimeter.org"
 ### Task 5: Fix docs/README.md index
 
 **Files:**
+
 - Modify: `docs/README.md`
 
 - [ ] **Step 1: Remove references to non-existent files**
 
 Remove these lines from `docs/README.md`:
+
 - The line referencing `architecture/theme-editor.md`
 - The line referencing `guides/creating-a-theme.md`
 
@@ -140,11 +148,13 @@ git commit -m "docs: remove references to non-existent doc files"
 ### Task 6: Update ROADMAP.md
 
 **Files:**
+
 - Modify: `ROADMAP.md`
 
 - [ ] **Step 1: Update project status**
 
 Move "Component showcase site" from "In Progress" to "Completed" section. Update "High Priority" section:
+
 - Change "Deploy to GitHub Pages" to "Deploy to Vercel" and mark complete (it's already on Vercel)
 - Change custom domain to `style.perimeter.org`
 
@@ -160,6 +170,7 @@ git commit -m "docs: update ROADMAP.md to reflect current project state"
 ### Task 7: Add localStorage persistence to theme context
 
 **Files:**
+
 - Modify: `src/lib/theme-context.tsx`
 
 - [ ] **Step 1: Add localStorage read on mount and write on change**
@@ -244,6 +255,7 @@ git commit -m "fix: persist theme and mode selections to localStorage"
 ### Task 8: Fix broken template component links
 
 **Files:**
+
 - Modify: `src/app/templates/[slug]/page.tsx`
 
 - [ ] **Step 1: Import the demo manifest and add category lookup**
@@ -257,7 +269,9 @@ import manifest from "@/lib/demo-manifest.json";
 Replace the component list section (lines 57-66) with linked badges that resolve to the correct category:
 
 ```tsx
-{/* Component list */}
+{
+  /* Component list */
+}
 <div className="flex flex-wrap items-center gap-2">
   <span className="text-sm font-medium text-muted-foreground">
     Components used:
@@ -273,7 +287,7 @@ Replace the component list section (lines 57-66) with linked badges that resolve
       </Link>
     );
   })}
-</div>
+</div>;
 ```
 
 - [ ] **Step 2: Verify links resolve correctly**
@@ -292,6 +306,7 @@ git commit -m "fix: link template component badges to correct detail pages"
 ### Task 9: Add error boundaries
 
 **Files:**
+
 - Create: `src/app/error.tsx`
 - Create: `src/app/components/error.tsx`
 - Create: `src/app/templates/error.tsx`
@@ -369,6 +384,7 @@ git commit -m "feat: add error boundaries for all route sections"
 ### Task 10: Add error handling to dynamic import in playground
 
 **Files:**
+
 - Modify: `src/components/site/component-playground.tsx`
 
 - [ ] **Step 1: Add error state and `.catch()` handler**
@@ -430,6 +446,7 @@ git commit -m "fix: add error handling to playground dynamic import"
 ### Task 11: Fix hardcoded file paths
 
 **Files:**
+
 - Modify: `src/app/tokens/page.tsx`
 - Modify: `src/app/layout.tsx`
 
@@ -467,9 +484,9 @@ Update line 14:
 
 ```typescript
 // Before:
-const availableThemes = readdirSync("registry/themes")
+const availableThemes = readdirSync("registry/themes");
 // After:
-const availableThemes = readdirSync(join(process.cwd(), "registry", "themes"))
+const availableThemes = readdirSync(join(process.cwd(), "registry", "themes"));
 ```
 
 - [ ] **Step 3: Verify build still works**
@@ -489,6 +506,7 @@ git commit -m "fix: use absolute paths for build-time file reads"
 ### Task 12: Extract shared snippet-building logic
 
 **Files:**
+
 - Create: `src/lib/build-snippet.ts`
 - Modify: `src/app/components/[category]/[slug]/page.tsx`
 - Modify: `src/components/site/component-playground.tsx`
@@ -530,11 +548,13 @@ export function buildSnippet(
 In `src/app/components/[category]/[slug]/page.tsx`:
 
 1. Add import (after existing imports):
+
 ```typescript
 import { buildSnippet } from "@/lib/build-snippet";
 ```
 
 2. Replace the `buildPlaygroundSnippet` function call on line 55:
+
 ```typescript
 // Before:
 const playgroundCode = buildPlaygroundSnippet(meta.name, controls);
@@ -549,11 +569,13 @@ const playgroundCode = buildSnippet(meta.name, controls);
 In `src/components/site/component-playground.tsx`:
 
 1. Add import:
+
 ```typescript
 import { buildSnippet } from "@/lib/build-snippet";
 ```
 
 2. Replace the `buildCodeSnippet` call inside `updateCodeHighlight` (line 87):
+
 ```typescript
 // Before:
 const code = buildCodeSnippet(componentName, controls, currentValues);
@@ -580,12 +602,14 @@ git commit -m "refactor: extract shared snippet-building logic to build-snippet.
 ### Task 13: Fix ESLint warnings
 
 **Files:**
+
 - Modify: `registry/ui/perimeter/context-menu.demo.tsx`
 - Modify: `registry/ui/perimeter/menubar.demo.tsx`
 
 - [ ] **Step 1: Remove unused `_props` parameters**
 
 In `registry/ui/perimeter/context-menu.demo.tsx` line 28, change:
+
 ```typescript
 // Before:
 export function Playground(_props: PlaygroundProps<typeof controls>) {
@@ -594,6 +618,7 @@ export function Playground() {
 ```
 
 In `registry/ui/perimeter/menubar.demo.tsx` line 28, change:
+
 ```typescript
 // Before:
 export function Playground(_props: PlaygroundProps<typeof controls>) {
@@ -620,6 +645,7 @@ git commit -m "fix: remove unused playground props to clear ESLint warnings"
 ### Task 14: Enhance page metadata across all routes
 
 **Files:**
+
 - Modify: `src/app/layout.tsx`
 - Modify: `src/app/page.tsx`
 - Modify: `src/app/components/page.tsx`
@@ -721,7 +747,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const entry = manifest.find((e) => e.slug === slug);
   const name = entry?.name ?? slug;
-  const description = entry?.description ?? `${name} component from the Perimeter Style registry.`;
+  const description =
+    entry?.description ??
+    `${name} component from the Perimeter Style registry.`;
   return {
     title: name,
     description,
@@ -759,7 +787,8 @@ export async function generateMetadata({
   const { slug } = await params;
   const entry = TEMPLATE_ENTRIES.find((e) => e.slug === slug);
   const name = entry?.meta.name ?? slug;
-  const description = entry?.meta.description ?? `${name} template from Perimeter Style.`;
+  const description =
+    entry?.meta.description ?? `${name} template from Perimeter Style.`;
   return {
     title: name,
     description,
@@ -822,6 +851,7 @@ git commit -m "feat: add description and openGraph metadata to all pages"
 ### Task 15: Add sitemap generator and robots.txt
 
 **Files:**
+
 - Create: `scripts/generate-sitemap.ts`
 - Create: `public/robots.txt`
 - Modify: `package.json`
@@ -907,7 +937,9 @@ ${urls.map((url) => `  <url>\n    <loc>${BASE_URL}${url}</loc>\n    <lastmod>${t
 
 const sitemap = generateSitemap();
 writeFileSync(join(process.cwd(), "public", "sitemap.xml"), sitemap, "utf-8");
-console.log(`Generated sitemap.xml with ${sitemap.match(/<url>/g)?.length ?? 0} URLs`);
+console.log(
+  `Generated sitemap.xml with ${sitemap.match(/<url>/g)?.length ?? 0} URLs`,
+);
 ```
 
 - [ ] **Step 3: Add script to package.json and build pipeline**
@@ -941,6 +973,7 @@ git commit -m "feat: add sitemap generator and robots.txt"
 ### Task 16: Add skip-to-content link and main id
 
 **Files:**
+
 - Modify: `src/app/layout.tsx`
 
 - [ ] **Step 1: Add skip link and main landmark**
@@ -978,13 +1011,14 @@ git commit -m "feat: add skip-to-content link and main landmark"
 ### Task 17: Create favicon setup instructions
 
 **Files:**
+
 - Create: `docs/guides/favicon.md`
 
 - [ ] **Step 1: Write the favicon guide**
 
 Create `docs/guides/favicon.md`:
 
-```markdown
+````markdown
 # Adding a Favicon
 
 Instructions for adding favicon and app icons to the Perimeter Style showcase site.
@@ -993,11 +1027,11 @@ Instructions for adding favicon and app icons to the Perimeter Style showcase si
 
 Place these files in `public/`:
 
-| File | Format | Size | Purpose |
-|------|--------|------|---------|
-| `favicon.ico` | ICO | 32x32 | Browser tab icon (legacy) |
-| `icon.svg` | SVG | Any | Modern browsers, scalable |
-| `apple-touch-icon.png` | PNG | 180x180 | iOS home screen |
+| File                   | Format | Size    | Purpose                   |
+| ---------------------- | ------ | ------- | ------------------------- |
+| `favicon.ico`          | ICO    | 32x32   | Browser tab icon (legacy) |
+| `icon.svg`             | SVG    | Any     | Modern browsers, scalable |
+| `apple-touch-icon.png` | PNG    | 180x180 | iOS home screen           |
 
 ## Update Layout Metadata
 
@@ -1015,6 +1049,7 @@ export const metadata: Metadata = {
   },
 };
 ```
+````
 
 ## Generating Icons
 
@@ -1027,20 +1062,22 @@ If you have an SVG source:
 ## Verification
 
 After adding the files, run `pnpm build` and check the generated HTML in `out/index.html` for the correct `<link>` tags.
-```
+
+````
 
 - [ ] **Step 2: Commit**
 
 ```bash
 git add docs/guides/favicon.md
 git commit -m "docs: add favicon setup instructions"
-```
+````
 
 ---
 
 ### Task 18: Add loading skeletons to playground
 
 **Files:**
+
 - Modify: `src/components/site/component-playground.tsx`
 
 - [ ] **Step 1: Replace "Loading..." with skeleton layout**
@@ -1048,16 +1085,18 @@ git commit -m "docs: add favicon setup instructions"
 In `src/components/site/component-playground.tsx`, replace the loading state in the preview area. Find the `Loading...` text (currently in the preview div) and replace with:
 
 ```tsx
-{importError ? (
-  <div className="text-sm text-destructive">{importError}</div>
-) : Playground ? (
-  <Playground {...values} />
-) : (
-  <div className="flex w-full flex-col items-center gap-4 p-8">
-    <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
-    <div className="h-6 w-32 animate-pulse rounded-md bg-muted" />
-  </div>
-)}
+{
+  importError ? (
+    <div className="text-sm text-destructive">{importError}</div>
+  ) : Playground ? (
+    <Playground {...values} />
+  ) : (
+    <div className="flex w-full flex-col items-center gap-4 p-8">
+      <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
+      <div className="h-6 w-32 animate-pulse rounded-md bg-muted" />
+    </div>
+  );
+}
 ```
 
 Note: Using basic Tailwind pulse animation for the skeleton rather than importing the Skeleton registry component (which would create a circular dependency concern since the playground loads registry demos).
@@ -1080,6 +1119,7 @@ Search palette additions depend on routes created in Tier 3 (Tasks 28-31). The n
 ### Task 20: Accessibility improvements
 
 **Files:**
+
 - Modify: `src/components/site/token-grid.tsx`
 - Modify: `src/components/site/token-table.tsx`
 - Modify: `src/components/site/component-playground.tsx`
@@ -1156,6 +1196,7 @@ git commit -m "feat: add aria-labels to token swatches and playground tabs"
 ### Task 21: Token search and filter
 
 **Files:**
+
 - Modify: `src/components/site/token-page-client.tsx`
 - Modify: `src/lib/token-usage.ts`
 
@@ -1233,7 +1274,9 @@ export function TokenPageClient({ groups, values }: TokenPageClientProps) {
                   : "bg-muted text-muted-foreground hover:bg-muted/80"
               }`}
             >
-              {cat === "all" ? "All" : cat.charAt(0).toUpperCase() + cat.slice(1)}
+              {cat === "all"
+                ? "All"
+                : cat.charAt(0).toUpperCase() + cat.slice(1)}
             </button>
           ))}
         </div>
@@ -1294,6 +1337,7 @@ git commit -m "feat: add token search and category filter to tokens page"
 ### Task 22: Copy theme JSON button
 
 **Files:**
+
 - Modify: `src/app/tokens/page.tsx`
 - Modify: `src/components/site/token-page-client.tsx`
 
@@ -1331,7 +1375,11 @@ export default function TokensPage() {
         </p>
       </div>
 
-      <TokenPageClient groups={TOKEN_GROUPS} values={values} rawJson={rawJson} />
+      <TokenPageClient
+        groups={TOKEN_GROUPS}
+        values={values}
+        rawJson={rawJson}
+      />
     </div>
   );
 }
@@ -1342,6 +1390,7 @@ export default function TokensPage() {
 In `src/components/site/token-page-client.tsx`, add `rawJson` to the props interface and a copy button in the toolbar:
 
 Add to props interface:
+
 ```typescript
 interface TokenPageClientProps {
   groups: TokenGroup[];
@@ -1351,11 +1400,13 @@ interface TokenPageClientProps {
 ```
 
 Add copy state:
+
 ```typescript
 const [copied, setCopied] = useState(false);
 ```
 
 Add copy handler:
+
 ```typescript
 function copyThemeJson() {
   navigator.clipboard.writeText(rawJson);
@@ -1365,6 +1416,7 @@ function copyThemeJson() {
 ```
 
 Add copy button in the toolbar (between search and view toggle):
+
 ```tsx
 <button
   type="button"
@@ -1387,6 +1439,7 @@ git commit -m "feat: add copy theme JSON button to tokens page"
 ### Task 23: Component usage snippets
 
 **Files:**
+
 - Modify: `src/app/components/[category]/[slug]/page.tsx`
 
 - [ ] **Step 1: Add usage section to component detail page**
@@ -1394,7 +1447,9 @@ git commit -m "feat: add copy theme JSON button to tokens page"
 In `src/app/components/[category]/[slug]/page.tsx`, after the breadcrumb and description (around line 89) and before the playground (line 91), add a usage section:
 
 ```tsx
-{/* Usage snippet */}
+{
+  /* Usage snippet */
+}
 <section className="space-y-2">
   <h2 className="text-xl font-semibold">Usage</h2>
   <CodeBlock
@@ -1403,7 +1458,7 @@ In `src/app/components/[category]/[slug]/page.tsx`, after the breadcrumb and des
     language="tsx"
     showHeader={false}
   />
-</section>
+</section>;
 ```
 
 Before the return statement, build the usage snippet:
@@ -1415,6 +1470,7 @@ const usageCodeHtml = await highlight(usageCode);
 ```
 
 Add `CodeBlock` to imports if not already:
+
 ```typescript
 import { CodeBlock } from "@/components/site/code-block";
 ```
@@ -1435,6 +1491,7 @@ git commit -m "feat: add auto-generated usage snippets to component detail pages
 ### Task 24: Bidirectional cross-references — component → template
 
 **Files:**
+
 - Modify: `src/app/components/[category]/[slug]/page.tsx`
 
 - [ ] **Step 1: Add "Used in Templates" section**
@@ -1456,21 +1513,24 @@ const usedInTemplates = TEMPLATE_ENTRIES.filter((t) =>
 After the Installation section (around line 120), add:
 
 ```tsx
-{usedInTemplates.length > 0 && (
-  <section className="space-y-2">
-    <h2 className="text-xl font-semibold">Used in Templates</h2>
-    <div className="flex flex-wrap gap-2">
-      {usedInTemplates.map((t) => (
-        <Link key={t.slug} href={`/templates/${t.slug}`}>
-          <Badge variant="secondary">{t.meta.name}</Badge>
-        </Link>
-      ))}
-    </div>
-  </section>
-)}
+{
+  usedInTemplates.length > 0 && (
+    <section className="space-y-2">
+      <h2 className="text-xl font-semibold">Used in Templates</h2>
+      <div className="flex flex-wrap gap-2">
+        {usedInTemplates.map((t) => (
+          <Link key={t.slug} href={`/templates/${t.slug}`}>
+            <Badge variant="secondary">{t.meta.name}</Badge>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
 ```
 
 Add `Badge` to imports:
+
 ```typescript
 import { Badge } from "@/components/ui/badge";
 ```
@@ -1491,6 +1551,7 @@ git commit -m "feat: add 'Used in Templates' cross-references to component pages
 ### Task 25: Responsive preview in playground
 
 **Files:**
+
 - Modify: `src/components/site/component-playground.tsx`
 
 - [ ] **Step 1: Add responsive preview state and toolbar**
@@ -1544,7 +1605,9 @@ const handleDragStart = useCallback((e: React.PointerEvent) => {
 Inside the Preview tab content area, wrap the existing preview div with responsive controls:
 
 ```tsx
-{/* Preview tab content */}
+{
+  /* Preview tab content */
+}
 <div
   className="transition-all duration-300 ease-in-out"
   style={{
@@ -1598,7 +1661,7 @@ Inside the Preview tab content area, wrap the existing preview div with responsi
       )}
     </div>
   </div>
-</div>
+</div>;
 ```
 
 - [ ] **Step 3: Verify responsive preview works**
@@ -1617,6 +1680,7 @@ git commit -m "feat: add responsive preview with presets and drag handle to play
 ### Task 25.5: Add `.light` forced-mode class to theme CSS generation
 
 **Files:**
+
 - Modify: `scripts/generate-theme-css.ts`
 
 The Compare tab and Themes tab need to isolate light/dark mode per-pane. The `.dark` class sets dark CSS variables, but there's no way to force light mode on a nested element when the page is in dark mode. We need a `.light` class that re-applies `:root` values.
@@ -1649,6 +1713,7 @@ git commit -m "feat: add .light forced-mode class to generated theme CSS"
 ### Task 26: Compare tab (dark mode side-by-side)
 
 **Files:**
+
 - Modify: `src/components/site/component-playground.tsx`
 
 - [ ] **Step 1: Add Compare tab trigger**
@@ -1711,21 +1776,25 @@ git commit -m "feat: add Compare tab for light/dark side-by-side preview"
 ### Task 27: Themes tab
 
 **Files:**
+
 - Modify: `src/components/site/component-playground.tsx`
 
 - [ ] **Step 1: Import useTheme and add Themes tab trigger**
 
 Add import:
+
 ```typescript
 import { useTheme } from "@/lib/theme-context";
 ```
 
 Inside the component function, get available themes:
+
 ```typescript
 const { availableThemes } = useTheme();
 ```
 
 In the `<TabsList>`, add:
+
 ```tsx
 <TabsTrigger value="themes">Themes</TabsTrigger>
 ```
@@ -1794,6 +1863,7 @@ git commit -m "feat: add Themes tab for cross-theme component comparison"
 ### Task 28: Changelog page
 
 **Files:**
+
 - Create: `CHANGELOG.md`
 - Create: `src/app/changelog/page.tsx`
 - Modify: `src/components/site/top-nav.tsx`
@@ -1813,6 +1883,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+
 - Component showcase site with interactive playgrounds for all 55 components
 - 5 full-page templates (dashboard, settings, login, data-table, marketing-landing)
 - Design token reference page with grid and table views
@@ -1882,10 +1953,7 @@ function parseChangelog(content: string): ChangelogSection[] {
 }
 
 export default function ChangelogPage() {
-  const raw = readFileSync(
-    join(process.cwd(), "CHANGELOG.md"),
-    "utf-8",
-  );
+  const raw = readFileSync(join(process.cwd(), "CHANGELOG.md"), "utf-8");
   const sections = parseChangelog(raw);
 
   return (
@@ -1955,6 +2023,7 @@ git commit -m "feat: add changelog page with Keep a Changelog format"
 ### Task 29: Docs expansion — theming guide
 
 **Files:**
+
 - Create: `docs/guides/creating-a-theme.md`
 - Create: `src/app/docs/theming/page.tsx`
 
@@ -1962,7 +2031,7 @@ git commit -m "feat: add changelog page with Keep a Changelog format"
 
 Create `docs/guides/creating-a-theme.md`:
 
-```markdown
+````markdown
 # Creating a Theme
 
 Project-specific themes override the default token palette. A theme only needs to define tokens that differ from the default.
@@ -1992,6 +2061,7 @@ Add a JSON file to `registry/themes/`. The filename becomes the theme slug (e.g.
   }
 }
 ```
+````
 
 ## Token Format
 
@@ -2008,15 +2078,16 @@ Run `pnpm generate:themes` to inject the new theme's CSS into `src/app/globals.c
 Set `data-theme` on the root element:
 
 ```html
-<html data-theme="my-project">
+<html data-theme="my-project"></html>
 ```
 
 Combine with `.dark` for dark mode:
 
 ```html
-<html data-theme="my-project" class="dark">
+<html data-theme="my-project" class="dark"></html>
 ```
-```
+
+````
 
 - [ ] **Step 2: Create the docs route**
 
@@ -2106,7 +2177,7 @@ export default async function ThemingPage() {
     </div>
   );
 }
-```
+````
 
 Note: The `highlight` function signature should be checked — it may only accept code (not language). If so, adjust to match the existing pattern in `getting-started/page.tsx`.
 
@@ -2122,6 +2193,7 @@ git commit -m "docs: add theming guide"
 ### Task 30: Docs expansion — contributing guide
 
 **Files:**
+
 - Create: `docs/guides/contributing.md`
 - Create: `src/app/docs/contributing/page.tsx`
 
@@ -2129,7 +2201,7 @@ git commit -m "docs: add theming guide"
 
 Create `docs/guides/contributing.md`:
 
-```markdown
+````markdown
 # Contributing
 
 How to set up the project locally and contribute changes.
@@ -2142,6 +2214,7 @@ cd style
 pnpm install
 pnpm dev
 ```
+````
 
 The dev server starts at `http://localhost:3000` using webpack (Turbopack is disabled due to dynamic import tracing issues).
 
@@ -2176,7 +2249,8 @@ Fix formatting on touched files: `pnpm prettier --write <file>`.
 ## Component Demo Structure
 
 Every demo exports: `meta` (name, description, category, install), `controls` (prop definitions), `Playground` (interactive component), and `examples` (array of named renders). Example render functions must use `() => (...)` syntax.
-```
+
+````
 
 - [ ] **Step 2: Create the docs route**
 
@@ -2262,7 +2336,7 @@ export default async function ContributingPage() {
     </div>
   );
 }
-```
+````
 
 - [ ] **Step 3: Commit**
 
@@ -2276,6 +2350,7 @@ git commit -m "docs: add contributing guide"
 ### Task 31: Docs expansion — troubleshooting guide
 
 **Files:**
+
 - Create: `docs/guides/troubleshooting.md`
 - Create: `src/app/docs/troubleshooting/page.tsx`
 
@@ -2367,9 +2442,7 @@ export default function TroubleshootingPage() {
         {ISSUES.map((issue) => (
           <section key={issue.title} className="space-y-2">
             <h2 className="text-lg font-semibold">{issue.title}</h2>
-            <p className="text-sm text-muted-foreground">
-              {issue.description}
-            </p>
+            <p className="text-sm text-muted-foreground">{issue.description}</p>
           </section>
         ))}
       </div>
@@ -2390,6 +2463,7 @@ git commit -m "docs: add troubleshooting guide"
 ### Task 32: Update docs index, sidebar, and search palette
 
 **Files:**
+
 - Modify: `docs/README.md`
 - Modify: `src/components/site/docs-sidebar.tsx`
 - Modify: `src/components/site/search-palette.tsx`
@@ -2479,6 +2553,7 @@ Expected: typecheck passes, lint passes with 0 warnings, format check passes
 Run: `pnpm format`
 
 If files changed, commit:
+
 ```bash
 git add -A
 git commit -m "chore: format files"
@@ -2492,6 +2567,7 @@ Expected: Build completes successfully with static export
 - [ ] **Step 4: Spot-check key pages**
 
 Run: `pnpm dev` and verify:
+
 - Home page loads with correct metadata
 - Component detail page shows Usage section and "Used in Templates"
 - Template detail page has working component links

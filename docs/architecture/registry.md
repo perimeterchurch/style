@@ -49,12 +49,12 @@ Items are NOT auto-discovered. Run `pnpm tsx scripts/generate-registry.ts` to re
 
 ## Item Types
 
-| Type             | Purpose               | Location                    |
-| ---------------- | --------------------- | --------------------------- |
-| `registry:ui`    | UI components         | `registry/ui/perimeter/`    |
-| `registry:lib`   | Utilities (cn, etc.)  | `registry/lib/`             |
-| `registry:hook`  | React hooks           | `registry/hooks/`           |
-| `registry:theme` | Theme token overrides | `registry/themes/`          |
+| Type             | Purpose               | Location                 |
+| ---------------- | --------------------- | ------------------------ |
+| `registry:ui`    | UI components         | `registry/ui/perimeter/` |
+| `registry:lib`   | Utilities (cn, etc.)  | `registry/lib/`          |
+| `registry:hook`  | React hooks           | `registry/hooks/`        |
+| `registry:theme` | Theme token overrides | `registry/themes/`       |
 
 ## Build Pipeline
 

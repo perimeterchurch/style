@@ -43,11 +43,11 @@ Run `pnpm generate:themes` to inject the new theme's CSS into `src/app/globals.c
 Set `data-theme` on the root element:
 
 ```html
-<html data-theme="my-project">
+<html data-theme="my-project"></html>
 ```
 
 Combine with `.dark` for dark mode:
 
 ```html
-<html data-theme="my-project" class="dark">
+<html data-theme="my-project" class="dark"></html>
 ```

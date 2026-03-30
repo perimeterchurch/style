@@ -62,9 +62,8 @@ export default async function ThemingPage() {
       <section className="space-y-3">
         <h2 className="text-xl font-semibold">Token Format</h2>
         <p className="text-sm text-muted-foreground">
-          All colors use OKLCH format:{" "}
-          <code>oklch(lightness chroma hue)</code>. See{" "}
-          <code>registry/themes/default.json</code> for the full token list.
+          All colors use OKLCH format: <code>oklch(lightness chroma hue)</code>.
+          See <code>registry/themes/default.json</code> for the full token list.
           Common overrides: <code>primary</code>,{" "}
           <code>primary-foreground</code>, <code>ring</code>,{" "}
           <code>chart-1</code>.

@@ -6,11 +6,11 @@ Instructions for adding favicon and app icons to the Perimeter Style showcase si
 
 Place these files in `public/`:
 
-| File | Format | Size | Purpose |
-|------|--------|------|---------|
-| `favicon.ico` | ICO | 32x32 | Browser tab icon (legacy) |
-| `icon.svg` | SVG | Any | Modern browsers, scalable |
-| `apple-touch-icon.png` | PNG | 180x180 | iOS home screen |
+| File                   | Format | Size    | Purpose                   |
+| ---------------------- | ------ | ------- | ------------------------- |
+| `favicon.ico`          | ICO    | 32x32   | Browser tab icon (legacy) |
+| `icon.svg`             | SVG    | Any     | Modern browsers, scalable |
+| `apple-touch-icon.png` | PNG    | 180x180 | iOS home screen           |
 
 ## Update Layout Metadata
 
