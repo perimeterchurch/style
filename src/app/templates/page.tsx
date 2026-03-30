@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { TEMPLATE_ENTRIES } from "@/templates";
 
-import { TemplatePreviewThumb } from "./template-preview-thumb";
+import { TemplateCard } from "./template-card";
 
 export const metadata: Metadata = {
   title: "Templates",
@@ -30,16 +29,7 @@ export default function TemplatesGalleryPage() {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {TEMPLATE_ENTRIES.map(({ slug, meta }) => (
-          <Link
-            key={slug}
-            href={`/templates/${slug}`}
-            className="group flex flex-col overflow-hidden rounded-lg border bg-card transition-colors hover:border-primary/50"
-          >
-            {/* Scaled-down live preview */}
-            <div className="relative h-48 overflow-hidden border-b bg-background">
-              <TemplatePreviewThumb slug={slug} />
-            </div>
-
+          <TemplateCard key={slug} slug={slug}>
             {/* Info */}
             <div className="flex flex-1 flex-col gap-2 p-4">
               <h2 className="text-lg font-semibold group-hover:text-primary">
@@ -56,7 +46,7 @@ export default function TemplatesGalleryPage() {
                 ))}
               </div>
             </div>
-          </Link>
+          </TemplateCard>
         ))}
       </div>
     </div>

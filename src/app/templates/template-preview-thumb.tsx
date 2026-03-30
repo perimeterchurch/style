@@ -9,7 +9,10 @@ export function TemplatePreviewThumb({ slug }: { slug: TemplateSlug }) {
   if (!Template) return null;
 
   return (
-    <div className="pointer-events-none absolute inset-0 origin-top-left scale-[0.25]">
+    <div
+      className="pointer-events-none absolute inset-0 origin-top-left scale-[0.25]"
+      inert
+    >
       <div className="h-[calc(100%/0.25)] w-[calc(100%/0.25)]">
         <Suspense
           fallback={
