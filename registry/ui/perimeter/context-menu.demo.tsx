@@ -1,6 +1,7 @@
 import {
   ContextMenu,
   ContextMenuContent,
+  ContextMenuGroup,
   ContextMenuItem,
   ContextMenuLabel,
   ContextMenuSeparator,
@@ -18,12 +19,7 @@ export const meta = {
   install: "pnpm dlx shadcn@latest add @perimeter/context-menu",
 };
 
-export const controls = {
-  disabled: {
-    type: "boolean",
-    default: false,
-  },
-} satisfies ControlsConfig;
+export const controls = {} satisfies ControlsConfig;
 
 export function Playground() {
   return (
@@ -72,13 +68,17 @@ export const examples = [
           Right click here
         </ContextMenuTrigger>
         <ContextMenuContent>
-          <ContextMenuLabel>Edit</ContextMenuLabel>
-          <ContextMenuItem>Undo</ContextMenuItem>
-          <ContextMenuItem>Redo</ContextMenuItem>
+          <ContextMenuGroup>
+            <ContextMenuLabel>Edit</ContextMenuLabel>
+            <ContextMenuItem>Undo</ContextMenuItem>
+            <ContextMenuItem>Redo</ContextMenuItem>
+          </ContextMenuGroup>
           <ContextMenuSeparator />
-          <ContextMenuLabel>View</ContextMenuLabel>
-          <ContextMenuItem>Zoom In</ContextMenuItem>
-          <ContextMenuItem>Zoom Out</ContextMenuItem>
+          <ContextMenuGroup>
+            <ContextMenuLabel>View</ContextMenuLabel>
+            <ContextMenuItem>Zoom In</ContextMenuItem>
+            <ContextMenuItem>Zoom Out</ContextMenuItem>
+          </ContextMenuGroup>
         </ContextMenuContent>
       </ContextMenu>
     ),

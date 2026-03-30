@@ -227,11 +227,11 @@ export function ComponentPlayground({
           >
             <div className="grid min-h-48 grid-cols-1 sm:grid-cols-2">
               {/* Light mode */}
-              <div className="light border-b p-4 sm:border-b-0 sm:border-r">
+              <div className="light border-b bg-background text-foreground p-4 sm:border-b-0 sm:border-r">
                 <p className="mb-3 text-center text-xs font-medium text-muted-foreground">
                   Light
                 </p>
-                <div className="flex items-center justify-center rounded-md bg-background p-4">
+                <div className="flex items-center justify-center rounded-md border border-border bg-background p-4">
                   {Playground ? (
                     <Playground {...values} />
                   ) : (
@@ -240,11 +240,11 @@ export function ComponentPlayground({
                 </div>
               </div>
               {/* Dark mode */}
-              <div className="dark p-4">
+              <div className="dark bg-background text-foreground p-4">
                 <p className="mb-3 text-center text-xs font-medium text-muted-foreground">
                   Dark
                 </p>
-                <div className="flex items-center justify-center rounded-md bg-background p-4">
+                <div className="flex items-center justify-center rounded-md border border-border bg-background p-4">
                   {Playground ? (
                     <Playground {...values} />
                   ) : (
@@ -278,7 +278,7 @@ export function ComponentPlayground({
                     {/* Light — use .light class to force light-mode CSS variables */}
                     <div
                       data-theme={themeSlug || undefined}
-                      className="light flex items-center justify-center rounded-md border bg-background p-4"
+                      className="light flex items-center justify-center rounded-md border border-border bg-background text-foreground p-4"
                     >
                       {Playground ? (
                         <Playground {...values} />
@@ -289,7 +289,7 @@ export function ComponentPlayground({
                     {/* Dark */}
                     <div
                       data-theme={themeSlug || undefined}
-                      className="dark flex items-center justify-center rounded-md border bg-background p-4"
+                      className="dark flex items-center justify-center rounded-md border border-border bg-background text-foreground p-4"
                     >
                       {Playground ? (
                         <Playground {...values} />

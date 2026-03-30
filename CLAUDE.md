@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-shadcn-compatible component registry and showcase site for Perimeter Church. 55 components with interactive playgrounds, 5 page templates, token reference, and theme switching. Next.js static export deployed on Vercel.
+shadcn-compatible component registry and showcase site for Perimeter Church. 55 components with interactive playgrounds, 5 page templates, token reference, and theme switching. Next.js static export deployed on Vercel at **https://style.perimeter.org**. Registry URL: `https://style.perimeter.org/r`.
 
 ## Commands
 

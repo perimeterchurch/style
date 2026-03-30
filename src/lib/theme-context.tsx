@@ -5,7 +5,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useSyncExternalStore,
 } from "react";
 
@@ -100,12 +99,8 @@ export function ThemeProvider({
     setMode(mode === "light" ? "dark" : "light");
   }, [mode, setMode]);
 
-  // Sync DOM attributes with persisted state after hydration
-  const initialRef = useRef(false);
+  // Sync DOM attributes with persisted state on mount and when values change
   useEffect(() => {
-    if (initialRef.current) return;
-    initialRef.current = true;
-
     document.documentElement.classList.toggle("dark", mode === "dark");
     if (theme) {
       document.documentElement.setAttribute("data-theme", theme);
