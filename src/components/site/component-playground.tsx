@@ -5,6 +5,7 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlaygroundControls } from "./playground-controls";
 import { CodeBlock } from "./code-block";
+import { buildSnippet } from "@/lib/build-snippet";
 import { demoImports } from "@/lib/demo-imports";
 import { highlightClient } from "@/lib/highlight-client";
 
@@ -24,27 +25,6 @@ function buildDefaults(controls: ControlsConfig): Record<string, unknown> {
     defaults[name] = descriptor.default;
   }
   return defaults;
-}
-
-function buildCodeSnippet(
-  componentName: string,
-  controls: ControlsConfig,
-  values: Record<string, unknown>,
-): string {
-  const props = Object.entries(controls)
-    .filter(([name]) => name !== "children")
-    .map(([name, desc]) => {
-      const val = values[name] ?? desc.default;
-      if (typeof val === "boolean") return val ? name : `${name}={false}`;
-      if (typeof val === "number") return `${name}={${val}}`;
-      return `${name}="${val}"`;
-    });
-
-  const childrenVal = values["children"] ?? controls["children"]?.default;
-  const children = childrenVal ? String(childrenVal) : "...";
-
-  const propsStr = props.length > 0 ? " " + props.join(" ") : "";
-  return `<${componentName}${propsStr}>${children}</${componentName}>`;
 }
 
 export function ComponentPlayground({
@@ -67,11 +47,11 @@ export function ComponentPlayground({
 
   useEffect(() => {
     const importFn = demoImports[slug];
-    if (!importFn) {
-      setImportError(`No demo found for "${slug}"`);
-      return;
-    }
-    importFn()
+    const load = importFn
+      ? importFn()
+      : Promise.reject(new Error(`No demo found for "${slug}"`));
+
+    load
       .then((mod) => {
         setPlayground(
           () => mod.Playground as React.ComponentType<Record<string, unknown>>,
@@ -94,7 +74,7 @@ export function ComponentPlayground({
     (currentValues: Record<string, unknown>) => {
       if (highlightTimer.current) clearTimeout(highlightTimer.current);
       highlightTimer.current = setTimeout(() => {
-        const code = buildCodeSnippet(componentName, controls, currentValues);
+        const code = buildSnippet(componentName, controls, currentValues);
         setCodeRaw(code);
         highlightClient(code).then(setCodeHtml);
       }, 150);

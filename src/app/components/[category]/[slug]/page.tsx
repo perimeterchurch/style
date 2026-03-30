@@ -17,7 +17,9 @@ import { extractExampleSources } from "@/lib/extract-source";
 import { demoImports } from "@/lib/demo-imports";
 import manifest from "@/lib/demo-manifest.json";
 
-import type { ControlsConfig, DemoExample } from "@/lib/demo-types";
+import { buildSnippet } from "@/lib/build-snippet";
+
+import type { DemoExample } from "@/lib/demo-types";
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>;
@@ -28,7 +30,17 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const entry = manifest.find((e) => e.slug === slug);
-  return { title: entry?.name ?? slug };
+  const name = entry?.name ?? slug;
+  const description =
+    entry?.description ?? `${name} component from the Perimeter Style registry.`;
+  return {
+    title: name,
+    description,
+    openGraph: {
+      title: `${name} — Perimeter Style`,
+      description,
+    },
+  };
 }
 
 export function generateStaticParams() {
@@ -52,7 +64,7 @@ export default async function ComponentPage({ params }: PageProps) {
   const demoModule = await importFn();
   const { controls, examples, meta } = demoModule;
 
-  const playgroundCode = buildPlaygroundSnippet(meta.name, controls);
+  const playgroundCode = buildSnippet(meta.name, controls);
   const defaultCodeHtml = await highlight(playgroundCode);
 
   const exampleSources = await extractExampleSources(slug);
@@ -120,27 +132,4 @@ export default async function ComponentPage({ params }: PageProps) {
       </section>
     </div>
   );
-}
-
-function buildPlaygroundSnippet(
-  componentName: string,
-  controls: ControlsConfig,
-): string {
-  const props = Object.entries(controls)
-    .filter(([name]) => name !== "children")
-    .map(([name, desc]) => {
-      const val = desc.default;
-      if (typeof val === "boolean") return val ? name : `${name}={false}`;
-      if (typeof val === "number") return `${name}={${val}}`;
-      return `${name}="${val}"`;
-    });
-
-  const childrenControl = controls["children"];
-  const children =
-    childrenControl && "default" in childrenControl
-      ? String(childrenControl.default)
-      : "...";
-
-  const propsStr = props.length > 0 ? " " + props.join(" ") : "";
-  return `<${componentName}${propsStr}>${children}</${componentName}>`;
 }
