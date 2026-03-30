@@ -17,7 +17,7 @@ shadcn-compatible component registry and showcase site for Perimeter Church. Bui
 {
   "registries": {
     "perimeter": {
-      "url": "https://style.perimeter.church/r"
+      "url": "https://style.perimeter.org/r"
     }
   }
 }

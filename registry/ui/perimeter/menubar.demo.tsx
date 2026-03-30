@@ -18,12 +18,7 @@ export const meta = {
   install: "pnpm dlx shadcn@latest add @perimeter/menubar",
 };
 
-export const controls = {
-  disabled: {
-    type: "boolean",
-    default: false,
-  },
-} satisfies ControlsConfig;
+export const controls = {} satisfies ControlsConfig;
 
 export function Playground() {
   return (
