@@ -1,4 +1,5 @@
 import { readdirSync } from "node:fs";
+import { join } from "node:path";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -11,7 +12,7 @@ import { SearchPalette } from "@/components/site/search-palette";
 import "./globals.css";
 
 // Runs at build time only (output: "export") — discovers theme files automatically
-const availableThemes = readdirSync("registry/themes")
+const availableThemes = readdirSync(join(process.cwd(), "registry", "themes"))
   .filter((f) => f.endsWith(".json") && f !== "default.json")
   .map((f) => f.replace(".json", ""))
   .sort();
@@ -33,6 +34,12 @@ export const metadata: Metadata = {
   },
   description:
     "shadcn-compatible component registry for Perimeter Church projects",
+  openGraph: {
+    type: "website",
+    siteName: "Perimeter Style",
+    description:
+      "shadcn-compatible component registry for Perimeter Church projects",
+  },
 };
 
 export default function RootLayout({
@@ -46,9 +53,17 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:rounded-md focus:bg-background focus:p-4 focus:text-foreground focus:shadow-lg"
+        >
+          Skip to content
+        </a>
         <ThemeProvider availableThemes={availableThemes}>
           <TopNav />
-          {children}
+          <main id="main" className="flex-1">
+            {children}
+          </main>
           <SearchPalette />
         </ThemeProvider>
         <Toaster />

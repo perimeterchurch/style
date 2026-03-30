@@ -13,7 +13,7 @@ Add the Perimeter registry to your project's `components.json`:
 ```json
 {
   "registries": {
-    "@perimeter": "https://style.perimeter.church/r/{name}.json"
+    "@perimeter": "https://style.perimeter.org/r/{name}.json"
   }
 }
 ```

@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { TEMPLATE_ENTRIES } from "@/templates";
+import { CodeBlock } from "@/components/site/code-block";
+import { ComponentPlayground } from "@/components/site/component-playground";
+import { ExampleCard } from "@/components/site/example-card";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,14 +14,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ComponentPlayground } from "@/components/site/component-playground";
-import { ExampleCard } from "@/components/site/example-card";
-import { highlight } from "@/lib/highlight";
+import { Badge } from "@/components/ui/badge";
+import { buildSnippet } from "@/lib/build-snippet";
 import { extractExampleSources } from "@/lib/extract-source";
+import { highlight } from "@/lib/highlight";
 import { demoImports } from "@/lib/demo-imports";
 import manifest from "@/lib/demo-manifest.json";
 
-import type { ControlsConfig, DemoExample } from "@/lib/demo-types";
+import type { DemoExample } from "@/lib/demo-types";
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>;
@@ -28,7 +32,18 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const entry = manifest.find((e) => e.slug === slug);
-  return { title: entry?.name ?? slug };
+  const name = entry?.name ?? slug;
+  const description =
+    entry?.description ??
+    `${name} component from the Perimeter Style registry.`;
+  return {
+    title: name,
+    description,
+    openGraph: {
+      title: `${name} — Perimeter Style`,
+      description,
+    },
+  };
 }
 
 export function generateStaticParams() {
@@ -52,8 +67,16 @@ export default async function ComponentPage({ params }: PageProps) {
   const demoModule = await importFn();
   const { controls, examples, meta } = demoModule;
 
-  const playgroundCode = buildPlaygroundSnippet(meta.name, controls);
+  const playgroundCode = buildSnippet(meta.name, controls);
   const defaultCodeHtml = await highlight(playgroundCode);
+
+  const usedInTemplates = TEMPLATE_ENTRIES.filter((t) =>
+    t.meta.components.includes(slug),
+  );
+
+  const importName = meta.name.replace(/\s+/g, "");
+  const usageCode = `import { ${importName} } from "@/components/ui/${slug}";\n\n${playgroundCode}`;
+  const usageCodeHtml = await highlight(usageCode);
 
   const exampleSources = await extractExampleSources(slug);
 
@@ -88,6 +111,16 @@ export default async function ComponentPage({ params }: PageProps) {
         <p className="mt-1 text-muted-foreground">{meta.description}</p>
       </div>
 
+      <section className="space-y-2">
+        <h2 className="text-xl font-semibold">Usage</h2>
+        <CodeBlock
+          html={usageCodeHtml}
+          rawCode={usageCode}
+          language="tsx"
+          showHeader={false}
+        />
+      </section>
+
       <ComponentPlayground
         slug={slug}
         controls={controls}
@@ -118,29 +151,19 @@ export default async function ComponentPage({ params }: PageProps) {
           <code>{meta.install}</code>
         </pre>
       </section>
+
+      {usedInTemplates.length > 0 && (
+        <section className="space-y-2">
+          <h2 className="text-xl font-semibold">Used in Templates</h2>
+          <div className="flex flex-wrap gap-2">
+            {usedInTemplates.map((t) => (
+              <Link key={t.slug} href={`/templates/${t.slug}`}>
+                <Badge variant="secondary">{t.meta.name}</Badge>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
-}
-
-function buildPlaygroundSnippet(
-  componentName: string,
-  controls: ControlsConfig,
-): string {
-  const props = Object.entries(controls)
-    .filter(([name]) => name !== "children")
-    .map(([name, desc]) => {
-      const val = desc.default;
-      if (typeof val === "boolean") return val ? name : `${name}={false}`;
-      if (typeof val === "number") return `${name}={${val}}`;
-      return `${name}="${val}"`;
-    });
-
-  const childrenControl = controls["children"];
-  const children =
-    childrenControl && "default" in childrenControl
-      ? String(childrenControl.default)
-      : "...";
-
-  const propsStr = props.length > 0 ? " " + props.join(" ") : "";
-  return `<${componentName}${propsStr}>${children}</${componentName}>`;
 }

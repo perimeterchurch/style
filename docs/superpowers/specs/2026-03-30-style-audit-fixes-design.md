@@ -105,16 +105,16 @@ These Playground functions don't use props — remove the parameter entirely.
 
 Enhance existing metadata exports with `description` and `openGraph` fields. Some pages already have `title` — add the missing fields without duplicating what exists:
 
-| Route | Description source |
-|---|---|
-| `/` (home) | Static: "Perimeter Church design system..." |
-| `/components/` | Static: "Browse 55 components..." |
-| `/components/[category]/` | Category name |
-| `/components/[category]/[slug]/` | Demo manifest `description` field |
-| `/templates/` | Static: "Full-page template compositions..." |
-| `/templates/[slug]/` | Template `meta.description` field |
-| `/tokens/` | Static: "Design token reference..." |
-| `/docs/*` | Static per-page descriptions |
+| Route                            | Description source                           |
+| -------------------------------- | -------------------------------------------- |
+| `/` (home)                       | Static: "Perimeter Church design system..."  |
+| `/components/`                   | Static: "Browse 55 components..."            |
+| `/components/[category]/`        | Category name                                |
+| `/components/[category]/[slug]/` | Demo manifest `description` field            |
+| `/templates/`                    | Static: "Full-page template compositions..." |
+| `/templates/[slug]/`             | Template `meta.description` field            |
+| `/tokens/`                       | Static: "Design token reference..."          |
+| `/docs/*`                        | Static per-page descriptions                 |
 
 OpenGraph fields: `title`, `description`, `type: "website"`, `siteName: "Perimeter Style"`.
 
@@ -144,7 +144,10 @@ File: `src/app/layout.tsx`
 Add as first child of `<body>`:
 
 ```tsx
-<a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-background focus:text-foreground">
+<a
+  href="#main"
+  className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-background focus:text-foreground"
+>
   Skip to content
 </a>
 ```
@@ -293,6 +296,7 @@ All notable changes to the Perimeter Style registry and showcase site.
 ## [Unreleased]
 
 ### Added
+
 - (initial entry summarizing current state)
 ```
 
@@ -369,56 +373,56 @@ New script:
 
 ## Files Created
 
-| File | Purpose |
-|---|---|
-| `src/lib/build-snippet.ts` | Shared snippet-building logic |
-| `src/app/error.tsx` | Root error boundary |
-| `src/app/components/error.tsx` | Components error boundary |
-| `src/app/templates/error.tsx` | Templates error boundary |
-| `src/app/tokens/error.tsx` | Tokens error boundary |
-| `scripts/generate-sitemap.ts` | Sitemap generator |
-| `public/robots.txt` | Crawler directives |
-| `docs/guides/favicon.md` | Favicon setup instructions |
-| `docs/guides/creating-a-theme.md` | Theme creation guide |
-| `docs/guides/contributing.md` | Contributing guide |
-| `docs/guides/troubleshooting.md` | Troubleshooting guide |
-| `src/app/docs/theming/page.tsx` | Theming docs route |
-| `src/app/docs/contributing/page.tsx` | Contributing docs route |
-| `src/app/docs/troubleshooting/page.tsx` | Troubleshooting docs route |
-| `src/app/changelog/page.tsx` | Changelog page (reads CHANGELOG.md directly) |
-| `CHANGELOG.md` | Manual changelog file |
+| File                                    | Purpose                                      |
+| --------------------------------------- | -------------------------------------------- |
+| `src/lib/build-snippet.ts`              | Shared snippet-building logic                |
+| `src/app/error.tsx`                     | Root error boundary                          |
+| `src/app/components/error.tsx`          | Components error boundary                    |
+| `src/app/templates/error.tsx`           | Templates error boundary                     |
+| `src/app/tokens/error.tsx`              | Tokens error boundary                        |
+| `scripts/generate-sitemap.ts`           | Sitemap generator                            |
+| `public/robots.txt`                     | Crawler directives                           |
+| `docs/guides/favicon.md`                | Favicon setup instructions                   |
+| `docs/guides/creating-a-theme.md`       | Theme creation guide                         |
+| `docs/guides/contributing.md`           | Contributing guide                           |
+| `docs/guides/troubleshooting.md`        | Troubleshooting guide                        |
+| `src/app/docs/theming/page.tsx`         | Theming docs route                           |
+| `src/app/docs/contributing/page.tsx`    | Contributing docs route                      |
+| `src/app/docs/troubleshooting/page.tsx` | Troubleshooting docs route                   |
+| `src/app/changelog/page.tsx`            | Changelog page (reads CHANGELOG.md directly) |
+| `CHANGELOG.md`                          | Manual changelog file                        |
 
 ## Files Modified
 
-| File | Changes |
-|---|---|
-| `docs/architecture/registry.md` | Fix paths to `registry/ui/perimeter/` |
-| `docs/guides/adding-a-component.md` | Fix paths to `registry/ui/perimeter/` |
-| `docs/guides/consuming.md` | Standardize URL to `style.perimeter.org` |
-| `docs/guides/project-integration.md` | Standardize URL to `style.perimeter.org` |
-| `docs/README.md` | Remove missing files, add new guides |
-| `ROADMAP.md` | Update status of completed/in-progress items |
-| `CLAUDE.md` | Add changelog update rule |
-| `registry.json` | Update homepage URL |
-| `scripts/generate-registry.ts` | Update homepage constant |
-| `src/lib/theme-context.tsx` | Add localStorage persistence |
-| `src/app/templates/[slug]/page.tsx` | Fix component links, add manifest lookup |
-| `src/app/tokens/page.tsx` | Fix hardcoded path, pass theme data to client |
-| `src/components/site/component-playground.tsx` | Add error handling, skeleton, responsive preview, Compare tab, Themes tab |
-| `src/components/site/token-page-client.tsx` | Add search/filter toolbar, copy theme button |
-| `src/components/site/token-grid.tsx` | Add aria-labels to swatches |
-| `src/components/site/token-table.tsx` | Add aria-labels to swatches |
-| `src/components/site/search-palette.tsx` | Add tokens, docs, changelog to items |
-| `src/components/site/top-nav.tsx` | Add changelog link |
-| `src/components/site/docs-sidebar.tsx` | Add new doc links |
-| `src/app/layout.tsx` | Add skip-to-content, main id |
-| `src/app/page.tsx` | Add metadata |
-| `src/app/components/page.tsx` | Add metadata |
-| `src/app/components/[category]/page.tsx` | Add metadata |
+| File                                            | Changes                                                                        |
+| ----------------------------------------------- | ------------------------------------------------------------------------------ |
+| `docs/architecture/registry.md`                 | Fix paths to `registry/ui/perimeter/`                                          |
+| `docs/guides/adding-a-component.md`             | Fix paths to `registry/ui/perimeter/`                                          |
+| `docs/guides/consuming.md`                      | Standardize URL to `style.perimeter.org`                                       |
+| `docs/guides/project-integration.md`            | Standardize URL to `style.perimeter.org`                                       |
+| `docs/README.md`                                | Remove missing files, add new guides                                           |
+| `ROADMAP.md`                                    | Update status of completed/in-progress items                                   |
+| `CLAUDE.md`                                     | Add changelog update rule                                                      |
+| `registry.json`                                 | Update homepage URL                                                            |
+| `scripts/generate-registry.ts`                  | Update homepage constant                                                       |
+| `src/lib/theme-context.tsx`                     | Add localStorage persistence                                                   |
+| `src/app/templates/[slug]/page.tsx`             | Fix component links, add manifest lookup                                       |
+| `src/app/tokens/page.tsx`                       | Fix hardcoded path, pass theme data to client                                  |
+| `src/components/site/component-playground.tsx`  | Add error handling, skeleton, responsive preview, Compare tab, Themes tab      |
+| `src/components/site/token-page-client.tsx`     | Add search/filter toolbar, copy theme button                                   |
+| `src/components/site/token-grid.tsx`            | Add aria-labels to swatches                                                    |
+| `src/components/site/token-table.tsx`           | Add aria-labels to swatches                                                    |
+| `src/components/site/search-palette.tsx`        | Add tokens, docs, changelog to items                                           |
+| `src/components/site/top-nav.tsx`               | Add changelog link                                                             |
+| `src/components/site/docs-sidebar.tsx`          | Add new doc links                                                              |
+| `src/app/layout.tsx`                            | Add skip-to-content, main id                                                   |
+| `src/app/page.tsx`                              | Add metadata                                                                   |
+| `src/app/components/page.tsx`                   | Add metadata                                                                   |
+| `src/app/components/[category]/page.tsx`        | Add metadata                                                                   |
 | `src/app/components/[category]/[slug]/page.tsx` | Add metadata, usage snippet, "Used in Templates" section, use build-snippet.ts |
-| `src/app/templates/page.tsx` | Add metadata |
-| `src/app/tokens/page.tsx` | Add metadata |
-| `src/app/docs/getting-started/page.tsx` | Fix URLs, add metadata |
-| `package.json` | Add generate:sitemap script, update build command |
-| `registry/ui/perimeter/context-menu.demo.tsx` | Remove unused _props |
-| `registry/ui/perimeter/menubar.demo.tsx` | Remove unused _props |
+| `src/app/templates/page.tsx`                    | Add metadata                                                                   |
+| `src/app/tokens/page.tsx`                       | Add metadata                                                                   |
+| `src/app/docs/getting-started/page.tsx`         | Fix URLs, add metadata                                                         |
+| `package.json`                                  | Add generate:sitemap script, update build command                              |
+| `registry/ui/perimeter/context-menu.demo.tsx`   | Remove unused \_props                                                          |
+| `registry/ui/perimeter/menubar.demo.tsx`        | Remove unused \_props                                                          |

@@ -8,15 +8,12 @@
 - [x] Registry base item — `registry:base` metaitem so consumers can install full Perimeter style in one command
 - [x] Per-project integration docs — specific setup steps for perimeter-api, metrics, perimeter-widgets
 - [x] Versioning strategy — how consuming projects handle registry updates without breaking
-
-## In Progress
-
-- [ ] **Component showcase site** — pivot from theme editor to full component showcase with interactive playgrounds, template gallery, and token reference. See `docs/superpowers/specs/2026-03-26-component-showcase-design.md`
+- [x] Component showcase site — 55 components with interactive playgrounds, template gallery, and token reference
 
 ## High Priority
 
-- [ ] Deploy to GitHub Pages — CI/CD pipeline working end-to-end (workflows updated, needs first push to main)
-- [ ] Custom domain — CNAME for `style.perimeter.church`
+- [x] Deploy to Vercel — CI/CD pipeline working end-to-end (deployed at `style.perimeter.org`)
+- [ ] Custom domain — CNAME for `style.perimeter.org`
 
 ## Consumer Migration
 

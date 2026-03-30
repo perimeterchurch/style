@@ -42,11 +42,13 @@ export function TokenGrid({ groups, values }: TokenGridProps) {
                         className="h-10 w-10 rounded border"
                         style={{ backgroundColor: lightValue }}
                         title={`Light: ${lightValue}`}
+                        aria-label={`${token} light: ${lightValue}`}
                       />
                       <div
                         className="h-10 w-10 rounded border bg-stone-900"
                         style={{ backgroundColor: darkValue }}
                         title={`Dark: ${darkValue}`}
+                        aria-label={`${token} dark: ${darkValue}`}
                       />
                     </div>
                   )}

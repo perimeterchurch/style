@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
 import { highlight } from "@/lib/highlight";
+import manifest from "@/lib/demo-manifest.json";
 import { TEMPLATE_ENTRIES, TEMPLATE_SLUGS } from "@/templates";
 
 import { TemplateDetailClient } from "./template-detail-client";
@@ -20,7 +21,17 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const entry = TEMPLATE_ENTRIES.find((e) => e.slug === slug);
-  return { title: entry?.meta.name ?? slug };
+  const name = entry?.meta.name ?? slug;
+  const description =
+    entry?.meta.description ?? `${name} template from Perimeter Style.`;
+  return {
+    title: name,
+    description,
+    openGraph: {
+      title: `${name} — Perimeter Style`,
+      description,
+    },
+  };
 }
 
 export function generateStaticParams() {
@@ -58,11 +69,17 @@ export default async function TemplateDetailPage({ params }: PageProps) {
         <span className="text-sm font-medium text-muted-foreground">
           Components used:
         </span>
-        {meta.components.map((comp) => (
-          <Link key={comp} href={`/components`}>
-            <Badge variant="secondary">{comp}</Badge>
-          </Link>
-        ))}
+        {meta.components.map((comp) => {
+          const entry = manifest.find((e) => e.slug === comp);
+          const href = entry
+            ? `/components/${entry.category}/${comp}`
+            : "/components";
+          return (
+            <Link key={comp} href={href}>
+              <Badge variant="secondary">{comp}</Badge>
+            </Link>
+          );
+        })}
       </div>
 
       {/* Preview / Code toggle */}

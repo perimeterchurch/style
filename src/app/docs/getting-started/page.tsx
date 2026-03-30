@@ -3,8 +3,18 @@ import Link from "next/link";
 
 import { highlight } from "@/lib/highlight";
 
-export const metadata: Metadata = { title: "Getting Started" };
 import { CodeBlock } from "@/components/site/code-block";
+
+export const metadata: Metadata = {
+  title: "Getting Started",
+  description:
+    "Install and configure the Perimeter Style registry in your project.",
+  openGraph: {
+    title: "Getting Started — Perimeter Style",
+    description:
+      "Install and configure the Perimeter Style registry in your project.",
+  },
+};
 import { Badge } from "@/components/ui/badge";
 
 const SECTIONS = {
@@ -12,7 +22,7 @@ const SECTIONS = {
     code: `{
   "registries": {
     "perimeter": {
-      "url": "https://style.perimeter.church/r"
+      "url": "https://style.perimeter.org/r"
     }
   }
 }`,

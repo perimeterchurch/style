@@ -11,7 +11,7 @@ pnpm dlx shadcn@latest add [component-name]
 This installs it to `src/components/ui/`. Copy it to the registry source:
 
 ```bash
-cp src/components/ui/[component-name].tsx registry/new-york/ui/
+cp src/components/ui/[component-name].tsx registry/ui/perimeter/
 ```
 
 Then regenerate the registry manifest:
@@ -23,7 +23,7 @@ pnpm registry:build
 
 ## Customizing a Component
 
-Edit the source in `registry/new-york/ui/[component-name].tsx`. Your customizations become the version consumers install.
+Edit the source in `registry/ui/perimeter/[component-name].tsx`. Your customizations become the version consumers install.
 
 After editing, rebuild:
 
@@ -33,8 +33,8 @@ pnpm registry:build
 
 ## Creating a Custom Component
 
-1. Create your component in `registry/new-york/ui/my-component.tsx`
-2. Use existing registry components via `@/registry/new-york/ui/button` imports
+1. Create your component in `registry/ui/perimeter/my-component.tsx`
+2. Use existing registry components via `@registry/ui/perimeter/button` imports
 3. Run `pnpm tsx scripts/generate-registry.ts` to add it to the manifest
 4. Run `pnpm registry:build` to generate the JSON
 

@@ -29,6 +29,39 @@ export function DocsSidebar() {
           >
             Introduction
           </Link>
+          <Link
+            href="/docs/theming"
+            className={cn(
+              "block rounded-md px-2 py-1 text-sm transition-colors hover:bg-muted",
+              pathname === "/docs/theming"
+                ? "bg-muted font-medium text-foreground"
+                : "text-muted-foreground",
+            )}
+          >
+            Theming
+          </Link>
+          <Link
+            href="/docs/contributing"
+            className={cn(
+              "block rounded-md px-2 py-1 text-sm transition-colors hover:bg-muted",
+              pathname === "/docs/contributing"
+                ? "bg-muted font-medium text-foreground"
+                : "text-muted-foreground",
+            )}
+          >
+            Contributing
+          </Link>
+          <Link
+            href="/docs/troubleshooting"
+            className={cn(
+              "block rounded-md px-2 py-1 text-sm transition-colors hover:bg-muted",
+              pathname === "/docs/troubleshooting"
+                ? "bg-muted font-medium text-foreground"
+                : "text-muted-foreground",
+            )}
+          >
+            Troubleshooting
+          </Link>
         </div>
 
         {categories.map(([category, entries]) => (

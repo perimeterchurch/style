@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 import type { Metadata } from "next";
 
@@ -7,7 +8,16 @@ import { TokenPageClient } from "@/components/site/token-page-client";
 
 import type { TokenValues } from "@/lib/token-usage";
 
-export const metadata: Metadata = { title: "Design Tokens" };
+export const metadata: Metadata = {
+  title: "Design Tokens",
+  description:
+    "All CSS custom properties from the Perimeter Style default theme. OKLCH color format with light and dark mode values.",
+  openGraph: {
+    title: "Design Tokens — Perimeter Style",
+    description:
+      "All CSS custom properties from the Perimeter Style default theme.",
+  },
+};
 
 interface ThemeFile {
   cssVars: {
@@ -16,17 +26,20 @@ interface ThemeFile {
   };
 }
 
-function readTokenValues(): TokenValues {
-  const raw = readFileSync("registry/themes/default.json", "utf-8");
+function readTokenValues(): { values: TokenValues; rawJson: string } {
+  const raw = readFileSync(
+    join(process.cwd(), "registry", "themes", "default.json"),
+    "utf-8",
+  );
   const theme = JSON.parse(raw) as ThemeFile;
   return {
-    light: theme.cssVars.light,
-    dark: theme.cssVars.dark,
+    values: { light: theme.cssVars.light, dark: theme.cssVars.dark },
+    rawJson: JSON.stringify(theme.cssVars, null, 2),
   };
 }
 
 export default function TokensPage() {
-  const tokenValues = readTokenValues();
+  const { values: tokenValues, rawJson } = readTokenValues();
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 p-8">
@@ -38,7 +51,11 @@ export default function TokensPage() {
         </p>
       </div>
 
-      <TokenPageClient groups={TOKEN_GROUPS} values={tokenValues} />
+      <TokenPageClient
+        groups={TOKEN_GROUPS}
+        values={tokenValues}
+        rawJson={rawJson}
+      />
     </div>
   );
 }

@@ -90,6 +90,7 @@ pnpm build
 - **Always run `pnpm registry:build` after modifying registry items** — the built JSON in `public/r/` must stay in sync
 - **Demo files must use `() => (...)` syntax for render functions** — the source extraction utility (`src/lib/extract-source.ts`) relies on balanced parenthesis counting
 - **No `.env` needed** — this is a static site with no secrets, deployed on Vercel. Theme list is discovered at build time via `readdirSync` in `src/app/layout.tsx`
+- **Update CHANGELOG.md for user-facing changes** — when modifying components, themes, templates, or the showcase site, add an entry under the `[Unreleased]` section in `CHANGELOG.md`
 - **Generated files are gitignored** — `src/lib/demo-manifest.json`, `src/lib/demo-imports.ts`, and `registry.json` are build outputs. Run `pnpm collect:demos` and `pnpm registry:build` to regenerate
 
 ### Cross-Project

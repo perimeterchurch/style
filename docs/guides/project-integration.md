@@ -9,7 +9,7 @@ How to integrate the Perimeter design system registry into each consuming projec
 ```json
 {
   "registries": {
-    "@perimeter": "https://perimeterchurch.github.io/style/r/{name}.json"
+    "@perimeter": "https://style.perimeter.org/r/{name}.json"
   }
 }
 ```

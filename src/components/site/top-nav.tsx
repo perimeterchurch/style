@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: "/templates", label: "Templates" },
   { href: "/tokens", label: "Tokens" },
   { href: "/docs/getting-started", label: "Getting Started" },
+  { href: "/changelog", label: "Changelog" },
 ] as const;
 
 export function TopNav() {

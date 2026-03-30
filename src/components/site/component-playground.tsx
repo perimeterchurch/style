@@ -2,9 +2,18 @@
 
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 
+const WIDTH_PRESETS = [
+  { label: "Mobile", width: 375 },
+  { label: "Tablet", width: 768 },
+  { label: "Desktop", width: 1280 },
+  { label: "Full", width: null },
+] as const;
+
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTheme } from "@/lib/theme-context";
 import { PlaygroundControls } from "./playground-controls";
 import { CodeBlock } from "./code-block";
+import { buildSnippet } from "@/lib/build-snippet";
 import { demoImports } from "@/lib/demo-imports";
 import { highlightClient } from "@/lib/highlight-client";
 
@@ -26,27 +35,6 @@ function buildDefaults(controls: ControlsConfig): Record<string, unknown> {
   return defaults;
 }
 
-function buildCodeSnippet(
-  componentName: string,
-  controls: ControlsConfig,
-  values: Record<string, unknown>,
-): string {
-  const props = Object.entries(controls)
-    .filter(([name]) => name !== "children")
-    .map(([name, desc]) => {
-      const val = values[name] ?? desc.default;
-      if (typeof val === "boolean") return val ? name : `${name}={false}`;
-      if (typeof val === "number") return `${name}={${val}}`;
-      return `${name}="${val}"`;
-    });
-
-  const childrenVal = values["children"] ?? controls["children"]?.default;
-  const children = childrenVal ? String(childrenVal) : "...";
-
-  const propsStr = props.length > 0 ? " " + props.join(" ") : "";
-  return `<${componentName}${propsStr}>${children}</${componentName}>`;
-}
-
 export function ComponentPlayground({
   slug,
   controls,
@@ -54,6 +42,7 @@ export function ComponentPlayground({
   defaultCodeHtml,
   defaultCodeRaw,
 }: ComponentPlaygroundProps) {
+  const { availableThemes } = useTheme();
   const defaults = useMemo(() => buildDefaults(controls), [controls]);
   const [values, setValues] = useState<Record<string, unknown>>(defaults);
   const [Playground, setPlayground] = useState<React.ComponentType<
@@ -62,16 +51,29 @@ export function ComponentPlayground({
   const [codeHtml, setCodeHtml] = useState(defaultCodeHtml);
   const [codeRaw, setCodeRaw] = useState(defaultCodeRaw);
   const [activeTab, setActiveTab] = useState("preview");
+  const [importError, setImportError] = useState<string | null>(null);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [previewWidth, setPreviewWidth] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const importFn = demoImports[slug];
-    if (!importFn) return;
-    importFn().then((mod) => {
-      setPlayground(
-        () => mod.Playground as React.ComponentType<Record<string, unknown>>,
-      );
-    });
+    const load = importFn
+      ? importFn()
+      : Promise.reject(new Error(`No demo found for "${slug}"`));
+
+    load
+      .then((mod) => {
+        setPlayground(
+          () => mod.Playground as React.ComponentType<Record<string, unknown>>,
+        );
+      })
+      .catch((err: unknown) => {
+        setImportError(
+          err instanceof Error ? err.message : "Failed to load component demo",
+        );
+      });
   }, [slug]);
 
   useEffect(() => {
@@ -84,13 +86,34 @@ export function ComponentPlayground({
     (currentValues: Record<string, unknown>) => {
       if (highlightTimer.current) clearTimeout(highlightTimer.current);
       highlightTimer.current = setTimeout(() => {
-        const code = buildCodeSnippet(componentName, controls, currentValues);
+        const code = buildSnippet(componentName, controls, currentValues);
         setCodeRaw(code);
         highlightClient(code).then(setCodeHtml);
       }, 150);
     },
     [componentName, controls],
   );
+
+  const handleDragStart = useCallback((e: React.PointerEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    const startX = e.clientX;
+    const startWidth = previewRef.current?.offsetWidth ?? 800;
+
+    function onMove(ev: PointerEvent) {
+      const delta = ev.clientX - startX;
+      setPreviewWidth(Math.max(320, startWidth + delta));
+    }
+
+    function onUp() {
+      setIsDragging(false);
+      document.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerup", onUp);
+    }
+
+    document.addEventListener("pointermove", onMove);
+    document.addEventListener("pointerup", onUp);
+  }, []);
 
   function handleChange(name: string, value: unknown) {
     const next = { ...values, [name]: value };
@@ -100,10 +123,16 @@ export function ComponentPlayground({
 
   return (
     <div className="space-y-4">
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        aria-label="Component playground"
+      >
         <TabsList>
           <TabsTrigger value="preview">Preview</TabsTrigger>
           <TabsTrigger value="code">Code</TabsTrigger>
+          <TabsTrigger value="compare">Compare</TabsTrigger>
+          <TabsTrigger value="themes">Themes</TabsTrigger>
         </TabsList>
 
         <div className="relative overflow-hidden rounded-lg border">
@@ -115,12 +144,60 @@ export function ComponentPlayground({
               overflow: activeTab === "preview" ? "visible" : "hidden",
             }}
           >
-            <div className="flex min-h-48 items-center justify-center bg-background p-8">
-              {Playground ? (
-                <Playground {...values} />
-              ) : (
-                <div className="text-sm text-muted-foreground">Loading...</div>
+            {/* Responsive toolbar */}
+            <div className="flex items-center gap-1 border-b px-3 py-1.5">
+              {WIDTH_PRESETS.map((preset) => (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => setPreviewWidth(preset.width)}
+                  className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
+                    previewWidth === preset.width
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  {preset.label}
+                </button>
+              ))}
+              {previewWidth && (
+                <span className="ml-2 text-xs text-muted-foreground">
+                  {previewWidth}px
+                </span>
               )}
+            </div>
+
+            <div className="flex justify-center bg-background">
+              <div
+                ref={previewRef}
+                className="relative w-full"
+                style={{ maxWidth: previewWidth ?? undefined }}
+              >
+                <div className="flex min-h-48 items-center justify-center p-8">
+                  {importError ? (
+                    <div className="text-sm text-destructive">
+                      {importError}
+                    </div>
+                  ) : Playground ? (
+                    <Playground {...values} />
+                  ) : (
+                    <div className="flex w-full flex-col items-center gap-4 p-8">
+                      <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
+                      <div className="h-6 w-32 animate-pulse rounded-md bg-muted" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Drag handle */}
+                {previewWidth && (
+                  <div
+                    onPointerDown={handleDragStart}
+                    className={`absolute right-0 top-0 bottom-0 w-2 cursor-col-resize transition-colors hover:bg-primary/20 ${
+                      isDragging ? "bg-primary/30" : ""
+                    }`}
+                  />
+                )}
+              </div>
             </div>
           </div>
 
@@ -138,6 +215,92 @@ export function ComponentPlayground({
               showHeader={false}
               className="rounded-none border-0"
             />
+          </div>
+
+          <div
+            className="transition-all duration-300 ease-in-out"
+            style={{
+              opacity: activeTab === "compare" ? 1 : 0,
+              height: activeTab === "compare" ? "auto" : 0,
+              overflow: activeTab === "compare" ? "visible" : "hidden",
+            }}
+          >
+            <div className="grid min-h-48 grid-cols-1 sm:grid-cols-2">
+              {/* Light mode */}
+              <div className="light border-b p-4 sm:border-b-0 sm:border-r">
+                <p className="mb-3 text-center text-xs font-medium text-muted-foreground">
+                  Light
+                </p>
+                <div className="flex items-center justify-center rounded-md bg-background p-4">
+                  {Playground ? (
+                    <Playground {...values} />
+                  ) : (
+                    <div className="h-10 w-32 animate-pulse rounded-md bg-muted" />
+                  )}
+                </div>
+              </div>
+              {/* Dark mode */}
+              <div className="dark p-4">
+                <p className="mb-3 text-center text-xs font-medium text-muted-foreground">
+                  Dark
+                </p>
+                <div className="flex items-center justify-center rounded-md bg-background p-4">
+                  {Playground ? (
+                    <Playground {...values} />
+                  ) : (
+                    <div className="h-10 w-32 animate-pulse rounded-md bg-muted" />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="transition-all duration-300 ease-in-out"
+            style={{
+              opacity: activeTab === "themes" ? 1 : 0,
+              height: activeTab === "themes" ? "auto" : 0,
+              overflow: activeTab === "themes" ? "visible" : "hidden",
+            }}
+          >
+            <div className="space-y-6 p-4">
+              {["", ...availableThemes].map((themeSlug) => (
+                <div key={themeSlug || "default"}>
+                  <p className="mb-3 text-sm font-medium">
+                    {themeSlug
+                      ? themeSlug
+                          .split("-")
+                          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                          .join(" ")
+                      : "Default"}
+                  </p>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {/* Light — use .light class to force light-mode CSS variables */}
+                    <div
+                      data-theme={themeSlug || undefined}
+                      className="light flex items-center justify-center rounded-md border bg-background p-4"
+                    >
+                      {Playground ? (
+                        <Playground {...values} />
+                      ) : (
+                        <div className="h-10 w-32 animate-pulse rounded-md bg-muted" />
+                      )}
+                    </div>
+                    {/* Dark */}
+                    <div
+                      data-theme={themeSlug || undefined}
+                      className="dark flex items-center justify-center rounded-md border bg-background p-4"
+                    >
+                      {Playground ? (
+                        <Playground {...values} />
+                      ) : (
+                        <div className="h-10 w-32 animate-pulse rounded-md bg-muted" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Tabs>

@@ -1,16 +1,29 @@
 import { readdirSync } from "node:fs";
+import { join } from "node:path";
 
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { CopyInstallButton } from "@/components/site/copy-install-button";
 import manifest from "@/lib/demo-manifest.json";
 
+export const metadata: Metadata = {
+  title: "Perimeter Style — Design System",
+  description:
+    "55 shadcn-compatible components, 5 page templates, and design tokens for Perimeter Church projects.",
+  openGraph: {
+    title: "Perimeter Style — Design System",
+    description:
+      "55 shadcn-compatible components, 5 page templates, and design tokens for Perimeter Church projects.",
+  },
+};
+
 const INSTALL_COMMAND = "pnpm dlx shadcn@latest add @perimeter/perimeter-base";
 
 const componentCount = manifest.length;
-const themeCount = readdirSync("registry/themes").filter((f) =>
-  f.endsWith(".json"),
-).length;
+const themeCount = readdirSync(
+  join(process.cwd(), "registry", "themes"),
+).filter((f) => f.endsWith(".json")).length;
 
 const STATS = [
   { label: "Components", value: String(componentCount) },

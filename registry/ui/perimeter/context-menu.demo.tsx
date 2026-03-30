@@ -8,7 +8,7 @@ import {
   ContextMenuTrigger,
 } from "./context-menu";
 
-import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
+import type { ControlsConfig } from "@/lib/demo-types";
 
 export const meta = {
   name: "Context Menu",
@@ -25,7 +25,7 @@ export const controls = {
   },
 } satisfies ControlsConfig;
 
-export function Playground(_props: PlaygroundProps<typeof controls>) {
+export function Playground() {
   return (
     <ContextMenu>
       <ContextMenuTrigger className="flex h-32 w-64 items-center justify-center rounded-lg border border-dashed text-sm text-muted-foreground">
