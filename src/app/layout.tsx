@@ -1,4 +1,5 @@
 import { readdirSync } from "node:fs";
+import { join } from "node:path";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -11,7 +12,7 @@ import { SearchPalette } from "@/components/site/search-palette";
 import "./globals.css";
 
 // Runs at build time only (output: "export") — discovers theme files automatically
-const availableThemes = readdirSync("registry/themes")
+const availableThemes = readdirSync(join(process.cwd(), "registry", "themes"))
   .filter((f) => f.endsWith(".json") && f !== "default.json")
   .map((f) => f.replace(".json", ""))
   .sort();

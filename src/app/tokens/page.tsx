@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 import type { Metadata } from "next";
 
@@ -17,7 +18,7 @@ interface ThemeFile {
 }
 
 function readTokenValues(): TokenValues {
-  const raw = readFileSync("registry/themes/default.json", "utf-8");
+  const raw = readFileSync(join(process.cwd(), "registry", "themes", "default.json"), "utf-8");
   const theme = JSON.parse(raw) as ThemeFile;
   return {
     light: theme.cssVars.light,
