@@ -1,13 +1,13 @@
 # CLAUDE.md
 
-shadcn-compatible component registry and showcase site for Perimeter Church. 55 components with interactive playgrounds, 5 page templates, token reference, and theme switching. Static export deployed to GitHub Pages.
+shadcn-compatible component registry and showcase site for Perimeter Church. 55 components with interactive playgrounds, 5 page templates, token reference, and theme switching. Next.js static export deployed on Vercel.
 
 ## Commands
 
 | Command                | Description                                                      |
 | ---------------------- | ---------------------------------------------------------------- |
 | `pnpm dev`             | Start Next.js dev server (webpack — Turbopack not supported)     |
-| `pnpm build`           | Generate themes + collect demos + build registry + static export |
+| `pnpm build`           | Generate themes + collect demos + build registry + Next.js build |
 | `pnpm registry:build`  | Build registry JSON only (shadcn build)                          |
 | `pnpm generate:themes` | Inject theme CSS into globals.css from `registry/themes/*.json`  |
 | `pnpm collect:demos`   | Collect demo manifests and generate import map                   |
@@ -58,7 +58,7 @@ pnpm build
   → pnpm registry:build     (shadcn build → public/r/)
   → pnpm generate:themes    (inject CSS vars into globals.css)
   → pnpm collect:demos      (generate manifest + import map)
-  → next build              (static export → out/)
+  → next build              (static export, deployed on Vercel)
 ```
 
 ### Dev Server
@@ -89,7 +89,7 @@ pnpm build
 - **`registry/ui/perimeter/` is the single source of truth for components** — never edit built output in `public/r/`
 - **Always run `pnpm registry:build` after modifying registry items** — the built JSON in `public/r/` must stay in sync
 - **Demo files must use `() => (...)` syntax for render functions** — the source extraction utility (`src/lib/extract-source.ts`) relies on balanced parenthesis counting
-- **No `.env` needed** — this is a static site with no secrets. Theme list is discovered at build time via `readdirSync` in `src/app/layout.tsx`
+- **No `.env` needed** — this is a static site with no secrets, deployed on Vercel. Theme list is discovered at build time via `readdirSync` in `src/app/layout.tsx`
 - **Generated files are gitignored** — `src/lib/demo-manifest.json`, `src/lib/demo-imports.ts`, and `registry.json` are build outputs. Run `pnpm collect:demos` and `pnpm registry:build` to regenerate
 
 ### Cross-Project
