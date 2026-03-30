@@ -90,7 +90,11 @@ export function ComponentPlayground({
 
   return (
     <div className="space-y-4">
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        aria-label="Component playground"
+      >
         <TabsList>
           <TabsTrigger value="preview">Preview</TabsTrigger>
           <TabsTrigger value="code">Code</TabsTrigger>
@@ -111,7 +115,10 @@ export function ComponentPlayground({
               ) : Playground ? (
                 <Playground {...values} />
               ) : (
-                <div className="text-sm text-muted-foreground">Loading...</div>
+                <div className="flex w-full flex-col items-center gap-4 p-8">
+                  <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
+                  <div className="h-6 w-32 animate-pulse rounded-md bg-muted" />
+                </div>
               )}
             </div>
           </div>
