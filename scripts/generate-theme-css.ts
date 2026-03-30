@@ -39,6 +39,8 @@ async function generateThemeCSS() {
   );
   blocks.push(cssBlock(":root", defaultTheme.cssVars.light));
   blocks.push("");
+  blocks.push(cssBlock(".light", defaultTheme.cssVars.light));
+  blocks.push("");
   blocks.push(cssBlock(".dark", defaultTheme.cssVars.dark));
 
   for (const file of jsonFiles) {
