@@ -96,12 +96,13 @@ pnpm build
 ### Cross-Project
 
 - **Always use `pnpm`** — never npm or npx. Use `pnpm dlx` instead of `npx`
-- **Always create a branch** — never commit directly to `dev` or `main`
-- **Never push to origin** — pushing is a manual task performed by the developer
-- **Run `pnpm quality` before merging** — the branch must pass all checks before it's eligible for merge
+- **Never commit directly to `dev` or `main`** — always create a feature branch off `dev`
+- **Never push directly to `dev` or `main`** — all changes reach `dev` via pull request
+- **Never merge locally** — do not run `git merge` or `git checkout dev && git merge`. Use `gh pr create` to open a PR, and the developer merges via GitHub
+- **Run `pnpm quality` before opening a PR** — the branch must pass all checks before it's eligible for review
 - **Always fix formatting in files you touched** — run `pnpm prettier --write` on affected files. Flag pre-existing issues in untouched files without fixing them
 - **Conventional commits:** `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`
-- **Use `--body-file` for PR bodies** — `gh pr create --body` and `gh pr edit --body` inject ANSI escape codes. Write the body file using the Write tool, then pass it with `--body-file`
+- **Use `NO_COLOR=1` for PR commands** — prefer `NO_COLOR=1 gh pr create --body "..."` to prevent ANSI escape codes. If colors still leak through, write the body with the **Write tool** and pass it with `--body-file`
 - **Read docs before code** — always read the relevant `docs/` file before searching or modifying an area of the codebase
 - **Update docs when changing code** — if you changed behavior that a doc describes, the doc must be updated in the same commit
 - **Always verify, never assume** — when uncertain about external API behavior, library usage, or domain logic, research first using web search, Context7 MCP, or project docs
@@ -230,9 +231,27 @@ This project uses Next.js App Router conventions:
 
 ## Git Workflow
 
+### Branch Model
+
+- **`main`** — production releases only. Never commit or push directly
+- **`dev`** — integration branch. All work merges here via pull request. Never commit or push directly
+- **Feature branches** — created off `dev`, merged back via PR
+
 ### Branch Naming
 
 Use conventional prefixes: `feat/`, `fix/`, `refactor/`, `chore/`, `docs/`, `test/` with kebab-case descriptions.
+
+### Workflow
+
+```
+1. git checkout dev && git pull
+2. git checkout -b feat/my-feature        # or use a worktree (see below)
+3. ... make changes, commit atomically ...
+4. pnpm quality                            # must pass before PR
+5. git push -u origin feat/my-feature      # push the feature branch only
+6. NO_COLOR=1 gh pr create --base dev      # open PR targeting dev
+7. Developer reviews and merges on GitHub
+```
 
 ### Commit Discipline
 
@@ -240,11 +259,19 @@ Use conventional prefixes: `feat/`, `fix/`, `refactor/`, `chore/`, `docs/`, `tes
 - **Conventional commit format:** `type: subject` — e.g., `feat: add sermon search endpoint`
 - **Write commit bodies for non-obvious changes** — the subject says what, the body says why
 
+### Pull Requests
+
+- **Always target `dev`** — never open a PR against `main`
+- **Use `NO_COLOR=1` for PR commands** — `NO_COLOR=1 gh pr create --body "..."` prevents ANSI escape codes. If colors still leak through, write the body with the **Write tool** and pass it with `--body-file`
+- **Run `pnpm quality` before opening** — the branch must pass typecheck + lint + format
+- **The developer merges** — Claude creates the PR and pushes the branch; the developer reviews and merges on GitHub
+
 ### Branch Protection
 
-- **Always create a branch** — never commit directly to `dev` or `main`
-- **Never push to origin** — pushing is a manual task performed by the developer
-- **Run `pnpm quality` before merging** — the branch must pass all checks
+- **Never commit directly to `dev` or `main`** — always use a feature branch
+- **Never push directly to `dev` or `main`** — all changes reach these branches via pull request
+- **Never merge locally** — do not run `git checkout dev && git merge`. Use GitHub PRs
+- **Never force-push to shared branches** — force-push is only acceptable on your own feature branches
 
 ### Worktrees
 
