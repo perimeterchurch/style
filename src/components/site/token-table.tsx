@@ -61,7 +61,6 @@ function sortTokens(
 export function TokenTable({ groups, values }: TokenTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("token");
   const [sortDir, setSortDir] = useState<SortDirection>("asc");
-  const [filter, setFilter] = useState("");
   const { copiedKey, copy } = useCopyToClipboard();
 
   const allTokens = useMemo(
@@ -69,19 +68,9 @@ export function TokenTable({ groups, values }: TokenTableProps) {
     [groups, values],
   );
 
-  const filtered = useMemo(() => {
-    const query = filter.toLowerCase();
-    if (!query) return allTokens;
-    return allTokens.filter(
-      (t) =>
-        t.token.toLowerCase().includes(query) ||
-        t.group.toLowerCase().includes(query),
-    );
-  }, [allTokens, filter]);
-
   const sorted = useMemo(
-    () => sortTokens(filtered, sortKey, sortDir),
-    [filtered, sortKey, sortDir],
+    () => sortTokens(allTokens, sortKey, sortDir),
+    [allTokens, sortKey, sortDir],
   );
 
   function handleSort(key: SortKey) {
@@ -100,14 +89,6 @@ export function TokenTable({ groups, values }: TokenTableProps) {
 
   return (
     <div className="space-y-4">
-      <input
-        type="text"
-        placeholder="Filter tokens..."
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-        className="w-full max-w-sm rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-      />
-
       <div className="overflow-x-auto rounded-lg border">
         <table className="w-full text-sm">
           <thead>

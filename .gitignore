@@ -46,6 +46,9 @@ next-env.d.ts
 # built registry output
 public/r/
 
+# generated sitemap
+public/sitemap.xml
+
 
 # generated demo files
 src/lib/demo-manifest.json

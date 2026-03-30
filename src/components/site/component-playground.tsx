@@ -232,7 +232,11 @@ export function ComponentPlayground({
                   Light
                 </p>
                 <div className="flex items-center justify-center rounded-md bg-background p-4">
-                  {Playground && <Playground {...values} />}
+                  {Playground ? (
+                    <Playground {...values} />
+                  ) : (
+                    <div className="h-10 w-32 animate-pulse rounded-md bg-muted" />
+                  )}
                 </div>
               </div>
               {/* Dark mode */}
@@ -241,7 +245,11 @@ export function ComponentPlayground({
                   Dark
                 </p>
                 <div className="flex items-center justify-center rounded-md bg-background p-4">
-                  {Playground && <Playground {...values} />}
+                  {Playground ? (
+                    <Playground {...values} />
+                  ) : (
+                    <div className="h-10 w-32 animate-pulse rounded-md bg-muted" />
+                  )}
                 </div>
               </div>
             </div>
@@ -272,14 +280,22 @@ export function ComponentPlayground({
                       data-theme={themeSlug || undefined}
                       className="light flex items-center justify-center rounded-md border bg-background p-4"
                     >
-                      {Playground && <Playground {...values} />}
+                      {Playground ? (
+                        <Playground {...values} />
+                      ) : (
+                        <div className="h-10 w-32 animate-pulse rounded-md bg-muted" />
+                      )}
                     </div>
                     {/* Dark */}
                     <div
                       data-theme={themeSlug || undefined}
                       className="dark flex items-center justify-center rounded-md border bg-background p-4"
                     >
-                      {Playground && <Playground {...values} />}
+                      {Playground ? (
+                        <Playground {...values} />
+                      ) : (
+                        <div className="h-10 w-32 animate-pulse rounded-md bg-muted" />
+                      )}
                     </div>
                   </div>
                 </div>

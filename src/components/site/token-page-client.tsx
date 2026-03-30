@@ -46,9 +46,10 @@ export function TokenPageClient({
   }, [groups, search, activeCategory]);
 
   function copyThemeJson() {
-    navigator.clipboard.writeText(rawJson);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    navigator.clipboard.writeText(rawJson).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   }
 
   return (
