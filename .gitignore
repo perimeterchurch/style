@@ -50,9 +50,10 @@ public/r/
 public/sitemap.xml
 
 
-# generated demo files
+# generated build files
 src/lib/demo-manifest.json
 src/lib/demo-imports.ts
+registry.json
 
 # superpowers brainstorm artifacts
 .superpowers/
