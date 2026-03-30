@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CodeBlock } from "@/components/site/code-block";
+import { ComponentPlayground } from "@/components/site/component-playground";
+import { ExampleCard } from "@/components/site/example-card";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,14 +13,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ComponentPlayground } from "@/components/site/component-playground";
-import { ExampleCard } from "@/components/site/example-card";
-import { highlight } from "@/lib/highlight";
+import { buildSnippet } from "@/lib/build-snippet";
 import { extractExampleSources } from "@/lib/extract-source";
+import { highlight } from "@/lib/highlight";
 import { demoImports } from "@/lib/demo-imports";
 import manifest from "@/lib/demo-manifest.json";
-
-import { buildSnippet } from "@/lib/build-snippet";
 
 import type { DemoExample } from "@/lib/demo-types";
 
@@ -68,6 +68,10 @@ export default async function ComponentPage({ params }: PageProps) {
   const playgroundCode = buildSnippet(meta.name, controls);
   const defaultCodeHtml = await highlight(playgroundCode);
 
+  const importName = meta.name.replace(/\s+/g, "");
+  const usageCode = `import { ${importName} } from "@/components/ui/${slug}";\n\n${playgroundCode}`;
+  const usageCodeHtml = await highlight(usageCode);
+
   const exampleSources = await extractExampleSources(slug);
 
   const highlightedExamples = await Promise.all(
@@ -100,6 +104,16 @@ export default async function ComponentPage({ params }: PageProps) {
         <h1 className="text-3xl font-bold">{meta.name}</h1>
         <p className="mt-1 text-muted-foreground">{meta.description}</p>
       </div>
+
+      <section className="space-y-2">
+        <h2 className="text-xl font-semibold">Usage</h2>
+        <CodeBlock
+          html={usageCodeHtml}
+          rawCode={usageCode}
+          language="tsx"
+          showHeader={false}
+        />
+      </section>
 
       <ComponentPlayground
         slug={slug}
