@@ -50,9 +50,38 @@ export default async function ContributingPage() {
         <h2 className="text-xl font-semibold">Branch Workflow</h2>
         <p className="text-sm text-muted-foreground">
           Always create a feature branch — never commit directly to{" "}
-          <code>dev</code> or <code>main</code>. Use conventional prefixes:{" "}
-          <code>feat:</code>, <code>fix:</code>, <code>refactor:</code>,{" "}
-          <code>chore:</code>, <code>docs:</code>, <code>test:</code>.
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            dev
+          </code>{" "}
+          or{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            main
+          </code>
+          . Use conventional prefixes:{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            feat:
+          </code>
+          ,{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            fix:
+          </code>
+          ,{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            refactor:
+          </code>
+          ,{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            chore:
+          </code>
+          ,{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            docs:
+          </code>
+          ,{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            test:
+          </code>
+          .
         </p>
         <CodeBlock html={branchHtml} rawCode={BRANCH} language="bash" />
       </section>
@@ -61,7 +90,10 @@ export default async function ContributingPage() {
         <h2 className="text-xl font-semibold">Quality Checks</h2>
         <p className="text-sm text-muted-foreground">
           Run before merging. Fix formatting on touched files with{" "}
-          <code>pnpm prettier --write &lt;file&gt;</code>.
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            pnpm prettier --write &lt;file&gt;
+          </code>
+          .
         </p>
         <CodeBlock html={qualityHtml} rawCode={QUALITY} language="bash" />
       </section>
@@ -70,19 +102,41 @@ export default async function ContributingPage() {
         <h2 className="text-xl font-semibold">Adding Components</h2>
         <ol className="list-inside list-decimal space-y-1 text-sm text-muted-foreground">
           <li>
-            Edit the component in <code>registry/ui/perimeter/</code>
+            Edit the component in{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+              registry/ui/perimeter/
+            </code>
           </li>
           <li>
-            Update or create a <code>.demo.tsx</code> file alongside it
+            Update or create a{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+              .demo.tsx
+            </code>{" "}
+            file alongside it
           </li>
           <li>
-            Run <code>pnpm registry:build</code> to regenerate the registry
+            Run{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+              pnpm registry:build
+            </code>{" "}
+            to regenerate the registry
           </li>
           <li>
-            Run <code>pnpm collect:demos</code> to update the demo manifest
+            Run{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+              pnpm collect:demos
+            </code>{" "}
+            to update the demo manifest
           </li>
           <li>
-            Update <code>CHANGELOG.md</code> under <code>[Unreleased]</code>
+            Update{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+              CHANGELOG.md
+            </code>{" "}
+            under{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+              [Unreleased]
+            </code>
           </li>
         </ol>
       </section>

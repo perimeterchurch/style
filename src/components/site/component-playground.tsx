@@ -305,14 +305,16 @@ export function ComponentPlayground({
         </div>
       </Tabs>
 
-      <div className="rounded-lg border p-4">
-        <h3 className="mb-3 text-sm font-medium">{componentName} Controls</h3>
-        <PlaygroundControls
-          controls={controls}
-          values={values}
-          onChange={handleChange}
-        />
-      </div>
+      {Object.keys(controls).length > 0 && (
+        <div className="rounded-lg border p-4">
+          <h3 className="mb-3 text-sm font-medium">{componentName} Controls</h3>
+          <PlaygroundControls
+            controls={controls}
+            values={values}
+            onChange={handleChange}
+          />
+        </div>
+      )}
     </div>
   );
 }
