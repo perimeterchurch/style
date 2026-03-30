@@ -21,7 +21,17 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const entry = TEMPLATE_ENTRIES.find((e) => e.slug === slug);
-  return { title: entry?.meta.name ?? slug };
+  const name = entry?.meta.name ?? slug;
+  const description =
+    entry?.meta.description ?? `${name} template from Perimeter Style.`;
+  return {
+    title: name,
+    description,
+    openGraph: {
+      title: `${name} — Perimeter Style`,
+      description,
+    },
+  };
 }
 
 export function generateStaticParams() {

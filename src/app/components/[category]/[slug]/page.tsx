@@ -32,7 +32,8 @@ export async function generateMetadata({
   const entry = manifest.find((e) => e.slug === slug);
   const name = entry?.name ?? slug;
   const description =
-    entry?.description ?? `${name} component from the Perimeter Style registry.`;
+    entry?.description ??
+    `${name} component from the Perimeter Style registry.`;
   return {
     title: name,
     description,

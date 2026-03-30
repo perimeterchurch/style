@@ -3,12 +3,22 @@ import Link from "next/link";
 
 import manifest from "@/lib/demo-manifest.json";
 
-export const metadata: Metadata = { title: "Components" };
 import {
   capitalize,
   groupByCategory,
   type ManifestEntry,
 } from "@/lib/demo-types";
+
+export const metadata: Metadata = {
+  title: "Components",
+  description:
+    "Browse all components in the Perimeter Style registry, organized by category.",
+  openGraph: {
+    title: "Components — Perimeter Style",
+    description:
+      "Browse all components in the Perimeter Style registry, organized by category.",
+  },
+};
 
 export default function ComponentsIndexPage() {
   const categories = groupByCategory(manifest as ManifestEntry[]);

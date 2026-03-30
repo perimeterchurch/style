@@ -8,7 +8,16 @@ import { TokenPageClient } from "@/components/site/token-page-client";
 
 import type { TokenValues } from "@/lib/token-usage";
 
-export const metadata: Metadata = { title: "Design Tokens" };
+export const metadata: Metadata = {
+  title: "Design Tokens",
+  description:
+    "All CSS custom properties from the Perimeter Style default theme. OKLCH color format with light and dark mode values.",
+  openGraph: {
+    title: "Design Tokens — Perimeter Style",
+    description:
+      "All CSS custom properties from the Perimeter Style default theme.",
+  },
+};
 
 interface ThemeFile {
   cssVars: {
@@ -18,7 +27,10 @@ interface ThemeFile {
 }
 
 function readTokenValues(): TokenValues {
-  const raw = readFileSync(join(process.cwd(), "registry", "themes", "default.json"), "utf-8");
+  const raw = readFileSync(
+    join(process.cwd(), "registry", "themes", "default.json"),
+    "utf-8",
+  );
   const theme = JSON.parse(raw) as ThemeFile;
   return {
     light: theme.cssVars.light,

@@ -13,7 +13,15 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { category } = await params;
-  return { title: capitalize(category) };
+  const title = capitalize(category);
+  return {
+    title,
+    description: `${title} components in the Perimeter Style registry.`,
+    openGraph: {
+      title: `${title} — Perimeter Style`,
+      description: `${title} components in the Perimeter Style registry.`,
+    },
+  };
 }
 
 function uniqueCategories(entries: ManifestEntry[]): string[] {

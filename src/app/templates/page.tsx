@@ -4,9 +4,18 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { TEMPLATE_ENTRIES } from "@/templates";
 
-export const metadata: Metadata = { title: "Templates" };
-
 import { TemplatePreviewThumb } from "./template-preview-thumb";
+
+export const metadata: Metadata = {
+  title: "Templates",
+  description:
+    "Full-page template compositions built with Perimeter Style components.",
+  openGraph: {
+    title: "Templates — Perimeter Style",
+    description:
+      "Full-page template compositions built with Perimeter Style components.",
+  },
+};
 
 export default function TemplatesGalleryPage() {
   return (
