@@ -10,6 +10,7 @@ const WIDTH_PRESETS = [
 ] as const;
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTheme } from "@/lib/theme-context";
 import { PlaygroundControls } from "./playground-controls";
 import { CodeBlock } from "./code-block";
 import { buildSnippet } from "@/lib/build-snippet";
@@ -41,6 +42,7 @@ export function ComponentPlayground({
   defaultCodeHtml,
   defaultCodeRaw,
 }: ComponentPlaygroundProps) {
+  const { availableThemes } = useTheme();
   const defaults = useMemo(() => buildDefaults(controls), [controls]);
   const [values, setValues] = useState<Record<string, unknown>>(defaults);
   const [Playground, setPlayground] = useState<React.ComponentType<
@@ -129,6 +131,8 @@ export function ComponentPlayground({
         <TabsList>
           <TabsTrigger value="preview">Preview</TabsTrigger>
           <TabsTrigger value="code">Code</TabsTrigger>
+          <TabsTrigger value="compare">Compare</TabsTrigger>
+          <TabsTrigger value="themes">Themes</TabsTrigger>
         </TabsList>
 
         <div className="relative overflow-hidden rounded-lg border">
@@ -211,6 +215,76 @@ export function ComponentPlayground({
               showHeader={false}
               className="rounded-none border-0"
             />
+          </div>
+
+          <div
+            className="transition-all duration-300 ease-in-out"
+            style={{
+              opacity: activeTab === "compare" ? 1 : 0,
+              height: activeTab === "compare" ? "auto" : 0,
+              overflow: activeTab === "compare" ? "visible" : "hidden",
+            }}
+          >
+            <div className="grid min-h-48 grid-cols-1 sm:grid-cols-2">
+              {/* Light mode */}
+              <div className="light border-b p-4 sm:border-b-0 sm:border-r">
+                <p className="mb-3 text-center text-xs font-medium text-muted-foreground">
+                  Light
+                </p>
+                <div className="flex items-center justify-center rounded-md bg-background p-4">
+                  {Playground && <Playground {...values} />}
+                </div>
+              </div>
+              {/* Dark mode */}
+              <div className="dark p-4">
+                <p className="mb-3 text-center text-xs font-medium text-muted-foreground">
+                  Dark
+                </p>
+                <div className="flex items-center justify-center rounded-md bg-background p-4">
+                  {Playground && <Playground {...values} />}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="transition-all duration-300 ease-in-out"
+            style={{
+              opacity: activeTab === "themes" ? 1 : 0,
+              height: activeTab === "themes" ? "auto" : 0,
+              overflow: activeTab === "themes" ? "visible" : "hidden",
+            }}
+          >
+            <div className="space-y-6 p-4">
+              {["", ...availableThemes].map((themeSlug) => (
+                <div key={themeSlug || "default"}>
+                  <p className="mb-3 text-sm font-medium">
+                    {themeSlug
+                      ? themeSlug
+                          .split("-")
+                          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                          .join(" ")
+                      : "Default"}
+                  </p>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {/* Light — use .light class to force light-mode CSS variables */}
+                    <div
+                      data-theme={themeSlug || undefined}
+                      className="light flex items-center justify-center rounded-md border bg-background p-4"
+                    >
+                      {Playground && <Playground {...values} />}
+                    </div>
+                    {/* Dark */}
+                    <div
+                      data-theme={themeSlug || undefined}
+                      className="dark flex items-center justify-center rounded-md border bg-background p-4"
+                    >
+                      {Playground && <Playground {...values} />}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Tabs>
