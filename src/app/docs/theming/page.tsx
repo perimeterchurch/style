@@ -53,8 +53,12 @@ export default async function ThemingPage() {
       <section className="space-y-3">
         <h2 className="text-xl font-semibold">Create a Theme File</h2>
         <p className="text-sm text-muted-foreground">
-          Add a JSON file to <code>registry/themes/</code>. The filename becomes
-          the theme slug. Only include tokens that differ from the default.
+          Add a JSON file to{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            registry/themes/
+          </code>
+          . The filename becomes the theme slug. Only include tokens that differ
+          from the default.
         </p>
         <CodeBlock html={themeHtml} rawCode={THEME_EXAMPLE} language="json" />
       </section>
@@ -62,19 +66,42 @@ export default async function ThemingPage() {
       <section className="space-y-3">
         <h2 className="text-xl font-semibold">Token Format</h2>
         <p className="text-sm text-muted-foreground">
-          All colors use OKLCH format: <code>oklch(lightness chroma hue)</code>.
-          See <code>registry/themes/default.json</code> for the full token list.
-          Common overrides: <code>primary</code>,{" "}
-          <code>primary-foreground</code>, <code>ring</code>,{" "}
-          <code>chart-1</code>.
+          All colors use OKLCH format:{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            oklch(lightness chroma hue)
+          </code>
+          . See{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            registry/themes/default.json
+          </code>{" "}
+          for the full token list. Common overrides:{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            primary
+          </code>
+          ,{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            primary-foreground
+          </code>
+          ,{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            ring
+          </code>
+          ,{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            chart-1
+          </code>
+          .
         </p>
       </section>
 
       <section className="space-y-3">
         <h2 className="text-xl font-semibold">Build &amp; Apply</h2>
         <p className="text-sm text-muted-foreground">
-          Run <code>pnpm generate:themes</code> to inject CSS. Apply in a
-          consumer project:
+          Run{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
+            pnpm generate:themes
+          </code>{" "}
+          to inject CSS. Apply in a consumer project:
         </p>
         <CodeBlock html={applyHtml} rawCode={APPLY_EXAMPLE} language="html" />
       </section>

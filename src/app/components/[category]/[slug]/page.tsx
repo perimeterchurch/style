@@ -114,12 +114,7 @@ export default async function ComponentPage({ params }: PageProps) {
 
       <section className="space-y-2">
         <h2 className="text-xl font-semibold">Usage</h2>
-        <CodeBlock
-          html={usageCodeHtml}
-          rawCode={usageCode}
-          language="tsx"
-          showHeader={false}
-        />
+        <CodeBlock html={usageCodeHtml} rawCode={usageCode} language="tsx" />
       </section>
 
       <ComponentPlayground
