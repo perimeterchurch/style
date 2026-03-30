@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function TemplatesGalleryPage() {
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-6xl space-y-8 p-8">
       <div>
         <h1 className="text-3xl font-bold">Templates</h1>
         <p className="mt-1 text-muted-foreground">

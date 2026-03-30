@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from "react";
 
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { CodeBlock } from "@/components/site/code-block";
 import { templateComponents, type TemplateSlug } from "@/templates";
 
 interface TemplateDetailClientProps {
@@ -17,8 +17,6 @@ export function TemplateDetailClient({
   rawCode,
 }: TemplateDetailClientProps) {
   const [view, setView] = useState<"preview" | "code">("preview");
-  const { copied, copy } = useCopyToClipboard();
-
   const Template = templateComponents[slug];
 
   return (
@@ -47,15 +45,6 @@ export function TemplateDetailClient({
         >
           Code
         </button>
-        {view === "code" && (
-          <button
-            type="button"
-            onClick={() => copy(rawCode)}
-            className="ml-auto rounded-lg border px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          >
-            {copied ? "Copied!" : "Copy"}
-          </button>
-        )}
       </div>
 
       {/* Content */}
@@ -72,9 +61,11 @@ export function TemplateDetailClient({
           </Suspense>
         </div>
       ) : (
-        <div
-          className="overflow-auto rounded-lg border [&_pre]:max-h-[600px] [&_pre]:overflow-auto [&_pre]:p-4"
-          dangerouslySetInnerHTML={{ __html: codeHtml }}
+        <CodeBlock
+          html={codeHtml}
+          rawCode={rawCode}
+          language="tsx"
+          filename={`${slug}.tsx`}
         />
       )}
     </div>

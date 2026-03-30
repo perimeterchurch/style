@@ -58,7 +58,7 @@ export default async function TemplateDetailPage({ params }: PageProps) {
   const installCommand = `pnpm dlx shadcn@latest add ${installParts.join(" ")}`;
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-6xl space-y-8 p-8">
       <div>
         <h1 className="text-3xl font-bold">{meta.name}</h1>
         <p className="mt-1 text-muted-foreground">{meta.description}</p>
