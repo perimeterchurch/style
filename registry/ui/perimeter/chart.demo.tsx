@@ -1,3 +1,5 @@
+"use client";
+
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
 
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "./chart";
