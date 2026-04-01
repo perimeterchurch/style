@@ -153,9 +153,9 @@ Components should support both **controlled** (`value` + `onValueChange`) and **
 
 ```typescript
 interface Props {
-  value?: string | null;         // Controlled — component reflects this value
-  defaultValue?: string | null;  // Uncontrolled — initial value, component manages state internally
-  onValueChange?: (value: string | null) => void;  // Called in both modes
+  value?: string | null; // Controlled — component reflects this value
+  defaultValue?: string | null; // Uncontrolled — initial value, component manages state internally
+  onValueChange?: (value: string | null) => void; // Called in both modes
 }
 ```
 

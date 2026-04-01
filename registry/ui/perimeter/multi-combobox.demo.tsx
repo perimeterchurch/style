@@ -29,6 +29,10 @@ export const controls = {
     type: "string",
     default: "Select a fruit...",
   },
+  selectedLabel: {
+    type: "string",
+    default: "Fruits",
+  },
   disabled: {
     type: "boolean",
     default: false,
@@ -40,6 +44,7 @@ export function Playground(props: PlaygroundProps<typeof controls>) {
     <MultiCombobox
       options={fruits}
       placeholder={props.placeholder}
+      selectedLabel={props.selectedLabel}
       disabled={props.disabled}
       multiple={props.multiple as true | undefined}
     />
@@ -61,12 +66,13 @@ export const examples = [
     ),
   },
   {
-    name: "Multiple Select with Chips",
+    name: "Multiple Select",
     render: () => (
       <MultiCombobox
         options={fruits}
         defaultValue={["apple", "cherry"]}
         placeholder="Pick fruits..."
+        selectedLabel="Fruits"
         multiple
       />
     ),

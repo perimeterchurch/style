@@ -21,6 +21,8 @@ interface MultiComboboxBaseProps {
   options: MultiComboboxOption[];
   /** Placeholder text when nothing is selected */
   placeholder?: string;
+  /** Short label shown when items are selected (e.g., "Fruits"). Falls back to placeholder. */
+  selectedLabel?: string;
   /** Disable the entire combobox */
   disabled?: boolean;
   /** Additional class names for the root container */
@@ -59,6 +61,7 @@ function MultiCombobox(props: MultiComboboxProps) {
   const {
     options,
     placeholder = "Select...",
+    selectedLabel,
     disabled = false,
     className,
   } = props;
@@ -173,6 +176,7 @@ function MultiCombobox(props: MultiComboboxProps) {
     inputValue,
     itemToString: (item) => item?.label ?? "",
     selectedItem: null, // We manage selection ourselves
+    isItemDisabled: (item) => !!item.disabled,
     stateReducer(_state, actionAndChanges) {
       const { changes, type } = actionAndChanges;
       switch (type) {
@@ -203,11 +207,21 @@ function MultiCombobox(props: MultiComboboxProps) {
 
   // --- Display label ---
 
+  const compactLabel = selectedLabel ?? placeholder;
+
   const displayLabel = React.useMemo(() => {
     if (selectedItems.length === 0) return "";
     if (!isMultiple) return selectedItems[0]?.label ?? "";
-    return "";
-  }, [selectedItems, isMultiple]);
+    if (selectedItems.length === 1) return selectedItems[0]?.label ?? "";
+    return `${compactLabel} (${selectedItems.length})`;
+  }, [selectedItems, isMultiple, compactLabel]);
+
+  const hasSelection = selectedItems.length > 0;
+
+  const clearAll = React.useCallback(() => {
+    handleValueChange(isMultiple ? [] : null);
+    setInputValue("");
+  }, [handleValueChange, isMultiple]);
 
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [triggerWidth, setTriggerWidth] = React.useState<number | undefined>();
@@ -235,46 +249,29 @@ function MultiCombobox(props: MultiComboboxProps) {
           isOpen && "border-ring ring-3 ring-ring/50",
         )}
       >
-        {/* Chips for multi mode */}
-        {isMultiple && selectedItems.length > 0 && (
-          <div className="flex flex-wrap gap-1 py-1 pl-2">
-            {selectedItems.map((item) => (
-              <span
-                key={item.value}
-                className="flex items-center gap-0.5 rounded-sm bg-muted px-1.5 py-0.5 text-xs font-medium text-foreground"
-              >
-                {item.label}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleItem(item);
-                  }}
-                  className="ml-0.5 rounded-sm opacity-50 hover:opacity-100"
-                  aria-label={`Remove ${item.label}`}
-                >
-                  <XIcon className="size-3" />
-                </button>
-              </span>
-            ))}
-          </div>
-        )}
-
         <input
           {...getInputProps(
             getDropdownProps({
               disabled,
-              placeholder:
-                isMultiple && selectedItems.length > 0
-                  ? undefined
-                  : displayLabel || placeholder,
+              placeholder: displayLabel || placeholder,
             }),
           )}
-          className={cn(
-            "h-8 min-w-[80px] flex-1 bg-transparent px-2.5 text-sm outline-none placeholder:text-muted-foreground",
-            isMultiple && selectedItems.length > 0 && "pl-1",
-          )}
+          className="h-8 min-w-[80px] flex-1 bg-transparent px-2.5 text-sm outline-none placeholder:text-muted-foreground"
         />
+
+        {hasSelection && !disabled && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              clearAll();
+            }}
+            className="flex items-center px-1 opacity-50 hover:opacity-100"
+            aria-label="Clear selection"
+          >
+            <XIcon className="size-3.5" />
+          </button>
+        )}
 
         <button
           {...getToggleButtonProps({ disabled })}
@@ -318,7 +315,6 @@ function MultiCombobox(props: MultiComboboxProps) {
                   {...getItemProps({
                     item: option,
                     index,
-                    disabled: option.disabled,
                   })}
                   data-highlighted={highlightedIndex === index || undefined}
                   data-selected={selected || undefined}
