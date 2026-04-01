@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { MultiCombobox, type MultiComboboxOption } from "./multi-combobox";
 import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";

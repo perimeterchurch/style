@@ -138,6 +138,7 @@ export const examples = [
 
 ### Key Rules
 
+- **Use `"use client"` in demos that use hooks** — demos using `useState` or other hooks need the `"use client"` directive. The showcase page dynamically imports demo modules and can read their exports during SSG
 - **All four `meta` fields are required** — missing any causes "Skipping {file}: missing meta fields" in `pnpm collect:demos`
 - **Use double-quoted strings in `meta`** — the collector extracts values via regex, not TypeScript parsing
 - **Use `satisfies ControlsConfig`** on controls for type safety
