@@ -54,5 +54,7 @@ export default function MultiComboboxDemo() {
 export const meta = {
   name: "MultiCombobox",
   description:
-    "Searchable dropdown with single or multiple selection. Uses Downshift for shadow DOM compatibility — no portals.",
+    "Searchable dropdown with single or multiple selection. Uses Downshift for shadow DOM compatibility.",
+  category: "inputs",
+  install: "pnpm dlx shadcn@latest add @perimeter/multi-combobox",
 };
