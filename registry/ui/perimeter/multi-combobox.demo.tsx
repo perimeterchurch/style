@@ -24,6 +24,10 @@ export const meta = {
 };
 
 export const controls = {
+  multiple: {
+    type: "boolean",
+    default: false,
+  },
   placeholder: {
     type: "string",
     default: "Select a fruit...",
@@ -35,14 +39,57 @@ export const controls = {
 } satisfies ControlsConfig;
 
 export function Playground(props: PlaygroundProps<typeof controls>) {
+  if (props.multiple) {
+    return (
+      <MultiPlayground
+        placeholder={props.placeholder}
+        disabled={props.disabled}
+      />
+    );
+  }
+  return (
+    <SinglePlayground
+      placeholder={props.placeholder}
+      disabled={props.disabled}
+    />
+  );
+}
+
+function SinglePlayground({
+  placeholder,
+  disabled,
+}: {
+  placeholder: string;
+  disabled: boolean;
+}) {
   const [value, setValue] = useState<string | null>(null);
   return (
     <MultiCombobox
       options={fruits}
       value={value}
       onValueChange={setValue}
-      placeholder={props.placeholder}
-      disabled={props.disabled}
+      placeholder={placeholder}
+      disabled={disabled}
+    />
+  );
+}
+
+function MultiPlayground({
+  placeholder,
+  disabled,
+}: {
+  placeholder: string;
+  disabled: boolean;
+}) {
+  const [values, setValues] = useState<string[]>([]);
+  return (
+    <MultiCombobox
+      options={fruits}
+      value={values}
+      onValueChange={setValues}
+      placeholder={placeholder}
+      disabled={disabled}
+      multiple
     />
   );
 }
@@ -53,11 +100,15 @@ export const examples = [
     render: () => <SingleSelectExample />,
   },
   {
-    name: "Multiple Select",
+    name: "Multiple Select with Chips",
     render: () => <MultiSelectExample />,
   },
   {
-    name: "Disabled",
+    name: "With Disabled Options",
+    render: () => <DisabledOptionsExample />,
+  },
+  {
+    name: "Disabled Combobox",
     render: () => (
       <MultiCombobox
         options={fruits}
@@ -88,7 +139,7 @@ function SingleSelectExample() {
 }
 
 function MultiSelectExample() {
-  const [values, setValues] = useState<string[]>([]);
+  const [values, setValues] = useState<string[]>(["apple", "cherry"]);
   return (
     <div className="space-y-2">
       <MultiCombobox
@@ -102,5 +153,23 @@ function MultiSelectExample() {
         Selected: {values.length > 0 ? values.join(", ") : "none"}
       </p>
     </div>
+  );
+}
+
+function DisabledOptionsExample() {
+  const [value, setValue] = useState<string | null>(null);
+  const statuses: MultiComboboxOption[] = [
+    { value: "available", label: "Available" },
+    { value: "busy", label: "Busy", disabled: true },
+    { value: "away", label: "Away" },
+    { value: "offline", label: "Offline", disabled: true },
+  ];
+  return (
+    <MultiCombobox
+      options={statuses}
+      value={value}
+      onValueChange={setValue}
+      placeholder="Set status..."
+    />
   );
 }
