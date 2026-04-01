@@ -65,7 +65,7 @@ function renderControl(
     case "string":
       return (
         <Input
-          value={value as string}
+          value={(value as string) ?? ""}
           onChange={(e) => onChange(name, e.target.value)}
           className="h-7 max-w-48 text-xs"
         />
