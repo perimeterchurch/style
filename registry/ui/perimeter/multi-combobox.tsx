@@ -29,18 +29,22 @@ interface MultiComboboxBaseProps {
 
 interface MultiComboboxSingleProps extends MultiComboboxBaseProps {
   multiple?: false;
-  /** Currently selected value (single mode) */
-  value: string | null;
-  /** Called when selection changes (single mode) */
-  onValueChange: (value: string | null) => void;
+  /** Current value (controlled). Omit for uncontrolled. */
+  value?: string | null;
+  /** Initial value (uncontrolled). Ignored when `value` is provided. */
+  defaultValue?: string | null;
+  /** Called when selection changes */
+  onValueChange?: (value: string | null) => void;
 }
 
 interface MultiComboboxMultipleProps extends MultiComboboxBaseProps {
   multiple: true;
-  /** Currently selected values (multiple mode) */
-  value: string[];
-  /** Called when selection changes (multiple mode) */
-  onValueChange: (value: string[]) => void;
+  /** Current values (controlled). Omit for uncontrolled. */
+  value?: string[];
+  /** Initial values (uncontrolled). Ignored when `value` is provided. */
+  defaultValue?: string[];
+  /** Called when selection changes */
+  onValueChange?: (value: string[]) => void;
 }
 
 export type MultiComboboxProps =
@@ -60,6 +64,36 @@ function MultiCombobox(props: MultiComboboxProps) {
   } = props;
   const isMultiple = props.multiple === true;
 
+  // Controlled vs uncontrolled state
+  const isControlled = props.value !== undefined;
+  const [internalValue, setInternalValue] = React.useState<
+    string | string[] | null
+  >(() => {
+    if (isControlled) return props.value ?? (isMultiple ? [] : null);
+    if (props.defaultValue !== undefined) return props.defaultValue;
+    return isMultiple ? [] : null;
+  });
+
+  const currentValue = isControlled ? props.value : internalValue;
+
+  const handleValueChange = React.useCallback(
+    (newValue: string | string[] | null) => {
+      if (!isControlled) {
+        setInternalValue(newValue);
+      }
+      if (isMultiple) {
+        (props as MultiComboboxMultipleProps).onValueChange?.(
+          newValue as string[],
+        );
+      } else {
+        (props as MultiComboboxSingleProps).onValueChange?.(
+          newValue as string | null,
+        );
+      }
+    },
+    [isControlled, isMultiple, props],
+  );
+
   const [inputValue, setInputValue] = React.useState("");
 
   // Filter options by search input
@@ -69,12 +103,12 @@ function MultiCombobox(props: MultiComboboxProps) {
     return options.filter((o) => o.label.toLowerCase().includes(lower));
   }, [options, inputValue]);
 
-  // --- Multiple mode helpers ---
+  // --- Selection helpers ---
 
   const selectedValues: string[] = isMultiple
-    ? props.value
-    : props.value != null
-      ? [props.value]
+    ? ((currentValue as string[] | undefined) ?? [])
+    : (currentValue as string | null | undefined) != null
+      ? [currentValue as string]
       : [];
 
   const isSelected = React.useCallback(
@@ -85,19 +119,17 @@ function MultiCombobox(props: MultiComboboxProps) {
   const toggleItem = React.useCallback(
     (option: MultiComboboxOption) => {
       if (isMultiple) {
-        const current = props.value;
+        const current = (currentValue as string[] | undefined) ?? [];
         const next = current.includes(option.value)
           ? current.filter((v) => v !== option.value)
           : [...current, option.value];
-        (props as MultiComboboxMultipleProps).onValueChange(next);
+        handleValueChange(next);
       } else {
-        const current = (props as MultiComboboxSingleProps).value;
-        (props as MultiComboboxSingleProps).onValueChange(
-          current === option.value ? null : option.value,
-        );
+        const current = currentValue as string | null | undefined;
+        handleValueChange(current === option.value ? null : option.value);
       }
     },
-    [isMultiple, props],
+    [isMultiple, currentValue, handleValueChange],
   );
 
   // --- Downshift multiple selection hook (chips) ---
@@ -121,9 +153,7 @@ function MultiCombobox(props: MultiComboboxProps) {
           useMultipleSelection.stateChangeTypes.FunctionRemoveSelectedItem
       ) {
         if (isMultiple && newSelectedItems) {
-          (props as MultiComboboxMultipleProps).onValueChange(
-            newSelectedItems.map((i) => i.value),
-          );
+          handleValueChange(newSelectedItems.map((i) => i.value));
         }
       }
     },

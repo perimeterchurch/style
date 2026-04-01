@@ -1,5 +1,3 @@
-"use client";
-
 import { ChevronsUpDownIcon } from "lucide-react";
 
 import { Button } from "./button";

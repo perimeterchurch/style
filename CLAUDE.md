@@ -147,19 +147,36 @@ export const examples = [
 - **`controls = {}` and `examples = []`** are valid when a component has no interactive controls or static examples
 - **Run `pnpm collect:demos`** after creating or modifying demo files to regenerate the manifest
 
-### Stateful Demos
+### Controlled vs Uncontrolled Components
 
-For components that need internal state (e.g., controlled inputs), extract a named component and reference it:
+Components should support both **controlled** (`value` + `onValueChange`) and **uncontrolled** (`defaultValue`) modes, following the Base UI pattern:
 
 ```typescript
-export const examples = [
-  { name: "Controlled", render: () => (<ControlledExample />) },
-];
-
-function ControlledExample() {
-  const [value, setValue] = useState("");
-  return <Input value={value} onChange={(e) => setValue(e.target.value)} />;
+interface Props {
+  value?: string | null;         // Controlled — component reflects this value
+  defaultValue?: string | null;  // Uncontrolled — initial value, component manages state internally
+  onValueChange?: (value: string | null) => void;  // Called in both modes
 }
+```
+
+**In demos**, always use uncontrolled mode so the demo file doesn't need `"use client"` or hooks:
+
+```typescript
+// Good — uncontrolled, no hooks needed, works server-side
+export function Playground(props: PlaygroundProps<typeof controls>) {
+  return <MultiCombobox options={options} placeholder={props.placeholder} />;
+}
+
+export const examples = [
+  { name: "With Default", render: () => (<MultiCombobox options={options} defaultValue="apple" />) },
+];
+```
+
+**In applications**, use controlled mode when you need to read or synchronize the value:
+
+```typescript
+const [value, setValue] = useState<string | null>(null);
+<MultiCombobox options={options} value={value} onValueChange={setValue} />
 ```
 
 ## Critical Rules

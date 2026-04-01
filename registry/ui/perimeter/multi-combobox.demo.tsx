@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { MultiCombobox, type MultiComboboxOption } from "./multi-combobox";
 import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
@@ -39,137 +36,51 @@ export const controls = {
 } satisfies ControlsConfig;
 
 export function Playground(props: PlaygroundProps<typeof controls>) {
-  if (props.multiple) {
-    return (
-      <MultiPlayground
-        placeholder={props.placeholder}
-        disabled={props.disabled}
-      />
-    );
-  }
   return (
-    <SinglePlayground
+    <MultiCombobox
+      options={fruits}
       placeholder={props.placeholder}
       disabled={props.disabled}
+      multiple={props.multiple as true | undefined}
     />
   );
 }
 
-function SinglePlayground({
-  placeholder,
-  disabled,
-}: {
-  placeholder: string;
-  disabled: boolean;
-}) {
-  const [value, setValue] = useState<string | null>(null);
-  return (
-    <MultiCombobox
-      options={fruits}
-      value={value}
-      onValueChange={setValue}
-      placeholder={placeholder}
-      disabled={disabled}
-    />
-  );
-}
-
-function MultiPlayground({
-  placeholder,
-  disabled,
-}: {
-  placeholder: string;
-  disabled: boolean;
-}) {
-  const [values, setValues] = useState<string[]>([]);
-  return (
-    <MultiCombobox
-      options={fruits}
-      value={values}
-      onValueChange={setValues}
-      placeholder={placeholder}
-      disabled={disabled}
-      multiple
-    />
-  );
-}
+const disabledStatuses: MultiComboboxOption[] = [
+  { value: "available", label: "Available" },
+  { value: "busy", label: "Busy", disabled: true },
+  { value: "away", label: "Away" },
+  { value: "offline", label: "Offline", disabled: true },
+];
 
 export const examples = [
   {
     name: "Single Select",
-    render: () => <SingleSelectExample />,
+    render: () => (
+      <MultiCombobox options={fruits} placeholder="Pick a fruit..." />
+    ),
   },
   {
     name: "Multiple Select with Chips",
-    render: () => <MultiSelectExample />,
+    render: () => (
+      <MultiCombobox
+        options={fruits}
+        defaultValue={["apple", "cherry"]}
+        placeholder="Pick fruits..."
+        multiple
+      />
+    ),
   },
   {
     name: "With Disabled Options",
-    render: () => <DisabledOptionsExample />,
+    render: () => (
+      <MultiCombobox options={disabledStatuses} placeholder="Set status..." />
+    ),
   },
   {
     name: "Disabled Combobox",
     render: () => (
-      <MultiCombobox
-        options={fruits}
-        value={null}
-        onValueChange={() => {}}
-        placeholder="Disabled..."
-        disabled
-      />
+      <MultiCombobox options={fruits} placeholder="Disabled..." disabled />
     ),
   },
 ];
-
-function SingleSelectExample() {
-  const [value, setValue] = useState<string | null>(null);
-  return (
-    <div className="space-y-2">
-      <MultiCombobox
-        options={fruits}
-        value={value}
-        onValueChange={setValue}
-        placeholder="Pick a fruit..."
-      />
-      <p className="text-xs text-muted-foreground">
-        Selected: {value ?? "none"}
-      </p>
-    </div>
-  );
-}
-
-function MultiSelectExample() {
-  const [values, setValues] = useState<string[]>(["apple", "cherry"]);
-  return (
-    <div className="space-y-2">
-      <MultiCombobox
-        options={fruits}
-        value={values}
-        onValueChange={setValues}
-        placeholder="Pick fruits..."
-        multiple
-      />
-      <p className="text-xs text-muted-foreground">
-        Selected: {values.length > 0 ? values.join(", ") : "none"}
-      </p>
-    </div>
-  );
-}
-
-function DisabledOptionsExample() {
-  const [value, setValue] = useState<string | null>(null);
-  const statuses: MultiComboboxOption[] = [
-    { value: "available", label: "Available" },
-    { value: "busy", label: "Busy", disabled: true },
-    { value: "away", label: "Away" },
-    { value: "offline", label: "Offline", disabled: true },
-  ];
-  return (
-    <MultiCombobox
-      options={statuses}
-      value={value}
-      onValueChange={setValue}
-      placeholder="Set status..."
-    />
-  );
-}

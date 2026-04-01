@@ -1,7 +1,3 @@
-"use client";
-
-import * as React from "react";
-
 import { Calendar } from "./calendar";
 
 import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
@@ -21,15 +17,7 @@ export const controls = {
 } satisfies ControlsConfig;
 
 export function Playground(props: PlaygroundProps<typeof controls>) {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
-  return (
-    <Calendar
-      mode="single"
-      selected={date}
-      onSelect={setDate}
-      showOutsideDays={props.showOutsideDays}
-    />
-  );
+  return <Calendar mode="single" showOutsideDays={props.showOutsideDays} />;
 }
 
 export const examples = [
