@@ -51,6 +51,8 @@ export default function MultiComboboxDemo() {
   );
 }
 
+export const controls = {};
+
 export const meta = {
   name: "MultiCombobox",
   description:
