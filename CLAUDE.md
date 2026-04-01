@@ -82,6 +82,85 @@ pnpm build
 | Site layout         | `src/app/layout.tsx`, `src/components/site/`                 |
 | Code blocks         | `src/components/site/code-block.tsx`, `src/lib/highlight.ts` |
 
+## Creating Component Demos
+
+Every component in `registry/ui/perimeter/` should have a co-located demo file (`component-name.demo.tsx`). The demo powers the showcase page with interactive playground, code snippets, and examples.
+
+### Required Exports
+
+Every demo file MUST export exactly these four items:
+
+```typescript
+import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
+
+// 1. Meta — component metadata (ALL fields required or file is skipped)
+export const meta = {
+  name: "Button",                                              // Display name
+  description: "Displays a button.",                           // One-liner
+  category: "actions",                                         // Lowercase: actions, inputs, layout, navigation, etc.
+  install: "pnpm dlx shadcn@latest add @perimeter/button",    // Install command
+};
+
+// 2. Controls — interactive playground knobs
+export const controls = {
+  variant: {
+    type: "enum",                                              // "enum" | "boolean" | "string" | "number"
+    options: ["default", "secondary", "outline"] as const,     // Required for enum
+    default: "default",
+  },
+  disabled: { type: "boolean", default: false },
+  children: { type: "string", default: "Click me" },
+  count:    { type: "number", default: 1, min: 0, max: 10 },  // min/max/step optional
+} satisfies ControlsConfig;
+
+// 3. Playground — renders component with control values
+export function Playground(props: PlaygroundProps<typeof controls>) {
+  return (
+    <Button variant={props.variant as "default"} disabled={props.disabled}>
+      {props.children}
+    </Button>
+  );
+}
+
+// 4. Examples — static showcase examples with source extraction
+export const examples = [
+  {
+    name: "All Variants",
+    render: () => (
+      <div className="flex gap-2">
+        <Button variant="default">Default</Button>
+        <Button variant="outline">Outline</Button>
+      </div>
+    ),
+  },
+];
+```
+
+### Key Rules
+
+- **All four `meta` fields are required** — missing any causes "Skipping {file}: missing meta fields" in `pnpm collect:demos`
+- **Use double-quoted strings in `meta`** — the collector extracts values via regex, not TypeScript parsing
+- **Use `satisfies ControlsConfig`** on controls for type safety
+- **Cast enum props in Playground** — `props.variant as "default"` (React won't accept the union type)
+- **Example `render` must be arrow function** — `render: () => (...)` with balanced parentheses. The source extractor relies on this syntax
+- **`controls = {}` and `examples = []`** are valid when a component has no interactive controls or static examples
+- **Run `pnpm collect:demos`** after creating or modifying demo files to regenerate the manifest
+
+### Stateful Demos
+
+For components that need internal state (e.g., controlled inputs), extract a named component and reference it:
+
+```typescript
+export const examples = [
+  { name: "Controlled", render: () => (<ControlledExample />) },
+];
+
+function ControlledExample() {
+  const [value, setValue] = useState("");
+  return <Input value={value} onChange={(e) => setValue(e.target.value)} />;
+}
+```
+
 ## Critical Rules
 
 ### Project-Specific

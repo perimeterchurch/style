@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MultiCombobox, type MultiComboboxOption } from "./multi-combobox";
+import type { ControlsConfig, PlaygroundProps } from "@/lib/demo-types";
 
 const fruits: MultiComboboxOption[] = [
   { value: "apple", label: "Apple" },
@@ -14,51 +15,92 @@ const fruits: MultiComboboxOption[] = [
   { value: "strawberry", label: "Strawberry" },
 ];
 
-export default function MultiComboboxDemo() {
-  const [singleValue, setSingleValue] = useState<string | null>(null);
-  const [multipleValues, setMultipleValues] = useState<string[]>([]);
+export const meta = {
+  name: "MultiCombobox",
+  description:
+    "Searchable dropdown with single or multiple selection. Shadow DOM safe.",
+  category: "inputs",
+  install: "pnpm dlx shadcn@latest add @perimeter/multi-combobox",
+};
 
+export const controls = {
+  placeholder: {
+    type: "string",
+    default: "Select a fruit...",
+  },
+  disabled: {
+    type: "boolean",
+    default: false,
+  },
+} satisfies ControlsConfig;
+
+export function Playground(props: PlaygroundProps<typeof controls>) {
+  const [value, setValue] = useState<string | null>(null);
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
-        <p className="text-sm font-medium">Single select</p>
-        <MultiCombobox
-          options={fruits}
-          value={singleValue}
-          onValueChange={setSingleValue}
-          placeholder="Pick a fruit..."
-        />
-        <p className="text-xs text-muted-foreground">
-          Selected: {singleValue ?? "none"}
-        </p>
-      </div>
+    <MultiCombobox
+      options={fruits}
+      value={value}
+      onValueChange={setValue}
+      placeholder={props.placeholder}
+      disabled={props.disabled}
+    />
+  );
+}
 
-      <div className="space-y-2">
-        <p className="text-sm font-medium">Multiple select</p>
-        <MultiCombobox
-          options={fruits}
-          value={multipleValues}
-          onValueChange={setMultipleValues}
-          placeholder="Pick fruits..."
-          multiple
-        />
-        <p className="text-xs text-muted-foreground">
-          Selected:{" "}
-          {multipleValues.length > 0 ? multipleValues.join(", ") : "none"}
-        </p>
-      </div>
+export const examples = [
+  {
+    name: "Single Select",
+    render: () => <SingleSelectExample />,
+  },
+  {
+    name: "Multiple Select",
+    render: () => <MultiSelectExample />,
+  },
+  {
+    name: "Disabled",
+    render: () => (
+      <MultiCombobox
+        options={fruits}
+        value={null}
+        onValueChange={() => {}}
+        placeholder="Disabled..."
+        disabled
+      />
+    ),
+  },
+];
+
+function SingleSelectExample() {
+  const [value, setValue] = useState<string | null>(null);
+  return (
+    <div className="space-y-2">
+      <MultiCombobox
+        options={fruits}
+        value={value}
+        onValueChange={setValue}
+        placeholder="Pick a fruit..."
+      />
+      <p className="text-xs text-muted-foreground">
+        Selected: {value ?? "none"}
+      </p>
     </div>
   );
 }
 
-export const controls = {};
-
-export const examples = [];
-
-export const meta = {
-  name: "MultiCombobox",
-  description:
-    "Searchable dropdown with single or multiple selection. Uses Downshift for shadow DOM compatibility.",
-  category: "inputs",
-  install: "pnpm dlx shadcn@latest add @perimeter/multi-combobox",
-};
+function MultiSelectExample() {
+  const [values, setValues] = useState<string[]>([]);
+  return (
+    <div className="space-y-2">
+      <MultiCombobox
+        options={fruits}
+        value={values}
+        onValueChange={setValues}
+        placeholder="Pick fruits..."
+        multiple
+      />
+      <p className="text-xs text-muted-foreground">
+        Selected: {values.length > 0 ? values.join(", ") : "none"}
+      </p>
+    </div>
+  );
+}
