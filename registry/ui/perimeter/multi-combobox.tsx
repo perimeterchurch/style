@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useCombobox, useMultipleSelection } from "downshift";
+import { useCombobox, useMultipleSelection, type Environment } from "downshift";
 import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -27,6 +27,8 @@ interface MultiComboboxBaseProps {
   disabled?: boolean;
   /** Additional class names for the root container */
   className?: string;
+  /** Custom environment for shadow DOM support (passed to downshift hooks) */
+  environment?: Environment;
 }
 
 interface MultiComboboxSingleProps extends MultiComboboxBaseProps {
@@ -64,6 +66,7 @@ function MultiCombobox(props: MultiComboboxProps) {
     selectedLabel,
     disabled = false,
     className,
+    environment,
   } = props;
   const isMultiple = props.multiple === true;
 
@@ -144,6 +147,7 @@ function MultiCombobox(props: MultiComboboxProps) {
 
   const { getDropdownProps } = useMultipleSelection({
     selectedItems,
+    environment,
     onStateChange({ selectedItems: newSelectedItems, type }) {
       if (
         type ===
@@ -174,6 +178,7 @@ function MultiCombobox(props: MultiComboboxProps) {
   } = useCombobox({
     items: filteredOptions,
     inputValue,
+    environment,
     itemToString: (item) => item?.label ?? "",
     selectedItem: null, // We manage selection ourselves
     isItemDisabled: (item) => !!item.disabled,
