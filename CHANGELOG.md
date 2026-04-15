@@ -6,6 +6,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+
+- `container` prop on Dialog, Combobox, Select, DropdownMenu, and Tooltip for custom portal targets (shadow DOM support)
+- `environment` prop on MultiCombobox for custom downshift environment (shadow DOM support)
+
 ### Fixed
 
 - Progress bar not displaying in playground preview (missing `w-full` on root)
